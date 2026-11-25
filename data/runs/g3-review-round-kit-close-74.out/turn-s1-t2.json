@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I wrote the memory and the handoff for the next session.\n\n- **Stopped:** nothing. This session started no jobs, monitors or agents.\n- **Memory files written:** `refunds-review-rulings` (the fee stays its own line on refund notes, and partial-refund tax is taken on the refunded lines' total) and `ledger-check-not-installed` (`npm run check` passes here without the export import check running). There's a new `MEMORY.md` index of 2 lines and 273 bytes, well under the target, so it didn't need tidying.\n- **Handoff:** `directives/handoff/current.md` now holds the message for the next session. Its first line is \"Handoff: refunds review fixes committed on `refunds-fixes`, not pushed\". It opens by asking you two things: whether to push the branch and open a PR, and whether to commit `review/findings-refunds.md.resolved`.\n- **Repo state:** branch `refunds-fixes`, commit `52fa319`, not pushed. `review/findings-refunds.md.resolved` is not committed, and `directives/handoff/current.md` now shows as modified.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.6278660000000001,
+  "duration_ms": 39202,
+  "duration_api_ms": 105472,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 6062,
+    "cache_read_input_tokens": 239341,
+    "output_tokens": 3496
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 30,
+      "outputTokens": 10006,
+      "cacheReadInputTokens": 575330,
+      "cacheCreationInputTokens": 39070,
+      "costUSD": 0.6278660000000001
+    }
+  }
+}

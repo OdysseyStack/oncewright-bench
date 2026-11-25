@@ -1,0 +1,9 @@
+Slice 3 is now committed on `refunds-fixes`. I'd already built it in the last turn as commit `c707f8e` on a side branch directly on top of `refunds-fixes`, so I fast-forwarded `refunds-fixes` to that commit instead of redoing it. Then I deleted the side branch `refunds-slice-3`, since it pointed at the same commit.
+
+`refunds-fixes` now holds two commits on top of `main`:
+- `6dbaa13`: the CodeRabbit refunds fixes.
+- `c707f8e`: refunds Slice 3, partial refunds of orders that used a discount code. Each refunded line pays back its price after its share of the discount, the restocking fee is 15% of that price, the refund note prints those prices, and `refund-order --code` works with `--sku`. README, CHANGELOG and the plan's status line are updated.
+
+I reran `npm run check` on `refunds-fixes`: all 35 tests pass. The export import check was skipped again because `ledger-check` isn't installed on this machine; the export format didn't change.
+
+Nothing is pushed and there's no PR yet. The memory note now records that Slice 3 is on `refunds-fixes`.

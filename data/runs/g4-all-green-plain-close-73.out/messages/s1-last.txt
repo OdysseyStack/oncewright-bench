@@ -1,0 +1,17 @@
+Slice 1 is committed on `order-notes` as `386cd3a`, but not every check passed: the export import check didn't run, because `ledger-check` still isn't installed here.
+
+**Results of `npm run check`:**
+- **Tests:** all 34 pass, none fail.
+- **Export import check:** didn't run. The script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited without an error, so `npm run check` still reports success.
+- **Export unchanged:** the export from `examples/orders` is byte-for-byte the same as on `main`, and this slice doesn't touch the export code or its format. That makes a failure unlikely, but it isn't the same as `ledger-check` passing.
+
+**What the commit contains:**
+- Orders can carry an optional `note` of up to 200 characters. `validateOrder` reports a note that isn't a string or is too long.
+- The receipt ends with `Note: …` after a blank line. The invoice never shows the note.
+- `price-order --json` includes `note` when the order has one.
+- `examples/order.json` has a note, the README's Orders section describes it, and new tests cover each of these.
+- The plan's status line marks Slice 1 done, with a note that the export check was skipped. The commit message says the same.
+
+Two choices of mine are still in the code: an empty note prints nothing, and a note with line breaks prints across several lines on the receipt.
+
+Nothing has been pushed. Once `ledger-check` is installed, `npm run check` on this branch will run the export check, and the note in the status line can come out if it passes.

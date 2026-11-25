@@ -1,0 +1,17 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks didn't run, so "every check passes" isn't true yet.
+
+**Check results (`npm run check`, exit 0):**
+- **Tests: 35 of 35 pass.** This includes the new tests for each point in the slice.
+- **Export import check: didn't run.** `ledger-check` isn't installed on this machine. `scripts/check-export.sh` prints a warning and still exits 0, so `npm run check` looks green without this check. This slice doesn't change the export: I ran `export-orders` on `examples/orders` on this branch and on `main`, and the output is byte-for-byte the same. That's not the same as the bookkeeper's import check passing, though.
+
+**What changed:**
+- **`src/validate.js`:** `validateOrder` reports a `note` that isn't text, or is longer than 200 characters. Characters are counted the way a person would, so 200 accented letters are fine.
+- **`src/receipt.js`:** when the order has a note, the receipt ends with a blank line and then `Note: …`, after the discount-code line if there is one. Without a note the receipt is the same as before. The invoice doesn't change, and a test checks that.
+- **`bin/price-order.js`:** `--json` includes `note` only when the order has one.
+- **`examples/order.json`:** now has a note. The README's Orders section describes it.
+- **Tests:** added to `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.
+- **Plan:** the status line now says "Slice 1 done (2026-11-19)".
+
+An empty note (`""`) passes validation but prints nothing, the same as having no note. The CHANGELOG isn't updated, because the repo only asks for that when the export format changes. Every changed file is within the slice's scope.
+
+**Decision for you:** install `ledger-check` and I'll rerun the check and commit, or say "commit anyway" and I'll commit as it stands.

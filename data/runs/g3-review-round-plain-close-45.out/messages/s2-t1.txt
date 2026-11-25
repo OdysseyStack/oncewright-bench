@@ -1,0 +1,15 @@
+Last session ended once CodeRabbit's three refund findings were dealt with, and nothing has changed since. Here's where things stand:
+
+- **Branch `refunds-fixes`** has one local commit, e727952, on top of `main`. Your working copy has no uncommitted changes. The commit:
+  - Refunds the tax on a partial refund at the tax rate on the refunded lines' total, not line by line. The line-by-line version could come out up to a cent low per line.
+  - Speeds up the SKU check with a Set.
+  - Turns down CodeRabbit's suggestion to take the restocking fee off `Items`. The bookkeeper's import needs the fee as its own row, and the plan and README require it.
+- **`npm run check`:** all 31 tests pass. The export import check didn't run because ledger-check isn't installed here, so the green result covers the tests only. This change doesn't touch the export format, so that's fine this time.
+- **Push or PR:** neither has happened, and right now neither can. This repo has no git remote, so the "dispatch CodeRabbit triage after a push" rule doesn't apply yet.
+
+Next step needs your call. I'd do these in order:
+
+1. **Merge `refunds-fixes` into `main` here on your machine.** This repo has no remote, so that's how it lands. Or tell me if you'd rather add a remote and open a PR.
+2. **Then start refunds Slice 3, partial refunds of orders that used a discount code.** It's next in the plan and builds directly on the tax code this commit changed. Each refunded line pays back its net (its amount after its share of the discount), plus the tax on it, and the note prints those nets.
+
+Shall I go ahead with both, or just one?

@@ -1,0 +1,9 @@
+I fixed two of the three findings and turned down the third because it goes against the refunds plan. The work is committed on the new `refunds-fixes` branch as `44f06b0`. Nothing was pushed.
+
+- **Tax on a partial refund (fixed):** tax was worked out line by line and added up, so each line could lose a cent. It's now 8% of the refunded lines' total, the way the order charged it. In the review's example ($6.19 + $10.19) the refund now pays back $1.31 of tax instead of $1.30. I added a test with those amounts; it failed on the old code and passes now.
+- **SKU lookup (fixed):** `linesFor` now builds a `Set` of the SKUs once instead of searching the list for every line.
+- **Restocking fee on the note (not done):** the review wanted the fee taken out of `Items` and the `Restocking fee` row dropped. The plan (`docs/plans/2026-09-30-refunds.md`, Slice 2 point 5) asks for that row as a separate negative amount, and Slice 3 relies on `Items` being the sum of the lines. If you'd rather have the review's layout, the plan needs changing first.
+
+`npm run check` passes with all 31 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. That check covers the order export, which these changes don't touch.
+
+Only `src/refunds.js` and `test/refunds.test.js` changed; nothing outside the scope.

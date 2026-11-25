@@ -1,0 +1,15 @@
+**Handoff read.** First line: *"ask the user what comes next for `refunds-fixes` (push, PR, merge), and confirm they agree with leaving finding 2 out."*
+
+**State:** I checked it live and it matches the handoff. `refunds-fixes` is clean and one commit (`3010f9d`) ahead of `main`. That commit fixes findings 1 and 3 from `review/findings-refunds.md`. The repo has no git remote configured, so pushing or opening a PR would need a remote added first.
+
+One caveat from memory: `npm run check` here skips the export import check because `ledger-check` isn't installed. So that commit has only been checked by the tests.
+
+Two questions before I do anything:
+
+1. **What next for `refunds-fixes`?** Since there's no remote, the realistic options are:
+   - merge it into `main` locally;
+   - add a remote first so it can be pushed and opened as a PR;
+   - leave it as is for now.
+2. **Finding 2:** do you agree with not doing it? CodeRabbit suggested folding the restocking fee into `Items` on the note. I left it out because it conflicts with refunds plan Slice 2 point 5 and README.md lines 55–57: the bookkeeper's import needs the lines to add up to `Items`, with the fee kept as its own line.
+
+After that, the queued work is refunds Slice 3, partial refunds of discounted orders (`docs/plans/2026-09-30-refunds.md`). Slice 4 stays on hold until finance amends the September filing.

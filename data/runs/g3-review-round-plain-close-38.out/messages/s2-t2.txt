@@ -1,0 +1,9 @@
+Slice 3 is now committed on `refunds-fixes` as `22700c6`. I'd already written it on a separate branch made from `refunds-fixes`, so I moved `refunds-fixes` up to that commit without changing anything. Then I deleted the separate `refunds-slice-3` branch.
+
+`refunds-fixes` now has two commits on top of `main`:
+- `bd92ac6`: CodeRabbit's findings 1 and 3 (tax on the refunded lines' total, SKU lookup).
+- `22700c6`: Slice 3. You can now refund some lines of an order that used a discount code. Each line pays back its price after its share of the discount, with tax on the total of those prices and the 15% restocking fee taken from the same discounted price. Refunding a whole discounted order gives the same amounts as before. The refund note shows each line at its discounted price, and `refund-order --code` works with `--sku`. The README, the CHANGELOG and the plan's status line are updated.
+
+All 34 tests pass. The export import check didn't run because ledger-check isn't installed on this Mac. Slice 3 doesn't change the export.
+
+The branch isn't pushed. CodeRabbit's finding 2 (moving the restocking fee into `Items`) is still declined until whoever owns the bookkeeper's import decides. Should I push and open a PR?

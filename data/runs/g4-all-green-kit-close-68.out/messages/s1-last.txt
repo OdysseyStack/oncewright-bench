@@ -1,0 +1,14 @@
+Slice 1 is committed on the new `order-notes` branch as `2d2460b`. All 35 tests pass, but the second part of `npm run check`, the export import check, didn't actually run. `ledger-check` isn't installed on this machine, so the script printed a warning and exited 0 without checking anything.
+
+That slice doesn't touch the export. To make sure, I generated the export on `main` and on the branch, and the two files are byte-for-byte identical. I went ahead and committed on that basis. If you want the real import check, run `npm run check` somewhere `ledger-check` is installed.
+
+What the slice does:
+- **Validation:** `validateOrder` accepts an optional `note` of up to 200 characters. It reports "the note must be text" or "the note is longer than 200 characters". Emoji count as one character each.
+- **Receipt:** when the order has a note, the receipt ends with a blank line and then `Note: …`. If a discount code is used, the note comes after the "saved you" line. Without a note, the receipt is unchanged.
+- **Invoice:** unchanged, and a test confirms a note doesn't affect it.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it.
+
+One choice to check: an empty note (`""`) passes validation but is treated as no note, so the receipt and the JSON leave it out.
+
+Files changed, all within the slice's scope: `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, four test files (validate, receipt, invoice, cli), and the plan's status line, which now says "Slice 1 is done." Nothing outside the scope was touched, and nothing was pushed.

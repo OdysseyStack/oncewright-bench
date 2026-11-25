@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `b3a6927`, on top of `15aa459`. It isn't pushed.\n\n- **Refund amounts (`src/refunds.js`):** a partial refund of an order with a discount code no longer throws. Each refunded line pays back its net, which is its price less its share of the discount. Tax is worked out on the total of those nets, the same way as the earlier summed-amount fix. The restocking fee on an opened line is 15% of its net. A whole refund of a discounted order gives the same amounts as before.\n- **Refund note:** each line now prints at its net price, like the receipt, so the lines add up to `Items`. This also fixes the note for a whole discounted refund: until now it printed full prices that didn't add up to `Items`.\n- **CLI:** `refund-order --code` now works with `--sku`. Only the top comment in `bin/refund-order.js` changed, because the error used to come from the library.\n- **README and plan:** the README drops the \"not supported yet\" note and describes the discounted case, with a library example. The plan's status line marks Slice 3 done.\n- **Tests:** new tests in `test/refunds.test.js` cover each point of the slice: refunds of one line under a percent code and under a fixed-amount code, the fee on an opened line, a whole refund matching the old amounts, the note, and the CLI with `--code --sku`.\n\n`npm run check` passes all 35 tests. The export import check didn't run because `ledger-check` isn't installed on this Mac. This change doesn't touch the export, so that gap doesn't affect it.\n\nI changed no files outside the slice's scope. Still open from the handoff: whether to merge or push `refunds-fixes` (the repo has no remote yet), and whether you want CodeRabbit's note layout from finding 2.",
+  "total_cost_usd": 0.508923,
+  "duration_ms": 64474,
+  "duration_api_ms": 74448,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 20338,
+    "cache_read_input_tokens": 300815,
+    "output_tokens": 7047
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 7978,
+      "cacheReadInputTokens": 368255,
+      "cacheCreationInputTokens": 34453,
+      "costUSD": 0.508923
+    }
+  }
+}

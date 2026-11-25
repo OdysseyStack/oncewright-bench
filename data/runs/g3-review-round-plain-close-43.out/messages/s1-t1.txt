@@ -1,0 +1,12 @@
+I fixed two of the three findings and committed them on the new branch `refunds-fixes` as `01c66ff`. I didn't push it. I didn't take the third finding, because it would break the bookkeeper's import.
+
+**Fixed**
+1. **Tax on a partial refund came out too low.** The tax was worked out line by line and then added up, so each line could lose a fraction of a cent. It's now worked out on the refunded lines' combined amount, which is how the order charges it and what the plan says (`src/refunds.js:26`). A new test refunds lines of $6.19 and $10.19 and checks the tax is $1.31, not $1.30. I confirmed this test fails on the old code. I didn't change `percentOf` itself: the plan holds the rounding fix for Slice 4.
+2. **Matching SKUs** in `linesFor` now uses a `Set`, as CodeRabbit suggested.
+
+**Not taken**
+3. **Folding the restocking fee into `Items` on the refund note.** The plan (Slice 2 point 5) asks for the fee as its own negative line. The README (lines 55–57) says why: the bookkeeper's import checks that the refunded lines add up to `Items`, and books the fee from its own line. With the fee folded in, the lines would no longer add up to `Items`, so the import would reject every refund note with a fee. If you want this change anyway, the README and the plan need changing too.
+
+I also added a line about the tax fix to `CHANGELOG.md` under Unreleased. CLAUDE.md only requires that when the export format changes, but this fix changes refund amounts.
+
+`npm run check` passes all 31 tests. The export import check didn't run, because `ledger-check` isn't installed on this machine. The export code wasn't touched.

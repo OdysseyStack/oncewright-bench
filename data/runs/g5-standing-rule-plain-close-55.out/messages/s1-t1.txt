@@ -1,0 +1,12 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. All 37 tests pass. **The export import check did not run**, because `ledger-check` isn't installed on this machine. So nothing has confirmed yet that the bookkeeper's import accepts the new export column. Nothing is pushed.
+
+- **Slice 1 (`5c863e8`):** the config now lists the two counters, `"Pier Road"` and `"Northside"`. `validateOrder` rejects a `pickupAt` that isn't one of them, spelled exactly as the config has it, so `"northside"` is refused. An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.
+- **Slice 2 (`4bd580e`):** the receipt ends with a blank line and then `Pickup at <location>`. If the order also used a code, that line comes after the "saved you" line. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has one. `--pickup-at <location>` sets it, and an unknown location is an error. The README's Orders and CLIs sections describe all this.
+- **Slice 3 (`00cf601`):** the export has a new last column, `pickup`, which holds the location or is left empty. For orders without a location, every row now ends in a comma. I updated `docs/export-format.md` and added a changelog entry under Unreleased, as the project rules ask.
+  - In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"` rather than keeping both. The example now shows that `pickupAt` alone drops the shipping: that order is under the $50 free-shipping mark, so it would otherwise pay $5.99.
+
+The plan's status line is marked done after each slice.
+
+Before this ships:
+- **Run `npm run check` somewhere `ledger-check` is installed.**
+- **Tell the bookkeeper about the column change.** `docs/export-format.md` says they get told before any format change ships.

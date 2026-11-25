@@ -1,0 +1,8 @@
+I fixed two of CodeRabbit's three findings and left one alone on purpose. The fixes are committed as `f0bceb4` on a new branch, `refunds-fixes` (not pushed). All 31 tests pass, but the export import check didn't run because `ledger-check` isn't installed here. Nothing in the export format changed, so the export doc and changelog didn't need updating.
+
+**Fixed:**
+1. **Tax on partial refunds** (`src/refunds.js:26`): a partial refund now charges tax on the refunded lines' total, the same way `computeTotals` taxes the order and as plan Slice 2 point 1 says. Before, it worked out tax line by line and could come out up to a cent low per line. I added a test using CodeRabbit's example: lines of $6.19 and $10.19 now refund $1.31 tax instead of $1.30. `percentOf` itself is unchanged, because the plan's Slice 4 says to leave it until the tax-filing fix.
+2. **SKU lookup** (`src/refunds.js:7`): `linesFor` now checks SKUs against a `Set`, as suggested.
+
+**Not done:**
+3. **Showing items minus the fee as `Items` and dropping the `Restocking fee` row on the refund note.** This would break the bookkeeper's import. The README says the import needs the refunded lines to add up to `Items`, with the fee on a line of its own so it can be booked. Plan Slice 2 point 5 also asks for that separate fee line. The commit message gives this reason.

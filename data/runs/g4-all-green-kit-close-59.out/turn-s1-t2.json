@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `c02d09c`, but the export import check still hasn't run.\n\n**Check results** (`npm run check`):\n- **Tests:** all 35 pass, none fail.\n- **Export import check:** skipped. `ledger-check` still isn't installed on this machine. The script only prints a warning and exits 0, so `npm run check` looks green without having run this check. The evidence I have instead: with and without the slice, the export output is byte-for-byte identical, and this slice changes no export code, format or example orders. The commit message records the skip.\n\nThe plan's status line now reads \"Slice 1 is done.\" The commit holds the 10 files from the earlier run: the source, tests, example, README and plan. Nothing outside the slice's scope changed, and nothing was pushed.\n\nIf you install `ledger-check`, run `bash scripts/check-export.sh` to complete the check.",
+  "total_cost_usd": 0.40403880000000003,
+  "duration_ms": 13318,
+  "duration_api_ms": 66690,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1747,
+    "cache_read_input_tokens": 109971,
+    "output_tokens": 977
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6461,
+      "cacheReadInputTokens": 333254,
+      "cacheCreationInputTokens": 26010,
+      "costUSD": 0.40403880000000003
+    }
+  }
+}

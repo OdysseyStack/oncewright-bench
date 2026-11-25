@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I've saved two notes to memory so the next session can pick this up:\n\n- **`refunds-fixes-branch`:** the branch is committed (d43ec60) but only exists on this machine. It hasn't been pushed and there's no PR, so the next session should ask before doing either. It also records that the fee-in-`Items` suggestion is still waiting on your decision, and that the next refunds work in the plan is Slice 3.\n- **`ledger-check-missing`:** on this machine `npm run check` skips the export import check and still passes, so a pass only covers the tests.\n\nThe working tree is clean and on `refunds-fixes`. No agents are running and no Chrome tabs are open, so nothing needs to finish before you quit.",
+  "total_cost_usd": 0.3750834,
+  "duration_ms": 19258,
+  "duration_api_ms": 53082,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2638,
+    "cache_read_input_tokens": 107986,
+    "output_tokens": 1856
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 4844,
+      "cacheReadInputTokens": 336657,
+      "cacheCreationInputTokens": 26348,
+      "costUSD": 0.3750834
+    }
+  }
+}

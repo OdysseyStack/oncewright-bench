@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `0cb183d`. The tests all pass, but the export import check still didn't run.
+
+**Check results (`npm run check`, run just before the commit, exit 0):**
+- **Tests: 34 of 34 pass, none fail.**
+- **Export import check: skipped.** `ledger-check` still isn't installed here, so `scripts/check-export.sh` prints a warning and exits 0. The exit code of 0 doesn't mean that check passed. This slice doesn't touch the export, and the check was already skipped before any of these changes. I committed anyway because you asked me to commit this time.
+
+**Finishing it:** nothing was left to build. All four points of the slice were done and covered by tests last time. This turn I re-ran the check and committed the same 10 files. That includes the plan's status line, which already said "Slice 1 is done." The working tree is clean, and no files outside the slice changed. I didn't push.
+
+To get every check passing, install `ledger-check` and run `npm run check` again.

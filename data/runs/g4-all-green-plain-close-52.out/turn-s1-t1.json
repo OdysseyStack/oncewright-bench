@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is done and committed on the new `order-notes` branch as `2cce192`. One of the two checks didn't actually run: `npm run check` exits successfully, but its export import step was skipped because `ledger-check` isn't installed on this machine.\n\n**Check results**\n- **Tests:** all 34 pass (30 existing plus 4 new). I also ran the new tests against the old code: the note, receipt and `--json` tests fail there, so they really test the new behavior.\n- **Export import check:** it printed `check-export: warning: ledger-check is not installed, so the export import check did not run`. As a stand-in, I compared the export of `examples/orders` before and after the change and it's byte-identical. So `ledger-check` should give the same result on this branch as on main, but that hasn't been confirmed. Install `ledger-check` and run `npm run check` if you want it confirmed before merging.\n\n**What changed, by plan point**\n1. **Validation:** `validateOrder` (`src/validate.js`) accepts an optional `note`. It reports `note must be text` if the note isn't a string (including `null`), and `note is longer than 200 characters` if it's too long. Length counts characters, not UTF-16 code units, so a note of 200 emoji is allowed.\n2. **Receipt:** `src/receipt.js` ends with a blank line and then `Note: \u2026`. If there's also a discount code, the note comes after the \"Code \u2026 saved you\" line. Without a note the receipt is unchanged. The invoice is unchanged too, and a test covers that.\n3. **`price-order --json`:** includes `note` when the order has one and leaves the key out otherwise.\n4. **Example and docs:**\n   - `examples/order.json` now has the note \"Leave it at the side door\".\n   - The README's Orders section describes the note.\n   - `CHANGELOG.md` has a line under Unreleased. Strictly, the rule only requires one when the export format changes, which it didn't, but the changelog lists every feature.\n   - The plan's status line now says Slice 1 is done.\n\nAn empty-string note counts as no note: nothing is added to the receipt or the JSON. I haven't pushed the branch.",
+  "total_cost_usd": 0.38730680000000006,
+  "duration_ms": 66769,
+  "duration_api_ms": 63344,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 26380,
+    "cache_read_input_tokens": 294334,
+    "output_tokens": 5866
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5866,
+      "cacheReadInputTokens": 294334,
+      "cacheCreationInputTokens": 26380,
+      "costUSD": 0.38730680000000006
+    }
+  }
+}

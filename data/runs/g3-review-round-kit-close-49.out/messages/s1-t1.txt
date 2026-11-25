@@ -1,0 +1,9 @@
+I've committed `4ea63de` on the new branch `refunds-fixes`. It isn't pushed. I fixed two of CodeRabbit's three findings and rejected one:
+
+- **Fixed: partial-refund tax was a cent low.** Tax was worked out line by line and then added up, which loses up to a cent per line. It's now taken on the refunded lines' total, the same way the order charged it and as the refunds plan says. The new test (lines of $6.19 and $10.19 now refund $1.31 in tax) fails on the old code with 130 instead of 131 cents and passes now.
+- **Fixed: faster SKU lookup.** The small speed-up: refunded SKUs are now looked up in a set instead of a list.
+- **Rejected: merging the restocking fee into `Items` on the refund note.** The bookkeeper's import needs the refunded lines on the note to add up to `Items`, and needs the fee on a line of its own so it can book it (README, "Refund notes go through the same import"). The refunds plan also asks for a separate negative `Restocking fee` line (Slice 2 point 5). Making this change would get refund notes rejected by the import.
+
+`npm run check` passes all 31 tests, but its export import check didn't run because `ledger-check` isn't installed. The export format didn't change, so that check doesn't affect this work.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`. I didn't add a `CHANGELOG.md` line because the export format didn't change.

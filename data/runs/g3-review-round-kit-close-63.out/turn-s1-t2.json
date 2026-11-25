@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and the handoff for the next session is written.\n\n- **Stopped:** nothing. This session started no jobs, tasks or agents.\n- **Memory touched:** one new file, `export-check-skips-without-ledger-check.md`. It records that `ledger-check` isn't installed on this machine, so `npm run check` passes without the export import check ever running. `MEMORY.md` points to it.\n- **Index:** 1 line and 193 bytes, well under its target, so I didn't tidy it.\n- **Handoff:** its first line is \"Handoff: refunds-fixes committed (eeb74e4); refunds Slice 3 is next\". It leaves you three decisions:\n  - whether to push `refunds-fixes` or open a PR for it;\n  - whether to change the plan so the rejected restocking-fee display can go in;\n  - whether to add a CHANGELOG line for the tax fix.\n- **Uncommitted:** the kit says the handoff file stays untracked, but this repo tracks `directives/handoff/current.md`. So writing it leaves that file modified on `refunds-fixes`.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.38713659999999994,
+  "duration_ms": 27104,
+  "duration_api_ms": 61293,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5017,
+    "cache_read_input_tokens": 103326,
+    "output_tokens": 2827
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5993,
+      "cacheReadInputTokens": 287143,
+      "cacheCreationInputTokens": 26221,
+      "costUSD": 0.38713659999999994
+    }
+  }
+}

@@ -1,0 +1,13 @@
+Slice 3 is done and committed on `refunds-fixes` as `7ca922e`. Nothing was pushed.
+
+- **Partial refunds of discounted orders now work** (`src/refunds.js`). The old "not supported yet" error is gone. Each refunded line pays back its net: its amount less its share of the discount, as `computeTotals` works it out. The restocking fee is 15% of that net, and the tax is charged on the refunded lines' nets added together. For example, refunding the filters from the example order with SAVE10 gives items $11.70, tax $0.93, refund $12.63. Refunding every line gives exactly the same amounts as a whole refund, for all three discount codes.
+- **The refund note** prints each line at its net, as the receipt does, and the lines add up to `Items`. The `Restocking fee` row stays, since you haven't ruled on CodeRabbit's finding 2.
+- **The CLI's `--code` now works with `--sku`.** `bin/refund-order.js` needed no code change for that, only its header comment. The README drops the "not supported yet" note and describes the new behaviour.
+- **Tests:** `test/refunds.test.js` covers both code types, the fee on an opened line, full refunds, the note, and the CLI. `npm run check` passes all 35 tests.
+- **The plan** (`docs/plans/2026-09-30-refunds.md`) has Slice 3 marked done in its status line.
+
+The bookkeeper's export import check did not run, because ledger-check isn't installed on this Mac. This change doesn't touch the export, so it isn't affected. Tax still rounds down until Slice 4.
+
+I didn't change any files outside the slice's scope.
+
+The branch now has two commits on top of `main`, and there's still no git remote. Do you want to merge it into `main`, or give me a remote URL so I can push it and open a PR?

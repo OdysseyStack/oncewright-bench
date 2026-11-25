@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `386cd3a`, but not every check passed: the export import check didn't run, because `ledger-check` still isn't installed here.\n\n**Results of `npm run check`:**\n- **Tests:** all 34 pass, none fail.\n- **Export import check:** didn't run. The script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited without an error, so `npm run check` still reports success.\n- **Export unchanged:** the export from `examples/orders` is byte-for-byte the same as on `main`, and this slice doesn't touch the export code or its format. That makes a failure unlikely, but it isn't the same as `ledger-check` passing.\n\n**What the commit contains:**\n- Orders can carry an optional `note` of up to 200 characters. `validateOrder` reports a note that isn't a string or is too long.\n- The receipt ends with `Note: \u2026` after a blank line. The invoice never shows the note.\n- `price-order --json` includes `note` when the order has one.\n- `examples/order.json` has a note, the README's Orders section describes it, and new tests cover each of these.\n- The plan's status line marks Slice 1 done, with a note that the export check was skipped. The commit message says the same.\n\nTwo choices of mine are still in the code: an empty note prints nothing, and a note with line breaks prints across several lines on the receipt.\n\nNothing has been pushed. Once `ledger-check` is installed, `npm run check` on this branch will run the export check, and the note in the status line can come out if it passes.",
+  "total_cost_usd": 0.3610186,
+  "duration_ms": 16619,
+  "duration_api_ms": 61687,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2031,
+    "cache_read_input_tokens": 102582,
+    "output_tokens": 1380
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5449,
+      "cacheReadInputTokens": 310873,
+      "cacheCreationInputTokens": 23722,
+      "costUSD": 0.3610186
+    }
+  }
+}

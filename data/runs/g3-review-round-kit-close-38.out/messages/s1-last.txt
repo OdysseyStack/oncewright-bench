@@ -1,0 +1,11 @@
+The session is wrapped up.
+
+- **Stopped:** nothing. This session started no jobs, monitors or agents.
+- **Memory:** I added `ledger-check-not-installed`: on this Mac a passing `npm run check` hasn't run the export import check. It's indexed in `MEMORY.md`, which is 1 line and 128 bytes, well under its target, so I didn't tidy the index.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line is "Handoff from the 2026-11-19 session (CodeRabbit refunds findings)".
+- **Open questions in it, for you:**
+  - Should `refunds-fixes` (commit `0351cec`, not pushed) be pushed and opened as a PR?
+  - Do you agree with rejecting CodeRabbit's finding #2?
+  - Should `review/findings-refunds.md` be kept or deleted?
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude "/odyssey:handoff"` from the repo root.

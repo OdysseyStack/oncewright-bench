@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "Slice 3 is committed on `refunds-fixes` as `dac4951` (\"Refund some lines of a discounted order at their net prices\"). It sits on top of the earlier fix commit `0f3c00e`.\n\n- **What it does:** you can now refund some lines of an order that used a discount code. Each line pays back its price after its share of the discount. The tax is worked out on the total of those lines, and an opened line keeps a 15% restocking fee of that price. The refund note prints each line at that price, the same way the receipt does.\n- **Check:** I re-ran `npm run check` before committing and all 35 tests pass. The export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export, so that doesn't matter for this commit.\n- **Docs:** the commit includes the README and changelog updates, and the plan now marks Slice 3 done.\n- **Branches:** I deleted my temporary `refunds-slice-3` branch. It had no commits of its own; the work was only in the working tree, and it's all in this commit now.\n- **Not pushed:** the repo has no remote, so nothing has been pushed.\n\nOne thing still stands from before: refunding a discounted order one line at a time can pay back a cent less tax than the order charged, because tax rounds fractions of a cent down. That's the rounding problem Slice 4 will fix once Finance is ready.",
+  "total_cost_usd": 0.5570792,
+  "duration_ms": 17061,
+  "duration_api_ms": 82655,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2933,
+    "cache_read_input_tokens": 182813,
+    "output_tokens": 1687
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 9712,
+      "cacheReadInputTokens": 467236,
+      "cacheCreationInputTokens": 33661,
+      "costUSD": 0.5570792
+    }
+  }
+}

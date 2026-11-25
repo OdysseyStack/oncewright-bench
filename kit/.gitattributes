@@ -1,0 +1,3 @@
+# Every text file checks out with LF on every platform: the stamp a kit-owned rule carries
+# hashes its text, and the tests compare files byte for byte.
+* text=auto eol=lf

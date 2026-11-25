@@ -1,0 +1,20 @@
+I've committed Slice 3 on `refunds-fixes` as 883e913, on top of the earlier CodeRabbit fixes. `npm run check` passes all 35 tests. The export import check skipped again because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+**How refunds work now** (`src/refunds.js`):
+- You can now partly refund an order that used a discount code. Each refunded line pays back its amount minus its share of the discount, using the per-line figures `computeTotals` already works out.
+- The restocking fee on an opened line is 15% of that discounted amount.
+- Tax is worked out once on the refunded lines' total, the same way as the fix in the previous commit.
+- Refunding every line gives exactly the same amounts as refunding the whole order.
+- The refund note prints each line at its discounted price, so the lines still add up to `Items`, which the bookkeeper's import needs. The restocking fee is still its own line.
+
+**`refund-order`:** `--code` now works together with `--sku`. The code already passed it through, so the only change is that it no longer errors.
+
+**Tests:** I added tests for each point in the slice: one refunded line, a discount that doesn't split evenly (with cents left over), the restocking fee, refunding every line, the note's layout, and the CLI.
+
+**Docs:** the README no longer says these refunds aren't supported yet, and it now explains how `--code` and `--sku` work together. The CHANGELOG has a line under Unreleased, and the plan marks Slice 3 done. `docs/export-format.md` didn't need changing.
+
+One reading of the plan to check: Slice 3 says each line pays back "its net … and the tax on it." I worked the tax out once on the refunded lines' total rather than line by line and adding it up. That matches Slice 2 and the earlier fix, and line by line would refund up to a cent per line too little.
+
+Still waiting on you:
+- **Merge:** should I merge `refunds-fixes` into `main`? There's no git remote, so pushing or opening a PR isn't possible.
+- **Restocking fee:** do you agree with leaving out CodeRabbit's suggestion to show `Items` with the fee already taken off? Your answer to that doesn't affect anything in this slice.

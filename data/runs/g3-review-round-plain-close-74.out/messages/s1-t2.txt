@@ -1,0 +1,10 @@
+I saved two notes for the next session.
+
+1. **Where `refunds-fixes` stands:**
+   - The tax fix and the `Set` change are committed as `ea45f21`.
+   - The branch isn't pushed and has no PR, so the next session should only do either if you ask.
+   - The fee-row finding stays skipped, as an open question for whoever owns the accounting import rather than a to-do.
+   - Slice 3 of the refunds plan (partial refunds of discounted orders) is the next planned work. It also relies on the refunded lines adding up to `Items`.
+2. **The export check doesn't run on this machine.** `ledger-check` isn't installed, so `npm run check` only runs the tests and then a warning. If a change touches the export, the next session should say the check didn't run instead of reporting it as passed.
+
+Nothing is left uncommitted. Why the fee-row finding was skipped is also written in the commit message, so it's on record outside these notes.

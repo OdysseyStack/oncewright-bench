@@ -1,0 +1,14 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. `npm run check` passes (39 tests), but its export import check was skipped because `ledger-check` isn't installed on this machine.
+
+- **Slice 1** (`4f35981`): the config now lists the two counters, "Pier Road" and "Northside". `validateOrder` names any `pickupAt` that isn't one of them, and an order with `pickupAt` is charged no shipping.
+- **Slice 2** (`2be2463`): the receipt ends with `Pickup at <location>` and the invoice prints it under `Bill to:`. `price-order --json` includes `pickupAt`, and the new `--pickup-at` option sets it; a location that isn't one of the two is refused with the same error message. The README's Orders and CLIs sections describe this.
+- **Slice 3** (`c93ce70`): the export has a `pickup` column after `total`. In `A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`; its totals don't change. `docs/export-format.md` and `CHANGELOG.md` are updated, as `CLAUDE.md` requires.
+
+The plan's status line now says all three slices are done. Nothing is pushed.
+
+**Before this ships:**
+- **Import check:** it needs to run somewhere `ledger-check` is installed. I haven't confirmed that the bookkeeper's import accepts the new column.
+- **Bookkeeper:** `docs/export-format.md` says they're told before any change to the export format ships.
+- **README:** the CLIs paragraph still lists the export's columns ending at `total`. `README.md` isn't in Slice 3's scope, so I left it; say yes and I'll add `pickup` to that list.
+
+No files were changed outside each slice's scope.

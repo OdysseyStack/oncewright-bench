@@ -1,0 +1,20 @@
+**Handoff read**
+
+> **First:** ask the user whether to push `refunds-fixes` and open a PR, and whether they accept the rejection of finding 2.
+
+**Checked now:**
+- `refunds-fixes` is one commit ahead of `main` (`c370bc9`), and the tree is clean.
+- `npm run check`: all 31 tests pass. The export import check was skipped because `ledger-check` isn't installed here, so that half isn't green.
+- **The repo has no git remote at all**, not even `origin`. To push and open a PR, I need the remote URL from you, or you can add it yourself.
+
+**Two questions for you:**
+
+1. **Push and PR?** Do you want `refunds-fixes` pushed and a PR opened against `main`? If so, give me the remote, or tell me whether to create one with `gh`.
+
+2. **CodeRabbit finding 2: do you accept that it was rejected?** CodeRabbit suggested the refund note show `Items` as the amount after the restocking fee and drop the separate `Restocking fee` row. It was rejected because the plan says otherwise:
+   - Slice 2 point 5 (`docs/plans/2026-09-30-refunds.md:31-32`) asks for a separate `Restocking fee` line, shown as a negative amount, before the totals.
+   - Slice 3 point 2 (`:46-47`) says `Items` is the sum of the refunded lines.
+
+   The code does that now (`src/refunds.js:39-40`). If you'd rather fold the fee into `Items`, that means changing the plan, `renderRefundNote` and the note test in `test/refunds.test.js`. Say which you want.
+
+Nothing has been changed this session.

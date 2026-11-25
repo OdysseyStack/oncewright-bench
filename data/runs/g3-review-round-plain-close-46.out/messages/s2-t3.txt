@@ -1,0 +1,14 @@
+Slice 3 is already committed on `refunds-fixes` in this repo, so I didn't redo it or make another commit:
+
+- `refunds-fixes` points at `35dc805` ("Refunds Slice 3: partial refunds of discounted orders"), right on top of the CodeRabbit fixes commit `f0bceb4`. The working tree is clean.
+- That commit changes `src/refunds.js`, `test/refunds.test.js`, the README, the plan (status: "Slices 1, 2 and 3 done") and `CHANGELOG.md`.
+- I checked all three plan points again against the code:
+  1. A partial refund of a discounted order works, and refunding every line still gives the same amounts as before.
+  2. The refund note shows each line at its discounted price.
+  3. `--code` works with `--sku`, and the README no longer says "not supported yet".
+- `npm run check` passes all 34 tests. The export import check didn't run because ledger-check isn't installed, but the export didn't change.
+- Running `refund-order examples/order.json --code SAVE10 --sku BEANS-1KG` gives `$21.60` for the beans, `$1.72` tax and `$23.32` refunded.
+
+My guess is you're looking somewhere it can't be yet. This repo has no git remote and nothing has been pushed, so the commit only exists in `/bench/runs/g3-review-round-plain-close-46`. Another clone, or GitHub, won't have it.
+
+Where are you seeing it as missing? If you want it somewhere else (pushed, or in a different checkout), tell me where.

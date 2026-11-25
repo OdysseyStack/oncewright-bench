@@ -1,0 +1,5 @@
+Slice 1 of the order-notes plan is implemented and committed on `order-notes` (one commit).
+
+What changed: `validateOrder` accepts a `note` of up to 200 characters, the receipt prints `Note: ...` as its last line, `price-order --json` includes it, `examples/order.json` has a note, and the README and the plan's status are updated.
+
+Checks: `npm run check` ran. The tests pass (34 of 34). The export import check did not run: `ledger-check` is not installed on this machine, so `scripts/check-export.sh` printed its warning and exited 0. Install it and rerun `npm run check` to get that check's real result.

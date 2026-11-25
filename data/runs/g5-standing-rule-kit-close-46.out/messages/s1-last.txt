@@ -1,0 +1,9 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. `npm run check` passes with 37 tests. The export import check didn't actually run, though: `ledger-check` isn't installed on this machine, so the script only printed a warning. Nothing has been pushed.
+
+- **`e114d6c` Slice 1:** the config now lists the two counters, "Pier Road" and "Northside". `validateOrder` flags a `pickupAt` that isn't one of them, including a wrong spelling like "northside". An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.
+- **`eb98c9e` Slice 2:** for an order with `pickupAt`, the receipt ends with a blank line and then `Pickup at <location>`, and the invoice prints that line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it, with the same check as an order file. The README's Orders section describes all of this.
+- **`fc38776` Slice 3:** the export has a `pickup` column after `total`. It's empty for orders without a location, so those rows end in a trailing comma. `A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`. As CLAUDE.md requires, `docs/export-format.md` and `CHANGELOG.md` (under Unreleased) describe the new column. The plan's status line is marked done.
+
+No files outside the scope were changed. Found but not fixed:
+- The README's CLIs section still lists the export columns as `id,date,subtotal,discount,shipping,tax,total`, without `pickup`. It also doesn't mention `--pickup-at` in its list of price-order options; that option is only described in the Orders section. Say yes and I'll update that section.
+- Because the import check didn't run, I haven't confirmed that the bookkeeper's import accepts the extra column. `docs/export-format.md` also says the bookkeeper gets told before a format change ships, so they need to hear about this before it's released.

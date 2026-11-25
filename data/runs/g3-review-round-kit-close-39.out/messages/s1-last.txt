@@ -1,0 +1,11 @@
+The session is wrapped up.
+
+- **Stopped:** nothing needed stopping. This session started no agents, jobs or monitors.
+- **Memory:** I added one file, `ledger-check-not-installed.md`. It notes that `ledger-check` isn't installed on this Mac, so `npm run check` only runs the tests and skips the export import check. `MEMORY.md` has one line pointing to it.
+- **Index:** no tidy needed. The index is one line, far under the 16 KB / 150-line limit.
+- **Handoff:** it's in `directives/handoff/current.md`, and its first line is "# Handoff from 2026-11-19 (refunds CodeRabbit fixes)". It covers:
+  - the branch: `refunds-fixes`, commit f41c427, not pushed;
+  - the first step: ask you whether to push it and open a PR;
+  - one open question: the note-layout finding I turned down needs your decision.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

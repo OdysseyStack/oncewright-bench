@@ -1,0 +1,14 @@
+Slice 1 is now committed on `order-notes` as `1fa9d9a` ("Order notes, Slice 1: the note on the receipt"), and the working tree is clean. One of the two checks still didn't run.
+
+**Check results**
+- **Tests:** all 34 pass, none fail.
+- **Export import check: skipped again.** `ledger-check` still isn't installed, so `scripts/check-export.sh` printed its warning and exited 0. `npm run check` therefore reports success, but this check never ran. The slice doesn't touch the export code or the example orders it reads. Earlier I compared the export output from this branch with `main` and it was byte-identical. Even so, the import check hasn't actually passed. Run `npm run check` on a machine with `ledger-check` before you merge.
+
+**What the commit contains**
+- An order may now have a note of up to 200 characters.
+- The receipt ends with `Note: …` after a blank line.
+- `price-order --json` includes the note.
+- The invoice is unchanged.
+- The example order and the README show the note, there are tests for each of these, and the plan's status line says Slice 1 is done.
+
+Every changed file is one the slice names, its tests, or the plan. Nothing outside that scope. I haven't pushed.

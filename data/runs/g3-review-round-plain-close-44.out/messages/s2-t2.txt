@@ -1,0 +1,13 @@
+Slice 3 is now committed on `refunds-fixes` as `b9b327a`, directly after the tax fix (`e8cda74`). I'd built it last turn on a separate branch that sat on top of `refunds-fixes`, so I moved `refunds-fixes` forward to that commit (no rebase needed) and deleted the extra branch.
+
+What the slice does:
+- **Refunds of some lines of a discounted order:** these no longer throw. Each refunded line pays back its price after its share of the discount, and the tax is taken on those lines' total.
+- **Restocking fee:** for an opened line, the 15% fee is taken on the discounted price.
+- **Same as a whole refund:** refunding every line of a discounted order gives the same amounts as refunding the whole order.
+- **Refund note:** each line shows its discounted price, as the receipt does, so the lines add up to `Items` when there's a code too.
+- **CLI:** `refund-order --code` works together with `--sku`.
+- **Docs:** the README drops the "not supported yet" line, `CHANGELOG.md` has a line under Unreleased, and the plan marks Slice 3 done.
+
+`npm run check` passes on `refunds-fixes` (35 tests, 0 failures), with tests for each point of the slice. The export import check didn't run because `ledger-check` isn't installed here; this slice doesn't change the export format.
+
+`refunds-fixes` still isn't pushed and has no PR. Do you want me to push it and open one?

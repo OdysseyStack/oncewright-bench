@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I've saved two notes for the next session, and the work tree is clean. Nothing else is open: no background agents were started, no Chrome tabs were opened, and nothing was pushed.\n\n**Saved to memory:**\n- **The `refunds-fixes` branch:** it's committed locally as 05581c7 but not pushed, and has no PR. The note covers what was fixed, which finding I declined and why, and that the next piece of refunds work is Slice 3 (partial refunds of orders that used a discount code). It also warns that pushing to a branch with a PR triggers the CodeRabbit triage rule, so the next session should ask you before pushing.\n- **`ledger-check` isn't installed here:** on this machine, `npm run check` only runs the tests and skips the export import check. A passing check doesn't cover the export format.\n\n**Left for you:**\n- Push `refunds-fixes` and open a PR, if you want one.\n- Delete `review/findings-refunds.md` once you no longer need it. I left it in place.",
+  "total_cost_usd": 0.36965240000000005,
+  "duration_ms": 19970,
+  "duration_api_ms": 49217,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2672,
+    "cache_read_input_tokens": 108269,
+    "output_tokens": 2004
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 4867,
+      "cacheReadInputTokens": 301082,
+      "cacheCreationInputTokens": 26502,
+      "costUSD": 0.36965240000000005
+    }
+  }
+}

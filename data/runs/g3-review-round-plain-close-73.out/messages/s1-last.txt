@@ -1,0 +1,6 @@
+I saved two notes so the next session can carry on:
+
+- **Where the refunds work stands:** `refunds-fixes` (68abec7) fixes findings 1 and 3. It's committed but not pushed or merged, and there's no PR. Finding 2 was left out on purpose because it would break the bookkeeper's import. It stays out unless you confirm that whoever owns the import has agreed to the change. That way a later session won't redo the fixes or quietly make that change.
+- **`npm run check` only runs half of its checks on this machine:** `ledger-check` isn't installed, so the export import check is skipped with only a warning. Since the command still reports success, a later session should mention that when a change touches the export.
+
+Nothing is left uncommitted. Still waiting on you: whether to push `refunds-fixes` or open a PR, and what to do about finding 2.

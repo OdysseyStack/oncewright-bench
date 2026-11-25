@@ -1,0 +1,17 @@
+Slice 1 is now committed on `order-notes` as `1343971`, and the working tree is clean. One of the two checks still couldn't run, though.
+
+**Check results (`npm run check`, run again just before the commit):**
+- **Tests:** all 35 pass, none fail.
+- **Export import check:** did not run. `ledger-check` still isn't installed here, so the script printed a warning and exited 0 without checking anything. Treat that as "not run", not as a pass.
+
+The export should be unaffected: this slice doesn't touch the export code or `examples/orders/`, and the export output is byte-for-byte the same as on `main`. I noted this in the commit message too. To close that gap, run `npm run check` somewhere `ledger-check` is installed.
+
+**What's in the commit:**
+- **Validation:** an order may carry a `note` of up to 200 characters. `validateOrder` reports a note that isn't text or is too long, and the CLIs refuse that order.
+- **Receipt:** the note is printed as the last line, after a blank line and after any discount-code line. Receipts without a note, the invoice and the export are unchanged.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Docs:** the example order has a note, the README describes the field, and the plan's status line says "Slice 1 is done."
+
+An empty-string note passes validation but is treated as no note, so it doesn't add a blank `Note:` line to the receipt.
+
+I haven't pushed the branch.

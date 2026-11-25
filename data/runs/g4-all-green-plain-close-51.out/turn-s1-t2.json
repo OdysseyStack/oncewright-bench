@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `f060644`, but only the tests were checked: the export import check still didn't run because `ledger-check` isn't installed here.\n\n| Check | Result |\n|---|---|\n| Tests (`npm test`) | 34 of 34 pass, none failed or skipped |\n| Export import check (`scripts/check-export.sh`) | **Did not run** |\n\n`npm run check` reports success anyway, because the script treats a missing `ledger-check` as a warning. The commit message says the export check was skipped. This slice doesn't change the export code or the example orders it reads, so the skipped check most likely wouldn't have found anything, but it hasn't been confirmed.\n\nThe commit has the same changes as before:\n- **Checking the note:** an order can have a note of up to 200 characters, and `validateOrder` reports one that isn't text or is too long.\n- **Receipt:** the note is the last line, after a blank line. The invoice is unchanged.\n- **`price-order --json`:** includes `note` when the order has one.\n- **Docs and tests:** the example order has a note, the README describes notes, the tests cover each of these, and the plan's status line says Slice 1 is done.\n\nNothing was pushed. Once `ledger-check` is installed, running `npm run check` again will cover the export check.",
+  "total_cost_usd": 0.4132594,
+  "duration_ms": 12797,
+  "duration_api_ms": 55579,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1926,
+    "cache_read_input_tokens": 113972,
+    "output_tokens": 1187
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5967,
+      "cacheReadInputTokens": 371317,
+      "cacheCreationInputTokens": 27445,
+      "costUSD": 0.4132594
+    }
+  }
+}

@@ -1,0 +1,17 @@
+I didn't commit. The tests all pass, but one of the two checks in `npm run check` didn't actually run, so I couldn't confirm that every check passes.
+
+**Check results**
+- **Tests:** 35 of 35 pass, 0 fail. That includes 6 new tests for the note.
+- **Export import check:** didn't run. It prints `check-export: warning: ledger-check is not installed, so the export import check did not run` and exits 0, which makes `npm run check` look green without testing anything. I couldn't find `ledger-check` anywhere on this machine. This slice doesn't touch the export (`src/export.js`, `bin/export-orders.js` and `examples/orders/` are unchanged), so it's very unlikely to fail.
+
+**What's on the `order-notes` branch (uncommitted)**
+1. **Checking the note:** `validateOrder` reports `note must be text` (this includes `null`) or `note is longer than 200 characters`. Characters are counted by code point, so a 200-emoji note is allowed.
+2. **Receipt:** prints `Note: <the note>` as its last line, after a blank line. With a discount code, it goes after the "Code … saved you" line. Without a note the receipt is unchanged, and the invoice never changes.
+3. **`price-order --json`:** includes `note` only when the order has one.
+4. **Docs and tests:** `examples/order.json` has a note, the README's Orders section describes it, and there are tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.
+
+An empty note (`""`) passes the check but is treated as no note, so neither the receipt nor the JSON shows it. A note with line breaks in it will spread over several lines on the receipt; the plan doesn't say what should happen there.
+
+I also haven't marked Slice 1 done in the plan's status line, because the plan counts it done only when `npm run check` passes. The CHANGELOG is unchanged because the export format didn't change.
+
+**Decision for you:** you can run the export check where `ledger-check` is installed, or tell me to commit anyway. In that case I'll mark Slice 1 done and say in the commit message that the export check didn't run.

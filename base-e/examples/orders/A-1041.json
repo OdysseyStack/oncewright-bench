@@ -1,0 +1,9 @@
+{
+  "id": "A-1041",
+  "date": "2026-09-02",
+  "code": "SAVE10",
+  "items": [
+    { "sku": "BEANS-1KG", "name": "House beans 1kg", "unitPrice": 2400, "qty": 1 },
+    { "sku": "MUG-12OZ", "name": "Stoneware mug 12oz", "unitPrice": 1800, "qty": 2 }
+  ]
+}

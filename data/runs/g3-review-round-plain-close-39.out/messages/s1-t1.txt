@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and declined the third. The work is committed as `77c5b19` on a new branch, `refunds-fixes`, and not pushed.
+
+**1. Tax on a partial refund (fixed).** The refund worked out the tax on each line separately and added them up, so it could pay back less tax than the order charged for those lines. For lines of $6.19 and $10.19 it refunded $1.30, but the order charged $1.31. It now takes the tax on the lines' combined amount, which is how the order is charged and what the refunds plan says. I added a test with exactly those amounts and confirmed it fails on the old code (130 cents) and passes now. I also added a line to `CHANGELOG.md` under Unreleased, because refund amounts can change by a cent. CLAUDE.md only requires that for export changes, so take it out if you don't want it.
+
+**2. Show `Items` after the restocking fee and drop the fee row (declined).** This would break the bookkeeper's import. The README says the refunded lines must add up to `Items`, and the fee "stays a line of its own, so the import can book it". Slice 2 point 5 of the plan also calls for the separate `Restocking fee` line. Nothing changed; the commit message gives the reason.
+
+**3. Faster lookup of refunded SKUs (fixed).** `linesFor` now checks SKUs against a `Set` built once, as suggested. Behaviour is the same.
+
+**Checks:** `npm run check` ran all 31 tests and they passed. The second part, the export import check, did not run because `ledger-check` isn't installed here. Neither change touches the export.

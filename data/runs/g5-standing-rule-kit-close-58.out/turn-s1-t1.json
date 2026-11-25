@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are built and committed on the new `pickup-locations` branch, one commit each: `8c49f5f`, `fbd7c3f`, `2923755`. `npm run check` passes with 38 tests, and the plan's status line now says all three slices are done. Nothing is pushed.\n\n- **The import check didn't run.** `ledger-check` isn't installed here, so `npm run check` only printed a warning. It never checked whether the bookkeeper's import accepts the new `pickup` column. Run it on a machine that has `ledger-check` before this ships. `docs/export-format.md` also says the bookkeeper should be told before a format change ships.\n- **The example order:** in `examples/orders/A-1042.json` I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"` rather than keeping both, since an order with `pickupAt` already pays no shipping. Its exported amounts are unchanged.\n- **Unknown locations:** `--pickup-at` is checked the same way as `pickupAt` in an order file. An unknown or wrongly capitalised location (e.g. `northside`) is rejected and the CLI exits with status 1.\n\nI changed no files outside the scope I named. `docs/export-format.md` and `CHANGELOG.md` were included because CLAUDE.md requires them whenever the export format changes.",
+  "total_cost_usd": 0.5740843999999999,
+  "duration_ms": 93787,
+  "duration_api_ms": 88395,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 35048,
+    "cache_read_input_tokens": 462582,
+    "output_tokens": 10054
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 10054,
+      "cacheReadInputTokens": 462582,
+      "cacheCreationInputTokens": 35048,
+      "costUSD": 0.5740843999999999
+    }
+  }
+}

@@ -1,0 +1,52 @@
+diff --git a/src/refunds.js b/src/refunds.js
+index 84887c4..4fa82e9 100644
+--- a/src/refunds.js
++++ b/src/refunds.js
+@@ -4,7 +4,11 @@ import { formatMoney, percentOf, sumCents } from "./money.js";
+ import { computeTotals, lineTotal } from "./totals.js";
+ 
+ // The order's lines a refund covers: those whose SKUs are listed, or all of them.
+-const linesFor = (order, skus) => (skus === undefined ? order.items : order.items.filter((item) => skus.includes(item.sku)));
++const linesFor = (order, skus) => {
++  if (skus === undefined) return order.items;
++  const wanted = new Set(skus);
++  return order.items.filter((item) => wanted.has(item.sku));
++};
+ 
+ // What a refund pays back, in cents: { items, fee, shipping, tax, total }. options: the options the
+ // order was priced with (pickup, code), plus skus, the lines to refund (all of them when absent),
+@@ -19,12 +23,16 @@ export function refundFor(order, options = {}) {
+   if (!whole && t.code) throw new Error("Partial refunds of discounted orders aren't supported yet");
+   const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(lineTotal(item), config.restockingFee)));
+   const items = whole ? t.subtotal - t.discount : sumCents(lines.map(lineTotal));
+-  const tax = whole ? t.tax : sumCents(lines.map((item) => percentOf(lineTotal(item), config.taxRate)));
++  // The tax on the refunded lines is percentOf their summed amount, as computeTotals charges it: line by
++  // line, percentOf would drop a fraction of a cent on each.
++  const tax = whole ? t.tax : percentOf(items, config.taxRate);
+   const shipping = whole ? t.shipping : 0;
+   return { items, fee, shipping, tax, total: items - fee + shipping + tax };
+ }
+ 
+-// The note the customer gets with a refund: the refunded lines, then the totals.
++// The note the customer gets with a refund: the refunded lines, then the totals. Items is the lines'
++// gross amount and the restocking fee a row of its own: the bookkeeper's import adds the lines up to
++// Items and books the fee from its row (README, "Receipts and invoices add up").
+ export function renderRefundNote(order, options = {}) {
+   const r = refundFor(order, options);
+   const rows = [
+diff --git a/test/refunds.test.js b/test/refunds.test.js
+index 0485b56..bcd4e2b 100644
+--- a/test/refunds.test.js
++++ b/test/refunds.test.js
+@@ -23,6 +23,11 @@ test("a refund of some lines pays back their amount and its tax, and no shipping
+   assert.deepEqual(refundFor(order, { skus: ["FILTER-100", "BEANS-1KG"] }), refundFor(order));
+ });
+ 
++test("the tax on a partial refund is on the lines' summed amount, not line by line", () => {
++  const three = { items: [{ sku: "OAT-1L", name: "Oat milk 1L", unitPrice: 619, qty: 1 }, { sku: "GROUND-250", name: "Ground coffee 250g", unitPrice: 1019, qty: 1 }, { sku: "MUG-12OZ", name: "Stoneware mug 12oz", unitPrice: 1800, qty: 1 }] };
++  assert.deepEqual(refundFor(three, { skus: ["OAT-1L", "GROUND-250"] }), { items: 1638, fee: 0, shipping: 0, tax: 131, total: 1769 });
++});
++
+ test("an opened line keeps a 15% restocking fee", () => {
+   assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"] }), { items: 2400, fee: 360, shipping: 0, tax: 192, total: 2232 });
+ });

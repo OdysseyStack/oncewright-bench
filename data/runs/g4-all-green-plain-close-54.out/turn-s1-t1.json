@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it, because one of the two checks didn't run.\n\n## Check results (`npm run check`)\n- **Tests: all 35 pass, 0 fail.** That includes 5 new ones.\n- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. `npm run check` shows green, but that check didn't pass; it was skipped.\n\nThis change shouldn't touch the export. I ran `export-orders` on `examples/orders` with and without my changes, and the output is byte-identical. The export code, those example orders and `docs/export-format.md` are unchanged. So no changelog line is needed.\n\nYou asked that every check pass before the commit, and one didn't run. Should I commit as is, or wait until `ledger-check` can be installed and the export check run first?\n\n## What changed\n1. **Checking the note** (`src/validate.js`): `note` is optional. If present, it must be a string (otherwise \"note must be text\") of at most 200 characters (otherwise \"note is longer than 200 characters\"). Characters are counted the way a person would, so 200 emoji are allowed.\n2. **Receipt** (`src/receipt.js`): an order with a note ends with a blank line and then `Note: \u2026`, after the \"Code \u2026 saved you\" line when a code was used. Without a note the receipt is unchanged. An empty note counts as no note.\n3. **`price-order --json`** (`bin/price-order.js`): adds `note` only when the order has one.\n4. **Example and README**: `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes the note.\n5. **Plan**: the status line now reads \"Slice 1 is done.\"\n\n## New tests\n- **Receipt:** the note line, with and without a code.\n- **Invoice:** a note leaves it unchanged.\n- **Validation:** 200 characters is accepted, and 201 characters, a number or `null` is refused.\n- **`price-order`:** `--json` includes the note when there is one and leaves it out when there isn't, and an order with a note that's too long is refused with exit code 1.\n\nThe example order's plain `price-order` output and the `refund-order` results didn't change, so the existing tests on them still pass.",
+  "total_cost_usd": 0.37665419999999994,
+  "duration_ms": 59400,
+  "duration_api_ms": 57306,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 25899,
+    "cache_read_input_tokens": 265051,
+    "output_tokens": 5819
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5819,
+      "cacheReadInputTokens": 265051,
+      "cacheCreationInputTokens": 25899,
+      "costUSD": 0.37665419999999994
+    }
+  }
+}

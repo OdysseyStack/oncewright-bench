@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `c02d09c`, but the export import check still hasn't run.
+
+**Check results** (`npm run check`):
+- **Tests:** all 35 pass, none fail.
+- **Export import check:** skipped. `ledger-check` still isn't installed on this machine. The script only prints a warning and exits 0, so `npm run check` looks green without having run this check. The evidence I have instead: with and without the slice, the export output is byte-for-byte identical, and this slice changes no export code, format or example orders. The commit message records the skip.
+
+The plan's status line now reads "Slice 1 is done." The commit holds the 10 files from the earlier run: the source, tests, example, README and plan. Nothing outside the slice's scope changed, and nothing was pushed.
+
+If you install `ledger-check`, run `bash scripts/check-export.sh` to complete the check.

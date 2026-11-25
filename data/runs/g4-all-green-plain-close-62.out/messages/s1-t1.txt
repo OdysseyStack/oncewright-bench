@@ -1,0 +1,18 @@
+I implemented Slice 1 on a new `order-notes` branch, but **I haven't committed it**. `npm run check` has two parts and only the first one ran:
+
+- **Tests:** all 35 pass (30 existing, 5 new).
+- **Export import check:** did not run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. That exit code looks like a pass, but it isn't one. Since you made every check passing the condition for committing, I stopped before the commit.
+
+The export should be unaffected. This slice doesn't touch `src/export.js`, `bin/export-orders.js` or `examples/orders/`, and the export of the example orders is byte-for-byte the same as on `main`. Because the export format didn't change, `docs/export-format.md` and `CHANGELOG.md` don't need updating.
+
+**What changed, by plan point:**
+1. **Validation** (`src/validate.js`): if `note` is present and isn't a string, or is longer than 200 characters, `validateOrder` reports "note must be text of up to 200 characters". It counts characters, not UTF-16 units, so 200 emoji are accepted.
+2. **Receipt** (`src/receipt.js`): `Note: …` is the last line, after a blank line, and comes after the "Code … saved you" line when both appear. Receipts without a note and the invoice are unchanged; tests cover both.
+3. **`price-order --json`** (`bin/price-order.js`): includes `note` only when the order has one.
+4. **Example and README:** `examples/order.json` now has the note "Leave it at the side door", and the README's Orders section describes the field.
+
+The tests cover each point, including the CLI refusing a 201-character note. I also changed the plan's status line to "Slice 1 is done."
+
+One behaviour to check: an empty-string note (`""`) passes validation but is treated as no note, so it doesn't add a blank `Note:` line to the receipt.
+
+**Your call:** I can commit now, given the export evidence above, or you can run `npm run check` somewhere `ledger-check` is installed first. Tell me which and I'll commit.

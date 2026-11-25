@@ -1,0 +1,22 @@
+{
+  "sessions": [
+    {
+      "first": 23823,
+      "peak": 39632,
+      "reqs": 9
+    },
+    {
+      "first": 24760,
+      "peak": 48182,
+      "reqs": 14
+    }
+  ],
+  "wall": 153.253,
+  "executors": 0,
+  "versions": [
+    "2.1.330"
+  ],
+  "models": [
+    "claude-opus-5-5"
+  ]
+}

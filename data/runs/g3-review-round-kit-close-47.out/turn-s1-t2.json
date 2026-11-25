@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Wrap-up is finished.\n\n- **Jobs and agents:** none were running, so nothing needed stopping.\n- **Memory:** I saved one new note, `ledger-check-missing`: `ledger-check` isn't installed on this Mac, so `npm run check` only runs the tests. I added a line for it to `MEMORY.md`, which is 1 line, well under its size limit, so it didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. It opens with \"Handoff from 2026-11-19 (CodeRabbit refunds findings)\". It records the branch `refunds-fixes` (commit `7019321`, not pushed). It also lists two open questions: whether to push and open a PR, and whether to change the refund note as CodeRabbit's second finding suggests. The plan and README would need to change first for that.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3822004,
+  "duration_ms": 18558,
+  "duration_api_ms": 47244,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4058,
+    "cache_read_input_tokens": 111400,
+    "output_tokens": 1938
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5123,
+      "cacheReadInputTokens": 276422,
+      "cacheCreationInputTokens": 28048,
+      "costUSD": 0.3822004
+    }
+  }
+}

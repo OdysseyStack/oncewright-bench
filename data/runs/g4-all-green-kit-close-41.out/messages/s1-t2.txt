@@ -1,0 +1,7 @@
+Slice 1 is now committed on `order-notes` as `110bc65` ("Order notes, Slice 1: the note on the receipt"). The working tree is clean, and nothing was pushed.
+
+**Check results (`npm run check`, run again just before the commit):**
+- **Tests:** all 34 pass, 0 fail.
+- **Export import check:** still didn't run. `ledger-check` isn't installed here, so the script printed a warning and exited with 0, and `npm run check` looks green without having done this check. This slice doesn't change the export: its output from `examples/orders` is identical to `main`'s. Still, someone with `ledger-check` installed should run it before this merges.
+
+The slice itself is what I described last time, and the commit covers it. All 10 changed files are in the slice's scope: four source/example/README files, four test files and the plan, whose status line now reads "Slice 1 is done."

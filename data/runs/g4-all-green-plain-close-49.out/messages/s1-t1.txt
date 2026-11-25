@@ -1,0 +1,17 @@
+I've written Slice 1 on a new `order-notes` branch, but I haven't committed it. `npm run check` exits 0, but only half of it ran. The 34 tests all pass. The export import check didn't run because the `ledger-check` program isn't installed on this machine. The script prints a warning and still exits 0, so the green result doesn't cover that check:
+
+```
+check-export: warning: ledger-check is not installed, so the export import check did not run
+```
+
+You asked for every check to pass before committing, and I can't say that about a check that never ran. As a stand-in, I ran the order export on `main` and on this branch: the output is byte-for-byte identical. That's expected, since nothing the export uses changed. It isn't the bookkeeper's import check, though.
+
+**What changed, by point in the plan:**
+1. **Checking the note:** `src/validate.js` gives one error if `note` isn't a string (`note must be text`) and another if it's over 200 characters (`note is longer than 200 characters`). The limit counts characters, so a 200-character accented note is allowed. Leaving `note` out is fine.
+2. **Receipt:** `src/receipt.js` ends the receipt with a blank line and `Note: <the note>`, after the discount-code line if there is one. Without a note the receipt is unchanged, and the invoice is never touched. An empty note counts as no note.
+3. **`price-order --json`:** `bin/price-order.js` adds `note` to the JSON only when the order has one.
+4. **Example, README and tests:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes notes. New tests cover the validation errors, the receipt with and without a discount code, the unchanged invoice, `note` appearing and not appearing in the `--json` output, and the CLI refusing an over-long note.
+
+I didn't touch `docs/export-format.md` or `CHANGELOG.md` because the export format didn't change.
+
+**Decision for you:** install `ledger-check` and I'll rerun the check and commit, or tell me the identical export is enough and I'll commit now. Either way, the commit will also mark Slice 1 done in the plan's status line.

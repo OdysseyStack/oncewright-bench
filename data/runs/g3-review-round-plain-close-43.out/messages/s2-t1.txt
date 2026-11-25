@@ -1,0 +1,13 @@
+The branch is where we left it. The only open item is a decision I need from you.
+
+**`refunds-fixes`** (commit `01c66ff`, local only: not pushed, no PR). The tests pass (31/31). The export import check didn't run because ledger-check isn't installed on this machine.
+
+- **Finding 1** (tax on a partial refund): fixed, with a test. Tax is now worked out on the summed amount of the refunded lines, not line by line.
+- **Finding 3** (faster lookup in `linesFor`): done.
+- **Finding 2** (show `Items` after the restocking fee and drop the fee row from the refund note): **declined, waiting on you.** It goes against the refunds plan (Slice 2 point 5). It would also break the bookkeeper's import: the README says refund notes go through the same import.
+
+What would you like to do?
+
+1. **Keep finding 2 declined.** I can push the branch and open a PR. Once it's pushed, I'll start the CodeRabbit triage in the background, as your setup asks.
+2. **Override and take finding 2.** I'd change the refund note and its test, and update the README import paragraph and plan point 5 to match. Then you'd need to run the import check somewhere ledger-check is installed.
+3. **Move on to refunds Slice 3** (partial refunds of discounted orders), which the plan lists as next. This branch can wait.

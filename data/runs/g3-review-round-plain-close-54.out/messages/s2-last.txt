@@ -1,0 +1,19 @@
+Slice 3 is done and committed on `refunds-fixes` as 2db1f53. `npm run check` passes all 35 tests; the export import check was skipped again because `ledger-check` isn't installed.
+
+**What changed (`src/refunds.js`):**
+- A partial refund of an order with a discount code no longer throws an error.
+- Each refunded line pays back its amount after its share of the discount. Tax is charged on the sum of those amounts, and an opened line's restocking fee is 15% of its discounted amount.
+- Refunding the whole order still pays back exactly what the order charged.
+- The refund note prints each line at its discounted price, as the receipt does, and the lines still add up to `Items`. The restocking fee stays on its own line, which the bookkeeper's import needs.
+- Example: with SAVE10, refunding the opened beans line gives Items $21.60, fee −$3.24, tax $1.72, refund $20.08.
+
+**Other files:**
+- `refund-order` already passed `--code` through, so it needed no code change. A new test covers `--code` together with `--sku`.
+- New tests cover each point of the slice: refunding some lines with SAVE10 and TAKE5, the fee on an opened line, whole refunds with all three codes matching what the order charged, and the note's layout.
+- The README drops the "not supported yet" note and describes `--code` with `--sku`.
+- The plan's status line now says Slices 1, 2 and 3 are done.
+- I added two lines under Unreleased in the changelog: this slice, and the tax fix from the previous commit, which never got an entry.
+
+**Rounding:** refunding an order's lines in separate refunds can pay back a cent less tax in total than the order charged. With SAVE10, the beans and filters refunded one at a time pay $1.72 + $0.93, against $2.66 on the order. This was already true for partial refunds before this slice. It comes from `percentOf` dropping fractions of a cent, and the plan says to leave that alone until Slice 4.
+
+Nothing is pushed, since the repo has no remote.

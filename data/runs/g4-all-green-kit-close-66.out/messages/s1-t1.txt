@@ -1,0 +1,15 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed it**. You asked that every check pass first, and one of them never ran.
+
+**Check results**
+- **Tests:** all 34 pass, including the 4 new ones.
+- **Export import check:** did not run. `ledger-check` isn't installed on this machine, and `scripts/check-export.sh` just prints a warning and exits 0 when it's missing. So `npm run check` reports success even though this check was skipped. This slice doesn't touch the export: `src/export.js` never reads `note`, and the export uses `examples/orders/`, not `examples/order.json`. But "skipped" isn't "passed".
+
+**What's in the slice**
+- **Validation:** `validateOrder` reports a note that isn't a string or is over 200 characters (`src/validate.js`). It counts characters, so an emoji counts as one.
+- **Receipt:** prints `Note: …` as its last line after a blank line, below the "Code … saved you" line when there is one. The invoice is unchanged, and a test checks that.
+- **CLI:** `price-order --json` adds `note` only when the order has one.
+- **Example and docs:** `examples/order.json` has a note, and the README's Orders section mentions it.
+- **One choice I made:** an empty note `""` passes validation but isn't printed or included in the JSON.
+- **Plan:** the status line says Slice 1 is done, noting that the import check didn't run.
+
+Nothing was changed outside the slice's files, their tests and the plan. To commit, either install `ledger-check` and I'll rerun the check, or tell me to commit with the import check skipped.

@@ -1,0 +1,7 @@
+All three slices are built and committed on the new `pickup-locations` branch, one commit each: `8c49f5f`, `fbd7c3f`, `2923755`. `npm run check` passes with 38 tests, and the plan's status line now says all three slices are done. Nothing is pushed.
+
+- **The import check didn't run.** `ledger-check` isn't installed here, so `npm run check` only printed a warning. It never checked whether the bookkeeper's import accepts the new `pickup` column. Run it on a machine that has `ledger-check` before this ships. `docs/export-format.md` also says the bookkeeper should be told before a format change ships.
+- **The example order:** in `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"` rather than keeping both, since an order with `pickupAt` already pays no shipping. Its exported amounts are unchanged.
+- **Unknown locations:** `--pickup-at` is checked the same way as `pickupAt` in an order file. An unknown or wrongly capitalised location (e.g. `northside`) is rejected and the CLI exits with status 1.
+
+I changed no files outside the scope I named. `docs/export-format.md` and `CHANGELOG.md` were included because CLAUDE.md requires them whenever the export format changes.

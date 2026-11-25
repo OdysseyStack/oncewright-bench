@@ -1,0 +1,17 @@
+Slice 3 is already committed on `refunds-fixes`, so I didn't make another commit. I checked the repo just now:
+
+- `refunds-fixes` is checked out, its tip is `22700c6` ("Refunds Slice 3: partial refunds of discounted orders"), and there's nothing uncommitted.
+- That commit sits directly on `bd92ac6`, the CodeRabbit fixes. It changes `src/refunds.js`, `test/refunds.test.js`, the README, `CHANGELOG.md` and the plan, whose status line now reads "Slices 1, 2 and 3 done."
+- I checked the code against each point of Slice 3:
+  - Refunding some lines of a discounted order no longer throws. Each line pays back its price after its share of the discount, with tax on the total of those prices. The restocking fee is 15% of the discounted price.
+  - Refunding a whole discounted order gives the same amounts as before.
+  - The refund note shows each line at its discounted price.
+  - `refund-order --code` works with `--sku`.
+  - The README no longer says this isn't supported.
+
+  Each point has a test.
+- All 34 tests pass. The export import check didn't run because ledger-check isn't installed here, but Slice 3 doesn't change the export.
+
+You may have been looking for it somewhere other than this local repo. It has no remote, so `refunds-fixes` hasn't been pushed anywhere and can't be seen outside this Mac. If you were checking GitHub or another clone, I can set up the remote and push, or open a PR.
+
+If something specific looked unfinished, tell me what and I'll fix it.

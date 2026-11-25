@@ -1,0 +1,15 @@
+Slice 3 of the refunds plan is done: partial refunds now work on orders that used a discount code. It's committed locally as `35dc805` on a new branch, `refunds-slice-3`, which builds on `refunds-fixes`. Nothing is pushed. `npm run check` passes (34 tests), but the export import check was skipped because ledger-check isn't installed here. That doesn't affect this change, since the export format didn't change.
+
+**What changed** (`src/refunds.js`):
+- Asking for part of a discounted order no longer throws an error.
+- Each refunded line pays back its amount minus its share of the discount. Tax is 8% of those amounts added together, and the 15% restocking fee is taken from the discounted amount.
+- Refunding every line of a discounted order gives the same amounts as before (`$41.95` with SAVE10 on the example order).
+- The refund note shows each line at its discounted price, as the receipt does, so the lines still add up to `Items`. The restocking fee stays on its own line, as the bookkeeper's import requires.
+
+Example, beans only, with SAVE10: `$21.60` for the beans, `$1.72` tax, total `$23.32`.
+
+**One thing to know:** refunding the two lines separately gives `$1.72` + `$0.93` = `$2.65` in tax, but the order charged `$2.66`. This comes from `percentOf` dropping fractions of a cent, which the plan leaves as it is until Slice 4 (after Finance amends the tax filing).
+
+I also added tests for each point in the slice, replaced the "not supported yet" sentence in the README with how `--code` works with `--sku`, added a line to `CHANGELOG.md` under Unreleased, and marked Slice 3 done in the plan.
+
+**Decision for you:** when you want to push, should both branches go up as one PR, or as two with `refunds-slice-3` stacked on `refunds-fixes`?

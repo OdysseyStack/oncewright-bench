@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up.\n\n- **Stopped:** nothing. This session started no jobs, monitors or agents.\n- **Memory:** I added one file, `ledger-check-missing.md`: on this Mac `npm run check` runs only the tests, because `ledger-check` isn't installed and the export import check is skipped. `MEMORY.md` now has its one line (1 line, 125 bytes), well under its limit, so it didn't need re-indexing.\n- **Handoff:** it's in `directives/handoff/current.md` and opens \"Handoff from 2026-11-19 (CodeRabbit refunds findings)\". The next session should start by asking you whether to push `refunds-fixes` and open a PR. Two open questions are in it too:\n  - whether you'd rather show the refund after the fee as \"Items\" (the finding I rejected); the plan would need changing first.\n  - what to do with `review/findings-refunds.md`.\n\nThe handoff file is tracked in git, so `git status` will show it as changed until it's committed or reset.\n\nThis session wasn't started by the kit's launcher, so it won't close on its own. Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.41611059999999994,
+  "duration_ms": 21608,
+  "duration_api_ms": 51715,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4251,
+    "cache_read_input_tokens": 117374,
+    "output_tokens": 2245
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5482,
+      "cacheReadInputTokens": 321433,
+      "cacheCreationInputTokens": 30263,
+      "costUSD": 0.41611059999999994
+    }
+  }
+}

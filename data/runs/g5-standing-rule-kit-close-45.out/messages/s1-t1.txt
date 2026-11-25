@@ -1,0 +1,11 @@
+All three slices are done, one commit each, on the new branch `pickup-locations`. Nothing is pushed. `npm run check` passes (38 tests), but the export import check part of it didn't run, because `ledger-check` isn't installed here.
+
+- **`0a45e65` Slice 1:** the config now lists the two counters, Pier Road and Northside. `validateOrder` rejects a `pickupAt` that isn't one of them, spelled exactly as the config spells it. An order with `pickupAt` pays no shipping, whether or not `pickup` is set.
+- **`2a63969` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, and the invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has one. `--pickup-at` sets it and is checked the same way, so an unknown location is an error. The README's Orders and CLIs sections describe it.
+- **`41bd9e0` Slice 3:** the export has a new `pickup` column after `total`. `A-1042` is now picked up at Northside; I replaced its `"pickup": true` with `"pickupAt": "Northside"`. `docs/export-format.md` and the Unreleased section of `CHANGELOG.md` describe the column, as CLAUDE.md requires. The plan's status line says all three slices are done.
+
+Before this ships:
+- **Import check:** nothing has confirmed that the bookkeeper's import accepts the extra column. `docs/export-format.md` also says the bookkeeper is told before any format change ships.
+- **Out of scope, not fixed:** the README's CLIs section still lists the old export columns (`id,date,subtotal,discount,shipping,tax,total`). Slice 3 doesn't name the README, so I didn't change it. It's a one-line fix if you want it.
+
+No files outside each slice's scope were changed.

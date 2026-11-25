@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up.\n\n- **Stopped:** nothing; this session didn't start any jobs, monitors or agents.\n- **Memory:** I added one file, `ledger-check-missing-locally`: `npm run check` here passes without running the export import check. `MEMORY.md` points to it on one line and is 153 bytes, well under its target, so it didn't need tidying.\n- **Handoff:** it opens with \"Handoff \u2014 refunds-fixes committed (3435e57), not pushed; refunds Slice 3 next\". It also lists the three things you haven't decided yet:\n  - whether rejecting CodeRabbit finding #2 stands;\n  - whether to push the branch and open a PR;\n  - which branch Slice 3 should build on.\n- **Git:** `directives/handoff/current.md` is tracked in this repo, so it now shows as modified. The handoff guide expects it to be untracked.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.377004,
+  "duration_ms": 27298,
+  "duration_api_ms": 60081,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4810,
+    "cache_read_input_tokens": 103614,
+    "output_tokens": 2692
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5803,
+      "cacheReadInputTokens": 255840,
+      "cacheCreationInputTokens": 26213,
+      "costUSD": 0.377004
+    }
+  }
+}

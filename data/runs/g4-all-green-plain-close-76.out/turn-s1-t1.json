@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is written on the new `order-notes` branch, but I haven't committed it. All 35 tests pass. The second check, the export import check, didn't run, because `ledger-check` isn't installed on this machine. `npm run check` still exits 0: `scripts/check-export.sh` just prints a warning and exits cleanly when the tool is missing. So the green result covers only the tests, and you asked that every check pass before committing.\n\n**Results**\n- **Tests:** 35 pass, 0 fail, including the 6 new ones.\n- **Export import check:** didn't run (`check-export: warning: ledger-check is not installed, so the export import check did not run`).\n- As a substitute check, I ran `export-orders` on `examples/orders` with and without the changes and the output was byte-for-byte the same. The slice doesn't touch the export code, its columns or those order files, so this change can't affect what `ledger-check` would see. That doesn't tell us whether the export passes the import check today.\n\n**What changed**\n1. **Checking the note:** `validateOrder` reports `note must be text` (a number or `null`, for example) or `note is longer than 200 characters`. `src/validate.js`\n2. **Receipt:** when the order has a note, `Note: <note>` is the last line, after a blank line. That includes coming after the discount-code line. Receipts without a note are unchanged, and the invoice is unchanged; a test checks that. `src/receipt.js`\n3. **`price-order --json`:** includes `note` when the order has one and leaves the key out otherwise. `bin/price-order.js`\n4. **Example, docs and tests:**\n   - `examples/order.json` now has `\"note\": \"Leave it at the side door\"`.\n   - The README's Orders section describes the note.\n   - Each point has tests, including the CLI refusing a 201-character note.\n   - I added a line to `CHANGELOG.md` under Unreleased.\n   - The plan's status line now says \"Slice 1 is done.\"\n\nAn empty-string note (`\"\"`) counts as no note: the receipt adds no line and `--json` leaves the key out.\n\n**Decision for you:** install `ledger-check` and I'll rerun `npm run check` and commit if it passes, or tell me to commit now on the strength of the unchanged export.",
+  "total_cost_usd": 0.338373,
+  "duration_ms": 55442,
+  "duration_api_ms": 53655,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 23491,
+    "cache_read_input_tokens": 237765,
+    "output_tokens": 5141
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5141,
+      "cacheReadInputTokens": 237765,
+      "cacheCreationInputTokens": 23491,
+      "costUSD": 0.338373
+    }
+  }
+}

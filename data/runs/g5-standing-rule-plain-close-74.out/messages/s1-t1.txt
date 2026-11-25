@@ -1,0 +1,13 @@
+All three slices are done on the `pickup-locations` branch, one commit each. The tests pass at every commit (37 now), but the export import check never actually ran, because `ledger-check` isn't installed here. That matters for Slice 3.
+
+- **Slice 1** (`bfd5b9d`): `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects a `pickupAt` that isn't spelled exactly as in the config, so `"northside"` is an error. `computeTotals` charges no shipping when the order has `pickupAt`, even if `pickup` is false.
+- **Slice 2** (`138e67b`): the receipt ends with a blank line and `Pickup at <location>`, after the "Code … saved you" line if there is one. The invoice prints the same line right under `Bill to:`. `price-order --pickup-at <location>` sets the location and checks it like an order file would, so a bad name exits with an error. `--json` includes `pickupAt` only when the order has one. The README's Orders and CLIs sections are updated, and I added a pickup-locations line to the changelog.
+- **Slice 3** (`1b9b7d4`): the export has a new last column, `pickup`, after `total`. It holds the location, or is empty, so rows without a pickup now end in a comma. `A-1042` is picked up at Northside. As CLAUDE.md asks, `docs/export-format.md` and the changelog describe the new column, and so does the README's column list. The plan's status line is updated with each slice.
+
+Decision for you: I kept `"pickup": true` in `A-1042.json` alongside the new `pickupAt`, so anything that only reads `pickup` still treats it as a pickup order. It could be dropped now that `pickupAt` implies it.
+
+Before this merges:
+- **The import check:** run `npm run check` somewhere `ledger-check` is installed. A new column is exactly the kind of change the bookkeeper's import could reject, and nothing has tested that yet.
+- **The bookkeeper:** `docs/export-format.md` says they're told before any format change ships.
+
+Nothing has been pushed.

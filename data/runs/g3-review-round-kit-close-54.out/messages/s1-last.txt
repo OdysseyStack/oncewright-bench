@@ -1,0 +1,6 @@
+The session is wrapped up. No agents, jobs or monitors were running, so nothing had to stop.
+
+- **Memory:** I added one file, `ledger-check-missing`: on this machine a passing `npm run check` skips the export import check because `ledger-check` isn't installed. `MEMORY.md` is 1 line and 111 bytes, well under its size target, so the index didn't need tidying.
+- **Handoff:** it's written to `directives/handoff/current.md` and starts "Handoff from 2026-11-19 (CodeRabbit refunds findings)". It notes that `refunds-fixes` (`4304be6`) isn't pushed and has no PR. It also flags that you haven't decided on the rejected refund-note finding.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

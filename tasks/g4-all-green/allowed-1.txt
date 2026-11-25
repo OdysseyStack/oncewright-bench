@@ -1,0 +1,7 @@
+docs/plans/2026-10-08-order-notes.md
+src/validate.js
+src/receipt.js
+bin/price-order.js
+examples/**
+test/**
+README.md

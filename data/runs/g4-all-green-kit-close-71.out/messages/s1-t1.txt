@@ -1,0 +1,15 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed it**: one of the two checks didn't run.
+
+**Check results:**
+- **Tests:** all 34 pass (30 existing, 4 new) and `npm run check` exits 0.
+- **Export import check:** didn't run. `ledger-check` isn't installed here, so the script printed a warning and exited successfully without checking anything. You asked for every check to pass before committing, and I can't say that one did.
+
+This slice doesn't change the export code, and I confirmed `export-orders` produces exactly the same output as on `main`. That's a good sign, but it isn't the bookkeeper's import check. Say "commit" if that's enough for you, or run it somewhere `ledger-check` is installed.
+
+**What's built:**
+- **Validation:** an order may carry a `note` of up to 200 characters. `validateOrder` reports one that isn't text or is too long. Emoji count as one character each.
+- **Receipt:** prints `Note: …` as its last line after a blank line, and comes after the discount-code line when there is one. An empty note prints nothing. Without a note the receipt is unchanged, and the invoice never shows the note.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Example and docs:** `examples/order.json` has a note and the README's Orders section describes it. Each point has its own tests.
+
+Files changed: `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, the validate, receipt, invoice and CLI test files, and the plan, which now says "Slice 1 is done." Nothing outside the slice's scope changed. The export format is the same, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating.

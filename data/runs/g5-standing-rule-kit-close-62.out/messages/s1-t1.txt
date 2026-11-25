@@ -1,0 +1,9 @@
+All three slices are done and committed on a new `pickup-locations` branch, one commit each: `ebd8878`, `4f76e21` and `549bbd8`. Nothing is pushed. `npm run check` passes with 36 tests, but its export import check didn't actually run: `ledger-check` isn't installed here, so the script printed a warning and exited 0. Slice 3 adds a column to the export, so that check matters. Please run it on a machine with `ledger-check` before this ships. `docs/export-format.md` also says the bookkeeper should be told about format changes before they ship.
+
+- **Slice 1:** orders can say which counter they're collected from, `"Pier Road"` or `"Northside"`. `validateOrder` rejects any other value, including a different spelling, and an order with a location is charged no shipping.
+- **Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, below the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes the location, and `--pickup-at` sets it from the command line, replacing any in the file; an unknown name is an error. The README's Orders section describes it.
+- **Slice 3:** the export has a `pickup` column after `total`, holding the location or left empty. In `A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"` rather than keeping both, since the location already makes it a pickup order.
+
+I marked each slice done in the plan's status line. Besides the files the slices name and their tests, I changed `docs/export-format.md` and `CHANGELOG.md`, because CLAUDE.md requires that when the export format changes.
+
+One thing found, not fixed: `README.md:104` still lists the export's seven old columns, without `pickup`. Slice 3 doesn't name the README, so I left it. Say if you want it updated.

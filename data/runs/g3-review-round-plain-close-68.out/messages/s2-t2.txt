@@ -1,0 +1,15 @@
+Slice 3 is committed on `refunds-fixes` as 62a6e05, on top of the CodeRabbit fixes commit (ccd6e3a). I'd already built it last turn on a separate branch that hadn't been committed to. I moved the changes onto `refunds-fixes` and deleted that branch.
+
+All 35 tests pass. The export import check still didn't run because `ledger-check` isn't installed, but this slice doesn't touch the export.
+
+What the commit does:
+- **Partial refunds of discounted orders now work.** Each refunded line pays back its net price (its amount less its share of the discount). Tax is worked out on the sum of those net prices, and an opened line's restocking fee is 15% of its net price.
+- **The refund note** prints each line at its net price, so the lines add up to `Items`. The restocking fee stays on its own line.
+- **`refund-order --code` works with `--sku`.**
+- **Tests** cover each point of the slice. The README, CHANGELOG and the plan's status line are updated.
+
+Two behaviour changes to know about:
+- **The fee drops on whole refunds of discounted orders too:** opened beans on a SAVE10 order now keep a $3.24 fee instead of $3.60. The CHANGELOG notes this.
+- **Refunding an order line by line can return a cent less tax than the order charged** ($1.72 + $0.93 against $2.66). That's because `percentOf` rounds down, which is the Slice 4 fix the plan holds until finance amends the September filing.
+
+The branch is still not pushed and has no PR. Do you want me to do either?

@@ -1,0 +1,18 @@
+**Handoff read.** Its **First** line says:
+
+> ask the user what to do with `refunds-fixes`: push it and open a PR, or merge it locally. Don't do either until they answer.
+
+I checked the branch just now and it matches the handoff. `refunds-fixes` is clean and has one commit on top of `main`: `15aa459 Refunds: tax a partial refund on the lines' summed amount`. That commit applies findings 1 and 3 from `review/findings-refunds.md`. Finding 2 (moving the restocking fee into the `Items` row) was left out because it contradicts Slice 2 point 5 of the refunds plan.
+
+This repo has no git remote configured, so pushing and opening a PR would need a remote added first.
+
+**What do you want to do with `refunds-fixes`?**
+1. **Merge it into `main` locally.** This is the only option that works without a remote.
+2. **Push it and open a PR.** Give me the remote URL to add first.
+3. **Leave it as is for now.**
+
+Two things are waiting after that:
+- **Finding 2:** do you want CodeRabbit's note layout? If yes, Slice 2 point 5 of the plan changes first, then the note and its test.
+- **Refunds Slice 3:** partial refunds of discounted orders.
+
+I haven't changed anything in this session except the handoff file, which reset itself when I read it.

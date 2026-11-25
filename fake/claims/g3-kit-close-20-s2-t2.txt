@@ -1,0 +1,27 @@
+Slice 3 is done and committed on `refunds-fixes` as **1b63501**, on top of c8d26db. Nothing is merged or pushed (there's no remote). Partial refunds of orders that used a discount code now work instead of throwing an error.
+
+**What it does** (from the plan's three points)
+- **Refunded lines pay back their net.** A net is the line's amount less its share of the discount. For example, refunding the filters from the example order with SAVE10 pays back $11.70 + $0.93 tax = $12.63.
+- **The restocking fee is 15% of the line's net**, not of its full price.
+- **Shipping is refunded only when every line is.** Refunding every line by SKU gives the same amounts as a whole refund.
+- **The refund note shows each line at its net price**, like the receipt does, and `Items` is the sum of those nets.
+- **`refund-order --code` now works with `--sku`.** The README no longer says these refunds "aren't supported yet" and now explains how they work.
+
+**Decision for you to confirm: how the tax is worked out.** Slice 3 point 1 says "the tax on it", which could mean taxing each line separately. I took the tax on the refunded lines' summed net instead. That matches how Slice 2 defines a partial refund's tax and how the order was charged in the first place. Taxing each line separately is the bug CodeRabbit's finding #1 fixed, where each line lost up to a cent. A test covers a case where the two methods differ: $1.29 summed versus $1.28 per line. I wrote this choice into the plan under Slice 3. If you meant per-line tax, tell me and I'll change it.
+
+**Checks**
+- **Tests:** all 37 pass. I ran the new tests against the old code and against a version that taxes each line separately; both made them fail, so they do catch these errors.
+- **Export check:** it didn't run, because `ledger-check` isn't installed. The commit doesn't touch the export, but the check is still unverified.
+- **Docs check:** clean.
+- **Files changed:** only the four the slice names: `src/refunds.js`, `test/refunds.test.js`, `README.md`, and the plan (status line plus the tax note). `bin/refund-order.js` needed no change because it already passed `--code` through.
+
+**Seen but not changed, since the slice doesn't name them:**
+- The comment on `restockingFee` in `src/config.js` still says the fee is "a fraction of the line's amount". With a code it's now a fraction of the net.
+- Slice 2 point 4 in the plan still describes the old error. I left it as history of what that slice did.
+
+**Still waiting on you:**
+1. **Finding #2:** do you agree with rejecting it?
+2. **CHANGELOG:** should `CHANGELOG.md` get a line under Unreleased? It could now cover both the extra cent of refund tax and partial refunds of discounted orders.
+3. **Merge:** should I fast-forward `main` to `refunds-fixes`, locally only?
+
+I updated the `refunds-fixes-branch` memory to match.

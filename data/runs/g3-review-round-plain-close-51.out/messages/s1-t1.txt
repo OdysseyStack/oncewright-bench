@@ -1,0 +1,7 @@
+I fixed two of CodeRabbit's three findings and turned down the third. The work is committed as `4b75c06` on the new branch `refunds-fixes`, which I haven't pushed.
+
+- **Fixed: tax on a partial refund.** The tax is now worked out once on the refunded lines' combined amount, as the order itself charges it and as the plan's Slice 2 point 1 says. Working it out line by line lost up to a cent per line. The new test uses CodeRabbit's example ($6.19 + $10.19, where the order charged $1.31 tax): it fails on the old code and passes now. I didn't change `percentOf`'s rounding, since the plan holds that back for Slice 4.
+- **Fixed: SKU lookup.** `linesFor` now checks SKUs against a `Set`.
+- **Not done: removing the "Restocking fee" row from the refund note.** The README says the bookkeeper's import requires the printed lines to add up to `Items`, and it records the fee from its own row. Plan Slice 2 point 5 also asks for that row. If `Items` showed the amount after the fee, every refund note with a fee would fail the import. The commit message gives this reason.
+
+`npm run check` passed all 31 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. These changes don't touch the export, so neither `docs/export-format.md` nor `CHANGELOG.md` needed updating.

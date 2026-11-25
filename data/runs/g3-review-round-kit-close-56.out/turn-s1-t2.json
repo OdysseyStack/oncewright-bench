@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up.\n\n- **Stopped:** nothing. This session didn't start any jobs, monitors or agents.\n- **Memory:** I added one file, `ledger-check-missing`. It records that `ledger-check` isn't installed here, so a passing `npm run check` only means the tests passed. It has a line in `MEMORY.md`.\n- **Index:** no tidy needed; `MEMORY.md` is 1 line and 136 bytes.\n- **Handoff:** it starts \"Refunds review fixes committed on `refunds-fixes`; one CodeRabbit finding declined, awaiting the user's say\". It asks the next session to get your decision on the restocking-fee layout and on whether to push and open a PR.\n\nTo continue, quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3629036,
+  "duration_ms": 21074,
+  "duration_api_ms": 49702,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4077,
+    "cache_read_input_tokens": 111035,
+    "output_tokens": 1894
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 4545,
+      "cacheReadInputTokens": 242498,
+      "cacheCreationInputTokens": 27930,
+      "costUSD": 0.3629036
+    }
+  }
+}

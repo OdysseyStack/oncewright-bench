@@ -1,0 +1,16 @@
+I've built Slice 1 on the new `order-notes` branch, but I have **not committed**: one of the two checks didn't actually run, and you asked that every check pass first.
+
+**Check results** (`npm run check`):
+- **Tests: 34 of 34 pass**, including 4 new ones covering each point in the slice.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine. The script prints a warning and exits 0 anyway, so `npm run check` looks green when it isn't. To stand in for it, I ran the order export on this branch and on `main`: the output is byte-for-byte identical. That's expected, since this slice doesn't touch the export.
+
+**What the slice now does:**
+- **Validation:** `src/validate.js` accepts an optional `note` of up to 200 characters. It reports "note must be text" or "note is longer than 200 characters".
+- **Receipt:** `src/receipt.js` adds `Note: …` as the last line, after a blank line. If there's a discount code, the note comes after the "saved you" line. The invoice doesn't change.
+- **JSON output:** `price-order --json` includes `note` only when the order has one.
+- **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- An empty note (`""`) passes validation but prints nothing, the same as having no note.
+
+Every file I changed was in the slice's scope; nothing outside it. I've also left the plan's status line alone, because its "done" condition is the same `npm run check` gate.
+
+**Decision for you:** to commit, either install `ledger-check` so I can run the real check, or tell me to commit now on the strength of the identical export. If you choose the second, I'll mark the slice done in the same commit.

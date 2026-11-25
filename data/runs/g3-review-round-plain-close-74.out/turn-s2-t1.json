@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "Refunds Slice 3 is done: you can now refund some lines of an order that used a discount code. It's committed as `44995ab` on a new branch, `refunds-slice-3`, built on top of `refunds-fixes`. Neither branch is pushed and there's no PR.\n\n**What changed:**\n- **Amounts:** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its amount after its share of the discount, the same figure the receipt prints. Tax is worked out on the sum of those amounts, as in the finding 1 fix.\n- **Restocking fee:** for an opened line, it's 15% of the line's discounted amount.\n- **Whole refunds:** refunding every line of a discounted order gives the same amounts as a whole-order refund. Tests check this for all three codes.\n- **Refund note:** each line now shows its discounted price. This also fixes an existing bug: a whole refund of a discounted order used to print full-price lines that didn't add up to `Items`, which the bookkeeper's import would reject.\n- **CLI:** `refund-order --sku \u2026 --code \u2026` now works.\n- **Docs:** I removed the README's \"not supported yet\" sentence, marked Slice 3 done in the plan, and added a CHANGELOG line under Unreleased.\n\n**Checks:** `npm run check` passes all 35 tests. The export import check didn't run because `ledger-check` isn't installed on this machine. That doesn't matter here, since this change doesn't touch the export.\n\n**Still waiting on you:** CodeRabbit's finding 2 (fold the restocking fee into `Items` and drop the fee row). I still haven't applied it, because the README says the accounting import needs the fee on a line of its own; only whoever owns the import can change that. Slice 3 doesn't depend on that decision.\n\nWant me to push both branches and open PRs (fixes first, then Slice 3)?",
+  "total_cost_usd": 0.4690178,
+  "duration_ms": 76059,
+  "duration_api_ms": 74608,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 30056,
+    "cache_read_input_tokens": 355109,
+    "output_tokens": 7873
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 7873,
+      "cacheReadInputTokens": 355109,
+      "cacheCreationInputTokens": 30056,
+      "costUSD": 0.4690178
+    }
+  }
+}

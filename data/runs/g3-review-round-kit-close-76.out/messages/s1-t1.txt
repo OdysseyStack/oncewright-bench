@@ -1,0 +1,7 @@
+I fixed two of CodeRabbit's three findings and rejected the third. The changes are committed on the new branch `refunds-fixes` as `72c18e2`, and `npm run check` passes (31 tests).
+
+- **Fixed: partial-refund tax.** Refunding only some lines worked out the tax on each line and added them up, so the refund could pay back a cent less tax than the order charged. Tax is now taken on the lines' combined amount, the way the order is charged and the plan specifies. I added a test using $6.19 and $10.19 lines, which should refund $1.31 in tax. It failed with $1.30 before the fix and passes now. I didn't touch `percentOf`'s rounding itself, which the plan holds until Slice 4.
+- **Fixed: the speed nitpick.** The line filter now checks SKUs against a `Set`, as suggested.
+- **Rejected: folding the restocking fee into `Items` on the refund note.** The refunds plan (Slice 2, point 5) asks for a separate negative `Restocking fee` line, and Slice 3 also has `Items` as the plain sum of the lines. If you'd rather have CodeRabbit's layout, the plan needs to change first.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`. The export format is the same, so `docs/export-format.md` and the CHANGELOG didn't need updating. Slice 2 was already marked done in the plan. Nothing is pushed.

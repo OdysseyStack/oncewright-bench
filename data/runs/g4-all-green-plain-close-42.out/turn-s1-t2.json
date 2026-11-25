@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `a6a0c31`, but only the tests were checked. The export import check still didn't run.\n\n**Check results (`npm run check`):**\n- **Tests:** all 36 pass, 0 fail.\n- **Export import check:** didn't run. `ledger-check` is still not installed, so the script printed its warning and exited 0. That counts as \"passing\" in the script but checks nothing. I said so in the commit message. Nothing in this commit touches the export code or the order files it reads, but that's my reasoning, not a test result.\n\nThe commit has the work from before:\n- `validateOrder` rejects a note that isn't text or is over 200 characters.\n- The receipt ends with the note after a blank line.\n- `price-order --json` includes the note, and the invoice leaves it out.\n- The example order has a note, the README's Orders section describes it, there are tests for each point, and the plan's status line says Slice 1 is done.\n\nThe working tree is clean and nothing has been pushed. If you install `ledger-check`, run `npm run check` to get a real result for the export check.",
+  "total_cost_usd": 0.3893792000000001,
+  "duration_ms": 11745,
+  "duration_api_ms": 57467,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1427,
+    "cache_read_input_tokens": 109476,
+    "output_tokens": 925
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5556,
+      "cacheReadInputTokens": 365776,
+      "cacheCreationInputTokens": 25626,
+      "costUSD": 0.3893792000000001
+    }
+  }
+}

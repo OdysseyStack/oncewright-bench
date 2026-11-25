@@ -1,0 +1,38 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 12,
+  "result": "I've built refunds Slice 3 (partial refunds of orders that used a discount code) on `refunds-fixes`, on top of the review fixes from last time. It isn't committed yet. All 36 tests pass in `npm run check`.\n\n**What changed**\n- **`src/refunds.js`:** a partial refund of a discounted order no longer throws an error. Each refunded line pays back its price after its share of the discount, as the receipt shows it. The 15% restocking fee is taken from that discounted price too. Shipping is still refunded only when every line is, and refunding every line gives the same amounts as refunding the whole order.\n- **Refund note:** each line is printed at its discounted price, and the lines add up to `Items`, so the bookkeeper's import rule still holds. The `Restocking fee` line is still printed on its own, because the CodeRabbit suggestion to fold it into `Items` is still waiting on sign-off.\n- **CLI:** `refund-order --code` now works with `--sku`. Nothing in the CLI needed changing, because the error was the only thing blocking it.\n- **Tests:** they cover each point in the plan, including a `TAKE5` order where the discount doesn't split evenly. One test checks that the note's lines add up to `Items` and the parts add up to `Refund` for every code and line combination.\n- **Docs:** the README drops the \"not supported yet\" note. I also moved the `export-orders` sentence, which had been run onto the end of the refund paragraph, into its own paragraph. The plan's status line now marks Slice 3 done, and there's a line in `CHANGELOG.md` under Unreleased.\n\n**Decision for you:** the plan says each line pays back \"the tax on it\", which could mean tax worked out line by line. I kept tax on the refunded lines' combined amount, as the first CodeRabbit fix set it and as the order was charged. Two separate partial refunds can therefore add up to a cent less tax than one whole refund: $1.72 plus $0.93 against $2.66 on the test order. That cent comes from tax being rounded down, which is Slice 4's job.\n\n**Not verified:** `ledger-check` isn't installed on this machine, so the export import check was skipped. I didn't touch the export, so this matters less this time.\n\nShould I commit this on `refunds-fixes`? Nothing has been pushed, and there's no pull request.",
+  "total_cost_usd": 0.5660694000000001,
+  "duration_ms": 100493,
+  "duration_api_ms": 99017,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [
+    {
+      "tool_name": "Bash",
+      "tool_use_id": "tool-use-1",
+      "tool_input": {
+        "command": "cat > /tmp/tests_patch.py <<'EOF'\nimport sys\np = sys.argv[1]\ns = open(p).read()\nold = '''test(\"a SKU not on the order, or a partial refund of a discounted order, is an error\", () => {\n  assert.throws(() => refundFor(order, { skus: [\"TEA-50\"] }), /TEA-50/);\n  assert.throws(() => refundFor(order, { skus: [\"BEANS-1KG\"], code: \"SAVE10\" }), /discount/);\n});\n'''\nnew = '''test(\"a SKU not on the order is an error\", () => {\n  assert.throws(() => refundFor(order, { skus: [\"TEA-50\"] }), /TEA-50/);\n  assert.throws(() => refundFor(order, { skus: [\"BEANS-1KG\"], opened: [\"TEA-50\"] }), /TEA-50/);\n});\n\ntest(\"a refund of some lines of a discounted order pays back each line's net and the tax on it\", () => {\n  // SAVE10 takes 370 off: 240 from the beans, 130 from the filters.\n  assert.deepEqual(refundFor(order, { skus: [\"BEANS-1KG\"], code: \"SAVE10\" }), { items: 2160, fee: 0, shipping: 0, tax: 172, total: 2332 });\n  assert.deepEqual(refundFor(order, { skus: [\"FILTER-100\"], code: \"SAVE10\" }), { items: 1170, fee: 0, shipping: 0, tax: 93, total: 1263 });\n  // TAKE5 takes 500 off, which doesn't split evenly: allocate gives the filters 176, so their net is 1124.\n  const { lines } = computeTotals(order, { code: \"TAKE5\" });\n  assert.equal(lines[1].net, 1124);\n  assert.deepEqual(refundFor(order, { skus: [\"FILTER-100\"], code: \"TAKE5\" }), { items: 1124, fee: 0, shipping: 0, tax: 89, total: 1213 });\n});\n\ntest(\"an opened line of a discounted order keeps 15% of its net\", () => {\n  assert.deepEqual(refundFor(order, { skus: [\"BEANS-1KG\"], opened: [\"BEANS-1KG\"], code: \"SAVE10\" }), { items: 2160, fee: 324, shipping: 0, tax: 172, total: 2008 });\n  assert.equal(refundFor(order, { opened: [\"BEANS-1KG\"], code: \"SAVE10\" }).fee, 324);\n});\n\ntest(\"refunding every line of a discounted order gives the whole-order refund\", () => {\n  for (const code of [\"SAVE10\", \"STAFF25\", \"TAKE5\"]) {\n    assert.deepEqual(refundFor(order, { skus: [\"BEANS-1KG\", \"FILTER-100\"], code }), refundFor(order, { code }));\n  }\n  assert.deepEqual(refundFor(order, { skus: [\"FILTER-100\", \"BEANS-1KG\"], code: \"SAVE10\" }), { items: 3330, fee: 0, shipping: 599, tax: 266, total: 4195 });\n});\n\ntest(\"the refund note's lines add up to Items, and the parts to Refund, for the bookkeeper's import\", () => {\n  const money = (text) => Number(text.replace(/[$.]/g, \"\"));\n  for (const code of [undefined, \"SAVE10\", \"STAFF25\", \"TAKE5\"]) {\n    for (const skus of [undefined, [\"BEANS-1KG\"], [\"FILTER-100\"]]) {\n      const options = { code, skus, opened: [\"BEANS-1KG\"].filter((sku) => !skus || skus.includes(sku)) };\n      const note = renderRefundNote(order, options);\n      const r = refundFor(order, options);\n      const lines = note.split(\"\\\\n\").filter((line) => / x /.test(line)).map((line) => money(line.trim().split(/ +/).pop()));\n      assert.equal(lines.reduce((a, b) => a + b, 0), r.items, note);\n      assert.match(note, new RegExp(`^Items +\\\\\\\\$${(r.items / 100).toFixed(2)}$`, \"m\"));\n      assert.equal(r.items - r.fee + r.shipping + r.tax, r.total);\n    }\n  }\n});\n'''\nassert old in s\ns = s.replace(old, new)\nold2 = '''test(\"refund-order prints the note, or --json the amounts\", () => {'''\nnew2 = '''test(\"the refund note prints a discounted order's lines at their net price\", () => {\n  assert.equal(\n    renderRefundNote(order, { skus: [\"BEANS-1KG\"], opened: [\"BEANS-1KG\"], code: \"SAVE10\" }),\n    \"Refund for order A-1040\\\\n\\\\n1 x House beans 1kg  $21.60\\\\n\\\\nRestocking fee       -$3.24\\\\nItems                $21.60\\\\nShipping              $0.00\\\\nTax                   $1.72\\\\nRefund               $20.08\",\n  );\n});\n\n''' + old2\ns = s.replace(old2, new2)\nold3 = '''  assert.equal(cli().status, 1);\n});'''\nnew3 = '''  assert.deepEqual(JSON.parse(cli(at(\"../examples/order.json\"), \"--code\", \"SAVE10\", \"--sku\", \"BEANS-1KG\", \"--json\").stdout), { items: 2160, fee: 0, shipping: 0, tax: 172, total: 2332 });\n  assert.match(cli(at(\"../examples/order.json\"), \"--code\", \"SAVE10\", \"--sku\", \"BEANS-1KG\").stdout, /^1 x House beans 1kg +\\\\$21\\\\.60$/m);\n  assert.equal(cli().status, 1);\n});'''\nassert old3 in s\ns = s.replace(old3, new3)\nopen(p, \"w\").write(s)\nEOF\npython3 -I /tmp/tests_patch.py test/refunds.test.js && node --test test/refunds.test.js 2>&1 | tail -30",
+        "description": "Add Slice 3 tests and run refund tests"
+      }
+    }
+  ],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 33643,
+    "cache_read_input_tokens": 366887,
+    "output_tokens": 11173
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 11173,
+      "cacheReadInputTokens": 366887,
+      "cacheCreationInputTokens": 33643,
+      "costUSD": 0.5660694000000001
+    }
+  }
+}

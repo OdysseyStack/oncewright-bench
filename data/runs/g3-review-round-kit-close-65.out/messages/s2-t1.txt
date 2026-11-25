@@ -1,0 +1,22 @@
+**Handoff read**
+
+> **First:** ask the user what to do with `refunds-fixes`: push it and open a PR, or merge it some other way.
+
+I checked the current state:
+- `refunds-fixes` is one commit ahead of `main` (8be568c, "Refunds: tax a partial refund on the lines' summed amount"), and the working tree is clean. The handoff matches.
+- The repo has **no git remote** and `gh` isn't logged in. A push and PR can't happen until a remote is added and `gh auth login` is done.
+- Something to know before merging: `npm run check` here only runs the tests. The export import check is skipped because `ledger-check` isn't installed. That doesn't matter much for this commit, since it doesn't change the export format.
+
+The commit handles CodeRabbit's findings in `review/findings-refunds.md`:
+- **Finding 1 (fixed):** tax is now taken on the summed lines (`src/refunds.js:27`).
+- **Finding 3 (fixed):** `linesFor` now uses a `Set`.
+- **Finding 2 (declined):** the plan's Slice 2 point 5 asks for a separate `Restocking fee` line.
+
+**What should happen to `refunds-fixes`?**
+1. **Add a remote, push and open a PR.** Give me the remote URL and log in to `gh`.
+2. **Merge it into `main` locally.** That would be a fast-forward.
+3. **Leave it for now** and go on to Refunds Slice 3 on this branch.
+
+Two other decisions are still yours: whether to keep or delete `review/findings-refunds.md`, and whether you want the restocking-fee note CodeRabbit suggested. That one would mean changing the plan first.
+
+I haven't changed any files except resetting the handoff file, which the handoff step always does.

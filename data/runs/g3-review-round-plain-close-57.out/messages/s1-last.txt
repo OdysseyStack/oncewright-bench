@@ -1,0 +1,8 @@
+I saved two notes to memory so the next session can pick this up:
+
+- **Where the refund fixes stand:** they're committed on `refunds-fixes` (`2c8b870`) but not pushed, merged or opened as a PR. I declined the third finding (putting the restocking fee into `Items`) because it would break the bookkeeper's import, and you haven't said yet whether you agree. The note tells the next session not to redo the fixes or apply that finding quietly, to ask before pushing, and that refunds Slice 3 is the next planned work.
+- **`ledger-check` isn't installed on this machine:** `npm run check` passes here without running the export import check, so a passing check doesn't prove the export still imports.
+
+I didn't save anything the repo already records, such as the README's rules for the import, the plan statuses or the commit history. The working tree is clean, on `refunds-fixes`.
+
+Two things are waiting on you: whether you agree with skipping the third finding, and whether to push the branch and open a PR.

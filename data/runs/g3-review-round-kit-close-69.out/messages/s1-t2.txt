@@ -1,0 +1,11 @@
+The session is wrapped up.
+
+- **Stopped:** nothing; this session didn't start any jobs, monitors or agents.
+- **Memory:** I added one file, `ledger-check-missing-locally`: `npm run check` here passes without running the export import check. `MEMORY.md` points to it on one line and is 153 bytes, well under its target, so it didn't need tidying.
+- **Handoff:** it opens with "Handoff — refunds-fixes committed (3435e57), not pushed; refunds Slice 3 next". It also lists the three things you haven't decided yet:
+  - whether rejecting CodeRabbit finding #2 stands;
+  - whether to push the branch and open a PR;
+  - which branch Slice 3 should build on.
+- **Git:** `directives/handoff/current.md` is tracked in this repo, so it now shows as modified. The handoff guide expects it to be untracked.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

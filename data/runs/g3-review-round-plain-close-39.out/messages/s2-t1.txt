@@ -1,0 +1,16 @@
+The CodeRabbit fixes are done, and nothing has happened since. Before going further I need you to pick the next step.
+
+**Where things stand**
+- Branch `refunds-fixes` has one local commit on top of `main`: `77c5b19` "Refund tax on the lines' summed amount; Set lookup for refunded SKUs".
+  - Finding 1 (tax on partial refunds) is fixed, with a test.
+  - Finding 3 (Set lookup) is applied.
+  - Finding 2 (fold the restocking fee into `Items`) was declined. It would break the bookkeeper import contract described in the README.
+- I just re-ran `npm run check`: 31/31 tests pass. The export import check still didn't run, because `ledger-check` isn't installed on this machine, so the export isn't covered by that pass.
+- **Nothing has been pushed, and this repo has no git remote at all.** "Push and open a PR" can't happen until you add one. That also means the push → CodeRabbit triage step doesn't apply yet.
+- Still waiting on you from last time: I added a CHANGELOG Unreleased line for the tax fix. CLAUDE.md only asks for one when the export format changes, so you can drop it if you'd rather.
+
+**What could come next**
+1. **Merge `refunds-fixes` into `main` locally**, or add a remote so I can push and open a PR.
+2. **Start refunds Slice 3** (partial refunds of discounted orders). The plan marks it as next and spells it out: `refundFor` accepts `{ skus, code }` together and refunds each line's `net`; the note shows net prices; `--code` works with `--sku`; the README drops "not supported yet"; plus tests.
+
+I'd do 1 then 2: merge the fixes so Slice 3 starts from the corrected tax calculation. Do you want that, and should the CHANGELOG line stay?

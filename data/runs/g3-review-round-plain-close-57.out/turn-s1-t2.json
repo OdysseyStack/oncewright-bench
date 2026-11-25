@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes to memory so the next session can pick this up:\n\n- **Where the refund fixes stand:** they're committed on `refunds-fixes` (`2c8b870`) but not pushed, merged or opened as a PR. I declined the third finding (putting the restocking fee into `Items`) because it would break the bookkeeper's import, and you haven't said yet whether you agree. The note tells the next session not to redo the fixes or apply that finding quietly, to ask before pushing, and that refunds Slice 3 is the next planned work.\n- **`ledger-check` isn't installed on this machine:** `npm run check` passes here without running the export import check, so a passing check doesn't prove the export still imports.\n\nI didn't save anything the repo already records, such as the README's rules for the import, the plan statuses or the commit history. The working tree is clean, on `refunds-fixes`.\n\nTwo things are waiting on you: whether you agree with skipping the third finding, and whether to push the branch and open a PR.",
+  "total_cost_usd": 0.35553200000000007,
+  "duration_ms": 21933,
+  "duration_api_ms": 55656,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2989,
+    "cache_read_input_tokens": 101540,
+    "output_tokens": 2147
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5149,
+      "cacheReadInputTokens": 282960,
+      "cacheCreationInputTokens": 24485,
+      "costUSD": 0.35553200000000007
+    }
+  }
+}

@@ -1,0 +1,7 @@
+Slice 1 is now committed on `order-notes` as `f3c7be2`, and the working tree is clean. The code is the same as what I described last time; I didn't change anything before committing.
+
+**Check results (`npm run check`, exit code 0):**
+- **Tests:** all 34 passed, 0 failed.
+- **Export import check: still didn't run.** `ledger-check` isn't installed here, so the script only printed a warning and exited 0. Nothing in this slice touches the export, and its output matches `main` byte for byte. Still, the bookkeeper's import check hasn't been run on this branch. The commit message says so.
+
+To fully close that gap, install `ledger-check` and run `bash scripts/check-export.sh` on `order-notes`. I haven't pushed the branch.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `eccfc87`, but only the tests were actually checked. The export import check still didn't run.\n\n**Check results** (`npm run check` exits 0):\n- **Tests:** 35 of 35 pass, none fail.\n- **Export import check:** skipped again because `ledger-check` isn't installed. The script prints a warning and exits 0, which is why the overall run reports success. Neither the export code nor the example orders it reads were changed, and the export output is byte-for-byte the same as on `main`. Even so, the bookkeeper's checker hasn't looked at this branch. The commit message says so.\n\n**What the commit contains:**\n- An optional order `note` of up to 200 characters, checked by `validateOrder`.\n- The receipt prints `Note: \u2026` as its last line, after a blank line.\n- `price-order --json` includes the note; the invoice is unchanged.\n- The example order has a note, the README's Orders section describes it, and there are 5 new tests.\n- The plan's status line now reads \"Slice 1 is done.\"\n\nEvery changed file is within the slice's scope. Nothing is pushed. A note containing a line break would still print across several lines on the receipt; the plan doesn't cover that, so I left it.",
+  "total_cost_usd": 0.4579744,
+  "duration_ms": 13428,
+  "duration_api_ms": 72650,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1741,
+    "cache_read_input_tokens": 121284,
+    "output_tokens": 1063
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6993,
+      "cacheReadInputTokens": 399452,
+      "cacheCreationInputTokens": 29766,
+      "costUSD": 0.4579744
+    }
+  }
+}

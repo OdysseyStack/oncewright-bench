@@ -1,0 +1,16 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (36), but the export import check did not run, because `ledger-check` isn't installed here.
+
+- **`75d1911` Slice 1:** `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. If an order's `pickupAt` isn't one of those, spelled exactly the same, `validateOrder` reports it, e.g. `pickupAt "northside" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges no shipping on an order with `pickupAt`, whether or not `pickup` is also set.
+- **`04fe622` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, coming after the "Code … saved you" line when there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it and is checked the same way as a value in the order file. The README's Orders section, pricing rules and CLI notes now cover it.
+- **`115f376` Slice 3:** the export has a new `pickup` column after `total`, holding the location or left empty. `A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`. Following CLAUDE.md, I updated `docs/export-format.md` and the README's column list, and added Unreleased lines to `CHANGELOG.md`.
+
+The plan's status line now says all three slices are done.
+
+Choices I made that the plan didn't specify:
+- `pickupAt` in `--json` is added by the CLI only. `computeTotals` returns the same fields as before, so its output doesn't change.
+- Because `computeTotals` now reads `pickupAt`, refunds also treat these orders as pickup orders: a whole-order refund pays back $0.00 shipping.
+- An order that has only `pickup: true` and no location gets an empty `pickup` column. The export doc says so.
+
+**Before this ships:** the bookkeeper's nightly import hasn't seen the new column, since `ledger-check` couldn't run here. Run `npm run check` somewhere it's installed. `docs/export-format.md` also says the bookkeeper is told before a format change ships, so someone needs to tell them about the new column.
+
+Nothing is pushed; the repo has no remote.

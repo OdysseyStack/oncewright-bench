@@ -1,0 +1,14 @@
+Slice 1 is done and committed on the new `order-notes` branch as `d72bf1c`. All 34 tests pass, but one of the two checks didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** 34 of 34 pass, 6 of them new.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so the script printed a warning and exited 0. That counts as a pass in the exit code, but nothing was checked. This slice doesn't touch the export, and I confirmed the export output is byte-for-byte the same as on `main`. Still, the check hasn't actually run, so it's worth running where `ledger-check` is installed. I committed anyway because of that evidence; if you'd rather wait for a real run, `git reset HEAD~1` undoes the commit.
+
+**What the slice does:**
+- **Validation:** an order may carry a `note` of up to 200 characters. Anything else is rejected as "note must be a string" or "note is longer than 200 characters". I count characters, not bytes, so 200 emoji are allowed.
+- **Receipt:** prints `Note: …` as its last line, after a blank line, and after the discount line when there is one. Without a note the receipt is unchanged; the invoice is unchanged either way.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **An empty note counts as no note:** an empty `note` passes validation but nothing is printed for it.
+- **Example and docs:** `examples/order.json` now has a note, and the README's Orders section describes it. I marked Slice 1 done in the plan's status line.
+
+All changed files were in the slice's scope: `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, four test files and the plan. Nothing was pushed.

@@ -1,0 +1,17 @@
+Last time we finished the CodeRabbit fixes on `refunds-fixes`, so I went on to refunds Slice 3: partial refunds of orders that used a discount code. It's done in the working tree, with all tests passing. I haven't committed it.
+
+**Where it is:** a new branch `refunds-slice-3`, cut from `refunds-fixes`. Slice 3 changes the same tax line, so it needs `refunds-fixes` merged first, or both merged together.
+
+**What changed:**
+- **Refund amounts (`src/refunds.js`):** a discounted order can now be partly refunded instead of throwing an error. Each refunded line pays back its net (its amount less its share of the discount). Tax is charged on the sum of those nets, the same way the earlier fix does it. The restocking fee is 15% of the net. A whole refund still gives the same amounts as before.
+- **Refund note:** each line is printed at its net price. This also fixes a problem with whole refunds of discounted orders. Their notes used to print lines at full price that didn't add up to `Items`, which broke the README's rule for the accounting import.
+- **CLI:** `refund-order --code SAVE10 --sku FILTER-100` now works. It refunds $11.70 plus $0.93 tax, $12.63 in total.
+- **Tests:** 34 now, up from 31. They cover partial and opened-line refunds with a code, part refunds adding up to the whole refund, both note layouts, and the CLI with `--json --code --sku`.
+- **Docs:** I removed the "not supported yet" line from the README and added a line for the change to `CHANGELOG.md` under Unreleased. The plan now marks Slice 3 done. `docs/export-format.md` didn't need changing because the export format is the same.
+
+**Checks:** `npm run check` passes on the tests only. `ledger-check` isn't installed on this machine, so the export import check didn't run. The export format didn't change, so that matters less here.
+
+**Waiting on you:**
+1. Should I commit Slice 3 on `refunds-slice-3`?
+2. Neither branch is pushed or merged.
+3. The decision from last time is still open. CodeRabbit wanted the restocking fee folded into `Items` on the refund note, and I declined that. The plan and the README keep the fee on its own line so the accounting import can book it, and Slice 3 keeps it that way.

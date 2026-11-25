@@ -1,0 +1,13 @@
+I've saved a note for the next session, and it's safe to quit: no background agents are running and I didn't open any Chrome tabs.
+
+**Where things stand:**
+- **Branch:** `refunds-fixes` (commit `6dbaa13`) has the CodeRabbit fixes. It's committed but not pushed, and there's no PR. The working tree is clean.
+- **Saved note:** it's one memory file, `refunds-fixes-branch.md`, listed in `MEMORY.md`. It records:
+  - the branch's state;
+  - that the "fold the fee into `Items`" finding was turned down on purpose, so it isn't applied if CodeRabbit raises it again;
+  - that the export import check doesn't run here because `ledger-check` isn't installed.
+
+  The full reasons for each finding are also in the commit message.
+- **Next steps:**
+  - Push the branch and open a PR, if you want one. Once it's pushed, the CodeRabbit triage would start in the background.
+  - Then Slice 3 of the refunds plan: partial refunds of orders that used a discount code.

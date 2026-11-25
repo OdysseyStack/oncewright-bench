@@ -1,0 +1,17 @@
+Slice 3 is done and committed on `refunds-fixes` as `c463a64`, on top of the earlier fixes commit `77c5b19`. `npm run check` passes all 35 tests. The export import check still doesn't run on this machine because `ledger-check` isn't installed, but this change doesn't touch the export.
+
+**What changed** (mostly in `src/refunds.js`)
+- **Partial refunds with a code now work.** A partial refund of an order that used a discount code no longer throws an error. Each refunded line pays back its amount less its share of the discount.
+- **Restocking fee:** an opened line keeps 15% of what it pays back after the discount, not 15% of its full price.
+- **Shipping:** still refunded only when every line is.
+- **Whole refunds** of a discounted order come out the same as before. For example, with TAKE5 on the example order the refund is $40.55 whether you list both lines or none.
+- **The refund note** prints each line at its discounted price, as the receipt does, so the lines still add up to `Items`. That keeps the bookkeeper import working.
+- **`refund-order --code` works with `--sku`.**
+- **Docs:** the README drops "not supported yet", and I fixed a run-on there where the export-orders paragraph had been glued onto the refunds one. I also added a CHANGELOG line, updated a comment in `src/config.js`, and marked Slice 3 done in the plan.
+- **Tests** cover each point above, including the CLI.
+
+**Two decisions to check**
+- **Tax:** the plan says each line pays back "the tax on it". I took 8% of the refunded lines' discounted amounts added together, not each line's tax added up. That matches how the order charged it and the tax fix you just made (finding 1); per-line tax could come out a cent low.
+- **Fee on a whole refund with a code:** if an opened line is refunded on a discounted order, even as part of a whole refund, its fee is now 15% of its discounted amount rather than its full price. That's what the plan specifies, but it is a change.
+
+Nothing has been pushed. The repo has no git remote, so pushing or opening a PR needs one added first. I also noted Slice 3 and the missing remote in this project's memory.

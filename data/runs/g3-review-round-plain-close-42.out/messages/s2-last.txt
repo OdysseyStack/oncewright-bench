@@ -1,0 +1,13 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as `09e9a56`, on top of the review fixes in `b90c468`. `npm run check` passes all 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+What changed, by the plan's points:
+
+1. **Discounted orders can be partly refunded.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount. The tax is 8% of those lines added together, the same way the review fix works it out. An opened line's restocking fee is 15% of its discounted price. Refunding every line gives exactly the same amounts as a whole refund.
+2. **The refund note shows each line at its discounted price**, as the receipt does, and `Items` is their sum. So the lines still add up to `Items`, which is what the bookkeeper's import needs.
+3. **`refund-order --code` works with `--sku`.** It already passed the code through; it was only the error that blocked it.
+
+Docs: the README drops the "not supported yet" note and gains a library example, `CHANGELOG.md` has a line under Unreleased, and the plan marks Slice 3 done (2026-11-19).
+
+The new tests in `test/refunds.test.js` cover each point. They include a case with `TAKE5` (a fixed $5.00 off) where the discount doesn't split evenly and the leftover cent goes to the filters. I worked out the expected amounts by hand rather than copying them from the code's output. One example: refunding the opened beans from the sample order with `SAVE10` (10% off) pays back $21.60 for the beans, less a $3.24 restocking fee, plus $1.72 tax, so $20.08.
+
+Nothing is pushed, and the repo still has no remote.

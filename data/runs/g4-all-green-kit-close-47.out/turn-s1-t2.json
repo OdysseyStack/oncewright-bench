@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `b41d4d2`. The working tree is clean, and nothing is pushed.\n\n**Check results (`npm run check`):**\n- **Tests:** all 35 pass.\n- **Export import check:** didn't run. `ledger-check` still isn't installed here, so the script printed a warning and exited 0. Because the script exits 0 when it skips, `npm run check` looks green even though this check never ran. I committed anyway because you asked me to. This slice doesn't change the export, and its output was byte-for-byte the same before and after my changes when I compared it in the last round. The commit message records that the import check was skipped.\n\n**What the commit contains:**\n- Note validation: up to 200 characters, and a note that isn't a string is reported.\n- `Note: \u2026` as the receipt's last line; the invoice is unchanged.\n- `note` in the `price-order --json` output.\n- A note in `examples/order.json`, and a mention in the README's Orders section.\n- The tests for each point.\n- The plan's status line now says Slice 1 is done.\n\nAll changed files are inside the slice's scope.",
+  "total_cost_usd": 0.40761679999999995,
+  "duration_ms": 10963,
+  "duration_api_ms": 59252,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1575,
+    "cache_read_input_tokens": 113820,
+    "output_tokens": 965
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6393,
+      "cacheReadInputTokens": 311624,
+      "cacheCreationInputTokens": 27169,
+      "costUSD": 0.40761679999999995
+    }
+  }
+}

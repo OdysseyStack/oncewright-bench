@@ -1,0 +1,6 @@
+I've saved two notes for the next session:
+
+- **`refunds-fixes` branch:** the fixes are in commit 0f3c00e, one commit ahead of `main`, and the branch is not pushed. I turned down CodeRabbit's suggestion to fold the restocking fee into `Items` on purpose, so the next session shouldn't reopen it. The next session will also ask before pushing or opening a PR. In the refunds plan, Slice 3 (partial refunds of discounted orders) is still next.
+- **`ledger-check` isn't installed:** on this machine `npm run check` passes without running the export import check, so a passing check there doesn't cover export changes.
+
+The working tree is clean apart from what's committed on `refunds-fixes`. No background agents are running and I didn't open any browser tabs, so the session can close whenever you like.

@@ -1,0 +1,14 @@
+Slice 1 is built and committed on the new `order-notes` branch as `5c5c6ed`. Only one of the two checks actually ran, though, so "every check passes" isn't fully true:
+
+- **Tests:** all 34 pass (`npm test`), 4 of them new.
+- **Export import check:** it didn't run. `ledger-check` isn't installed here, and `scripts/check-export.sh` prints a warning and exits 0 when it's missing, so `npm run check` still shows green. This slice doesn't touch the export code or the example orders it checks, and the export output on this branch is byte-identical to `main`'s. I committed on that basis. To run the real check, install `ledger-check` and rerun `npm run check`.
+
+What the slice does:
+1. An order can carry a `note` of up to 200 characters. `validateOrder` reports one that isn't a string or is too long; length counts characters, so emoji count once. `src/validate.js`
+2. The receipt ends with `Note: <the note>` after a blank line, after the "Code … saved you" line when there is one. Without a note it's unchanged, and the invoice never shows it. An empty note counts as no note. `src/receipt.js`
+3. `price-order --json` includes `note` only when the order has one. `bin/price-order.js`
+4. `examples/order.json` now has a note, the README's Orders section describes it, and tests cover each point.
+
+The plan's status line now says Slice 1 is done. No file outside the slice's scope was changed. Nothing is pushed.
+
+One thing to check: the bookkeeper's import checks that receipt amounts add up. A note containing a dollar amount (say, "leave $5 for the driver") might confuse it if it scans every line. The plan doesn't cover this, so I left it alone.

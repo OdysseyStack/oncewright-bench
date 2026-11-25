@@ -1,0 +1,21 @@
+I've built Slice 1 on a new `order-notes` branch, but **I haven't committed it.** `npm run check` exits 0, yet one of its two checks didn't run, so "every check passes" isn't true yet.
+
+## Check results
+
+- **Tests: 34 of 34 pass.** That includes the 4 new tests.
+- **Export import check: didn't run.** `scripts/check-export.sh` printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. That's why `npm run check` looks green. `ledger-check` isn't installed anywhere I looked on this machine.
+
+This slice probably doesn't affect that check. Nothing in the export code reads `note`, the export reads `examples/orders/`, which I didn't change, and the export's output from `main` and from this branch is identical. But that's my own comparison, not the bookkeeper's checker.
+
+## What changed (uncommitted on `order-notes`)
+
+1. **Validation:** `validateOrder` (`src/validate.js`) accepts an optional `note`. It reports `note must be text` when the note isn't a string (including `null`) and `note is longer than 200 characters` when it's too long. Length is counted in characters, so a note with accented letters gets the full 200.
+2. **Receipt:** when the order has a note, the receipt ends with a blank line and then `Note: <the note>`, after the "Code … saved you" line if there is one (`src/receipt.js`). Without a note the receipt is unchanged, and a test confirms the invoice is unchanged too.
+3. **JSON output:** `price-order --json` includes `note` only when the order has one (`bin/price-order.js`).
+4. **Docs and tests:** `examples/order.json` now has the note "Leave it at the side door", and the README's Orders section describes it. The tests cover each point, including `--json` with and without a note and the CLI refusing an order whose note is too long.
+
+An empty note (`""`) passes validation and is treated as no note, so the receipt has no `Note:` line.
+
+I left the plan's status line as it is, since the slice isn't done until the checks pass. I didn't add a CHANGELOG entry because the project only requires one when the export format changes, and it doesn't here.
+
+**Decision for you:** either install `ledger-check` (or tell me where it is) and I'll rerun `npm run check`, then commit and mark Slice 1 done; or tell me to commit now with the export check noted as not run.

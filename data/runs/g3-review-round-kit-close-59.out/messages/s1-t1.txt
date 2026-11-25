@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and committed them as `790dae6` on the new branch `refunds-fixes`. The third conflicts with the plan, so I didn't change it.
+
+- **Fixed: tax on a partial refund was too low.** It was worked out line by line, and each line dropped its fraction of a cent. It's now worked out once on the refunded lines' combined amount, the same way the order charged it, which is what the plan's Slice 2 point 1 says. I added a test using CodeRabbit's example ($6.19 + $10.19): the tax is now $1.31, not $1.30. The test fails on the old code and passes on the new.
+- **Fixed: line lookup.** Matching refunded lines now uses a `Set`. Nothing changes in the output.
+- **Not done: changing the refund note.** CodeRabbit wants `Items` shown after the fee and the `Restocking fee` row removed. But Slice 2 point 5 of the plan asks for that row as a negative amount, and Slice 3 already describes what `Items` should show. If you want the note changed, the plan needs to change first.
+
+I didn't touch `percentOf`, because the plan's Slice 4 says to leave it alone for now. `npm run check` passes all 31 tests, but the export import check didn't run because `ledger-check` isn't installed. That doesn't matter for this change, since the export format didn't change.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`, both within scope. The plan already marks Slice 2 done, so its status line stays as it is.

@@ -1,0 +1,9 @@
+I committed Slice 1 on `order-notes` as `08e16e2`, and the working tree is clean. One of the two checks still didn't run, so this isn't fully green.
+
+**Check results:**
+- **Tests:** 34 of 34 pass.
+- **Export import check: skipped.** `ledger-check` still isn't installed, so `scripts/check-export.sh` printed its warning and exited 0. `npm run check` reports success, but the export was never checked. The note doesn't reach the export, and in the last session the export output on this branch was identical to `main`'s.
+
+The commit has the same ten files as before: `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, the four test files, and the plan, whose status line now says "Slice 1 done (2026-11-19)". Nothing outside the slice's scope changed. Nothing was pushed.
+
+To have the import check actually run, install `ledger-check` and rerun `npm run check`.

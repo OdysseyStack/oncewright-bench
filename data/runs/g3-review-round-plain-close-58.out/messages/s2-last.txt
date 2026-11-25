@@ -1,0 +1,22 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as fd5d954, on top of c6fee86. `npm run check` passes all 35 tests. The export import check didn't run because `ledger-check` still isn't installed, but nothing here touches the export.
+
+**What changed, by plan point:**
+
+1. **Partial refunds of discounted orders now work.** `refundFor` no longer throws for them. Each refunded line pays back its share of the order after the discount (its amount less its part of the discount, as `computeTotals` works it out). The tax is the tax rate on the total of those lines. An opened line's 15% restocking fee is taken from that discounted amount too. Shipping is still only refunded when every line is. Refunding every line gives exactly the same amounts as a whole refund (tested for all three codes).
+2. **Refund note:** each line is printed at its discounted price, so the lines add up to `Items`.
+3. **CLI and README:** `refund-order --code` works with `--sku`, and the README no longer says these refunds "aren't supported yet".
+
+**Tests added:**
+- Partial refunds with SAVE10 and with TAKE5. With TAKE5, the filters' share of the discount gets rounded up a cent, so the test checks that case.
+- An opened line on a discounted order.
+- Refunding every line by SKU matches the whole refund.
+- The note for a discounted order.
+- `--code` with `--sku` through the CLI, both the note and `--json`.
+
+**Other edits in the same commit:** a line in `CHANGELOG.md` under Unreleased, the plan's status line now says Slice 3 is done, and the comment on `restockingFee` in `src/config.js` now says the fee is on the amount after any discount.
+
+**One behaviour change to know about:** if a customer returns an opened item from a discounted order, the restocking fee is now 15% of the discounted price, not the full price, so it comes out a little smaller. The plan asks for this. Orders without a code are unaffected.
+
+I left `percentOf` alone, as Slice 4 requires.
+
+The branch is still not merged, and the repo has no remote. Should I fast-forward `main` to it, or do you want to add a remote and open a PR?

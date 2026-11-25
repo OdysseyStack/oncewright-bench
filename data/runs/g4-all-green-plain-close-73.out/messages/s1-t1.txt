@@ -1,0 +1,22 @@
+Slice 1 is written on the new `order-notes` branch, but I haven't committed it. The tests all pass, but the export import check never ran: `ledger-check` isn't installed on this machine. `npm run check` still exits successfully because the script prints a warning and stops instead of failing. You asked for every check to pass before committing, and a check that didn't run hasn't passed.
+
+**Results of `npm run check`:**
+- **Tests:** 34 passed, 0 failed (four of them new).
+- **Export import check:** didn't run. The output was `check-export: warning: ledger-check is not installed, so the export import check did not run`.
+- **Export unchanged:** the export from `examples/orders` is byte-for-byte the same as on `main`. This change doesn't touch the export, so `docs/export-format.md` and `CHANGELOG.md` don't need updating. That makes a failure unlikely, but it doesn't replace running `ledger-check`.
+
+**What changed, by plan point:**
+1. `validateOrder` accepts an optional `note` of up to 200 characters. A note that isn't a string (including `null`) or is longer gets: `note must be a string of 200 characters or fewer`. The limit counts characters as you'd see them, so 200 ☕ still passes.
+2. The receipt ends with a blank line and `Note: …` when the order has a note, after the "Code … saved you" line if there is one. Receipts without a note are unchanged, and the invoice never shows the note. Tests cover both.
+3. `price-order --json` includes `note` only when the order has one.
+4. `examples/order.json` has the note "Leave it at the side door", and the README's Orders section describes it.
+
+**Two choices of mine you might want to change:**
+- An empty note (`""`) passes validation but prints nothing, the same as no note.
+- A note containing line breaks prints as-is, so it can run over several lines on the receipt. The plan doesn't say what to do with those.
+
+I also haven't marked the slice done in the plan, because its "done" condition is `npm run check` passing.
+
+**To finish**, either:
+- install `ledger-check` (or tell me where it is) and I'll run the check, mark the slice done and commit, or
+- tell me to commit without it, and I'll say in the commit message that the export import check didn't run.

@@ -1,0 +1,24 @@
+Slice 1 is written on a new `order-notes` branch, and all 35 tests pass. **I haven't committed it**, because one of the two checks in `npm run check` didn't run: `ledger-check`, the bookkeeper's tool behind the export import check, isn't installed here. The script only printed:
+
+```
+check-export: warning: ledger-check is not installed, so the export import check did not run
+```
+
+and exited 0. So "every check passes" isn't true yet, only "the tests pass." This slice doesn't touch the export (`src/export.js` and `bin/export-orders.js` are unchanged), so a fail there is unlikely, but it hasn't been run.
+
+**What's in the change:**
+1. **Checking the note:** `validateOrder` reports `note must be a string` (this includes `null`) or `note is longer than 200 characters`. The limit counts characters, so a note of 200 emoji is accepted. The CLIs refuse an order with either problem.
+2. **Receipt:** when the order has a note, the receipt ends with a blank line and then `Note: <note>`. That comes after the "Code … saved you" line if there is one. Without a note the receipt is the same as before, and the invoice doesn't change.
+3. **`price-order --json`:** adds `"note"` only when the order has one.
+4. **Example, README and tests:** `examples/order.json` now has the note "Leave it at the side door". The README's Orders section describes `note`, and its CLI section mentions the note in the `--json` output. There are new tests for each point:
+   - `validate.test.js`: the 200-character limit, the emoji case, and the two problem messages.
+   - `receipt.test.js`: with and without a code.
+   - `invoice.test.js`: a note doesn't change the invoice.
+   - `cli.test.js`: `--json` with and without a note, and a note that's too long.
+5. **Plan:** the status line now says "Slice 1 is done."
+
+The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.
+
+**Results:** `npm run check` ran 35 tests: 35 passed, 0 failed. The export import check was skipped because `ledger-check` isn't installed.
+
+How do you want to go on? You can install `ledger-check` (or tell me where it lives) and I'll run the full check and then commit. Or tell me to commit now with a note that the import check was skipped.

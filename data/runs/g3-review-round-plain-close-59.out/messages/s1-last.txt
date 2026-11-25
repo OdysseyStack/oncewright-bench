@@ -1,0 +1,6 @@
+I saved two notes for the next session:
+
+- **The `refunds-fixes` branch:** commit `a078ce2` isn't merged or pushed, and you haven't said what to do with it yet. Findings 1 and 3 are fixed. Finding 2 was declined because the bookkeeper's import needs the restocking fee as its own line, so it should only come back if whoever owns that import agrees. The note also says to ask you before merging or touching `main`. Slice 3 of the refunds plan, the next planned work, changes the same file and would conflict with this branch if started from `main`.
+- **`ledger-check` isn't installed here:** on this machine `npm run check` only runs the tests. The export import check is skipped, yet the command still exits as a pass. Next time, I shouldn't report that check as passed when a change touches the export.
+
+Both are listed in `MEMORY.md`. I didn't save anything that git or the repo already records, like the fix itself or the reasons in the commit message. The working tree is clean. Nothing is pushed, and `main` is unchanged.

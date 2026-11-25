@@ -1,0 +1,21 @@
+Last time we left two things waiting on you: the CodeRabbit fixes on `refunds-fixes`, and one CodeRabbit suggestion I declined. Since then I've done the next item in the refunds plan, Slice 3 (partial refunds of orders that used a discount code). It's committed locally on a new branch, `refunds-slice-3` (7ada936), built on top of `refunds-fixes`. Neither branch is pushed.
+
+**What changed in `src/refunds.js`**
+- A partial refund of a discounted order no longer throws an error. Each refunded line pays back its price minus its share of the discount, using the per-line split `computeTotals` already works out.
+- Tax is worked out on the total of those lines together, as before.
+- The 15% restocking fee is taken from the discounted price, not the original one.
+- Shipping is still refunded only when every line is.
+- The refund note prints each line at its discounted price, and those lines add up to `Items`. The restocking fee stays on its own line, as the README's import rule requires.
+- A whole refund comes out the same as before. A test refunds every line with each of the three codes and checks that the result matches the whole-order refund.
+
+**Example:** on the A-1040 order with SAVE10, refunding just the filters gives $11.70 for the items, $0.93 tax and $12.63 in total.
+
+I also removed "not supported yet" from the README and documented `--code` with `--sku`, added a line to `CHANGELOG.md` under Unreleased, and marked Slice 3 done in the plan.
+
+**Check:** all 35 tests pass, but the export import check didn't run because `ledger-check` isn't installed on this machine. That doesn't matter for this change, since the export format didn't change.
+
+**Still waiting on you:**
+1. **The restocking fee on the refund note.** I declined CodeRabbit's suggestion to subtract the fee from `Items` and drop the fee line, because it conflicts with the README's import rule. Slice 3 keeps the fee on its own line. If you want CodeRabbit's version, the README rule and the plan need changing first.
+2. **Pushing:** should I push `refunds-fixes` and `refunds-slice-3` and open PRs? I haven't pushed anything.
+
+The only refunds work left is Slice 4, rounding tax to the nearest cent. The plan holds it until Finance can amend the September tax filing in the same release.

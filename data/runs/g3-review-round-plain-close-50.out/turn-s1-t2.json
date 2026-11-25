@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I've saved two notes for the next session:\n\n- **`refunds-fixes` branch:** the fixes are in commit 0f3c00e, one commit ahead of `main`, and the branch is not pushed. I turned down CodeRabbit's suggestion to fold the restocking fee into `Items` on purpose, so the next session shouldn't reopen it. The next session will also ask before pushing or opening a PR. In the refunds plan, Slice 3 (partial refunds of discounted orders) is still next.\n- **`ledger-check` isn't installed:** on this machine `npm run check` passes without running the export import check, so a passing check there doesn't cover export changes.\n\nThe working tree is clean apart from what's committed on `refunds-fixes`. No background agents are running and I didn't open any browser tabs, so the session can close whenever you like.",
+  "total_cost_usd": 0.3733774,
+  "duration_ms": 17769,
+  "duration_api_ms": 46765,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2613,
+    "cache_read_input_tokens": 109641,
+    "output_tokens": 1858
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 4871,
+      "cacheReadInputTokens": 303787,
+      "cacheCreationInputTokens": 26890,
+      "costUSD": 0.3733774
+    }
+  }
+}

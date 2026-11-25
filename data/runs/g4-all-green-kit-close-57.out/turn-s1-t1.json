@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it. Not every check ran: the export import check was skipped.\n\n**Check results**\n- **Tests:** all 35 pass, 6 of them new.\n- **Export import check:** didn't run. `scripts/check-export.sh` printed \"ledger-check is not installed, so the export import check did not run\" and exited 0. That's why `npm run check` reports success. I couldn't find `ledger-check` anywhere on this machine. As a partial substitute, I ran `export-orders` on the example orders before and after the change, and the output is byte-for-byte identical. This slice doesn't touch the export code or `examples/orders/`.\n\nYou asked for every check to pass before committing, and one never ran, so I left the changes uncommitted. Install `ledger-check` and I'll re-run `npm run check` and commit, or tell me to commit as it stands.\n\n**What changed**\n- **Validation:** an order may carry `note`. `validateOrder` reports \"note must be text\" or \"note is longer than 200 characters\". It counts characters as code points, so an emoji counts as one.\n- **Receipt:** when there's a note, it ends with a blank line and then `Note: \u2026`, after the discount-code line if there is one. Without a note the receipt is unchanged, and the invoice is unchanged either way.\n- **`price-order --json`:** includes `note` only when the order has one.\n- **Example and docs:** `examples/order.json` now has a note, and the README's Orders section describes it.\n- **Plan:** the status line in `docs/plans/2026-10-08-order-notes.md` now says Slice 1 is done.\n\nEverything I changed was within the slice's scope. The test for \"the invoice doesn't change\" went in `test/invoice.test.js`. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.",
+  "total_cost_usd": 0.348932,
+  "duration_ms": 54032,
+  "duration_api_ms": 52179,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 24836,
+    "cache_read_input_tokens": 254060,
+    "output_tokens": 4968
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 4968,
+      "cacheReadInputTokens": 254060,
+      "cacheCreationInputTokens": 24836,
+      "costUSD": 0.348932
+    }
+  }
+}

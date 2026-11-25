@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "Slice 1 is built on the new `order-notes` branch, but **I haven't committed it**. Not every check passed: one of the two checks didn't run at all.\n\n**Check results (`npm run check`, exit code 0):**\n- **Tests:** 34 of 34 pass, 0 fail. Before my changes there were 30, all passing.\n- **Export import check:** this was skipped. `scripts/check-export.sh` prints `warning: ledger-check is not installed, so the export import check did not run` and exits 0 anyway. That's why the exit code is 0 even though half the check never ran.\n\nThe risk to the export is low. I ran the export on `examples/orders` before and after my changes and the output is byte-for-byte identical. So I didn't change `docs/export-format.md`. But that is my own comparison, not the bookkeeper's checker. If you install `ledger-check` (or have it somewhere else) I'll re-run the check and commit. Or tell me to commit as is.\n\n**What's in the change, by plan point:**\n1. **Validation:** `validateOrder` in `src/validate.js` now reports `note must be a string` and `note is longer than 200 characters`. The 200 limit is a constant, `NOTE_MAX`.\n2. **Receipt:** when the order has a note, `src/receipt.js` adds a blank line and then `Note: \u2026` as the last line, after the discount-code line if there is one. Without a note the receipt is the same as before. A test confirms the invoice doesn't change.\n3. **`price-order --json`** (`bin/price-order.js`) adds a `note` field only when the order has one.\n4. **Example and docs:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes notes. There are new tests in `validate`, `receipt`, `invoice` and `cli`, including an over-long note being rejected by the CLI.\n\nI also set the plan's status line to \"Slice 1 done.\" and added a line to `CHANGELOG.md` under Unreleased. CLAUDE.md only requires that when the export format changes, but the changelog lists every feature.\n\n**Choices the plan didn't settle, for you to confirm:**\n- An empty note (`\"\"`) is accepted but treated as no note, so the receipt never prints a bare `Note: `.\n- The 200 characters are counted as characters a person would see, so an emoji counts as one, not two.\n- A note containing line breaks will print over several lines on the receipt. I left that alone rather than add a rule the plan doesn't ask for.",
+  "total_cost_usd": 0.38641420000000004,
+  "duration_ms": 63065,
+  "duration_api_ms": 60594,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 25411,
+    "cache_read_input_tokens": 314591,
+    "output_tokens": 6006
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6006,
+      "cacheReadInputTokens": 314591,
+      "cacheCreationInputTokens": 25411,
+      "costUSD": 0.38641420000000004
+    }
+  }
+}

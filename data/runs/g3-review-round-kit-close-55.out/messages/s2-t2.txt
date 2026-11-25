@@ -1,0 +1,11 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as `6896d2b`. It isn't pushed, since the repo has no remote.
+
+- **Partial refunds of discounted orders work now** (`src/refunds.js`). They used to throw an error; now each refunded line pays back its amount after its share of the discount, plus tax on the sum of those amounts. The restocking fee on an opened line is 15% of its discounted amount. A whole refund of a discounted order gives the same amounts as before.
+- **The refund note** prints each line at its discounted price, the way the receipt does, and the `Items` line is their sum.
+- **The command line:** `--code` together with `--sku` already reached the refund code, so `bin/refund-order.js` didn't need a change. A test now covers it.
+- **README:** I removed the "not supported yet" sentence and described how refunds work with a code. I also put back the paragraph break that was missing before the `export-orders` paragraph.
+- **Plan:** Slice 3 is marked done in its title and status line.
+
+`npm run check` passes all 35 tests. The export import check didn't run because ledger-check isn't installed, but this change doesn't touch the export.
+
+Every file I changed is one the slice or the repo's instructions name: `src/refunds.js`, `test/refunds.test.js`, `README.md` and the plan.

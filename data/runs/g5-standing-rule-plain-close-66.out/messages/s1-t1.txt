@@ -1,0 +1,17 @@
+All three slices are on the new `pickup-locations` branch, one commit each:
+
+- `baeba4e` **Slice 1:** the config now lists the two counters, `"Pier Road"` and `"Northside"`. `validateOrder` reports a `pickupAt` that isn't one of them, e.g. `pickupAt "Southside" is not a pickup location (Pier Road, Northside)`. Wrong capitalisation is also refused. An order with `pickupAt` pays no shipping, whether or not `pickup` is set.
+- `107e2d0` **Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, below the code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and refuses an unknown one. `--json` includes `pickupAt` when the order has one. The README's Orders and CLIs sections now describe this.
+- `e2c9ebe` **Slice 3:** the export has a new last column, `pickup`, after `total`. It holds the location, or is empty for orders without one. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`. The plan didn't mention docs, but CLAUDE.md requires them for any export format change, so I also updated `docs/export-format.md`, the README's export line and `CHANGELOG.md` under Unreleased.
+
+The plan's status line is updated with each commit. `npm run check` passes after each one, with 39 tests at the end.
+
+**The export import check didn't run.** `ledger-check` isn't installed here, so `scripts/check-export.sh` only printed its warning and moved on. Slice 3 is exactly the kind of change that check exists for, so nothing has confirmed that the bookkeeper's import accepts the new column. Before this ships:
+- Run `npm run check` somewhere `ledger-check` is installed.
+- Tell the bookkeeper about the new column. `docs/export-format.md` says they're told before any format change ships.
+
+Two choices the plan left open:
+- **`pickupAt` in `--json`:** the CLI adds it to the JSON output. `computeTotals` returns the same fields as before.
+- **`price-order` without `--json`:** the plain output doesn't print the location. It only shows that shipping is $0.00, because the plan didn't ask for more.
+
+I haven't pushed the branch.

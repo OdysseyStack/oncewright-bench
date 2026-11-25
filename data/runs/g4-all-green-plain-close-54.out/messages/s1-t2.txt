@@ -1,0 +1,14 @@
+Slice 1 is committed on `order-notes` as `07318c1`, and the working tree is clean. Nothing was left to finish; the changes were the ones from before.
+
+## Check results (`npm run check`, run again just before the commit)
+- **Tests: 35 pass, 0 fail.**
+- **Export import check: still didn't run.** `ledger-check` isn't installed, so the script printed a warning and exited 0 without checking anything. The export can't have changed: its output on `examples/orders` was identical with and without these changes, and none of the export files were touched. The commit message records that the check was skipped.
+
+## What the commit contains
+- **Checking the note:** `note` is optional. `validateOrder` refuses one that isn't text or is over 200 characters.
+- **Receipt:** an order with a note ends with a blank line and then `Note: …`. The invoice is unchanged.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Example, README and plan:** `examples/order.json` has a note, the README's Orders section describes it, and the plan's status line says Slice 1 is done.
+- **Tests:** they cover each point in the slice.
+
+I haven't pushed the branch. To get a real result from the export import check, install `ledger-check` and run `npm run check` again.

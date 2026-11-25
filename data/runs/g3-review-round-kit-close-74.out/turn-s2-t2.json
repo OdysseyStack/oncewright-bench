@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 12,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `bf049e5`. It's not pushed, and `review/findings-refunds.md.resolved` is still untracked.\n\n- **Refunds of some lines on a discounted order** no longer throw. Each refunded line pays back its net (its amount less its share of the discount). A restocking fee on an opened line is 15% of its net. Tax is still taken on the sum of the refunded nets, not line by line, as the earlier review ruling says. Refunding every line gives the same amounts as refunding the whole order.\n- **The refund note** prints each line at its net price, and those add up to `Items`. `Restocking fee` is still its own row, which the bookkeeper's import needs.\n- **refund-order:** `--code` already passed through to the calculation; only the throw blocked it, so the change there is one comment line. The README drops \"not supported yet\", explains how `--code` refunds work, and adds a library example. The plan now marks Slice 3 done.\n\n**Checks:** `npm run check` passes all 36 tests. The export import check didn't run because `ledger-check` isn't installed here, but nothing in this change touches the export. Five of the new tests fail when run against the old `src/refunds.js`. The sixth, a whole refund of a discounted order, already held before, as the plan expects.\n\nI changed nothing outside the slice's files. One thing I noticed but didn't change: earlier refund slices added a `CHANGELOG.md` line, but the repo's rules only require one for export format changes, so Slice 3 has none. Say if you want it. Pushing and opening a PR are still waiting on your answer.",
+  "total_cost_usd": 0.5909971999999999,
+  "duration_ms": 89780,
+  "duration_api_ms": 99901,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 24,
+    "cache_creation_input_tokens": 21693,
+    "cache_read_input_tokens": 462687,
+    "output_tokens": 9243
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 30,
+      "outputTokens": 10289,
+      "cacheReadInputTokens": 527006,
+      "cacheCreationInputTokens": 34962,
+      "costUSD": 0.5909971999999999
+    }
+  }
+}

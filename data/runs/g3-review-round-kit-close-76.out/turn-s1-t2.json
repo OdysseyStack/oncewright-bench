@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Session wrapped up.\n\n- **Stopped:** nothing. This session started no jobs, Monitors, background tasks or agents.\n- **Memory:** I added one file, `refund-note-layout`. It records that CodeRabbit's note-layout finding was rejected because the plan says otherwise, and that you haven't decided on it yet. I also created `MEMORY.md` with one line for it (158 bytes). That's far under the size limit, so it didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line is \"# Handoff: refunds review fixes done, branch unpushed\". It also asks two things for next time: what to do with `refunds-fixes` (push and open a PR, or merge), and whether to keep or delete `review/findings-refunds.md`.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.40734819999999994,
+  "duration_ms": 24775,
+  "duration_api_ms": 65912,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4516,
+    "cache_read_input_tokens": 108290,
+    "output_tokens": 2361
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5756,
+      "cacheReadInputTokens": 363221,
+      "cacheCreationInputTokens": 27436,
+      "costUSD": 0.40734819999999994
+    }
+  }
+}

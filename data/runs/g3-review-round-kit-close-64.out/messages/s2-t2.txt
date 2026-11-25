@@ -1,0 +1,11 @@
+Slice 3 is done and committed on `refunds-fixes` as 9e607eb. It isn't pushed, and the repo has no remote yet.
+
+- **`src/refunds.js`:** a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its share after the discount ("net"), the tax is 8% of those nets added together, and an opened line's restocking fee is 15% of its net. The note prints each line at its net price, and `Items` is their sum. Refunding every line gives the same amounts as a whole refund.
+- **`test/refunds.test.js`:** covers each point of the slice, including `--code` used with `--sku` in the CLI.
+- **`README.md`:** the "not supported yet" note is replaced with how discounted partial refunds work.
+- **Plan:** the status line marks Slice 3 done.
+- `bin/refund-order.js` needed no change, because it already passed `--code` through.
+
+`npm run check` passes all 35 tests, but the export import check was skipped because `ledger-check` isn't installed. That check only covers the order export, which this slice doesn't touch. I didn't change `percentOf`, so tax still drops fractions of a cent until Slice 4.
+
+The note still prints `Restocking fee` as its own row, as the plan says. Your decision on CodeRabbit finding #2 is still open, and so is whether to push and open a PR. No files outside the scope were changed.

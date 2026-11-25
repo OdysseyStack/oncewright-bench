@@ -1,0 +1,13 @@
+I fixed two of CodeRabbit's three findings and left one out on purpose. Everything is committed as `6dbaa13` on the new branch `refunds-fixes`. It's not pushed.
+
+**1. Tax on a partial refund (fixed).** The tax was worked out line by line and then added up, so a partial refund could pay back a cent less tax than the order charged for those lines. It's now worked out on the lines' total, the way the order is charged, which is what the refunds plan says. I added a test with two lines at $6.19 and $10.19: the order charged $1.31 tax on them, and the old code refunded $1.30. The new test fails on the old code and passes now. I also added a line to `CHANGELOG.md` under Unreleased. I didn't touch the rounding in `percentOf` itself, because the plan holds that change back for its own slice.
+
+**3. Matching the SKUs to refund (applied).** `linesFor` now checks the SKU list with a `Set` instead of `includes`. It's a small change and it doesn't alter any results.
+
+**2. Showing the restocking fee inside `Items` on the refund note (not applied).** CodeRabbit wanted the note to show `Items` with the fee already taken off and drop the separate `Restocking fee` row. Two things already require the opposite:
+- The refunds plan (Slice 2, point 5) says the note shows a `Restocking fee` line as a negative amount.
+- The README says refund notes go through the bookkeeper's import. That import needs the refunded lines to add up to `Items`, and the fee kept on its own line so it can be booked. With the suggested change the lines wouldn't add up to `Items`, and the import would reject the note.
+
+If you still want that layout, the plan and the import rule would have to change first.
+
+`npm run check`: all 31 tests pass. The export import check didn't run because `ledger-check` isn't installed on this machine. Nothing here changes the export format, so that check wasn't needed for this change.

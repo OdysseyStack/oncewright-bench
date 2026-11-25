@@ -1,0 +1,13 @@
+Picking up from last time: the CodeRabbit refund fixes on `refunds-fixes` are finished and committed locally as `d9958fc`. They haven't been pushed and there's no PR.
+
+- **Fixed:** finding 1. Partial refunds now work out the tax on the refunded lines' total instead of line by line, so a refund no longer pays back a cent too little. There's a new test for it.
+- **Fixed:** finding 3. The SKU check in `linesFor` now uses a Set.
+- **Declined:** finding 2, which wanted Items shown after the restocking fee and the fee row dropped. The bookkeeper's import needs the refunded lines to add up to Items and the fee on its own line. Both the README ("Receipts and invoices add up") and the refunds plan (Slice 2 point 5) say so.
+
+I ran `npm run check` again just now and all 31 tests pass. The export import check didn't run because ledger-check isn't installed on this machine, but this commit doesn't touch the export format, so that doesn't matter here.
+
+**Where it's stuck:** this repo has no git remote, so the branch can't be pushed and no PR can be opened from here. You asked only for the local commit, so I've stopped there. What next?
+
+1. **Merge into `main` locally.** It would fast-forward, since the branch comes straight off `main`'s latest commit.
+2. **Add a remote and open a PR.** Give me the remote URL. Once it's pushed, I'll start the CodeRabbit triage in the background.
+3. **Leave it as is** for now.

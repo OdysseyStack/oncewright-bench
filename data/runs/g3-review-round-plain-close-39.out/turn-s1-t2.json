@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "I saved one memory note for the next session, and it's listed in the memory index (`MEMORY.md`). It records:\n\n- **Branch state:** `refunds-fixes` (commit `77c5b19`) is committed locally, with nothing to commit beyond it. It has not been pushed and has no PR, so pushing, opening a PR or merging is still your call. If you push it, the CodeRabbit triage rule in your global CLAUDE.md applies.\n- **Findings:** the first (refund tax) and third (SKU lookup) were fixed. The second was declined because it would break the bookkeeper's import, so if CodeRabbit raises it again it should be declined again. The `CHANGELOG.md` line is optional and can be removed.\n- **Checks:** `ledger-check` isn't installed on this machine, so `npm run check` skips the export import check. A passing check here doesn't cover the export.\n\nNo background agents or browser tabs were open, so the session can end now.",
+  "total_cost_usd": 0.39440680000000006,
+  "duration_ms": 18401,
+  "duration_api_ms": 56259,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2326,
+    "cache_read_input_tokens": 113613,
+    "output_tokens": 1673
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5105,
+      "cacheReadInputTokens": 346134,
+      "cacheCreationInputTokens": 27874,
+      "costUSD": 0.39440680000000006
+    }
+  }
+}

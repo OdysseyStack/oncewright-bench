@@ -1,0 +1,55 @@
+# Resolution: CodeRabbit's findings on the refunds work
+
+Source: review/findings-refunds.md (pasted `coderabbit review --prompt-only` output, 3 findings).
+Checked against the current code of src/refunds.js, docs/plans/2026-09-30-refunds.md, README.md
+and CLAUDE.md.
+
+## 1. src/refunds.js:22, partial-refund tax summed per line (potential_issue)
+
+Issue: the tax on a partial refund is `percentOf` applied to each line and the results summed.
+`percentOf` drops fractions of a cent (Math.floor), so each line can lose a cent and the refund
+pays back less tax than the order charged for those lines. Lines of $6.19 and $10.19: per line
+49 + 81 = 130 cents; on the sum, percentOf(1638, 0.08) = 131 cents.
+
+Repo documents: the refunds plan, Slice 2 point 1, says the tax on the refunded lines "is
+`percentOf` their summed amount at the tax rate, as `computeTotals` charges it"
+(src/totals.js:31 charges `percentOf(subtotal - discount, config.taxRate)`). The code doesn't
+match the plan. The fix keeps `percentOf` as is: rounding it is the plan's Slice 4, which
+waits on the tax-filing amendment.
+
+Verdict: **Accept**. Compute `percentOf(items, config.taxRate)` on the summed amount of the
+refunded lines, and add a test where the two methods differ.
+
+## 2. src/refunds.js:34-38, show Items after the fee and drop the Restocking fee row (refactor_suggestion)
+
+Issue: CodeRabbit suggests the note show `Items` net of the restocking fee, with no separate
+fee row.
+
+Repo documents: README.md ("Refund notes go through the same import: the refunded lines it
+prints add up to `Items`, and `Items`, less any `Restocking fee`, plus `Shipping` and `Tax`, to
+`Refund`. The fee stays a line of its own, so the import can book it.") and the refunds plan,
+Slice 2 point 5 (the note prints a `Restocking fee` line as a negative amount before the
+totals). Folding the fee into `Items` would mean the printed lines no longer add up to `Items`,
+so the bookkeeper's import would reject the note, and it couldn't book the fee.
+
+Verdict: **Reject**. README.md requires the restocking fee to stay a line of its own so the
+bookkeeper's import can book it, and the refunded lines to add up to `Items`.
+
+## 3. src/refunds.js:7, `skus.includes` inside a filter (nitpick)
+
+Issue: `linesFor` checks membership with `Array.includes` for each line, O(n*m).
+
+Repo documents: nothing against it. The behaviour doesn't change and orders are short, but the
+change is a single line in a file the accepted finding already touches.
+
+Verdict: **Accept**. Build a `Set` from `skus` once and test with `has`.
+
+## Disposition Table
+
+| # | file | title | severity | disposition |
+|---|------|-------|----------|-------------|
+| 1 | src/refunds.js:22 | Partial-refund tax computed per line, not on the sum | potential_issue | Accept |
+| 2 | src/refunds.js:34-38 | Fold restocking fee into Items on the note | refactor_suggestion | Reject |
+| 3 | src/refunds.js:7 | Use a Set for SKU membership | nitpick | Accept |
+
+Accepted: 2 · Deferred: 0 · Rejected: 1

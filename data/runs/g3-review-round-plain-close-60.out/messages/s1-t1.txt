@@ -1,0 +1,11 @@
+I fixed two of CodeRabbit's three findings and committed them on the new `refunds-fixes` branch (816f2dc). I left the third one alone on purpose.
+
+**Fixed:**
+1. **Tax on a partial refund came out low.** It was worked out line by line, and each line could drop a fraction of a cent. It's now worked out once on the total of the refunded lines, which is how the order charged it and what the plan says. I added a test with the reviewer's example: lines of $6.19 and $10.19 now refund $1.31 in tax, not $1.30. I also added a line to `CHANGELOG.md` under Unreleased. The project rules only require that for export-format changes, but this is a change customers can see.
+2. **Faster SKU lookup.** The check for which lines are being refunded now looks SKUs up in a set instead of scanning the list each time. Behaviour is the same.
+
+**Not done: showing `Items` after the restocking fee and dropping the `Restocking fee` row.** This would break the bookkeeper's import. The README says the import rejects a refund note unless its refunded lines add up to `Items`, and it needs the fee on a line of its own so it can book it. Merging the fee into `Items` breaks both rules, and it also goes against the refunds plan (Slice 2 point 5). If the note does need to be easier for customers to read, that has to be agreed with whoever owns the import first. I explained this in the commit message.
+
+**Checks:** all 31 tests pass. The second half of `npm run check`, the export import check, didn't run because the `ledger-check` tool isn't installed here; it only gave a warning. Nothing in this change touches the export, so I don't expect a problem there, but that check hasn't been run.
+
+I haven't pushed the branch.

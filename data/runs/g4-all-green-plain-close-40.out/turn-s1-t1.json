@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "Slice 1 is built on a new `order-notes` branch, but I haven't committed it: one of the two checks didn't actually run.\n\n**Check results (`npm run check`):**\n- **Tests: 35 of 35 pass**, including 5 new ones.\n- **Export import check: did not run.** `ledger-check` isn't installed on this machine. I looked on the PATH, in `node_modules/.bin` and the usual bin folders, and found it nowhere. The script prints a warning and exits 0 when it's missing, so `npm run check` reports success even though this check was skipped.\n\nThis branch can't change what that check sees: I ran `export-orders` on `examples/orders` on both main and this branch, and the output is byte-for-byte identical. I still can't say the check passes, because I couldn't run it even on main. You asked that every check pass before committing, so the changes are sitting uncommitted on the branch.\n\n**What the slice does:**\n1. **Checking the note:** `validateOrder` reports `note must be a string` or `note is longer than 200 characters`, and the CLIs refuse such an order. The limit counts characters, so 200 emoji are allowed.\n2. **Receipt:** an order with a note ends with a blank line, then `Note: <note>`. With a discount code, the note comes after the \"saved you\" line. Receipts without a note are unchanged, and a test confirms the invoice is the same with or without a note.\n3. **`price-order --json`:** includes `note` when the order has one and leaves the field out otherwise. The plain-text output doesn't change.\n4. **Docs and tests:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, the README's Orders section describes notes, and each point above has a test. The plan's status line now says Slice 1 is done.\n\nAn empty note (`\"\"`) passes the check and prints nothing on the receipt, since the plan says to print the note only \"when the order has one\". The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.\n\nTo finish, you can either install `ledger-check` and I'll rerun `npm run check` and commit, or tell me to commit now with the skipped check noted in the commit message.",
+  "total_cost_usd": 0.3828718,
+  "duration_ms": 63208,
+  "duration_api_ms": 60993,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 25594,
+    "cache_read_input_tokens": 297199,
+    "output_tokens": 5930
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5930,
+      "cacheReadInputTokens": 297199,
+      "cacheCreationInputTokens": 25594,
+      "costUSD": 0.3828718
+    }
+  }
+}

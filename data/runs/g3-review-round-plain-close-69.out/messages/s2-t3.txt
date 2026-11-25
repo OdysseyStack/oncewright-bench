@@ -1,0 +1,13 @@
+Slice 3 is already committed on `refunds-fixes`, so I didn't make a new commit. Here's what the repo shows:
+
+- `refunds-fixes` points at **19f276c "Refunds Slice 3: partial refunds of discounted orders"**, right after the CodeRabbit fixes (e8cd717). That commit is on the branch itself, not on a side branch. The working tree is clean.
+- I went through the plan's points again and each one holds:
+  1. `refundFor(order, { skus, code })` doesn't throw any more. A refunded line pays back its price after its share of the discount, and tax and the restocking fee are worked out on that price. Refunding every line gives the same amounts as Slice 1.
+  2. The note prints each line at its discounted price, and `Items` is their sum.
+  3. `--code` works with `--sku`, and the README no longer says this isn't supported. "Supported yet" now appears only in the plan's own text describing Slice 2 and Slice 3.
+- The plan's status line reads "Slices 1, 2 and 3 done", and the changelog has the line under Unreleased.
+- `npm run check` passes all 33 tests. The export import check didn't run because ledger-check isn't installed on this machine; this change doesn't touch the export.
+
+This repo has no git remote, so the commit exists only on this machine. If you were looking for it on GitHub or another clone, that's why it isn't there. To push it, add a remote first, or tell me which one to use.
+
+If something specific still looks missing to you, tell me what you're seeing and I'll fix it.

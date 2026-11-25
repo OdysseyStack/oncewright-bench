@@ -1,0 +1,7 @@
+Wrap-up is done.
+
+- **Stopped:** nothing. This session started no agents, jobs or background tasks.
+- **Memory:** I created `ledger-check-not-installed.md`, which notes that `npm run check` on this Mac skips the export import check, and added its line to `MEMORY.md`. The index is 1 line and 155 bytes, well under its target, so I didn't tidy it.
+- **Handoff's first line:** "Handoff from the refunds-fixes session (2026-11-19)". It says `refunds-fixes` (`3010f9d`) is not pushed and has no PR, and that you still need to decide on leaving out finding 2 (the refund note change). After that it points to refunds Slice 3.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

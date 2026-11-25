@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Refunds Slice 3 is built: you can now refund some lines of an order that used a discount code. It's on a new local branch, `refunds-slice-3`, which I made from `refunds-fixes`. Nothing is committed yet, and `refunds-fixes` is still unpushed (the repo has no git remote).\n\n**What changed**\n- **`src/refunds.js`:** the \"not supported yet\" error is gone. Each refunded line pays back its price after its share of the discount. The tax is still worked out on the total of the refunded lines, and the restocking fee on an opened line is 15% of its discounted price. A whole refund of a discounted order gives the same amounts as before ($41.95 for the example order with SAVE10).\n- **Refund note:** each line is printed at its discounted price, the same way the receipt shows it, and `Items` is the sum of those lines.\n- **`refund-order`:** `--code` now works together with `--sku`. No change to the CLI code was needed; the test now covers it.\n- **Docs:** I removed the \"not supported yet\" line from the README and added an example, added a line to `CHANGELOG.md` under Unreleased, and marked Slice 3 done in the plan. The order export didn't change, so `docs/export-format.md` didn't need updating.\n- **Tests:** new tests cover each point of the slice, using SAVE10 (a percentage off) and TAKE5 ($5 off).\n\n`npm run check` passed all 35 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export, so that doesn't matter here.\n\n**One thing to know:** because tax rounds fractions of a cent down, a discounted order refunded one line at a time can pay back a cent less tax than the order charged. With SAVE10 on the example order, the two lines' refunds give $1.72 + $0.93 = $2.65, but the order charged $2.66. That comes from Slice 4's rounding problem, which the plan says to leave alone until Finance is ready, so I didn't change it.\n\nShould I commit this on `refunds-slice-3`?",
+  "total_cost_usd": 0.46328060000000004,
+  "duration_ms": 68606,
+  "duration_api_ms": 66714,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 30728,
+    "cache_read_input_tokens": 284423,
+    "output_tokens": 8025
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 8025,
+      "cacheReadInputTokens": 284423,
+      "cacheCreationInputTokens": 30728,
+      "costUSD": 0.46328060000000004
+    }
+  }
+}

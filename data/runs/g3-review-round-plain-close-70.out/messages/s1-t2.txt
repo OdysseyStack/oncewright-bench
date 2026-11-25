@@ -1,0 +1,10 @@
+I saved two notes to memory so the next session can carry on, and listed both in `MEMORY.md`.
+
+- **`refunds-fixes-branch`:** The fixes are committed on `refunds-fixes` (`a4f4cde`), but the branch isn't merged into `main`. It isn't pushed anywhere either, because the repo has no remote. CodeRabbit's suggestion to fold the restocking fee into `Items` was skipped on purpose, since it would break the bookkeeper's import. It stays open until you decide, and a later session shouldn't make that change without asking you. `review/findings-refunds.md` is still in the repo; the next session should ask whether to delete it once the branch is merged.
+- **`ledger-check-not-installed`:** On this machine `npm run check` passes without running the export import check, because `ledger-check` isn't installed. A pass here only means the tests passed. Before merging, or after any change to the export, someone should run the check on a machine that has `ledger-check`.
+
+I left out anything git or the docs already record, like what each fix changed or the plan's rules.
+
+Still open for you:
+- Merge `refunds-fixes`.
+- Decide whether to raise the restocking-fee change with the bookkeeper.

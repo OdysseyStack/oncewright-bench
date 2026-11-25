@@ -1,0 +1,14 @@
+Refunds Slice 3 is built: you can now refund some lines of an order that used a discount code. It's on a new local branch, `refunds-slice-3`, which I made from `refunds-fixes`. Nothing is committed yet, and `refunds-fixes` is still unpushed (the repo has no git remote).
+
+**What changed**
+- **`src/refunds.js`:** the "not supported yet" error is gone. Each refunded line pays back its price after its share of the discount. The tax is still worked out on the total of the refunded lines, and the restocking fee on an opened line is 15% of its discounted price. A whole refund of a discounted order gives the same amounts as before ($41.95 for the example order with SAVE10).
+- **Refund note:** each line is printed at its discounted price, the same way the receipt shows it, and `Items` is the sum of those lines.
+- **`refund-order`:** `--code` now works together with `--sku`. No change to the CLI code was needed; the test now covers it.
+- **Docs:** I removed the "not supported yet" line from the README and added an example, added a line to `CHANGELOG.md` under Unreleased, and marked Slice 3 done in the plan. The order export didn't change, so `docs/export-format.md` didn't need updating.
+- **Tests:** new tests cover each point of the slice, using SAVE10 (a percentage off) and TAKE5 ($5 off).
+
+`npm run check` passed all 35 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export, so that doesn't matter here.
+
+**One thing to know:** because tax rounds fractions of a cent down, a discounted order refunded one line at a time can pay back a cent less tax than the order charged. With SAVE10 on the example order, the two lines' refunds give $1.72 + $0.93 = $2.65, but the order charged $2.66. That comes from Slice 4's rounding problem, which the plan says to leave alone until Finance is ready, so I didn't change it.
+
+Should I commit this on `refunds-slice-3`?

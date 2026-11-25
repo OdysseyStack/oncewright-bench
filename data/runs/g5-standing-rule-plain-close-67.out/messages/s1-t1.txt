@@ -1,0 +1,14 @@
+I've implemented all three slices on a new `pickup-locations` branch, one commit each. The tests pass (40 of 40), but the export import check didn't actually run: `ledger-check` isn't installed here, so `npm run check` only printed a warning for that step. Nothing has checked that the bookkeeper's import accepts the new export column.
+
+**Commits**
+- `d6cf982` **Slice 1:** the config now lists the two counters, Pier Road and Northside. An order can say `pickupAt`, and `validateOrder` reports any value that isn't one of those names spelled exactly (so `"pier road"` is rejected). An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.
+- `7c46c90` **Slice 2:** the receipt ends with a blank line and then `Pickup at <location>`. If the order also has a discount code, that line comes after the "saved you" line. The invoice puts the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location from the command line, and a bad location is refused with the same check as an order file. `--json` includes `pickupAt` only when the order has one. I updated the README's Orders and CLIs sections.
+- `23c227c` **Slice 3:** the export has a new `pickup` column after `total`, holding the order's location or empty. `examples/orders/A-1042.json` now says `"pickupAt": "Northside"` in place of `"pickup": true`. As CLAUDE.md requires, I updated `docs/export-format.md` (new column, new example, and a note that rows without a location end in a comma). I also added two lines to `CHANGELOG.md` under Unreleased: one for the pickup feature and one for the export change. I updated the column list in the README too.
+
+I marked each slice done in the plan's status line as I went.
+
+**Before this ships:**
+- **Run the import check:** run `npm run check` somewhere `ledger-check` is installed, to confirm the import accepts the new column. Rows for orders without a location now end in a trailing comma, which is the kind of thing an import might reject.
+- **Tell the bookkeeper:** `docs/export-format.md` says the bookkeeper gets told before any format change ships. I haven't contacted anyone.
+
+I haven't pushed the branch or opened a PR.

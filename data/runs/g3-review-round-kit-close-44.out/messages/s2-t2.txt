@@ -1,0 +1,10 @@
+Slice 3 is in: you can now refund some lines of an order that used a discount code. It's committed on `refunds-fixes` as `6751bb0` (not pushed), and `npm run check` passes with all 35 tests.
+
+- **Amounts:** each refunded line pays back its amount less its share of the discount. Tax is taken on those lines' total, and an opened line's 15% restocking fee comes off that same reduced amount. Refunding every line of a discounted order gives exactly what refunding the whole order gives.
+- **Note:** each line prints at its discounted price, and those prices add up to `Items`. Tested on an uneven split, where the $5 code takes 77, 126 and 297 cents off three lines.
+- **CLI:** `refund-order --code SAVE10 --sku FILTER-100` now works. `bin/refund-order.js` already passed `--code` through, so it only needed a test.
+- **README and plan:** the README's "not supported yet" note is replaced by a description of `--code` with `--sku`, and Slice 3 is marked done in the plan.
+
+Files changed: `src/refunds.js`, `test/refunds.test.js`, `README.md` and `docs/plans/2026-09-30-refunds.md`, all inside the slice's scope. I didn't add a `CHANGELOG.md` line because the export format didn't change.
+
+Still open from the last session: what to do with the branch (push and open a PR, merge, or leave it), whether you agree with rejecting CodeRabbit's finding #2, and whether the one-cent refund tax fix should get a changelog line.

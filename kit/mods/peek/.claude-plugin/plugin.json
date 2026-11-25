@@ -1,0 +1,10 @@
+{
+  "name": "peek",
+  "version": "0.1.0",
+  "description": "Experimental. /peek <path>[:line] shows a file from this repo, its worktrees or a folder you approve, in a pane: Markdown, code, tables, JSON, images, PDF, Word and audio. /peek alone filters the repo's files, /peek diff shows what changed, and /peek allow approves a folder. It refuses the files the kit's secrets guard protects, except a .env file, which opens in an editor with its values masked. Needs Claude Code 2.1.288 or newer.",
+  "author": {
+    "name": "Lincoln Powers ∙ Odyssey AI, Inc.",
+    "url": "https://www.odysseystack.com"
+  },
+  "types": "./types/index.d.ts"
+}

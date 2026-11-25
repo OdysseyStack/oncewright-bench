@@ -1,0 +1,6 @@
+I saved two notes to memory for the next session:
+
+- **`refunds-fixes` branch:** CodeRabbit's refunds findings are dealt with in commit `b90c468`. The branch hasn't been pushed and has no PR, and it waits until you ask. If CodeRabbit raises the fee-into-`Items` change again, it gets turned down for the same reason: the bookkeeper's import needs the fee on its own line. If you do push to a PR, the CodeRabbit triage rule applies.
+- **`ledger-check` isn't installed here:** `npm run check` skips the export import check with only a warning, so a passing check doesn't prove the export is fine.
+
+The working tree is clean on `refunds-fixes`, with nothing uncommitted. No background agents are running and I didn't open any Chrome tabs, so it's safe to quit.

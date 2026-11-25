@@ -1,0 +1,85 @@
+{
+  "id": "g3-review-round-plain-close-72",
+  "task": "g3-review-round",
+  "arm": "plain-close",
+  "side": "plain",
+  "n": 72,
+  "phase": "ship",
+  "cap": 5,
+  "plugin": null,
+  "sessions": [
+    {
+      "uuid": "session-1",
+      "number": 1,
+      "opened": "start",
+      "scenarioSession": 1
+    },
+    {
+      "uuid": "session-2",
+      "number": 2,
+      "opened": "open",
+      "scenarioSession": 2
+    }
+  ],
+  "turns": [
+    {
+      "s": 1,
+      "k": 1,
+      "kind": "task",
+      "prompt": "CodeRabbit's findings on the refunds work are in `review/findings-refunds.md`. Deal with them and commit on a new branch named `refunds-fixes`.",
+      "uuid": "session-1",
+      "file": "turn-s1-t1.json",
+      "cost": 0.29390839999999996,
+      "share": 0.2939,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 41,
+      "done": true
+    },
+    {
+      "s": 1,
+      "k": 2,
+      "kind": "close",
+      "prompt": "Wrap up: save whatever the next session needs to carry on.",
+      "uuid": "session-1",
+      "file": "turn-s1-t2.json",
+      "cost": 0.38193879999999997,
+      "share": 0.088,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 23
+    },
+    {
+      "s": 2,
+      "k": 1,
+      "kind": "open",
+      "prompt": "Carry on where we left off.",
+      "uuid": "session-2",
+      "file": "turn-s2-t1.json",
+      "cost": 0.5660694000000001,
+      "share": 0.5661,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 101
+    },
+    {
+      "s": 2,
+      "k": 2,
+      "kind": "task",
+      "prompt": "Implement Slice 3 of docs/plans/2026-09-30-refunds.md. Commit it on the `refunds-fixes` branch.",
+      "uuid": "session-2",
+      "file": "turn-s2-t2.json",
+      "cost": 0.6928226,
+      "share": 0.1268,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 22,
+      "done": true
+    }
+  ],
+  "stopped": null
+}

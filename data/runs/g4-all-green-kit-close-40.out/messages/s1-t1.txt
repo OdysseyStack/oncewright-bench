@@ -1,0 +1,19 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` never actually ran, and you asked for every check to pass before committing.
+
+**Check results**
+- **Tests:** 34 of 34 pass, 0 fail. That includes four new tests: the note limits in `validateOrder`, the note line on the receipt (with and without a discount code), the invoice staying the same, and `--json` including the note or leaving it out.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. `npm run check` looks green, but this half of it checked nothing.
+- To see whether the change could matter there, I ran the export of `examples/orders` before and after the change. The output is identical: the export doesn't read `note`, and the export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` need no update.
+
+**What changed**
+- `src/validate.js`: an order's `note` must be text of at most 200 characters, or `validateOrder` names the problem. Length is counted in characters, so an emoji counts as one.
+- `src/receipt.js`: `Note: …` is the last line, after a blank line. When there's a discount code it comes after the "saved you" line. A receipt without a note is unchanged, and so is the invoice.
+- `bin/price-order.js`: `--json` includes `note` only when the order has one.
+- `examples/order.json` now has a note, and the README's Orders section describes it.
+- Tests: `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js`, `test/cli.test.js`.
+
+An empty note (`""`) passes validation and prints nothing, which is the same as having no note.
+
+**Decision for you:** if the identical export output is enough for you, say so and I'll commit, marking Slice 1 done in the plan's status line in the same commit. Otherwise, install `ledger-check` and I'll rerun `npm run check` first.
+
+Every file I changed is within the slice's scope.

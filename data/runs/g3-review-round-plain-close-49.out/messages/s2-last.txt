@@ -1,0 +1,17 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as f6c661a, on top of 876e415. `npm run check` passes all 35 tests, but `ledger-check` still isn't installed here, so the export import check didn't run. That doesn't matter for this change: the export format is untouched, so `docs/export-format.md` needed no update.
+
+**What changed**
+- **Partial refunds of discounted orders now work** (`src/refunds.js`). Each refunded line pays back its price after its share of the discount, as `computeTotals` works it out. The restocking fee on an opened line is 15% of that price. Shipping is still refunded only when every line is, and a whole refund of a discounted order gives the same amounts as before.
+- **Tax is charged on the refunded lines' total, not line by line.** The plan says "the tax on it", which could be read as per line. I kept the total because that's the fix this branch already made, and per-line tax would mean a whole refund no longer matches what the order charged. For example, with `SAVE10`, refunding the beans comes to $21.60 + $1.72 tax = $23.32.
+- **The refund note prints each line at its discounted price.** The lines now add up to the `Items` line. Before this, a whole refund of a discounted order listed full prices but showed the discounted `Items` total, so the note didn't add up.
+- **`refund-order --code` works with `--sku`**, matching lines by position on the order rather than by SKU.
+- **Docs:** the README drops "not supported yet" and explains how discounted refunds work. There's a CHANGELOG line under Unreleased, and the plan's status line now marks Slice 3 done (2026-11-19).
+- **Tests** cover each point:
+  - partial refunds with `SAVE10` and `TAKE5`
+  - the restocking fee on a discounted line
+  - a whole refund matching the order's totals for every discount code
+  - both versions of the note
+  - the command line with `--code` and `--sku`
+  - an unknown SKU passed to `--opened`
+
+The branch is still not merged into `main` and has nothing to push to. Should I merge it?

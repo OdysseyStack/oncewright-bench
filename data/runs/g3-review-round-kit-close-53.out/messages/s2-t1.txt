@@ -1,0 +1,18 @@
+**Handoff read.** First line:
+
+> **First:** ask Lincoln whether to push `refunds-fixes` and open a PR (not asked yet; the push needs his yes since it is a new branch with no PR).
+
+I checked the current state:
+- Branch `refunds-fixes` has one commit on top of `main`: `7d5d416` ("Refunds: tax a partial refund on the lines' summed amount"). Nothing is uncommitted.
+- **This repo has no git remote.** `origin` doesn't exist and `gh` finds no remotes, so there's nowhere to push to and no PR yet. The handoff assumed the push was just waiting on your yes; it actually needs a remote first.
+
+From the last session (in the handoff, not re-checked):
+- `npm run check` passed, but it only ran the tests. The export import check skips itself on this Mac because `ledger-check` isn't installed. The commit changes refunds, not the order export, so that gap doesn't affect this work.
+- Two of CodeRabbit's three refunds findings were fixed: partial-refund tax is now taken on the refunded lines' summed amount, and `linesFor` uses a `Set`.
+- The third was rejected: CodeRabbit wanted the customer's refund note to drop its "Restocking fee" row and show "Items" net of the fee. That contradicts Slice 2 point 5 of `docs/plans/2026-09-30-refunds.md`, so the plan would have to change before the note does.
+
+**Question for you:** do you want `refunds-fixes` pushed and a PR opened against `main`? If yes, tell me which remote to add (URL or GitHub repo). Once the PR is open, I'll start CodeRabbit triage on it in the background, as your global rules say.
+
+Next on the list after that is refunds Slice 3 (partial refunds of discounted orders).
+
+No files changed.

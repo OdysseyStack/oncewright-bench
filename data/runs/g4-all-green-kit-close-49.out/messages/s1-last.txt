@@ -1,0 +1,15 @@
+Slice 1 is done and committed on the new `order-notes` branch as `0d106a9`. Nothing has been pushed. Not every check passed, though: the tests did, but the export import check didn't run.
+
+**Check results (`npm run check`, exit 0):**
+- **Tests:** 35 of 35 pass (30 already there plus 5 new).
+- **Export import check:** skipped. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0 without running. It was skipped on `main` before my change too. This slice doesn't change the export code or `examples/orders/`, so the result there should be the same as on `main`. Still, the check only really ran once `ledger-check` is installed.
+
+**What changed:**
+- **Validation** (`src/validate.js`): an order may carry `note`. `validateOrder` reports "the note must be text" for a non-string (including `null`) and "the note is longer than 200 characters" for a long one. Characters are counted as code points, so accented letters count as one each.
+- **Receipt** (`src/receipt.js`): when the order has a note, the last line is `Note: …`, after a blank line. With a discount code it comes after the "Code … saved you" line. An empty note is treated as no note. The invoice is unchanged, and a test checks that.
+- **`price-order --json`** (`bin/price-order.js`): includes `note` only when the order has one.
+- **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- **Tests:** new cases in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`. The CLI tests check `--json` with and without a note, and that an over-long note is refused.
+- **Plan:** the status line now reads "Slice 1 is done".
+
+No files outside the slice's scope were changed.

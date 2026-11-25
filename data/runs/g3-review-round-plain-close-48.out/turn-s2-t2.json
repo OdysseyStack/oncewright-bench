@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `ae8ed97`, on top of `d9958fc`. `npm run check` passes with 35 tests, 4 of them new. The export import check didn't run because ledger-check isn't installed here, but this change doesn't touch the export.\n\n**What changed in `src/refunds.js`:**\n- **Partial refunds with a code work now.** Before, they were refused with an error. Each refunded line now pays back its amount less its share of the discount (its net).\n- **Restocking fee:** an opened line's fee is 15% of its net. Without a code, the net is the full line amount, so those refunds come out the same as before.\n- **Whole refunds of a discounted order** still pay back exactly what the order charged, because the lines' nets add up to the subtotal less the discount.\n- **The refund note** prints each line at its net price, as the receipt does. The lines still add up to `Items`, so the bookkeeper's import keeps balancing.\n\n**Tests:** new ones cover a partial refund with SAVE10, a partial refund with TAKE5 (where the discount doesn't split evenly), an opened line with a code, a whole refund with a code (with and without listing the SKUs), the note's net prices, and `refund-order --code --sku` both as text and with `--json`.\n\n**Docs:** the README drops the \"not supported yet\" note and describes how `--code` works with `--sku`. I also added a line to the Unreleased section of the CHANGELOG and marked Slice 3 done in the plan's status line.\n\n**Decision for you:** point 1 says each line pays back \"the tax on it\", which could mean tax worked out line by line. I took the tax on the refunded lines' combined net instead. That matches Slice 2 point 1 and the CodeRabbit fix in `d9958fc`, which you already accepted; working out tax line by line can come up a cent short on each line. Tell me if you meant line by line.\n\nThe branch is still local only, and this repo has no git remote, so nothing can be pushed until one is added.",
+  "total_cost_usd": 0.5011812,
+  "duration_ms": 63963,
+  "duration_api_ms": 73345,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 18557,
+    "cache_read_input_tokens": 296343,
+    "output_tokens": 7567
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 8580,
+      "cacheReadInputTokens": 361066,
+      "cacheCreationInputTokens": 32160,
+      "costUSD": 0.5011812
+    }
+  }
+}

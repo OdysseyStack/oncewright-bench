@@ -1,0 +1,15 @@
+I've built Slice 1 on a new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't run, and you asked for every check to pass before committing.
+
+**Check results:**
+- **Tests:** 35 of 35 pass (30 before, plus 5 new).
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. That means `npm run check` looks green even though this check was skipped. This slice doesn't touch the export code or `examples/orders/`, and the export output is byte-for-byte the same before and after my changes. Still, the bookkeeper's import check hasn't confirmed it.
+
+**What the slice does:**
+1. **Validation:** `validateOrder` reports a note that isn't a string (including `null`) or is longer than 200 characters. It counts characters, so a 200-character note of emoji still passes.
+2. **Receipt:** prints `Note: …` as its last line, after a blank line, below the discount-code line when there is one. Without a note (or with an empty one) the receipt is unchanged. The invoice is unchanged, and a test checks that.
+3. **`price-order --json`:** includes `note` only when the order has one.
+4. **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it. The plan's status line now says Slice 1 is done.
+
+There's a test for each point. All the changed files are ones the plan names or their tests, and nothing outside that scope changed. A note containing a line break would print across more than one line on the receipt; the plan doesn't cover that case.
+
+To commit, install `ledger-check` so the export check actually runs, or tell me to commit without it and I will.

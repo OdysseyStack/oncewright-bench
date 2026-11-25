@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks didn't run, so \"every check passes\" isn't true yet.\n\n**Check results (`npm run check`, exit 0):**\n- **Tests: 35 of 35 pass.** This includes the new tests for each point in the slice.\n- **Export import check: didn't run.** `ledger-check` isn't installed on this machine. `scripts/check-export.sh` prints a warning and still exits 0, so `npm run check` looks green without this check. This slice doesn't change the export: I ran `export-orders` on `examples/orders` on this branch and on `main`, and the output is byte-for-byte the same. That's not the same as the bookkeeper's import check passing, though.\n\n**What changed:**\n- **`src/validate.js`:** `validateOrder` reports a `note` that isn't text, or is longer than 200 characters. Characters are counted the way a person would, so 200 accented letters are fine.\n- **`src/receipt.js`:** when the order has a note, the receipt ends with a blank line and then `Note: \u2026`, after the discount-code line if there is one. Without a note the receipt is the same as before. The invoice doesn't change, and a test checks that.\n- **`bin/price-order.js`:** `--json` includes `note` only when the order has one.\n- **`examples/order.json`:** now has a note. The README's Orders section describes it.\n- **Tests:** added to `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.\n- **Plan:** the status line now says \"Slice 1 done (2026-11-19)\".\n\nAn empty note (`\"\"`) passes validation but prints nothing, the same as having no note. The CHANGELOG isn't updated, because the repo only asks for that when the export format changes. Every changed file is within the slice's scope.\n\n**Decision for you:** install `ledger-check` and I'll rerun the check and commit, or say \"commit anyway\" and I'll commit as it stands.",
+  "total_cost_usd": 0.375886,
+  "duration_ms": 57759,
+  "duration_api_ms": 54916,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 26462,
+    "cache_read_input_tokens": 268190,
+    "output_tokens": 5524
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5524,
+      "cacheReadInputTokens": 268190,
+      "cacheCreationInputTokens": 26462,
+      "costUSD": 0.375886
+    }
+  }
+}

@@ -1,0 +1,18 @@
+We'd finished CodeRabbit's three findings on the refunds work, and nothing is left from that round. The branch is still where we left it.
+
+**State of `refunds-fixes`:** one commit (41f4946), branched off `main`, committed locally and not merged. All 31 tests pass. Two of the findings went in:
+- **Partial-refund tax:** a partial refund now pays back the tax on the refunded lines' summed amount, matching what the order charged for them. A new test covers amounts where the old way came out a cent low.
+- **SKU lookup:** `linesFor` now checks SKUs against a `Set`.
+
+The third, folding the restocking fee into `Items` on the refund note, I declined on purpose. It would break the bookkeeper's import and goes against point 5 of Slice 2 in the refunds plan.
+
+`npm run check` passing doesn't fully confirm things here, because `ledger-check` isn't installed on this machine and the export import check didn't run. This commit doesn't change the export, so it doesn't matter for this one.
+
+This repo has no git remote, so there's no push or CodeRabbit PR round to start from here.
+
+**Choices for what's next:**
+1. **Merge `refunds-fixes` into `main` locally.**
+2. **Start refunds Slice 3, partial refunds of discounted orders,** which the plan lists as next. I'd do it on its own branch. Each refunded line would pay back its net amount after the discount, the tax on that, and a 15% fee on the net for opened lines. `--code` would work with `--sku`, and the README and tests would be updated. I'd leave `percentOf`'s rounding alone, since the plan holds that change back for Slice 4.
+3. **Something else,** such as another plan's next slice.
+
+I suggest 1 then 2. Which do you want?

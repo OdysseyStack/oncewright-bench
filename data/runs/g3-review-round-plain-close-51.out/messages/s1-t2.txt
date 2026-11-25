@@ -1,0 +1,6 @@
+I saved two notes to memory so the next session can pick up from here. No background agents or browser tabs were open, so nothing else needed closing.
+
+- **`refunds-fixes` branch:** the fixes are committed locally as `4b75c06` but not pushed, and there's no PR. The note records which finding I declined and why. It also warns that Slice 3 of the refunds plan (next) edits the same code, so that work should either start from this branch or wait until it's merged into main.
+- **`ledger-check` is missing:** on this machine, `npm run check` skips the export import check because `ledger-check` isn't installed. It shows a warning but still reports success, so a passing check doesn't cover changes to the export format.
+
+The working tree is clean and you're on `refunds-fixes`. To get the fixes into main, you could ask me to push the branch and open a PR.

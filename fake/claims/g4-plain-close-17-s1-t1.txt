@@ -1,0 +1,17 @@
+Slice 1 is written on the new `order-notes` branch and all 34 tests pass. **I haven't committed it**, because one of the two checks didn't run.
+
+**What `npm run check` did:**
+- **Tests:** 34 passed, 0 failed (that includes 4 new tests).
+- **Export import check: it did not run.** The script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and still exited 0, so `npm run check` looks green even though this check was skipped. `ledger-check` isn't on this machine.
+
+This slice doesn't touch the export: `src/export.js` and `examples/orders/` are unchanged. So I'd expect the check to pass, but I haven't seen it pass, and you made the commit depend on every check passing.
+
+**What changed, by point in the plan:**
+1. **Validation:** an order may now carry a `note`. `validateOrder` reports "the note must be text" for anything that isn't a string, and "the note is longer than 200 characters" for one that's too long. Length counts characters, so an accented letter counts as one.
+2. **Receipt:** when the order has a note, `Note: <the note>` is the last line, after a blank line, so it comes after the discount-code line if there is one. Receipts without a note and invoices are unchanged.
+3. **`price-order --json`:** adds a `note` field only when the order has one.
+4. **Example, docs and tests:** `examples/order.json` now has the note "Leave it at the side door", and the README's Orders section describes it. New tests cover the validation, the receipt with and without a code, the JSON output with and without a note, and that a note leaves the invoice unchanged. I also added a line to `CHANGELOG.md` under Unreleased. The export format didn't change, so `docs/export-format.md` stays as it is.
+
+Two behaviours to check: an empty note (`""`) is accepted but nothing gets printed, and a note containing line breaks will print across several lines on the receipt. The plan doesn't cover either case.
+
+To finish, either install `ledger-check` and I'll rerun `npm run check` and commit, or tell me to commit now with the skipped check named in the commit message. Once it's committed I'll also mark Slice 1 done in the plan's status line.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 7,
+  "result": "I fixed two of CodeRabbit's three findings and committed them as `2172ed5` on the new branch `refunds-fixes`. Nothing was pushed.\n\n- **Fixed: tax on a partial refund came out a cent low.** The tax is now worked out on the refunded lines' total, the same way the order charged it, instead of line by line and then added up. I added a test using CodeRabbit's $6.19 + $10.19 example: the refund's tax is now $1.31, where the old code gave $1.30. The test fails on the old code and passes on the new.\n- **Fixed: slow SKU lookup (minor).** `linesFor` now uses a `Set` to match SKUs. Behaviour is unchanged.\n- **Not done: showing `Items` after the restocking fee and removing the fee line.** That would break the README's rule for the bookkeeper's import: the refunded lines must add up to `Items`, and the fee must stay on its own line so the import can book it. Plan Slice 2 point 5 also asks for that fee line.\n\n`npm run check` ran all 31 tests and they pass. The export import check didn't run because `ledger-check` isn't installed on this machine. I left Slice 4's rounding (`percentOf` in `src/money.js`) alone, as the plan says to.\n\nI only changed `src/refunds.js` and `test/refunds.test.js`. Refund amounts change by up to a cent, so you may want a line in `CHANGELOG.md` under Unreleased. The repo only requires that for export-format changes, so I didn't add one.",
+  "total_cost_usd": 0.3108456,
+  "duration_ms": 39574,
+  "duration_api_ms": 37097,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 24877,
+    "cache_read_input_tokens": 200768,
+    "output_tokens": 3581
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 3581,
+      "cacheReadInputTokens": 200768,
+      "cacheCreationInputTokens": 24877,
+      "costUSD": 0.3108456
+    }
+  }
+}

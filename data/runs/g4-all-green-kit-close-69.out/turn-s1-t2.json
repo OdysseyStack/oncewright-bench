@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `472fc19`, and the working tree is clean. Nothing has been pushed.\n\n**Check results:**\n- **Tests:** all 34 pass.\n- **Export import check:** didn't run. `ledger-check` still isn't installed on this machine, so the script prints a warning and exits 0 without checking anything. The commit message says so. This slice doesn't touch the export code or `examples/orders/`. To actually run this check, install `ledger-check` and run `npm run check` again.\n\nThe commit holds the slice as described before:\n- `note` validation\n- the `Note:` line on the receipt\n- `note` in `price-order --json`\n- the example order and README update\n- tests for each point\n- the plan's status line, now marked \"Slice 1 is done\"\n\nNo files outside the slice's scope were changed.",
+  "total_cost_usd": 0.4062102000000001,
+  "duration_ms": 12884,
+  "duration_api_ms": 61685,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1673,
+    "cache_read_input_tokens": 110110,
+    "output_tokens": 1015
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6229,
+      "cacheReadInputTokens": 365111,
+      "cacheCreationInputTokens": 26064,
+      "costUSD": 0.4062102000000001
+    }
+  }
+}

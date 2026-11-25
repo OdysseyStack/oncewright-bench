@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "I've implemented Slice 3 and committed it on `refunds-fixes` as `09e9a56`, on top of the review fixes in `b90c468`. `npm run check` passes all 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.\n\nWhat changed, by the plan's points:\n\n1. **Discounted orders can be partly refunded.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount. The tax is 8% of those lines added together, the same way the review fix works it out. An opened line's restocking fee is 15% of its discounted price. Refunding every line gives exactly the same amounts as a whole refund.\n2. **The refund note shows each line at its discounted price**, as the receipt does, and `Items` is their sum. So the lines still add up to `Items`, which is what the bookkeeper's import needs.\n3. **`refund-order --code` works with `--sku`.** It already passed the code through; it was only the error that blocked it.\n\nDocs: the README drops the \"not supported yet\" note and gains a library example, `CHANGELOG.md` has a line under Unreleased, and the plan marks Slice 3 done (2026-11-19).\n\nThe new tests in `test/refunds.test.js` cover each point. They include a case with `TAKE5` (a fixed $5.00 off) where the discount doesn't split evenly and the leftover cent goes to the filters. I worked out the expected amounts by hand rather than copying them from the code's output. One example: refunding the opened beans from the sample order with `SAVE10` (10% off) pays back $21.60 for the beans, less a $3.24 restocking fee, plus $1.72 tax, so $20.08.\n\nNothing is pushed, and the repo still has no remote.",
+  "total_cost_usd": 0.5201046,
+  "duration_ms": 67549,
+  "duration_api_ms": 84853,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 16443,
+    "cache_read_input_tokens": 349850,
+    "output_tokens": 6869
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 8496,
+      "cacheReadInputTokens": 443763,
+      "cacheCreationInputTokens": 32666,
+      "costUSD": 0.5201046
+    }
+  }
+}

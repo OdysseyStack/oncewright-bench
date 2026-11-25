@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are on the new `pickup-locations` branch, one commit each:\n\n- `baeba4e` **Slice 1:** the config now lists the two counters, `\"Pier Road\"` and `\"Northside\"`. `validateOrder` reports a `pickupAt` that isn't one of them, e.g. `pickupAt \"Southside\" is not a pickup location (Pier Road, Northside)`. Wrong capitalisation is also refused. An order with `pickupAt` pays no shipping, whether or not `pickup` is set.\n- `107e2d0` **Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, below the code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and refuses an unknown one. `--json` includes `pickupAt` when the order has one. The README's Orders and CLIs sections now describe this.\n- `e2c9ebe` **Slice 3:** the export has a new last column, `pickup`, after `total`. It holds the location, or is empty for orders without one. In `examples/orders/A-1042.json` I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"`. The plan didn't mention docs, but CLAUDE.md requires them for any export format change, so I also updated `docs/export-format.md`, the README's export line and `CHANGELOG.md` under Unreleased.\n\nThe plan's status line is updated with each commit. `npm run check` passes after each one, with 39 tests at the end.\n\n**The export import check didn't run.** `ledger-check` isn't installed here, so `scripts/check-export.sh` only printed its warning and moved on. Slice 3 is exactly the kind of change that check exists for, so nothing has confirmed that the bookkeeper's import accepts the new column. Before this ships:\n- Run `npm run check` somewhere `ledger-check` is installed.\n- Tell the bookkeeper about the new column. `docs/export-format.md` says they're told before any format change ships.\n\nTwo choices the plan left open:\n- **`pickupAt` in `--json`:** the CLI adds it to the JSON output. `computeTotals` returns the same fields as before.\n- **`price-order` without `--json`:** the plain output doesn't print the location. It only shows that shipping is $0.00, because the plan didn't ask for more.\n\nI haven't pushed the branch.",
+  "total_cost_usd": 0.5828308,
+  "duration_ms": 95451,
+  "duration_api_ms": 92237,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 35437,
+    "cache_read_input_tokens": 455454,
+    "output_tokens": 10407
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 10407,
+      "cacheReadInputTokens": 455454,
+      "cacheCreationInputTokens": 35437,
+      "costUSD": 0.5828308
+    }
+  }
+}

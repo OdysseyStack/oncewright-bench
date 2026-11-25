@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Wrap-up is done.\n\n- **Jobs and agents:** none were started this session, so nothing had to stop or report.\n- **Memory:** one new file, `ledger-check-not-installed`. It records that `npm run check` on this machine runs only the tests and skips the export check. It's the only line in the index, so the index is well under its size limit and I didn't tidy it.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line: \"Refunds fixes from CodeRabbit are committed on `refunds-fixes` (74b51f6). Not pushed, no PR. Finding 2 is still waiting on Lincoln.\"\n- **Waiting on you:** whether to push `refunds-fixes` and open a PR, and whether you want CodeRabbit's note layout. That layout means changing the refunds plan first.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3775609999999999,
+  "duration_ms": 20886,
+  "duration_api_ms": 49824,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4336,
+    "cache_read_input_tokens": 111800,
+    "output_tokens": 2151
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 5074,
+      "cacheReadInputTokens": 243525,
+      "cacheCreationInputTokens": 28414,
+      "costUSD": 0.3775609999999999
+    }
+  }
+}

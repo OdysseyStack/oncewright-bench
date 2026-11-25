@@ -1,0 +1,9 @@
+I fixed two of the three CodeRabbit findings and committed them as `ac15a6f` on the new branch `refunds-fixes`. I left the third alone because it contradicts the refunds plan.
+
+- **Partial-refund tax (fixed):** a partial refund now charges tax once on the refunded lines' total, as the plan (Slice 2 point 1) and `computeTotals` do. Before, it taxed each line separately and added them up, which could refund a cent short per line. I added a test using the finding's example: $6.19 and $10.19 now refund $1.31 in tax, not $1.30. The test failed before the fix and passes after it. `percentOf` itself is unchanged, as Slice 4 requires.
+- **`Set` lookups (fixed):** `linesFor` and the restocking-fee filter now look SKUs up in a `Set`.
+- **Folding the fee into `Items` (not done):** the plan asks for the opposite. Slice 2 point 5 wants a separate negative `Restocking fee` line, and Slice 3 point 2 makes `Items` the sum of the line amounts after discount. If you want the note changed, the plan needs updating first.
+
+`npm run check` passes all 31 tests. However, the export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export, so it isn't affected.
+
+I changed only `src/refunds.js` and `test/refunds.test.js`. No docs, CHANGELOG or plan status needed updating. Nothing is pushed.

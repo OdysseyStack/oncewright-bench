@@ -1,0 +1,16 @@
+All three slices are committed on a new `pickup-locations` branch, one commit each. The tests pass (40, up from 30). But the export import check, the other half of `npm run check`, did not run: `ledger-check` isn't installed on this machine, so the script only printed a warning. That matters for Slice 3 (see below). Nothing is pushed.
+
+- **`b1b4dad` Slice 1:** `config.pickupLocations` is `["Pier Road", "Northside"]`. `validateOrder` names any `pickupAt` that isn't one of those exactly, including wrong case, `""` and `null`. `computeTotals` charges no shipping when the order has `pickupAt`, whether or not `pickup` is set. Refunds use `computeTotals` too, so they also stop refunding shipping on these orders.
+- **`6c2c614` Slice 2:**
+  - The receipt ends with a blank line and `Pickup at <location>`. If a discount code was used, this comes after the "Code … saved you" line.
+  - The invoice prints the same line under `Bill to:`.
+  - `price-order --json` includes `pickupAt` when the order has it.
+  - `--pickup-at <LOCATION>` sets `pickupAt` from the command line; an unknown location is an error and the command exits with status 1.
+  - The README's Orders and CLIs sections describe all of this.
+- **`64f3551` Slice 3:** the export has a `pickup` column after `total`, holding the location or left empty. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`, since `pickupAt` already makes it a pickup order. Its totals don't change. `docs/export-format.md` and the README show the new header.
+
+I added a line to `CHANGELOG.md` under Unreleased for each slice, and the plan's status line now reads "Slices 1, 2 and 3 done."
+
+**Before this merges:**
+- **The new export column hasn't been checked against the bookkeeper's import.** Run `npm run check` on a machine that has `ledger-check`.
+- **The bookkeeper needs telling.** `docs/export-format.md` says they get told before any change to the export ships.

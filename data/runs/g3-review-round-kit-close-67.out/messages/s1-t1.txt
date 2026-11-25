@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and skipped one, committed as `dfcea20` on the new branch `refunds-fixes`. The tests pass (31 of 31). The second half of `npm run check`, the export import check, did not run because `ledger-check` isn't installed on this machine.
+
+- **Fixed: tax on a partial refund.** The tax was worked out line by line and could come out a cent low on each line. It's now taken on the refunded lines' total, the same way the order charged it, as the refunds plan (Slice 2 point 1) requires. I added a test with lines of $6.19 and $10.19 that fails on the old code (refund tax $1.30) and passes now ($1.31).
+- **Fixed: SKU lookup.** The function that picks the refunded lines now builds a `Set` from the SKUs once and checks against that.
+- **Skipped: removing the restocking fee line from the refund note.** CodeRabbit wanted to drop the separate negative `Restocking fee` line and show `Items` after the fee instead. Slice 2 point 5 of the plan asks for that line, so changing it is your call as plan owner, not a review fix. The commit message records why it was skipped.
+
+Slice 4 of the plan says to leave `percentOf` and the amounts it gives alone until the rounding fix. The tax fix doesn't change `percentOf` or its rounding down. It now gets the lines' total instead of each line, so some partial refunds give back a cent more tax and match what the order charged.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`. The plan already marks Slice 2 done, so its status line is unchanged, and the export format didn't change, so the docs and CHANGELOG didn't need updating.

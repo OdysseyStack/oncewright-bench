@@ -1,0 +1,12 @@
+Slice 3 is in and committed on `refunds-fixes` as `a0bf59d`. The branch is still unpushed.
+
+- **Partial refunds of discounted orders work now.** `refundFor` no longer throws for them. Each refunded line pays back its share of the order after the discount, taken from `computeTotals(...).lines`. Tax is worked out on those amounts added together, the same way as the earlier lost-cent fix. An opened line's 15% restocking fee comes off that discounted amount too. A whole refund of a discounted order gives the same amounts as Slice 1.
+- **Refund note:** each line shows its price after the discount, and `Items` is their sum. The separate negative Restocking fee row stays, as the plan says.
+- **CLI and README:** `bin/refund-order.js` didn't need a change, because it already passed `--code` through, and a new test now runs it with `--sku`. The README no longer says these refunds aren't supported yet.
+- **Plan:** Slice 3 is marked done in its heading and status line.
+
+`npm run check` ran 35 tests and all passed. However, the export import check didn't run, because `ledger-check` isn't installed. That shouldn't matter here, since the export format didn't change.
+
+All changes are inside the slice's files. One thing I found but didn't fix, because it's outside the scope: the comment on `restockingFee` in `src/config.js` still says the fee is a fraction of "the line's amount". With a discount code, it's now taken from the line's amount after the discount.
+
+Still waiting on your answers from earlier: what to do with the branch (there's no remote to push to), the refund note layout, and whether to keep `review/findings-refunds.md`.

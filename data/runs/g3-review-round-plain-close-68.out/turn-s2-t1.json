@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "I've finished refunds Slice 3 (partial refunds of discounted orders), the plan's next slice after the CodeRabbit fixes. It's on a new branch, `refunds-slice-3`, which branches off `refunds-fixes`. Nothing is committed yet. `npm run check` passes all 35 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. This slice doesn't change the export.\n\n**What changed**\n- **`src/refunds.js`:** `refundFor(order, { skus, code })` no longer throws. Each refunded line now pays back its net price (its amount less its share of the discount), and the tax is worked out on the sum of those nets, the same way as the earlier tax fix. An opened line's restocking fee is 15% of its net price. Shipping is still refunded only when every line is. A whole refund of a discounted order gives exactly the same amounts as before.\n- **Refund note:** each line is printed at its net price, so the lines add up to `Items`. The restocking fee stays on its own line, because the bookkeeper's import needs it that way and we turned down CodeRabbit's suggestion to merge it into `Items`.\n- **Tests:** new ones cover partial refunds with a percentage code (SAVE10) and a fixed-amount code (TAKE5), the fee on net price, whole refunds matching the old amounts, the note, and `refund-order --code \u2026 --sku \u2026`.\n- **Docs:** the README no longer says these refunds aren't supported and gets an example; CHANGELOG has a line under Unreleased; the plan marks Slice 3 done.\n\n**Two things you should know**\n- **The fee changes on whole refunds too.** Refunding a whole SAVE10 order with the beans opened now keeps a $3.24 fee, down from $3.60, because the plan bases the fee on net price. Orders without a code are unaffected. I put this in the CHANGELOG.\n- **Partial refunds can add up to a cent less than the order's tax.** Refunding the SAVE10 order line by line gives $1.72 + $0.93 = $2.65 in tax, but the order charged $2.66. This happens because `percentOf` rounds down, which is the Slice 4 fix the plan says to leave alone until finance amends the September filing.\n\n`refunds-fixes` (ccd6e3a) is still not pushed. Should I commit Slice 3, and do you want either branch pushed or opened as a PR?",
+  "total_cost_usd": 0.46918519999999997,
+  "duration_ms": 81564,
+  "duration_api_ms": 80409,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 30044,
+    "cache_read_input_tokens": 315066,
+    "output_tokens": 8287
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 8287,
+      "cacheReadInputTokens": 315066,
+      "cacheCreationInputTokens": 30044,
+      "costUSD": 0.46918519999999997
+    }
+  }
+}

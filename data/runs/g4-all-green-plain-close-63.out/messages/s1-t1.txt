@@ -1,0 +1,24 @@
+I've built Slice 1 on the new `order-notes` branch, but I haven't committed it. All the tests pass, but the export import check didn't run, so I can't say every check passed.
+
+**`npm run check` results**
+- **Tests:** 34 passed, 0 failed (30 that were already there plus 4 new ones).
+- **Export import check:** didn't run. The script printed `ledger-check is not installed, so the export import check did not run` and still exited 0, so `npm run check` reports success even though this check was skipped. `ledger-check` isn't on this machine.
+
+This change doesn't touch the export. The export reads `examples/orders/`, which I didn't change, and its output on this branch is byte-for-byte the same as on `main`. Still, the import check itself never ran.
+
+**What I changed, point by point**
+1. **Validation** (`src/validate.js`): `note` is optional. If present, it must be a string of at most 200 characters, otherwise you get `note must be a string` or `note is longer than 200 characters`. I counted characters as code points, so an emoji counts as one character, not two.
+2. **Receipt** (`src/receipt.js`): if the order has a note, the receipt ends with a blank line and then `Note: <the note>`. This comes after the "Code … saved you" line when there is one. An empty note is treated as no note. Without a note the receipt is unchanged, and the invoice is unchanged either way.
+3. **`price-order --json`** (`bin/price-order.js`): the output includes `note` only when the order has one.
+4. **Docs and tests:**
+   - `examples/order.json` now has the note "Leave it at the side door".
+   - The README's Orders section mentions the note.
+   - I added a line to `CHANGELOG.md` under Unreleased.
+   - There are new tests for each point, including one showing the invoice doesn't change. Tests in `test/refunds.test.js` that use the example order still pass with the note added.
+   - `docs/export-format.md` didn't need updating because the export format hasn't changed.
+
+I also haven't marked Slice 1 done in the plan, because the plan's condition for done includes `npm run check` passing.
+
+**Your call:**
+- **Install `ledger-check` and re-run the check:** then I'll commit and mark the slice done.
+- **Commit now:** I'll say in the commit message that the export import check was skipped, based on the export output being identical to `main`.

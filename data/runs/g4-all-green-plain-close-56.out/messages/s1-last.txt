@@ -1,0 +1,17 @@
+I committed Slice 1 on `order-notes` as `ed172f8`. The tests pass, but the export import check still didn't run, so the commit hasn't been through every check.
+
+**Check results** (`npm run check`, run again just before the commit)
+- **Tests:** all 34 pass, 0 fail, including the 4 new tests for notes.
+- **Export import check:** skipped again. `ledger-check` still isn't installed, so the script printed its warning and exited 0. The commit has not passed this check.
+
+**What's in the commit** (10 files, unchanged from what I described last time)
+- **Validation:** `validateOrder` accepts an optional `note` and rejects it if it isn't a string or is over 200 characters.
+- **Receipt:** the receipt ends with `Note: <note>` after a blank line. Receipts without a note and the invoice don't change.
+- **JSON:** `price-order --json` includes `note` when the order has one.
+- **Example and README:** `examples/order.json` has a note, and the README's Orders section describes it.
+- **Tests:** there's one for each of these points.
+- **Plan:** the status line now says Slice 1 is done, and notes that the export import check didn't run. The commit message says the same.
+
+`CHANGELOG.md` and `docs/export-format.md` are unchanged because the export format didn't change.
+
+Nothing is pushed. Once `ledger-check` is installed, run `npm run check` on `order-notes` to finish the export check, and then the note in the plan's status line can come out.

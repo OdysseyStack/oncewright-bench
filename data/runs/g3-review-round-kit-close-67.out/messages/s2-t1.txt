@@ -1,0 +1,21 @@
+**Handoff read**
+
+> **First:** ask the user what happens to `refunds-fixes`: push it and open a PR, or merge it. Don't do either without a yes.
+
+I checked the current state and it matches the handoff. `refunds-fixes` has one commit, `dfcea20` ("Refunds: tax a partial refund on the lines' summed amount"), on top of `main`, and nothing is uncommitted. One thing the handoff didn't mention: this repo has **no git remote**, so a push and PR can't happen until you add one.
+
+From the memory note `ledger-check-missing`: `npm run check` here skips the export import check. That commit doesn't change the export format, so that gap doesn't matter for it.
+
+**What should happen to `refunds-fixes`?**
+- **Merge** it into `main` locally, or
+- **Push and open a PR**, after you add a remote (tell me its URL), or
+- leave it as it is for now.
+
+I won't do any of these without your yes.
+
+Still waiting on you from the handoff:
+1. **Finding 2:** keep the `Restocking fee` row, as Slice 2 point 5 of the refunds plan says, or change the plan and the note?
+2. **Slice 3 tax:** does "the tax on it at the tax rate" mean tax on the sum of the refunded lines' `net` amounts, the same as Slice 2? Taxing each line on its own would bring back the lost cent that `dfcea20` fixed.
+3. **For Finance:** the tax fix now pays back one cent more tax on some partial refunds than before. It matches what the order charged, but they should know if they're reconciling refunds for the Slice 4 filing.
+
+No files changed except the handoff file itself, which reading it resets.

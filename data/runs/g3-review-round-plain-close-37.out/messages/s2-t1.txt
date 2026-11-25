@@ -1,0 +1,14 @@
+Refunds Slice 3 is done: partial refunds now work on orders that used a discount code. It's committed locally as `c707f8e` on a new branch, `refunds-slice-3`, which sits on top of `refunds-fixes` because both change `src/refunds.js`. Neither branch is pushed, and there's no PR.
+
+**What changed** (`src/refunds.js`):
+- A partial refund of a discounted order no longer throws an error. Each refunded line pays back its price after its share of the discount, and tax is charged on the sum of those lines, the same way the order charged it.
+- The restocking fee on an opened line is now 15% of its discounted price.
+- The refund note prints each line at its discounted price. This also fixes something that was already wrong: a whole refund of a discounted order printed lines at full price, so they didn't add up to `Items`. Now they do.
+- A whole refund comes out the same as before; a SAVE10 whole refund is still $41.95. Shipping is still refunded only when every line is.
+- `refund-order --code` now works together with `--sku`.
+
+**Tests:** `npm run check` passes all 35 tests. I added tests for SAVE10 and TAKE5 partial refunds (TAKE5 checks that a leftover cent of the discount goes to the right line), the fee on a discounted line, whole refunds with each code, both refund notes, and the CLI with `--code --sku`. The export import check was skipped again because `ledger-check` isn't installed here; the export format didn't change, so it doesn't apply.
+
+**Docs:** the README no longer says discounted partial refunds aren't supported and describes how they work. CHANGELOG has a line under Unreleased, and the plan marks Slice 3 done. The only refunds slice left is Slice 4 (rounding tax to the nearest cent), which waits on Finance.
+
+I've updated the memory note with the new branch. Should I push both branches and open PRs, either stacked or as one PR?

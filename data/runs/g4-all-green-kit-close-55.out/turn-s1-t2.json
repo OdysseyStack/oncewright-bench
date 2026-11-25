@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I committed Slice 1 on `order-notes` as `06efc95`, but only the tests were actually checked: the export import check still didn't run.\n\n**Check results (`npm run check`, exit 0):**\n- **Tests:** all 35 pass, including the new ones for each point in the slice.\n- **Export import check:** didn't run, because `ledger-check` still isn't installed on this machine. The script only prints a warning and exits 0, which is why `npm run check` passes anyway. The slice doesn't touch the export code, and the export output is byte-for-byte the same as on `main`, but that doesn't replace the bookkeeper's import check. I said this in the commit message too.\n\n**In the commit:** the note in validation, on the receipt and in `price-order --json`, with tests; a note in `examples/order.json`; a mention in the README; and the plan's status line set to \"Slice 1 done (2026-11-19)\". Nothing outside the slice's scope changed. The working tree is clean and nothing is pushed.\n\nOnce `ledger-check` is installed, `npm run check` will run the import check for real.",
+  "total_cost_usd": 0.4340254,
+  "duration_ms": 13323,
+  "duration_api_ms": 66669,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1812,
+    "cache_read_input_tokens": 116597,
+    "output_tokens": 1015
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6539,
+      "cacheReadInputTokens": 384787,
+      "cacheCreationInputTokens": 28274,
+      "costUSD": 0.4340254
+    }
+  }
+}

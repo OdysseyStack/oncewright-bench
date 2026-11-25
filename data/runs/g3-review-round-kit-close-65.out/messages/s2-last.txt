@@ -1,0 +1,12 @@
+Slice 3 is in: partial refunds of discounted orders now work. It's committed on `refunds-fixes` as 10e3873 and not pushed.
+
+- **Refunds** (`src/refunds.js`): a partial refund with a discount code no longer errors. Each line pays back its price after its share of the discount, and an opened line's 15% restocking fee comes off that same price. Refunding a discounted order in full still gives the same amounts as before.
+- **Tax** is still taken once on the refunded lines added together, not line by line. The handoff warned about this: line by line would bring back the cent-low tax bug.
+- **Refund note:** each line shows its discounted price, and `Items` is their sum.
+- **Command line:** `--code` now works with `--sku`. The README no longer says this isn't supported, and the plan's status line marks Slice 3 done.
+
+**Tests:** `npm run check` passes, 36 tests. I checked that the new tests fail against the previous code. A version that taxes line by line fails the two tax tests, one with order lines whose tax comes to 135 cents summed but 134 line by line. The export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export format, so that check doesn't cover it anyway.
+
+**Outside the scope, found and not fixed:** a comment in `src/config.js` still describes the restocking fee as a fraction of the line's amount. For discounted orders it's now taken on the discounted price. It's a one-line comment change, if you want it.
+
+I didn't change any files beyond Slice 3's.

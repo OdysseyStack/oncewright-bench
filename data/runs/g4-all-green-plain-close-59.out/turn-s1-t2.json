@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `a51651a`, and the working tree is clean. The code was already finished last turn, so this time I only re-ran the checks and committed.\n\n**Check results (`npm run check`)**\n- **Tests:** 34 passed, 0 failed.\n- **Export import check:** didn't run. `ledger-check` still isn't installed, so the script printed its warning and exited 0. That means `npm run check` reports success without the export having been checked. This slice doesn't change the export code or its sample orders, and the export output is identical to `main`'s, but that's my comparison, not the bookkeeper's checker. The commit message records this.\n\n**What the commit contains**\n- An order can carry an optional `note` of up to 200 characters. `validateOrder` reports a note that isn't text or is too long.\n- The receipt prints `Note: \u2026` as its last line, after a blank line. A receipt without a note and the invoice are unchanged.\n- `price-order --json` includes `note` only when the order has one.\n- `examples/order.json` now has a note. The README and `CHANGELOG.md` are updated, and the plan's status line says Slice 1 is done.\n- There are new tests for each point.\n\nIf you want the import check to actually run, install `ledger-check` and run `npm run check` again.",
+  "total_cost_usd": 0.4282538000000001,
+  "duration_ms": 15072,
+  "duration_api_ms": 73184,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1918,
+    "cache_read_input_tokens": 111345,
+    "output_tokens": 1184
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 7196,
+      "cacheReadInputTokens": 358669,
+      "cacheCreationInputTokens": 26563,
+      "costUSD": 0.4282538000000001
+    }
+  }
+}

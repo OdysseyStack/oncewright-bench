@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes to memory, plus an index file that points to them:\n\n- **Where `refunds-fixes` stands:** It's committed as `ee6fb87` but not pushed, merged or opened as a PR. The restocking-fee finding is still open: I didn't make that change because the README's accounting-import rule and plan Slice 2 point 5 both keep the fee on its own row. You haven't said yet whether you want to change those instead. The note also lists what would have to change together if you do.\n- **`npm run check` passes without the export check:** `ledger-check` isn't installed on this machine. The script only prints a warning, so the check passes even though the export import check never ran. The next session should say the import is unverified rather than call it checked.\n\nThe code changes and the reason for skipping that finding are in the commit and its message. I didn't copy those into memory.",
+  "total_cost_usd": 0.3745052000000001,
+  "duration_ms": 22009,
+  "duration_api_ms": 59055,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2931,
+    "cache_read_input_tokens": 106077,
+    "output_tokens": 2059
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5399,
+      "cacheReadInputTokens": 294226,
+      "cacheCreationInputTokens": 25950,
+      "costUSD": 0.3745052000000001
+    }
+  }
+}

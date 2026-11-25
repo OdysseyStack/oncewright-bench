@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session:\n\n- **The branch:** the CodeRabbit refunds fixes are committed on `refunds-fixes` (`7646f78`) but not pushed or merged. Next time I'll ask whether you want it pushed, opened as a PR, or merged. The note also records that I declined the fee-folding finding on purpose, so it doesn't get reopened. Slice 3 of the refunds plan (partial refunds of discounted orders) changes the same function, so it should go on top of this branch or wait until it merges.\n- **The check:** on this machine `npm run check` only runs the tests. `ledger-check` isn't installed, so the export import check is skipped even when the check says it passed. When the export format changes, I need to tell you that rather than call the check green.\n\nI didn't save anything the repo already records: why I declined the fee change is in the commit message, and the plan and README cover the rest. Nothing is left uncommitted.",
+  "total_cost_usd": 0.38346840000000004,
+  "duration_ms": 22697,
+  "duration_api_ms": 60937,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2804,
+    "cache_read_input_tokens": 109087,
+    "output_tokens": 2086
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5439,
+      "cacheReadInputTokens": 297322,
+      "cacheCreationInputTokens": 26893,
+      "costUSD": 0.38346840000000004
+    }
+  }
+}

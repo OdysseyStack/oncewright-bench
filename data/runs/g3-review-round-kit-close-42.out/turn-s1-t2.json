@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I wrote this session's memory and the handoff for the next one.\n\n- **Stopped:** nothing; no agents, jobs or monitors ran this session.\n- **Memory:** one new file, `ledger-check-not-installed`. It records that `npm run check` passes on this machine without running the export import check. `MEMORY.md` is 1 line and 145 bytes, well under its 16 KB / 150-line limit, so the index didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line is \"# Handoff: refunds fixes committed on `refunds-fixes`, not pushed\".\n- **Still yours to decide:** whether to push `refunds-fixes` and open a PR, and whether you agree with turning down finding 2 (moving the restocking fee into `Items` on the refund note).\n- **Warning for Slice 3:** the plan's wording \"the tax on it at the tax rate\" could be read as per-line tax. That would bring back the cent-short bug fixed today, so the handoff says to charge tax on the total of the refunded lines.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.41039980000000004,
+  "duration_ms": 28425,
+  "duration_api_ms": 62829,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4547,
+    "cache_read_input_tokens": 112352,
+    "output_tokens": 2735
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5867,
+      "cacheReadInputTokens": 311659,
+      "cacheCreationInputTokens": 28831,
+      "costUSD": 0.41039980000000004
+    }
+  }
+}

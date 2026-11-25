@@ -1,0 +1,10 @@
+{
+  "name": "wrap-up",
+  "version": "0.1.0",
+  "description": "Past the wrap-up mark (ODYSSEY_WRAPUP_PCT, 35% of context by default), a band above the prompt offers to wrap up: one press runs /odyssey:wrap-up, which saves memory and writes the next session's handoff. Shows only in sessions that loaded the Odyssey kit.",
+  "author": {
+    "name": "Lincoln Powers ∙ Odyssey AI, Inc.",
+    "url": "https://www.odysseystack.com"
+  },
+  "types": "./types/index.d.ts"
+}

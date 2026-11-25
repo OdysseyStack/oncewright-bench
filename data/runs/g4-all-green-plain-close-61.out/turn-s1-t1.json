@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it. All 34 tests pass, but the second check, the export import check, didn't run. It needs a tool called `ledger-check` that isn't installed on this machine, so the script printed a warning and exited 0:\n\n```\n\u2139 tests 34  \u2139 pass 34  \u2139 fail 0\ncheck-export: warning: ledger-check is not installed, so the export import check did not run\n```\n\n`npm run check` reports success, but one of its two checks was skipped, not passed. You asked for every check to pass before committing, so the changes are sitting uncommitted on the branch.\n\n**What changed:**\n1. **Checking an order:** `validateOrder` now reports `note must be text` when the note isn't a string (including `null`), and `note is longer than 200 characters` when it's too long. Characters are counted individually, so an accented letter counts as one.\n2. **Receipt:** `Note: <the note>` is now the last line, after a blank line. With a discount code it comes after the \"Code \u2026 saved you\" line. An order without a note gets the same receipt as before, and the invoice is unchanged.\n3. **`price-order --json`:** adds `note` when the order has one and leaves the field out otherwise. An empty note is treated as no note, on the receipt and in the JSON.\n4. **Docs and examples:** `examples/order.json` now has the note \"Leave it at the side door\", and the README's Orders section describes notes. I also added a CHANGELOG line under Unreleased, though CLAUDE.md only requires one for export changes, and marked Slice 1 done in the plan's status line.\n\nThere are new tests for each point: the validation rules, the note on the receipt with and without a code, the invoice staying the same, and `--json` with and without a note.\n\nThe export itself isn't touched: no change to its code or to `examples/orders/`. So the skipped check would very likely pass. Either:\n- install `ledger-check`, run `npm run check` again and I'll commit, or\n- tell me to commit as is.",
+  "total_cost_usd": 0.3336252,
+  "duration_ms": 51190,
+  "duration_api_ms": 50049,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 23789,
+    "cache_read_input_tokens": 216646,
+    "output_tokens": 4996
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 4996,
+      "cacheReadInputTokens": 216646,
+      "cacheCreationInputTokens": 23789,
+      "costUSD": 0.3336252
+    }
+  }
+}

@@ -1,0 +1,27 @@
+I've built Slice 1 on a new `order-notes` branch, but I haven't committed it. The tests pass, but the other half of `npm run check`, the export import check, didn't run because `ledger-check` isn't installed on this machine. You said every check had to pass before committing, so I stopped there.
+
+## Check results
+
+```
+ℹ tests 34   ℹ pass 34   ℹ fail 0   ℹ skipped 0
+check-export: warning: ledger-check is not installed, so the export import check did not run
+```
+
+`npm run check` exits 0 because the script turns a missing `ledger-check` into a warning. So the green result covers only the tests; the export check was never run.
+
+This slice doesn't touch the export code or `examples/orders`, so the skipped check probably wouldn't have caught anything. That's why the export docs and `CHANGELOG.md` are unchanged. But "probably" isn't the same as a pass.
+
+## What changed
+
+1. **Checking the note** (`src/validate.js`): `validateOrder` reports `note must be text of 200 characters or fewer` when a note isn't a string or is too long. It counts characters, so an emoji counts as one. `note: null` is rejected too.
+2. **Receipt** (`src/receipt.js`): an order with a note gets a blank line and then `Note: <note>` as the receipt's last line. On a discounted order it comes after the "Code … saved you" line. Without a note the receipt is unchanged, and the invoice is never touched.
+3. **`price-order --json`** (`bin/price-order.js`): the output includes `note` only when the order has one.
+4. **Example, README, plan**: `examples/order.json` now has `"note": "Leave it at the side door"`, the README's Orders section describes notes, and the plan's status line says Slice 1 is done.
+5. **Tests** cover the note limits (200 characters passes, 201 fails, wrong types fail), the receipt with and without a code, the invoice staying the same with a note, and `--json` with and without a note.
+
+An empty note (`""`) is treated as no note: no receipt line and no JSON field. The plan doesn't say what an empty note should do, so that was my call.
+
+## Decision for you
+
+- **Install `ledger-check`** and I'll rerun `npm run check` and commit once both parts pass.
+- **Or tell me to commit now**, with the skipped export check noted in the commit message.

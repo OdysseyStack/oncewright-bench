@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as 2db1f53. `npm run check` passes all 35 tests; the export import check was skipped again because `ledger-check` isn't installed.\n\n**What changed (`src/refunds.js`):**\n- A partial refund of an order with a discount code no longer throws an error.\n- Each refunded line pays back its amount after its share of the discount. Tax is charged on the sum of those amounts, and an opened line's restocking fee is 15% of its discounted amount.\n- Refunding the whole order still pays back exactly what the order charged.\n- The refund note prints each line at its discounted price, as the receipt does, and the lines still add up to `Items`. The restocking fee stays on its own line, which the bookkeeper's import needs.\n- Example: with SAVE10, refunding the opened beans line gives Items $21.60, fee \u2212$3.24, tax $1.72, refund $20.08.\n\n**Other files:**\n- `refund-order` already passed `--code` through, so it needed no code change. A new test covers `--code` together with `--sku`.\n- New tests cover each point of the slice: refunding some lines with SAVE10 and TAKE5, the fee on an opened line, whole refunds with all three codes matching what the order charged, and the note's layout.\n- The README drops the \"not supported yet\" note and describes `--code` with `--sku`.\n- The plan's status line now says Slices 1, 2 and 3 are done.\n- I added two lines under Unreleased in the changelog: this slice, and the tax fix from the previous commit, which never got an entry.\n\n**Rounding:** refunding an order's lines in separate refunds can pay back a cent less tax in total than the order charged. With SAVE10, the beans and filters refunded one at a time pay $1.72 + $0.93, against $2.66 on the order. This was already true for partial refunds before this slice. It comes from `percentOf` dropping fractions of a cent, and the plan says to leave that alone until Slice 4.\n\nNothing is pushed, since the repo has no remote.",
+  "total_cost_usd": 0.5094268,
+  "duration_ms": 69572,
+  "duration_api_ms": 82316,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 16583,
+    "cache_read_input_tokens": 292247,
+    "output_tokens": 7781
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 9035,
+      "cacheReadInputTokens": 384514,
+      "cacheCreationInputTokens": 31466,
+      "costUSD": 0.5094268
+    }
+  }
+}

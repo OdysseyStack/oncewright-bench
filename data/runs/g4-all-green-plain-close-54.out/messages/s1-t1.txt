@@ -1,0 +1,24 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it, because one of the two checks didn't run.
+
+## Check results (`npm run check`)
+- **Tests: all 35 pass, 0 fail.** That includes 5 new ones.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. `npm run check` shows green, but that check didn't pass; it was skipped.
+
+This change shouldn't touch the export. I ran `export-orders` on `examples/orders` with and without my changes, and the output is byte-identical. The export code, those example orders and `docs/export-format.md` are unchanged. So no changelog line is needed.
+
+You asked that every check pass before the commit, and one didn't run. Should I commit as is, or wait until `ledger-check` can be installed and the export check run first?
+
+## What changed
+1. **Checking the note** (`src/validate.js`): `note` is optional. If present, it must be a string (otherwise "note must be text") of at most 200 characters (otherwise "note is longer than 200 characters"). Characters are counted the way a person would, so 200 emoji are allowed.
+2. **Receipt** (`src/receipt.js`): an order with a note ends with a blank line and then `Note: …`, after the "Code … saved you" line when a code was used. Without a note the receipt is unchanged. An empty note counts as no note.
+3. **`price-order --json`** (`bin/price-order.js`): adds `note` only when the order has one.
+4. **Example and README**: `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note.
+5. **Plan**: the status line now reads "Slice 1 is done."
+
+## New tests
+- **Receipt:** the note line, with and without a code.
+- **Invoice:** a note leaves it unchanged.
+- **Validation:** 200 characters is accepted, and 201 characters, a number or `null` is refused.
+- **`price-order`:** `--json` includes the note when there is one and leaves it out when there isn't, and an order with a note that's too long is refused with exit code 1.
+
+The example order's plain `price-order` output and the `refund-order` results didn't change, so the existing tests on them still pass.

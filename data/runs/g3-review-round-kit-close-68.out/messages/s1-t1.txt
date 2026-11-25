@@ -1,0 +1,9 @@
+I dealt with the three findings and committed the result as `677b1ed` on a new branch, `refunds-fixes`.
+
+- **Tax on a partial refund (fixed):** the refund's tax could come out a cent below what the order charged for those lines. It's now worked out on the refunded lines' total, as the refunds plan (Slice 2 point 1) says. I added a test with the 6.19 / 10.19 example from the finding: it failed first (130¢ instead of 131¢) and passes now.
+- **Using a `Set` to pick the refunded lines (fixed):** done in `linesFor`. It doesn't change any result.
+- **Folding the restocking fee into `Items` on the refund note (rejected):** the plan's Slice 2 point 5 asks for a separate negative `Restocking fee` line, so the note stays as it is. If you want the change anyway, the plan needs updating first.
+
+`npm run check` passes all 31 tests. The export import check didn't run because `ledger-check` isn't installed (it only printed a warning). These changes don't touch the export, so neither `docs/export-format.md` nor the CHANGELOG needed updating.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`, nothing outside that scope. Nothing is pushed.

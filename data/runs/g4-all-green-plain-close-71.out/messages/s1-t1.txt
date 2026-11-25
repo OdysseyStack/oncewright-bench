@@ -1,0 +1,24 @@
+I've implemented Slice 1 on a new `order-notes` branch, but I haven't committed it: one of the two checks never ran on this machine.
+
+## Check results
+
+- **Tests: all 36 pass, 0 fail.** That includes the new note tests.
+- **Export import check: did not run.** `ledger-check` isn't installed here, so `scripts/check-export.sh` printed `warning: ledger-check is not installed, so the export import check did not run` and exited 0. `npm run check` therefore reports success, but only the tests actually ran.
+
+The note shouldn't affect the export. I ran `export-orders` on `examples/orders` before and after the change and the output was byte-for-byte the same, and the export code wasn't touched. That's still not the same as the import check passing, and you asked for every check to pass before committing.
+
+## What changed (uncommitted)
+
+1. **Validation** (`src/validate.js`): `note` is optional. `validateOrder` reports `note must be text` (including `null`) or `note is N characters, 200 at most`.
+2. **Receipt** (`src/receipt.js`): an order with a note ends with a blank line and then `Note: …`, after the "Code … saved you" line if there is one. Receipts without a note are unchanged. The invoice is unchanged and a test confirms it. An empty-string note passes validation but prints no Note line.
+3. **`price-order --json`** (`bin/price-order.js`): includes `note` only when the order has one.
+4. **Docs and example**: `examples/order.json` has the note "Leave it at the side door", and the README's Orders section describes it. I didn't add a CHANGELOG line or touch `docs/export-format.md`, because CLAUDE.md asks for those only when the export format changes, and it didn't.
+5. **Tests** in `validate`, `receipt`, `invoice` and `cli` cover each point, including the CLI refusing an order whose note is 201 characters.
+
+I left the plan's status line at "Slice 1 is next" until the change is committed.
+
+## To commit
+
+Either:
+- install `ledger-check` (or run on a machine that has it), then run `npm run check` and I'll commit once it passes for real; or
+- tell me the identical export output is good enough, and I'll update the plan's status line and commit.

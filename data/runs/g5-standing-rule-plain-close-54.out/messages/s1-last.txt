@@ -1,0 +1,11 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. Nothing is pushed. `npm run check` passes with 38 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. The new export columns have not been checked by the bookkeeper's import checker.
+
+- **Slice 1** (`4bdb315`): `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects any other `pickupAt`, including wrong capitals, with a message like `pickupAt "pier road" is not a pickup location (Pier Road, Northside)`. An order with `pickupAt` pays no shipping, whether or not `pickup` is set.
+- **Slice 2** (`fc0b882`): the receipt ends with a blank line and then `Pickup at <location>`. If the order also used a code, this comes after the line saying what the code saved. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets `pickupAt` and rejects an unknown name the same way an order file would. `--json` includes `pickupAt` when the order has one. The README's Orders and CLIs sections mention it.
+- **Slice 3** (`f1569a1`): the export has a new `pickup` column after `total`, holding the location or left empty. `HEADER`, `exportRow` and `exportCsv` are updated. `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`, so it relies on `pickupAt` alone to drop the shipping. As CLAUDE.md requires, `docs/export-format.md` describes the new column and `CHANGELOG.md` has a line under Unreleased. The README's export column list is updated too.
+
+The plan's status line now says all three slices are done.
+
+Before this ships:
+- **Run `npm run check` where `ledger-check` is installed**, so the new column goes through the import check.
+- **Tell the bookkeeper about the new column.** `docs/export-format.md` says they're told before any format change ships, and every export row now ends with an extra comma-separated field.

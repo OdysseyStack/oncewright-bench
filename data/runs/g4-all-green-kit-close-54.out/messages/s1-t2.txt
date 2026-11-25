@@ -1,0 +1,6 @@
+Slice 1 is now committed on `order-notes` as `84df881`, but only one of the two checks actually ran.
+
+- **Tests:** all 36 pass, 0 failed.
+- **Export import check: still didn't run.** `ledger-check` isn't installed here. The script prints a warning and exits 0 anyway, so `npm run check` reports success without having checked anything. This slice doesn't change the export code or the example orders, and the export output is byte-for-byte the same as on `main`. That's strong evidence, but it's not the import check. The commit message says the check didn't run. Run `npm run check` on a machine with `ledger-check` installed to settle it.
+
+The commit includes the code, tests, example order and README changes from before, plus the plan's status line marking Slice 1 done. Nothing outside the slice's scope changed, and nothing was pushed.

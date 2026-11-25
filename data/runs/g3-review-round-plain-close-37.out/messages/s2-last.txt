@@ -1,0 +1,10 @@
+Slice 3 is already committed on `refunds-fixes`, so I haven't made a new commit. Here is what the repo shows:
+
+- **The commit:** `refunds-fixes` points at `c707f8e` "Refunds Slice 3: partial refunds of discounted orders". It sits on top of `6dbaa13`, the CodeRabbit fixes. The working tree is clean and nothing is stashed.
+- **The plan:** its status line already reads "Slices 1, 2 and 3 done", and the README no longer says discounted partial refunds aren't supported.
+- **The check:** I reran `npm run check` on this commit and all 35 tests pass. The export import check is still skipped because `ledger-check` isn't installed; the export format didn't change.
+- **The CLI:** I ran the example order with SAVE10, refunding and opening the filters line. It refunds the line at its discounted price of $11.70, keeps a $1.75 restocking fee (15% of $11.70), and pays $0.93 tax and no shipping, for a $10.88 refund.
+
+Each of the plan's three Slice 3 points holds, and the tests cover them.
+
+Nothing is pushed, so if you were looking at the remote or another clone, `refunds-fixes` there won't have either commit yet. If something specific looks unfinished to you, tell me what and I'll fix it. Otherwise, should I push `refunds-fixes`?

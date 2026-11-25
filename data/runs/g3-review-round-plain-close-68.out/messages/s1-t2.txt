@@ -1,0 +1,10 @@
+I saved two memory notes for the next session:
+
+- **`refunds-fixes-branch`**:
+  - **Branch state:** the branch has one commit (`ccd6e3a`) and isn't pushed, merged or opened as a PR.
+  - **What it fixes:** the tax on partial refunds, and the Set in `linesFor`.
+  - **What was skipped:** I left out CodeRabbit's suggestion to fold the restocking fee into `Items` on purpose, because the bookkeeper's import needs the fee as its own line. The note says not to apply it if the finding comes up again.
+  - **Next step:** refunds Slice 3 should build on this branch, since it changes the same tax line.
+- **`ledger-check-missing`**: on this machine, `npm run check` skips the export import check and only prints a warning. A passing check doesn't mean the export was checked.
+
+The working tree is clean and everything is committed on `refunds-fixes`. Pushing, opening a PR and merging are still yours to decide. `review/findings-refunds.md` is still in the repo, since you didn't ask me to remove it.

@@ -1,0 +1,15 @@
+I've implemented Slice 1 on the new `order-notes` branch, but **I haven't committed yet**. Not every check passed: the export import check never ran.
+
+**Check results (`npm run check`, which exits 0):**
+- **Tests: 34 of 34 passed, 0 failed.** 4 of those are new tests for this slice.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. Nothing in this slice touches the export, and I confirmed the export's output is byte-for-byte the same as on `main`. But the check itself still didn't run, and you asked for every check to pass before the commit.
+
+**What changed, by point in the plan:**
+1. **Validation:** `validateOrder` now names a `note` that isn't a string (`note must be a string`) or is over 200 characters (`note is longer than 200 characters`). It counts characters, not UTF-16 code units, so 200 ☕ are allowed.
+2. **Receipt:** when the order has a note, `renderReceipt` adds a blank line and then `Note: <the note>` at the very end, after the "Code … saved you" line if there is one. Without a note the receipt is unchanged, and the invoice never shows the note. Tests cover both.
+3. **`price-order --json`:** adds `note` only when the order has one. Tests cover with a note, without one, and the CLI refusing a 201-character note.
+4. **Example and docs:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note.
+
+I also set the plan's status line to "Slice 1 is done." and added a line under Unreleased in `CHANGELOG.md`. The export format didn't change, so `docs/export-format.md` is untouched.
+
+To finish, either install `ledger-check` and I'll rerun `npm run check` before committing, or tell me to commit now with that check skipped.

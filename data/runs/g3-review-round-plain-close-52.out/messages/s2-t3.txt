@@ -1,0 +1,16 @@
+Slice 3 is already committed on `refunds-fixes`, so I haven't made a new commit. Checked just now:
+
+- `refunds-fixes` is the current branch and the working tree is clean. Nothing is stashed.
+- Its latest commit is **7ada936 "Refunds Slice 3: partial refunds of discounted orders"**, on top of d43ec60, the CodeRabbit fixes. It changes `src/refunds.js`, `test/refunds.test.js`, `README.md`, `CHANGELOG.md` and the plan.
+- The plan's status line reads "Slices 1, 2 and 3 done", and the Slice 3 heading says "(done, 2026-11-19)".
+- Nothing outside the plan still says partial refunds of discounted orders aren't supported. The old "not supported yet" error and test are gone.
+- `npm run check`: all 35 tests pass. The export import check didn't run because `ledger-check` isn't installed here, but Slice 3 doesn't change the export.
+
+Each point in the plan has tests:
+1. **Amounts:** a refunded line pays back its price after its share of the discount. Tax is worked out on those lines together, the restocking fee is 15% of the discounted price, and shipping is refunded only when every line is. Refunding every line matches the whole refund for SAVE10, STAFF25 and TAKE5.
+2. **Refund note:** lines print at their discounted price and add up to `Items`.
+3. **CLI and docs:** `refund-order --sku FILTER-100 --code SAVE10 --json` gives back the right amounts. The README describes `--code` with `--sku`.
+
+You may not see it if you're looking at a remote. The repo has no remote, so nothing has been pushed anywhere and there's no PR. Or if you're looking at a checkout that was on `refunds-slice-3`: that was a side branch I fast-forwarded into `refunds-fixes` and then deleted.
+
+If something specific looks missing on your side, tell me what you're seeing and I'll look. Otherwise the open questions are still the CodeRabbit suggestion I declined (folding the restocking fee into `Items`) and whether you want this pushed once there's a remote.

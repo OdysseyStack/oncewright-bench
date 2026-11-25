@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "Slice 3 is committed on `refunds-fixes` as `abb6727`, on top of the CodeRabbit fixes commit (`4965507`). The tests pass: 34 of 34. `ledger-check` isn't installed here, so the export import check didn't run, but this change doesn't touch the export format.\n\nI'd already built Slice 3 earlier in this session but hadn't committed it. It was on a side branch, `refunds-slice-3`, which had no commits of its own. I moved the changes onto `refunds-fixes` and deleted the empty side branch.\n\nWhat the commit does:\n- **Discounted orders can be partly refunded.** Each refunded line pays back its amount less its share of the discount. Tax is charged on the total of those refunded amounts, and an opened item's restocking fee is 15% of its discounted amount.\n- **The refund note prints each line at its discounted price**, so the lines add up to `Items`. This also fixes whole refunds of discounted orders: their notes used to print full-price lines that didn't add up.\n- **`refund-order --code` now works with `--sku`.** I updated the README, the CHANGELOG and the plan's status line, and there are tests for each point in the slice.\n\n`refunds-fixes` isn't pushed or merged. The restocking-fee question is still open: the fee stays on its own line on the refund note, as the plan and README say, unless you decide to change that.",
+  "total_cost_usd": 0.6006236,
+  "duration_ms": 22648,
+  "duration_api_ms": 105317,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 10,
+    "cache_creation_input_tokens": 3537,
+    "cache_read_input_tokens": 224762,
+    "output_tokens": 1897
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 34,
+      "outputTokens": 10546,
+      "cacheReadInputTokens": 616398,
+      "cacheCreationInputTokens": 33286,
+      "costUSD": 0.6006236
+    }
+  }
+}

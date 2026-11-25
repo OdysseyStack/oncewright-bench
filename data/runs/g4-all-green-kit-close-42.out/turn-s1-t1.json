@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks didn't run: `ledger-check` isn't installed on this machine, so the export import check printed a warning and exited 0 without checking anything. You asked for every check to pass before committing, and a check that didn't run hasn't passed.\n\n**Check results (`npm run check`):**\n- **Tests:** all 34 pass, none fail (5 of them are new).\n- **Export import check:** didn't run. The output was `check-export: warning: ledger-check is not installed, so the export import check did not run`. As a stand-in, I ran the export on `examples/orders` with and without the change, and the output is byte-for-byte identical. The slice doesn't touch the export, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.\n\n**What changed:**\n- **Validation** (`src/validate.js`): an order may carry `note`. `validateOrder` reports \"note must be a string\" or \"note is longer than 200 characters\". Accented letters count as one character each.\n- **Receipt** (`src/receipt.js`): when there's a note, `Note: <note>` is the last line, after a blank line, with or without a discount code. A receipt without a note is unchanged, and the invoice is unchanged; a test covers that.\n- **`price-order --json`** (`bin/price-order.js`): includes `note` only when the order has one.\n- **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it.\n- **Tests:** in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`. The CLI test also checks that an order with a note over 200 characters is refused.\n- **Plan:** the status line now says Slice 1 is done.\n\nAn empty note (`\"\"`) counts as no note, so the receipt and the JSON output leave it out.\n\nTo commit, either install `ledger-check` and I'll re-run the check, or tell me to go ahead without it. No files outside the slice's scope were changed.",
+  "total_cost_usd": 0.3657632,
+  "duration_ms": 51852,
+  "duration_api_ms": 49264,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 26481,
+    "cache_read_input_tokens": 266816,
+    "output_tokens": 5024
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5024,
+      "cacheReadInputTokens": 266816,
+      "cacheCreationInputTokens": 26481,
+      "costUSD": 0.3657632
+    }
+  }
+}

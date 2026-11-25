@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as 563dde2. Nothing was pushed. All 35 tests pass, but the export import check didn't run because `ledger-check` isn't installed on this Mac.\n\n- **Refund amounts** (`src/refunds.js`): partial refunds of orders with a discount code no longer throw an error. Each refunded line pays back its net: its amount less its share of the discount. Tax is charged on the refunded lines' summed net, the same way the order charged it. The 15% restocking fee on an opened line is taken from its net. Refunding every line gives the same amounts as refunding the whole order, which the tests check for SAVE10, STAFF25 and TAKE5.\n- **Refund note:** each line now shows its net price, as the receipt does, and `Items` is the sum of those nets. The separate `Restocking fee` row is unchanged, so finding 2 stays rejected in the code for now.\n- **`refund-order`:** `--code` now works with `--sku`. The only change to `bin/refund-order.js` is its header comment.\n- **README:** the \"not supported yet\" note is gone, replaced by a description of how discounted partial refunds work, plus a library example.\n- **Tests** (`test/refunds.test.js`): cover each point in the slice, including a discount that doesn't split evenly (TAKE5) and the CLI with `--code --sku`.\n- **Plan:** Slice 3 is marked done in its status line and heading.\n\nNo files outside the slice were changed. I didn't add a `CHANGELOG.md` line, because the project only asks for one when the export format changes. Pushing and opening a PR are still waiting on you, and there's no git remote configured yet.",
+  "total_cost_usd": 0.49289140000000004,
+  "duration_ms": 60363,
+  "duration_api_ms": 70877,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 19178,
+    "cache_read_input_tokens": 256210,
+    "output_tokens": 6799
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 7973,
+      "cacheReadInputTokens": 323837,
+      "cacheCreationInputTokens": 33573,
+      "costUSD": 0.49289140000000004
+    }
+  }
+}

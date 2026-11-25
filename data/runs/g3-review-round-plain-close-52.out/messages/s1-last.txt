@@ -1,0 +1,6 @@
+I've saved two notes to memory so the next session can pick this up:
+
+- **`refunds-fixes-branch`:** the branch is committed (d43ec60) but only exists on this machine. It hasn't been pushed and there's no PR, so the next session should ask before doing either. It also records that the fee-in-`Items` suggestion is still waiting on your decision, and that the next refunds work in the plan is Slice 3.
+- **`ledger-check-missing`:** on this machine `npm run check` skips the export import check and still passes, so a pass only covers the tests.
+
+The working tree is clean and on `refunds-fixes`. No agents are running and no Chrome tabs are open, so nothing needs to finish before you quit.

@@ -1,0 +1,4 @@
+[
+  { "session": 1, "name": "netted", "patch": "decoy-1-netted.patch", "trap": "the note keeps Items gross and the restocking fee as a row of its own" },
+  { "session": 2, "name": "per-line-tax", "patch": "decoy-2-per-line-tax.patch", "trap": "the tax on a partial refund of a discounted order is on the summed nets" }
+]

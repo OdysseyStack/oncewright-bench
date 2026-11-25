@@ -1,0 +1,15 @@
+Slice 1 is committed on the new `order-notes` branch as `b31cec7`. All 35 tests pass, but the export import check didn't run, so I can't say every check passed.
+
+**Check results (`npm run check`):**
+- **Tests:** 35 of 35 passed, none failed. 8 of them are new.
+- **Export import check:** did not run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. It looks like a pass but checked nothing. This change shouldn't affect the export: nothing touches `src/export.js` or `examples/orders/`. I also generated the export before and after the change and the output is byte-for-byte the same. If you need the real check, it has to be run somewhere `ledger-check` is installed. I committed anyway because the commit is local and easy to undo.
+
+**What the slice does:**
+1. **Checking the order:** `validateOrder` reports a note that isn't a string (`note must be a string`, including `null`) or is over 200 characters (`note is longer than 200 characters`). It counts characters, so 200 emoji are allowed.
+2. **Receipt:** when the order has a note, `Note: <note>` is the last line, after a blank line. With a discount code it comes after the "Code … saved you" line. Without a note the receipt is unchanged, and the invoice never shows the note.
+3. **`price-order --json`:** includes `note` when the order has one and leaves it out otherwise. The plain-text output is unchanged.
+4. **Docs and tests:** `examples/order.json` now has a note, the README's Orders section describes it, and every point above has tests. I also added a line to `CHANGELOG.md` under Unreleased and set the plan's status line to "Slice 1 is done."
+
+**Open question:** an empty note (`""`) counts as no note, and a note containing line breaks is printed as is, across several lines. The plan doesn't cover either case, so tell me if you want them handled differently.
+
+Nothing has been pushed.

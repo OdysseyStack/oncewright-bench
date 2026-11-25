@@ -1,0 +1,14 @@
+Slice 3 is done and committed on `refunds-fixes` as d6a1838 (not pushed). Partial refunds of discounted orders now work.
+
+- **`src/refunds.js`:**
+  - A partial refund with a discount code no longer throws.
+  - Each refunded line pays back its net (its amount less its share of the discount), and the restocking fee is 15% of that net.
+  - Tax is still `percentOf` of the summed nets, not worked out line by line, so the cent lost per line doesn't come back. `percentOf` itself is unchanged.
+  - A whole refund of a discounted order gives the same amounts as before.
+- **The refund note** prints each line at its net price. This also fixes an older problem: the whole-order note for a discounted order used to list full prices that didn't add up to `Items`, which the bookkeeper's import would reject.
+- **`bin/refund-order.js`** needed no change, because it already passed `--code` through. A new test shows `--code` working with `--sku`.
+- **Tests:** I added tests in `test/refunds.test.js` for each point. Five of them fail against the old code. `npm run check` passes all 36 tests, but the export import check didn't run because `ledger-check` isn't installed here.
+- **`README.md`:** removed "not supported yet" and described how `--code` works with a partial refund.
+- **Plan:** marked Slice 3 done in its status line.
+
+No files outside the slice's scope were changed. Still open: whether to push the branch or open a PR, and whether to keep `review/findings-refunds.md`.

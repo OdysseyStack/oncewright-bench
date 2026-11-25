@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `3ae1266`, and the working tree is clean. I didn't push.
+
+**Check results (`npm run check`, run again just before the commit):**
+- **Tests: passed.** 34 of 34, including the 4 new ones for this slice.
+- **Export import check: still didn't run.** `ledger-check` isn't installed on this machine, so the script only prints a warning and exits 0. That's why `npm run check` looks green even though this check was skipped. In its place, I compared the export of `examples/orders` from this branch with the one from `main`, and they are byte-for-byte the same. The slice doesn't touch the export, so the import check would get the same input as on `main`. Still, the check itself has not run, and the commit message says so.
+
+**What the commit does:** an order can carry a `note` of up to 200 characters, and `validateOrder` reports one that isn't text or is too long. The receipt prints `Note: …` as its last line, after a blank line. `price-order --json` includes the note, and the invoice is unchanged. `examples/order.json` now has a note and the README describes it. The plan's status line now says Slice 1 is done.
+
+All 10 files changed are within the slice's scope; nothing outside it was touched.

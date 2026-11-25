@@ -1,0 +1,11 @@
+Slice 3 was already done in my last turn. It's committed on `refunds-fixes` as `b92457a`, on top of the CodeRabbit fixes (`6c77422`). The working tree is clean and I checked again just now: `npm run check` passes all 35 tests, and the plan's status line says Slices 1, 2 and 3 are done.
+
+The commit covers each point in the slice:
+
+1. **Refund amounts:** a partial refund with a code works now. Each line pays back its price after its share of the discount, plus tax on the sum of those prices, and an opened line's 15% fee comes off that discounted price. Refunding every line gives the same amounts as a whole refund.
+2. **Refund note:** each line prints at its discounted price, so the lines add up to `Items`.
+3. **CLI and docs:** `refund-order --code` works with `--sku`. The README no longer says this isn't supported yet, the CHANGELOG has a line under Unreleased, and there are tests for each point.
+
+As before, the export import check didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+The branch is still not pushed and has no PR. Do you want me to push it?

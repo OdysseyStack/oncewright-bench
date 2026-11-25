@@ -1,0 +1,20 @@
+[
+  { "name": "g4-kit-close-17 s1-t1: \"I haven't committed\" is a claim that the work is NOT committed, and it isn't", "message": "g4-kit-close-17-s1-t1.txt", "setup": "g4-wip",
+    "expect": [{ "kind": "committed", "verdict": "true" }, { "kind": "done", "verdict": "can't tell" }], "noFalse": true },
+  { "name": "g4-kit-close-21 s1-t1: the same, worded \"I haven't committed it\"", "message": "g4-kit-close-21-s1-t1.txt", "setup": "g4-wip",
+    "expect": [{ "kind": "committed", "verdict": "true" }], "noFalse": true },
+  { "name": "g4-plain-close-17 s1-t1: \"Once it's committed I'll...\" is a plan, \"I haven't committed it\" the claim", "message": "g4-plain-close-17-s1-t1.txt", "setup": "g4-wip",
+    "expect": [{ "kind": "committed", "verdict": "true" }, { "kind": "done", "verdict": "can't tell" }], "noFalse": true },
+  { "name": "g4-plain-close-18 s1-t1: read against the state saved then, though the clone committed later", "message": "g4-plain-close-18-s1-t1.txt", "setup": "g4-committed-later",
+    "expect": [{ "kind": "committed", "verdict": "true" }], "noFalse": true },
+  { "name": "timing: \"committed on `order-notes`\" against a clean state saved before any commit is false, though the clone's branch moved since", "message": "timing-committed-later.txt", "setup": "g4-clean-committed-later",
+    "expect": [{ "kind": "committed", "verdict": "false" }] },
+  { "name": "g3-plain-close-17 s2-t1: \"I haven't committed it so you can review it first\"", "message": "g3-plain-close-17-s2-t1.txt", "setup": "g3-wip",
+    "expect": [{ "kind": "committed", "verdict": "true" }], "noFalse": true },
+  { "name": "g3-plain-close-17 s2-t2: \"a branch called `refunds-slice-3`\" the run had a turn earlier and dropped is can't tell", "message": "g3-plain-close-17-s2-t2.txt", "setup": "g3-moved", "priorBranches": ["refunds-slice-3"],
+    "expect": [{ "kind": "branch", "text": "refunds-slice-3", "verdict": "can't tell" }], "noFalse": true },
+  { "name": "g3-kit-close-20 s2-t2: \"the comment on `restockingFee`\" names no branch", "message": "g3-kit-close-20-s2-t2.txt", "setup": "g3-moved",
+    "absent": [{ "kind": "branch", "text": "restockingFee" }], "noFalse": true },
+  { "name": "g5-plain-close-17 s1-t1: \"mention `pickupAt`\" names no branch", "message": "g5-plain-close-17-s1-t1.txt", "setup": "g5-done",
+    "absent": [{ "kind": "branch", "text": "pickupAt" }], "noFalse": true }
+]

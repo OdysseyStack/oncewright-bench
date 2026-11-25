@@ -1,0 +1,8 @@
+The session is wrapped up and the handoff for the next session is written.
+
+- **Jobs and agents:** none ran this session, so there was nothing to stop.
+- **Memory:** one new file, `ledger-check-missing`. It records that `npm run check` passes here without running the export import check, because `ledger-check` isn't installed. `MEMORY.md` is 1 line and 150 bytes, well under its target, so the index didn't need tidying.
+- **Handoff** (`directives/handoff/current.md`), first line: "# Handoff: after the refunds CodeRabbit fixes (2026-11-21)". The next session starts by asking you what to do with `refunds-fixes`: push and open a PR, or merge. It also raises whether to keep the plan's `Restocking fee` row on the refund note (CodeRabbit's finding 2).
+- **One thing to know:** the handoff file is tracked in git, so writing it left the working tree dirty. Don't commit it on `refunds-fixes`.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

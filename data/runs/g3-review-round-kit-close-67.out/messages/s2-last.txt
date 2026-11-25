@@ -1,0 +1,11 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as `edb0b39`. `npm run check` passes all 36 tests, but the export import check didn't run because `ledger-check` isn't installed here. This slice doesn't change the export format, so that check doesn't cover it anyway.
+
+- **Partial refunds with a discount code now work.** `refundFor` no longer throws (`src/refunds.js`). Each refunded line pays back its amount after its share of the discount. An opened line's 15% restocking fee is taken on that discounted amount.
+- **Tax:** for the open question from the handoff, I taxed the sum of the refunded lines' discounted amounts, the same as Slice 2. Taxing each line separately would make a whole refund of a discounted order differ from Slice 1, which point 1 rules out. A test covers a case where the two methods give different answers (100 cents vs 99). Tell me if you meant per-line tax and I'll change it.
+- **Refund note:** each line now prints at its discounted price, the way the receipt does, and the lines add up to `Items`.
+- **refund-order:** `--code` together with `--sku` already reached `refundFor`, so `bin/refund-order.js` needed no change. A CLI test now covers it.
+- **README** drops the "not supported yet" note and explains the discounted case. The plan's status line marks Slice 3 done.
+
+**Found, not fixed (outside the scope):** the comment on `restockingFee` in `src/config.js` still says the fee is "a fraction of the line's amount". It's now taken on the discounted amount when the order used a code.
+
+Finding 2 (the `Restocking fee` row) is still your call. The branch is local and there's still no remote, so nothing was pushed.

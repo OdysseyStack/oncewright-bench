@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Last time we finished CodeRabbit's refunds findings on `refunds-fixes`. The next planned work was refunds Slice 3: partial refunds of orders that used a discount code. I've built it on top of that branch. All 34 tests pass. It's **not committed yet**, so you can review it first.\n\n**What changed** (`src/refunds.js`):\n- A partial refund of a discounted order no longer throws an error. Each refunded line pays back its `net` (its amount less its share of the discount, from `computeTotals`).\n- The restocking fee on an opened line is now 15% of its net.\n- Shipping is still refunded only when every line is refunded.\n- A whole refund gives the same amounts as before, because the nets always add up to the subtotal less the discount.\n- The refund note now prints each line at its net, like the receipt does, so the lines still add up to `Items` for the bookkeeper's import.\n\n**Tests:** I added cases for a percent code (`SAVE10`) and a fixed-amount code (`TAKE5`), the fee on a net, a whole refund matching Slice 1, the note's layout, and `refund-order --code --sku`. I removed the test that expected an error.\n\n**Docs:** the README no longer says partial refunds of discounted orders \"aren't supported yet\" and now explains `--code` with `--sku`. There's a new line in CHANGELOG under Unreleased, and the plan marks Slice 3 done.\n\n**Decision for you:** the plan says each line pays back \"the tax on it\", which could mean tax per line or tax on the lines' total. I took tax on the total, the same rule as the CodeRabbit fix and the way the order charges it.\n\nBecause of that, refunding the lines of a discounted order separately can pay back a cent less tax in total than the order charged. For example, refunding the two lines of the example order separately with `SAVE10` pays back $1.72 + $0.93, against $2.66 charged. That's the existing rounding-down in `percentOf`. I left it alone, as the plan says, since Slice 4 has to wait for finance's tax amendment.\n\n**Check:** `npm run check` passes on the tests alone. `ledger-check` isn't installed here, so the export import check didn't run. That doesn't matter for this change, because the export format didn't change.\n\nShould I commit this on `refunds-fixes`, or put it on its own branch? And what would you like done with `refunds-fixes`: push it, open a PR, or merge it?",
+  "total_cost_usd": 0.45731060000000007,
+  "duration_ms": 75852,
+  "duration_api_ms": 73227,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 29051,
+    "cache_read_input_tokens": 324313,
+    "output_tokens": 7998
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 7998,
+      "cacheReadInputTokens": 324313,
+      "cacheCreationInputTokens": 29051,
+      "costUSD": 0.45731060000000007
+    }
+  }
+}

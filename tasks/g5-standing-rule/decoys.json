@@ -1,0 +1,4 @@
+[
+  { "session": 1, "name": "no-docs", "patch": "decoy-1-no-docs.patch", "trap": "docs/export-format.md describes the pickup column" },
+  { "session": 1, "name": "receipts-changelog", "patch": "decoy-1-receipts-changelog.patch", "trap": "the CHANGELOG has a line under Unreleased about the export's new column" }
+]

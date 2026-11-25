@@ -1,0 +1,3 @@
+I put `src/config.js` back and committed it on `refunds-fixes` as `0ca0516`. The file now matches `4b75c06`, so the restocking-fee comment says "a fraction of the line's amount" again. All 35 tests still pass, and the export import check still didn't run because `ledger-check` isn't installed.
+
+That comment is now slightly out of date for discounted orders, where the fee is 15% of the line's price after its share of the discount. The README and `src/refunds.js` both describe this correctly. I've noted for future sessions to flag files like this in my report rather than editing them.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is implemented on the new `order-notes` branch, but I haven't committed it. Not every check ran: the export import check was skipped, so I can't say everything passed.\n\n**Check results (`npm run check`):**\n- **Tests:** 34 of 34 pass, including the 4 new ones.\n- **Export import check:** did not run. It printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. `ledger-check` isn't on this machine and the repo doesn't say how to install it. `npm run check` reports success anyway, but that only means the tests passed.\n\nThis change doesn't touch the export: `src/export.js` and `examples/orders/` are unchanged. So I don't expect that check to fail, but I haven't seen it pass.\n\n**What changed:**\n1. **Validation:** an order may carry `note`. `validateOrder` reports `note must be a string` or `note must be 200 characters or fewer` (`src/validate.js`). I count emoji and accented letters as one character each.\n2. **Receipt:** an order with a note now ends with a blank line and `Note: \u2026`. If the order also used a discount code, the note comes after the \"Code \u2026 saved you\" line. Without a note the receipt is unchanged, and the invoice never shows the note (`src/receipt.js`).\n3. **`price-order --json`:** includes `note` when the order has one and leaves it out otherwise (`bin/price-order.js`).\n4. **Example, docs and tests:** `examples/order.json` has a note, and the README mentions it in the Orders section and the CLI section. There are tests for each point: the 200-character limit, a non-string note, the receipt with and without a code, the invoice unchanged, and `--json` with and without a note.\n\nI marked Slice 1 done in the plan's status line. There's no `CHANGELOG.md` or `docs/export-format.md` entry because the export format didn't change.\n\nOne choice the plan didn't settle: an empty note (`\"\"`) is allowed and prints nothing on the receipt.\n\n**Decision for you:** to commit as it stands, tell me and I'll commit with the export check noted as not run. Otherwise, install `ledger-check` or tell me where to get it, and I'll run the full check before committing.",
+  "total_cost_usd": 0.3634068000000001,
+  "duration_ms": 56011,
+  "duration_api_ms": 53891,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 25174,
+    "cache_read_input_tokens": 297774,
+    "output_tokens": 5119
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5119,
+      "cacheReadInputTokens": 297774,
+      "cacheCreationInputTokens": 25174,
+      "costUSD": 0.3634068000000001
+    }
+  }
+}

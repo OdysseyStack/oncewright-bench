@@ -1,0 +1,12 @@
+We're where the last session stopped. Nothing new has happened, and the next step needs your call.
+
+**State of `refunds-fixes`** (commit `1d2072c`, clean working tree, not pushed):
+- **Finding 1 is applied.** Tax on a partial refund is now worked out once on the total of the refunded lines, the same way `computeTotals` charges it. Before, it was worked out line by line, which could lose up to a cent per line. There's a test using amounts where the two methods give different results, and a CHANGELOG line.
+- **Finding 3 is applied.** `linesFor` now uses a Set to check which lines are included.
+- **Finding 2 is not applied.** It asks to fold the restocking fee into `Items` and drop the separate fee row. The README's bookkeeper-import rule says the refunded lines must add up to `Items` and the fee must stay on its own line. Point 5 of Slice 2 in the refunds plan specifies that fee line too.
+
+I re-ran `npm run check` just now: 31 tests pass, none fail. The export import check still didn't run, because `ledger-check` isn't installed on this machine. This change doesn't touch the export format, but the check isn't fully green.
+
+**Two things I need from you:**
+1. **Finding 2:** is leaving it out OK? If you do want it, the README's import rule and the plan have to change first. Tell me and I'll draft those changes.
+2. **Pushing:** this repo has no git remote, so I can't push or open a PR yet. If you want a PR, give me the remote, or tell me if this branch should be merged into `main` locally instead.

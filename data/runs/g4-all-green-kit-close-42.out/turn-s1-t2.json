@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I committed Slice 1 on `order-notes` as `f1ff603`, but only the tests were checked: the export import check still didn't run, because `ledger-check` isn't installed.\n\n**Check results (`npm run check`, re-run just before the commit):**\n- **Tests:** all 34 pass, none fail.\n- **Export import check:** didn't run. The script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0, so it reports success without having checked anything. The slice doesn't touch the export, and earlier the export of `examples/orders` came out byte-for-byte identical to main's. The commit message says the check didn't run.\n\n**What's in the commit:**\n- **Validation:** an order may carry a `note` of up to 200 characters, and `validateOrder` reports a note that isn't a string or is too long.\n- **Receipt:** the note is the last line, after a blank line. The invoice doesn't change.\n- **`price-order --json`:** includes `note` when the order has one.\n- **Example, README and plan:** the example order has a note, the README describes it, and the plan's status line marks Slice 1 done.\n- **Tests:** they cover each point.\n\nThe branch is local and not pushed, and the working tree is clean. Nothing outside the slice's scope changed. To get a real result from the export check, install `ledger-check` and run `npm run check`.",
+  "total_cost_usd": 0.4261956,
+  "duration_ms": 14093,
+  "duration_api_ms": 61735,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1761,
+    "cache_read_input_tokens": 116602,
+    "output_tokens": 1150
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6174,
+      "cacheReadInputTokens": 383418,
+      "cacheCreationInputTokens": 28242,
+      "costUSD": 0.4261956
+    }
+  }
+}

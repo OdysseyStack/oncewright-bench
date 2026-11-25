@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 15,
+  "result": "All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (36), but the export import check did not run, because `ledger-check` isn't installed here.\n\n- **`75d1911` Slice 1:** `config.pickupLocations` lists `\"Pier Road\"` and `\"Northside\"`. If an order's `pickupAt` isn't one of those, spelled exactly the same, `validateOrder` reports it, e.g. `pickupAt \"northside\" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges no shipping on an order with `pickupAt`, whether or not `pickup` is also set.\n- **`04fe622` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, coming after the \"Code \u2026 saved you\" line when there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it and is checked the same way as a value in the order file. The README's Orders section, pricing rules and CLI notes now cover it.\n- **`115f376` Slice 3:** the export has a new `pickup` column after `total`, holding the location or left empty. `A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`. Following CLAUDE.md, I updated `docs/export-format.md` and the README's column list, and added Unreleased lines to `CHANGELOG.md`.\n\nThe plan's status line now says all three slices are done.\n\nChoices I made that the plan didn't specify:\n- `pickupAt` in `--json` is added by the CLI only. `computeTotals` returns the same fields as before, so its output doesn't change.\n- Because `computeTotals` now reads `pickupAt`, refunds also treat these orders as pickup orders: a whole-order refund pays back $0.00 shipping.\n- An order that has only `pickup: true` and no location gets an empty `pickup` column. The export doc says so.\n\n**Before this ships:** the bookkeeper's nightly import hasn't seen the new column, since `ledger-check` couldn't run here. Run `npm run check` somewhere it's installed. `docs/export-format.md` also says the bookkeeper is told before a format change ships, so someone needs to tell them about the new column.\n\nNothing is pushed; the repo has no remote.",
+  "total_cost_usd": 0.6910529999999999,
+  "duration_ms": 110891,
+  "duration_api_ms": 106478,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 28,
+    "cache_creation_input_tokens": 41491,
+    "cache_read_input_tokens": 566465,
+    "output_tokens": 12286
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 12286,
+      "cacheReadInputTokens": 566465,
+      "cacheCreationInputTokens": 41491,
+      "costUSD": 0.6910529999999999
+    }
+  }
+}

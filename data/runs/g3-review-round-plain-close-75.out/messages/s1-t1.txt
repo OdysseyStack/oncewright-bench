@@ -1,0 +1,13 @@
+I fixed two of CodeRabbit's three findings and left one out on purpose. The work is committed on the new branch `refunds-fixes` as `ee6fb87`.
+
+**Fixed:**
+1. **Tax on partial refunds was too low.** A partial refund now calculates tax once on the total of the refunded lines, the way the order charged it and the way the refunds plan (Slice 2 point 1) says. Before, it added up a separate tax for each line, which could come out a cent short per line. I added a test using the review's example: lines of $6.19 and $10.19 now refund $1.31 of tax. The new test fails against the old code. I didn't touch `percentOf` itself, because the plan holds the rounding fix back until Slice 4. I also added a line to `CHANGELOG.md` under Unreleased, since refund amounts change.
+2. **Nitpick:** the check for which lines a refund covers now uses a `Set`.
+
+**Not done: folding the restocking fee into `Items` on the refund note.** Two things in the repo say to keep the fee as its own row:
+- The README says "The fee stays a line of its own, so the import can book it", meaning the accounting import needs that row.
+- The refunds plan (Slice 2 point 5) asks for a separate negative `Restocking fee` line.
+
+If you still want the change, the plan and the accounting import would both need to change first. The commit message gives the reason too.
+
+**Checks:** `npm run check` passes all 31 tests. The export import check part didn't run because `ledger-check` isn't installed on this machine. Nothing in the export changed, but that part is unverified here.

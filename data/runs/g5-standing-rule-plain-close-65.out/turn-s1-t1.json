@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 14,
+  "result": "All three slices are on the new `pickup-locations` branch, one commit each, and the tests pass (40). The bookkeeper's import check did not run, though: `ledger-check` isn't installed here, so `npm run check` only printed its warning and skipped that step. That matters most for Slice 3, which changes the export format.\n\n- **Slice 1** (`5d1dad3`): `config.pickupLocations` lists `\"Pier Road\"` and `\"Northside\"`. `validateOrder` rejects a `pickupAt` that isn't one of those, naming the bad value, so `\"northside\"` in lower case is rejected too. An order with `pickupAt` pays no shipping whether or not `pickup` is set.\n- **Slice 2** (`dddd036`): the receipt ends with a blank line and then `Pickup at <location>`. On a receipt with a discount code, that line comes after the \"Code \u2026 saved you\" line. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and checks it the same way an order file is checked. `--json` includes `pickupAt` only when the order has one. The README's Orders and CLIs sections now cover this.\n- **Slice 3** (`1c3d199`): the export has a new `pickup` column after `total`. Orders without a location get an empty last field, so their rows now end in a comma. In `examples/orders/A-1042.json` I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"` rather than keeping both. `docs/export-format.md`, the CHANGELOG (under Unreleased) and the README's column list are updated.\n\nI marked all three slices done in the plan's status line, and added a CHANGELOG line for slices 1 and 2 as well, although the project rules only ask for one when the export changes.\n\nBefore this merges:\n1. **Run the import check** somewhere `ledger-check` is installed: `bash scripts/check-export.sh`. The export now has an extra column and an empty last field on most rows, and I couldn't confirm that `--format harbor-csv` accepts either.\n2. **Tell the bookkeeper.** `docs/export-format.md` says they're told before any export format change ships. I haven't contacted anyone.\n\nNothing has been pushed.",
+  "total_cost_usd": 0.6327300000000001,
+  "duration_ms": 102621,
+  "duration_api_ms": 99770,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 38478,
+    "cache_read_input_tokens": 479910,
+    "output_tokens": 11441
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 11441,
+      "cacheReadInputTokens": 479910,
+      "cacheCreationInputTokens": 38478,
+      "costUSD": 0.6327300000000001
+    }
+  }
+}

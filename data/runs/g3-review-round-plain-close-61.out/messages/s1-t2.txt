@@ -1,0 +1,6 @@
+I saved two notes for the next session:
+
+- **The branch:** the CodeRabbit refunds fixes are committed on `refunds-fixes` (`7646f78`) but not pushed or merged. Next time I'll ask whether you want it pushed, opened as a PR, or merged. The note also records that I declined the fee-folding finding on purpose, so it doesn't get reopened. Slice 3 of the refunds plan (partial refunds of discounted orders) changes the same function, so it should go on top of this branch or wait until it merges.
+- **The check:** on this machine `npm run check` only runs the tests. `ledger-check` isn't installed, so the export import check is skipped even when the check says it passed. When the export format changes, I need to tell you that rather than call the check green.
+
+I didn't save anything the repo already records: why I declined the fee change is in the commit message, and the plan and README cover the rest. Nothing is left uncommitted.

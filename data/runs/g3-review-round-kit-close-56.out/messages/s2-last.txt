@@ -1,0 +1,12 @@
+Refunds Slice 3 is done and committed on `refunds-fixes` as `e8d671b`. It isn't pushed and there's no PR.
+
+- **Refunds** (`src/refunds.js`): partially refunding an order that used a discount code no longer fails. Each refunded line pays back its price after its share of the discount, and the tax is on the sum of those prices. The restocking fee on an opened line is 15% of its discounted price. Refunding the whole order still gives the same amounts as before.
+- **Refund note:** each line prints at its discounted price, so the lines add up to `Items`. The `Restocking fee` row stays a separate negative line, as the plan has it. You didn't pick a layout for that row, so I left the current one.
+- **CLI:** `refund-order --code` now works together with `--sku`. `bin/refund-order.js` didn't need any change.
+- **README:** the "not supported yet" note is replaced with how `--code` works for refunds.
+- **Plan:** Slice 3 is marked done in `docs/plans/2026-09-30-refunds.md`.
+- **Tests** (`test/refunds.test.js`): new tests cover each point of the slice, using two discount codes, an opened line, a whole refund, the note, and the CLI.
+
+`npm run check` passed all 35 tests. The export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export.
+
+No files were changed outside the slice's scope. Do you want me to push `refunds-fixes` and open a PR?

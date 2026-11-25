@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `d6ce719`, on top of the review fixes. It isn't pushed.\n\n**What changed**\n- **Refunds of some lines of a discounted order** no longer throw an error. Each refunded line pays back its price after its share of the discount. For an opened line, the 15% restocking fee is taken from that discounted price.\n- **The refund note** prints each line at its discounted price, and `Items` is their sum. So the lines still add up to `Items`, as the bookkeeper's import requires.\n- **`refund-order --code`** now works together with `--sku`.\n- **Docs:** the README drops the \"not supported yet\" note and gives an example. I also restored the paragraph break before the `export-orders` paragraph, which had been run together with the refunds paragraph. There's a CHANGELOG line under Unreleased, and the plan's status line marks Slice 3 done.\n\n**A choice to check:** the plan says each line pays back \"the tax on it,\" which could mean taxing each line separately. I instead charge tax once on the total of the refunded lines, the same fix as CodeRabbit's finding 1. That way, refunding every line gives exactly what a whole-order refund gives, which the plan requires. Taxing line by line would fall short by up to a cent per line. If you meant per line, tell me and I'll change it.\n\n**Tests:** I added tests for partial refunds with `SAVE10` and `TAKE5`, an opened line, every line matching the whole refund for all three codes, the note, and the command line. All 35 tests pass. The plan makes \"`npm run check` passes\" a condition for done, and that's only partly true here: the export import check didn't run because `ledger-check` isn't installed on this machine. Nothing in the export changed, so it shouldn't matter, but I marked the slice done without that check having run.\n\nStill open from before:\n- **Finding 2 (the restocking-fee row on the refund note):** still waiting on whether the import owner agrees to the change.\n- **Push / PR:** nothing has been pushed and there's no PR yet.",
+  "total_cost_usd": 0.5833454000000001,
+  "duration_ms": 80702,
+  "duration_api_ms": 98092,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 19011,
+    "cache_read_input_tokens": 440007,
+    "output_tokens": 8365
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 30,
+      "outputTokens": 9954,
+      "cacheReadInputTokens": 528167,
+      "cacheCreationInputTokens": 34814,
+      "costUSD": 0.5833454000000001
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 19,
+  "result": "Refunds Slice 3 is built and marked done in the plan. Nothing is committed: the changes sit uncommitted on `refunds-fixes`.\n\n- **Amounts:** a partial refund of a discounted order no longer throws. Each refunded line pays back its `net`, the tax is still `percentOf` the summed nets, and the restocking fee is 15% of `net`. Refunding every line gives the same amounts as Slice 1.\n- **Refund note:** each line prints at its net, and `Items` is the sum of the nets.\n- **CLI and docs:** `refund-order --code` with `--sku` works without changing `bin/refund-order.js`. The README no longer says these refunds aren't supported.\n\n**Test-first runs** (`node --test test/refunds.test.js`):\n- **Partial refund:** failed on the old \"aren't supported yet\" error, then passed.\n- **Fee on net:** failed with fee 360 where 324 was expected, then passed.\n- **Note at net:** failed showing `$24.00` where `$21.60` was expected, then passed.\n- **CLI with `--code`:** failed against the committed source (4 tests failed in all), then passed.\n- **All lines equals the whole refund:** passed on its first run. The existing whole-order code already gave that result, so this test was never seen failing.\n\n`npm run check` passes 35/35. The export import check didn't run, because `ledger-check` isn't installed here. The export doesn't change, though.\n\n**Found, not fixed (outside the scope):**\n- The comment on `restockingFee` in `src/config.js` still says the fee is a fraction of \"the line's amount\". It's now a fraction of the line's net.\n- A possible tidy-up: `refundFor` could drop its special case for refunding the whole order, since summing the nets gives the same amounts.\n\n**Still your call:** whether to keep the rejection of CodeRabbit finding #2; whether to push, open a PR or merge; and whether to commit Slice 3 on `refunds-fixes` or move it to a new branch.",
+  "total_cost_usd": 0.6032104,
+  "duration_ms": 103559,
+  "duration_api_ms": 98323,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 36,
+    "cache_creation_input_tokens": 34390,
+    "cache_read_input_tokens": 672332,
+    "output_tokens": 9674
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 36,
+      "outputTokens": 9674,
+      "cacheReadInputTokens": 672332,
+      "cacheCreationInputTokens": 34390,
+      "costUSD": 0.6032104
+    }
+  }
+}

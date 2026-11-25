@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and the next session's opening message is written.\n\n- **Jobs and agents:** none were running, so nothing needed stopping and no agents had to report back.\n- **Memory:** I added `ledger-check-not-installed.md`. It records that `npm run check` on this machine runs only the tests and skips the export import check. `MEMORY.md` now has its first line and is far under its size limit, so it didn't need tidying.\n- **Handoff:** it's in `directives/handoff/current.md`. The first line reads: \"**Read first:** `ledger-check-not-installed`: `npm run check` here runs only the tests; the export import check is skipped.\"\n- **Still open:** the next session will ask you whether to push `refunds-fixes` and open a PR, and whether you agree with rejecting CodeRabbit's restocking-fee finding.\n\nThe handoff file is tracked by git, so it will show as modified on `refunds-fixes` until it's reset.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.40220500000000003,
+  "duration_ms": 26753,
+  "duration_api_ms": 63160,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4862,
+    "cache_read_input_tokens": 107895,
+    "output_tokens": 2652
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6059,
+      "cacheReadInputTokens": 299925,
+      "cacheCreationInputTokens": 27620,
+      "costUSD": 0.40220500000000003
+    }
+  }
+}

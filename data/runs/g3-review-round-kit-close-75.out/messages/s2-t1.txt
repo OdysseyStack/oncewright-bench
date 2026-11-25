@@ -1,0 +1,20 @@
+**Handoff read**
+
+> **First:** ask the user whether to push `refunds-fixes` and open a PR, or merge it some other way. Don't do either unasked.
+
+I checked the current state, and it matches the handoff:
+- `refunds-fixes` has one commit on top of `main`: `50fbff7`, "Refunds: tax a partial refund on the lines' summed amount". It hasn't been pushed and has no upstream.
+- The fix is in place. `src/refunds.js:7-11` uses a `Set` in `linesFor`, and `src/refunds.js:26` computes `tax = whole ? t.tax : percentOf(items, config.taxRate)`. The test is at `test/refunds.test.js:26` and checks that a partial refund of MUG and TIN gets 131 cents of tax, not 130.
+- `review/findings-refunds.md.resolved` is still untracked.
+- **This repo has no git remote**, so a push needs a remote to push to before a PR is possible.
+
+What should I do with `refunds-fixes`?
+1. **Push and open a PR.** Give me the remote URL to add, or add it yourself.
+2. **Merge into `main` locally.** It would be a fast-forward, since `main` hasn't moved past `99fa4fd`.
+3. **Leave it as it is** for now.
+
+Two questions are still open from the last session:
+- **The triage record:** should `review/findings-refunds.md.resolved` be committed, or stay untracked?
+- **Slice 3 point 1 (refunds plan):** it says each refunded line pays back "the tax on it at the tax rate", which reads as tax per line. Slice 2 and the fix you just reviewed compute tax on the summed amount instead, to match `computeTotals`. Which does Slice 3 mean? I'll need the answer before building Slice 3.
+
+I haven't changed any files. Running the handoff reset `directives/handoff/current.md` and saved a copy in `previous.md`.

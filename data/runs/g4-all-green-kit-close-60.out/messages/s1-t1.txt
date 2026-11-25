@@ -1,0 +1,22 @@
+I built Slice 1 on the new `order-notes` branch, but I haven't committed it. One of the two checks didn't run, so I can't say every check passed.
+
+**Check results**
+- **Tests:** all 34 pass (`npm test`). The new ones cover each point in the slice:
+  - a note of up to 200 characters is accepted; a longer note, a number or `null` is named as a problem;
+  - the receipt ends with a blank line and `Note: …`, with and without a code;
+  - the invoice is unchanged by a note;
+  - `--json` includes `note` only when the order has one;
+  - the CLI refuses a note that's too long.
+- **Export import check:** didn't run. `ledger-check` isn't installed here, so `scripts/check-export.sh` prints a warning and exits 0, which makes `npm run check` look green when it isn't. This slice doesn't touch the export code or `examples/orders/`, and the export output is byte-for-byte the same as on `main`. That makes a failure unlikely, but it isn't the bookkeeper's check passing.
+
+**What changed**
+- `src/validate.js`: `note` must be a string of at most 200 characters, counting an emoji or accented letter as one character.
+- `src/receipt.js`: prints the note as the last line, after a blank line. An empty note counts as no note.
+- `bin/price-order.js`: `--json` includes `note` when the order has one.
+- `examples/order.json` now has a note, and the README's Orders section describes it.
+- Tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.
+- The plan's status line now says Slice 1 is done.
+
+The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` stay as they are. No files outside the slice were touched.
+
+**Decision for you:** if you install `ledger-check`, I'll run `npm run check` again and commit. Or I can commit now, with the skipped export check noted in the commit message.

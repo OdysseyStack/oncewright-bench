@@ -1,0 +1,6 @@
+I saved two notes to project memory so the next session can pick up from here:
+
+- **`refunds-fixes-branch.md`**: the branch `refunds-fixes` (commit `e8cda74`) has two of CodeRabbit's findings fixed and is **not pushed and has no PR**. The next session should ask before pushing or opening one. If CodeRabbit raises the "fold the restocking fee into `Items`" suggestion again, it should be declined again: the bookkeeper's import needs the fee on its own line. The refunds plan's next step is Slice 3 (partial refunds of orders that used a discount code).
+- **`ledger-check-missing.md`**: `ledger-check` isn't installed on this machine. `npm run check` still reports success but skips the export import check, so any check results should say that check didn't run.
+
+`MEMORY.md` lists both notes. No background agents or browser tabs were open, so there's nothing else to close.

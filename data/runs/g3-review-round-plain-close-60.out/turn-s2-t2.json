@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "I've finished Slice 3 and committed it on `refunds-fixes` as 765468c. The branch is now two commits ahead of `main`. All 35 tests pass, including 5 new ones. The export import check didn't run because `ledger-check` isn't installed here; that's fine for this change, since it doesn't touch the export.\n\n**What changed:**\n- **Partial refunds with a code:** `refundFor` no longer throws on a partial refund of an order that used a discount code. Each refunded line pays back its price after its share of the discount, and the tax is charged on those amounts added together. On an opened line, the 15% restocking fee is taken from the discounted price. For example, with SAVE10, refunding the filters pays back $11.70 + $0.93 tax. If the beans were opened, the fee is $3.24 rather than $3.60.\n- **Whole refunds:** the discounted line prices always add up to the order's total after the discount. So refunding a whole discounted order still gives the same amounts as Slice 1, and I removed the separate code path for whole refunds. A test checks that listing every SKU gives the same result as a plain whole refund.\n- **Refund note:** each line is printed at its discounted price, as on the receipt. The lines still add up to `Items`, and the restocking fee stays on its own line, so the bookkeeper's import still works.\n- **CLI:** `refund-order --code SAVE10 --sku FILTER-100` now works. The `--code` option was already passed through; only the error was in the way. The CLI tests cover it.\n- **Docs:**\n  - The README drops the \"not supported yet\" sentence and adds a library example.\n  - I also split the README paragraph where the export-orders description had been run onto the end of the refund text.\n  - There's a CHANGELOG line under Unreleased, and the plan marks Slice 3 done.\n\n**Rounding:** tax still drops fractions of a cent, as Slice 4 says it must for now. So refunding an order in several parts can give back a cent less tax in total than refunding it in one go. For example, with TAKE5 on three $10 lines, the two parts refund $1.33 and $0.66, against $2.00 charged.\n\nNothing is merged. The repo has no remote, so I can merge `refunds-fixes` into `main` locally when you want.",
+  "total_cost_usd": 0.5272822,
+  "duration_ms": 78538,
+  "duration_api_ms": 92326,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 19229,
+    "cache_read_input_tokens": 299983,
+    "output_tokens": 8296
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 9479,
+      "cacheReadInputTokens": 361631,
+      "cacheCreationInputTokens": 33161,
+      "costUSD": 0.5272822
+    }
+  }
+}

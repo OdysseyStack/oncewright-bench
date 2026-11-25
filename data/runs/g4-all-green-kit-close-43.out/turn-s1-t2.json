@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `3ae1266`, and the working tree is clean. I didn't push.\n\n**Check results (`npm run check`, run again just before the commit):**\n- **Tests: passed.** 34 of 34, including the 4 new ones for this slice.\n- **Export import check: still didn't run.** `ledger-check` isn't installed on this machine, so the script only prints a warning and exits 0. That's why `npm run check` looks green even though this check was skipped. In its place, I compared the export of `examples/orders` from this branch with the one from `main`, and they are byte-for-byte the same. The slice doesn't touch the export, so the import check would get the same input as on `main`. Still, the check itself has not run, and the commit message says so.\n\n**What the commit does:** an order can carry a `note` of up to 200 characters, and `validateOrder` reports one that isn't text or is too long. The receipt prints `Note: \u2026` as its last line, after a blank line. `price-order --json` includes the note, and the invoice is unchanged. `examples/order.json` now has a note and the README describes it. The plan's status line now says Slice 1 is done.\n\nAll 10 files changed are within the slice's scope; nothing outside it was touched.",
+  "total_cost_usd": 0.43567639999999996,
+  "duration_ms": 13349,
+  "duration_api_ms": 68055,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2133,
+    "cache_read_input_tokens": 119691,
+    "output_tokens": 1151
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6806,
+      "cacheReadInputTokens": 321742,
+      "cacheCreationInputTokens": 29391,
+      "costUSD": 0.43567639999999996
+    }
+  }
+}

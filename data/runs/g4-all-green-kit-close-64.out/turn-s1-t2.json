@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `1649b87`. Nothing in the slice was left to build, so the commit is the work from before, plus the plan's status line marked done. I didn't push.\n\n**Check results**\n- **Tests:** 36 of 36 pass.\n- **Export import check:** still didn't run, because `ledger-check` isn't installed. `npm run check` exits 0 anyway, so it looks green without this check having happened. As a substitute, I compared the output of `export-orders` on `examples/orders` with `main`'s and it is byte-for-byte the same. I put this in the commit message too.\n\nThe commit contains the 10 files in the slice's scope. No file outside the scope changed.",
+  "total_cost_usd": 0.41664439999999997,
+  "duration_ms": 11573,
+  "duration_api_ms": 65759,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1799,
+    "cache_read_input_tokens": 113273,
+    "output_tokens": 919
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6622,
+      "cacheReadInputTokens": 335422,
+      "cacheCreationInputTokens": 27129,
+      "costUSD": 0.41664439999999997
+    }
+  }
+}

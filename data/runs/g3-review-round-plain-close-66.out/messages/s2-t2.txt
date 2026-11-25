@@ -1,0 +1,13 @@
+Slice 3 is now on `refunds-fixes` as commit `ed256f8`. I wrote that commit last turn on a separate branch that started from `refunds-fixes`, so I didn't redo the work. I moved `refunds-fixes` forward to include it with no merge commit, then deleted the extra `refunds-slice-3` branch.
+
+`refunds-fixes` now has the CodeRabbit fixes (`a9f4fbc`) followed by Slice 3 (`ed256f8`). Slice 3:
+- Partial refunds of orders with a discount code: each refunded line pays back its amount minus its share of the discount, the tax is charged on the total of those amounts, and an opened line's 15% restocking fee is taken from that discounted amount.
+- The refund note prints each line at that discounted price, so the lines still add up to `Items`.
+- `refund-order --code` works together with `--sku`.
+- The README, CHANGELOG and the plan's status line are updated.
+
+`npm run check` passes all 34 tests on `refunds-fixes`. The export import check didn't run because `ledger-check` isn't installed on this machine; the export didn't change, so that doesn't affect this work.
+
+Two things are still open:
+1. Should `refunds-fixes` be merged into main?
+2. CodeRabbit finding 2 (showing the restocking fee inside `Items`) is still not done. The bookkeeper's import would need to change first.

@@ -1,0 +1,17 @@
+Refunds Slice 3 is done: you can now refund some lines of an order that used a discount code. It's committed on a new branch, `refunds-slice-3` (commit 19f276c), which sits on top of `refunds-fixes` because it needs that branch's tax fix.
+
+**What changed**
+- `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount. Tax is worked out on the sum of those prices, the same way the tax fix on `refunds-fixes` does it, and the 15% restocking fee is taken from the discounted price too. Refunding every line still gives the same amounts as a whole refund.
+- The refund note prints each line at its discounted price, as the receipt does. The printed lines still add up to `Items`, so the bookkeeper's import keeps working.
+- `refund-order --code` now works with `--sku`.
+- The README no longer says partial refunds of discounted orders aren't supported. I also added a changelog line, updated the restocking-fee comment in `src/config.js`, and marked Slice 3 done in the plan.
+- Example: with SAVE10, refunding the 1kg beans pays back $21.60 for the beans plus $1.72 tax, $23.32 in all. If the bag was opened, the fee is $3.24.
+
+**Checks:** `npm run check` passes all 33 tests. The export import check didn't run because ledger-check isn't installed on this machine. This change doesn't touch the export, so that shouldn't matter here.
+
+**Still waiting on you**
+- On the earlier CodeRabbit findings, I declined #2 (showing the amount after the restocking fee as `Items` instead of a separate fee line). The bookkeeper's import needs the fee on its own line. Let me know if you disagree.
+- Neither branch is pushed and there's no PR yet. Should I push both and open PRs, with `refunds-slice-3` based on `refunds-fixes`?
+- `review/findings-refunds.md` is still in the repo. I can delete it when the fixes go in.
+
+Slice 4 (rounding tax properly in `percentOf`) is still on hold until Finance amends the September tax filing.

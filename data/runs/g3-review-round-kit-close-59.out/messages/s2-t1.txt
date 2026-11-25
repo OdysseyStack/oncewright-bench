@@ -1,0 +1,20 @@
+**Handoff read**
+
+> **First:** ask the user whether to push `refunds-fixes` and open a PR. This session wasn't asked to do either.
+
+The handoff still matches the repo. You're on `refunds-fixes` at `790dae6`, the working tree is clean, and nothing has been pushed. Before you decide, two things will matter:
+
+- **No git remote is set up** in this repo, so I can't push until you add one or tell me which one to use.
+- **`gh` isn't logged in**, so I can't open a PR until you run `gh auth login` or set `GH_TOKEN`.
+
+The branch fixes two of CodeRabbit's three refund findings:
+- A partial refund's tax is now worked out on the refunded lines added together (`src/refunds.js`, `tax`).
+- `linesFor` now checks which lines belong to the refund with a `Set`.
+
+The tests cover both. Nothing in this branch changes the export format, so the export check not running on this machine (see memory) doesn't affect it.
+
+**Shall I push `refunds-fixes` and open a PR against `main`?** If yes, give me the remote and get `gh` logged in.
+
+Two more things from the handoff are waiting:
+- **Next task:** Slice 3 of the refunds plan, partial refunds of discounted orders.
+- **Your call:** CodeRabbit's second finding (dropping the `Restocking fee` row from the refund note) goes against point 5 of the plan's Slice 2. Whoever owns the plan would need to change it first, and you haven't decided yet.

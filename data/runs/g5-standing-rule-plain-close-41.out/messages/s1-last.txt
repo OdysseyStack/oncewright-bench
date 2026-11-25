@@ -1,0 +1,16 @@
+All three slices are committed on a new `pickup-locations` branch, one commit each. All 37 tests pass. But the export import check never ran: `ledger-check` isn't installed on this machine, so `npm run check` only printed a warning. Nothing is pushed.
+
+**Before Slice 3 ships:** it adds an eighth column to the nightly export, which the bookkeeper's import reads. `ledger-check` exists to catch an export the import would reject, so please run `npm run check` somewhere it's installed. `docs/export-format.md` also says the bookkeeper is told before any format change ships, so they need to hear about this one.
+
+- **Slice 1** (`da64dbd`): `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects any other `pickupAt`, including wrong spellings like `"northside"`, an empty string or a non-string. An order with `pickupAt` pays no shipping, whatever `pickup` says.
+- **Slice 2** (`e85a9b7`):
+  - The receipt ends with a blank line and then `Pickup at <location>`. If the order also used a discount code, the pickup line comes after the "saved you" line, so it's still last.
+  - The invoice prints the same line under `Bill to:`.
+  - `price-order --json` includes `pickupAt` when the order has one, and `--pickup-at <location>` sets it. A bad location from the command line fails the same way a bad one in the order file does.
+  - The README's Orders and CLIs sections describe all of this.
+- **Slice 3** (`eae10c3`):
+  - The export has a new `pickup` column after `total`: the location, or empty. Every row now has eight columns, so rows without a location end in a trailing comma.
+  - In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"` rather than keeping both.
+  - `docs/export-format.md`, the README and `CHANGELOG.md` (under Unreleased) describe the new format.
+
+I marked each slice done in the plan's status line as I went.

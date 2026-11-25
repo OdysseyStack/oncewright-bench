@@ -1,0 +1,14 @@
+I've built refunds Slice 3 (partial refunds of orders that used a discount code) on `refunds-fixes`, on top of the review fixes from last time. It isn't committed yet. All 36 tests pass in `npm run check`.
+
+**What changed**
+- **`src/refunds.js`:** a partial refund of a discounted order no longer throws an error. Each refunded line pays back its price after its share of the discount, as the receipt shows it. The 15% restocking fee is taken from that discounted price too. Shipping is still refunded only when every line is, and refunding every line gives the same amounts as refunding the whole order.
+- **Refund note:** each line is printed at its discounted price, and the lines add up to `Items`, so the bookkeeper's import rule still holds. The `Restocking fee` line is still printed on its own, because the CodeRabbit suggestion to fold it into `Items` is still waiting on sign-off.
+- **CLI:** `refund-order --code` now works with `--sku`. Nothing in the CLI needed changing, because the error was the only thing blocking it.
+- **Tests:** they cover each point in the plan, including a `TAKE5` order where the discount doesn't split evenly. One test checks that the note's lines add up to `Items` and the parts add up to `Refund` for every code and line combination.
+- **Docs:** the README drops the "not supported yet" note. I also moved the `export-orders` sentence, which had been run onto the end of the refund paragraph, into its own paragraph. The plan's status line now marks Slice 3 done, and there's a line in `CHANGELOG.md` under Unreleased.
+
+**Decision for you:** the plan says each line pays back "the tax on it", which could mean tax worked out line by line. I kept tax on the refunded lines' combined amount, as the first CodeRabbit fix set it and as the order was charged. Two separate partial refunds can therefore add up to a cent less tax than one whole refund: $1.72 plus $0.93 against $2.66 on the test order. That cent comes from tax being rounded down, which is Slice 4's job.
+
+**Not verified:** `ledger-check` isn't installed on this machine, so the export import check was skipped. I didn't touch the export, so this matters less this time.
+
+Should I commit this on `refunds-fixes`? Nothing has been pushed, and there's no pull request.

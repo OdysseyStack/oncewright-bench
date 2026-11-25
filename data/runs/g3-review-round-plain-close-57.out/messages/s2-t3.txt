@@ -1,0 +1,13 @@
+Slice 3 is already committed on `refunds-fixes`, so I haven't made another commit. Repeating it would only add an empty or duplicate one. Here is what I checked:
+
+- `refunds-fixes` points at `7f3d0b2` "Refunds Slice 3: partial refunds of discounted orders", directly after the CodeRabbit fixes (`2c8b870`). The git history shows the branch was moved forward to that commit last session.
+- The working tree is clean, so there's nothing uncommitted.
+- I re-ran `npm run check`: all 35 tests pass. The export import check didn't run because `ledger-check` isn't installed here; this work doesn't touch the export.
+- Each point of the slice is in the code and covered by tests:
+  - **Amounts:** a partial refund with a code no longer throws an error. Each line pays back its price after its share of the discount. The tax is 8% of those lines added together, an opened item's fee is 15% of its discounted price, and shipping is refunded only when every line is. Refunding every line gives the same amounts as refunding the whole order.
+  - **Refund note:** each line is printed at its discounted price, and the lines add up to `Items`.
+  - **CLI and docs:** `--code` works with `--sku`, the README no longer says "not supported yet", and the plan's status line says Slices 1, 2 and 3 are done.
+
+One possible reason it looks missing: this repo has no remote, so nothing has been pushed anywhere. Any other copy of the repo, or a hosted page for it, won't show the commit. If that's where you're looking, tell me where the branch should go and I'll push it.
+
+If something in the slice still looks unfinished to you, tell me which point and I'll fix it.

@@ -1,0 +1,9 @@
+I checked again: Slice 3 is committed on `refunds-fixes` in this repo, so I haven't made another commit. A second one would only duplicate it.
+
+- **The commit:** `refunds-fixes` points at `b92457a` "Refunds Slice 3: partial refunds of discounted orders". It sits on `6c77422` (the CodeRabbit fixes), and the reflog shows I made it this session.
+- **What it changes:** `src/refunds.js`, `test/refunds.test.js`, `README.md`, `CHANGELOG.md` and the plan's status line. The "not supported yet" error and the README sentence about it are gone. The working tree is clean.
+- **Checks:** `npm run check` passes all 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed here.
+
+My best guess for why you don't see it: the branch exists only in this local clone. It has never been pushed, and this repo has no remote configured. Looking from another clone, or on a hosted copy, you won't find `b92457a` there.
+
+What are you seeing that says it's missing? It could be a different clone, a different branch, or a part of the slice you think isn't met. If you want it somewhere else, tell me which remote to add and push to and I'll push `refunds-fixes`.

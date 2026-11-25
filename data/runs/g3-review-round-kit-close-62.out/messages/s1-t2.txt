@@ -1,0 +1,10 @@
+The session is wrapped up and the next session's opening message is written.
+
+- **Jobs and agents:** none were running, so nothing needed stopping and no agents had to report back.
+- **Memory:** I added `ledger-check-not-installed.md`. It records that `npm run check` on this machine runs only the tests and skips the export import check. `MEMORY.md` now has its first line and is far under its size limit, so it didn't need tidying.
+- **Handoff:** it's in `directives/handoff/current.md`. The first line reads: "**Read first:** `ledger-check-not-installed`: `npm run check` here runs only the tests; the export import check is skipped."
+- **Still open:** the next session will ask you whether to push `refunds-fixes` and open a PR, and whether you agree with rejecting CodeRabbit's restocking-fee finding.
+
+The handoff file is tracked by git, so it will show as modified on `refunds-fixes` until it's reset.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `acc5fcc`, on top of `4b75c06`. All 35 tests pass. `npm run check` still skipped the export import check because `ledger-check` isn't installed here, but this change doesn't touch the export.\n\n**What changed**\n- **Refund amounts** (`src/refunds.js`): `refundFor(order, { skus, code })` no longer throws when a partial refund uses a discount code. Each refunded line pays back its net, meaning its amount less its share of the discount.\n  - Tax is still worked out on the refunded lines added together, as in the earlier tax fix.\n  - The restocking fee is 15% of an opened line's net.\n  - Refunding every line gives the same amounts as refunding the whole order, for each discount code.\n  - Orders without a code give the same results as before.\n- **Refund note:** each line is printed at its net price, like the receipt. The lines add up to `Items`, which the bookkeeper's import needs. For example, a TAKE5 refund shows $20.76 + $11.24 = $32.00.\n- **Command line:** `refund-order --sku \u2026 --code \u2026` now works. I didn't need to change the CLI file itself, because it already passed the code through.\n- **Tests:** they cover partial refunds with SAVE10 and with TAKE5, where the discount doesn't split evenly between lines. They also cover the fee on a line's net, whole refunds with every code, both note layouts, and the CLI with `--sku --code`.\n- **Docs:**\n  - The README no longer says partial refunds of discounted orders aren't supported, and has a new library example.\n  - That note had run straight into the `export-orders` paragraph, so I split them apart.\n  - The fee comment in `src/config.js` now says the fee is a share of the line's net.\n  - `CHANGELOG.md` has a line under Unreleased.\n  - The plan's status line now reads \"Slices 1, 2 and 3 done\".\n\nThe changelog's Unreleased section still says nothing about the tax fix in `4b75c06`. Want me to add a line for it?\n\nThe branch exists only on this machine. It isn't pushed and has no PR. I've left Slice 4, the tax rounding, alone, because the plan holds it until Finance amends the September sales-tax filing.",
+  "total_cost_usd": 0.5376094,
+  "duration_ms": 75838,
+  "duration_api_ms": 91534,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 17052,
+    "cache_read_input_tokens": 368906,
+    "output_tokens": 8292
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 9786,
+      "cacheReadInputTokens": 460207,
+      "cacheCreationInputTokens": 31217,
+      "costUSD": 0.5376094
+    }
+  }
+}

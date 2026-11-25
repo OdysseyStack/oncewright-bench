@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 3 is committed on `refunds-fixes` as `e2c9d2f`. All 35 tests pass. The export import check skipped as usual because `ledger-check` isn't installed here, but this slice doesn't touch the export.\n\n**What changed**\n- **Refund amounts** (`src/refunds.js`): a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its price after its share of the discount. An opened line's 15% restocking fee is taken from that discounted price. Refunding every line gives the same amounts as refunding the whole order.\n- **Tax:** I worked it out on the sum of the refunded lines' discounted prices, as Slice 2 does, not line by line. You didn't answer that question, so I went with what I'd suggested and changed the plan's point 1 to say so. If you wanted per-line tax, it's a one-line change, but it brings back the lost cent from CodeRabbit's finding 1.\n- **Refund note:** each line prints at its discounted price, as the receipt does, so the lines add up to `Items`. The restocking fee is still its own row, so the README's bookkeeper-import rule still holds.\n- **CLI:** `refund-order --code` works with `--sku`.\n- **Tests** cover partial refunds with SAVE10 and TAKE5 (including the case where TAKE5's $5.00 doesn't split evenly), the fee on an opened discounted line, refunding every line, the note, and the CLI.\n- **Docs:** the README drops the \"not supported yet\" note and gives the rule. I also split the `export-orders` text, which had been run on into the end of that paragraph. The plan's status line marks Slice 3 done, and `CHANGELOG.md` has a line under Unreleased.\n\nAs a check by hand: refunding the whole sample order with TAKE5 prints lines of $20.76 + $11.24 = $32.00 for `Items`, and a $40.55 refund.\n\nThe branch is still only local and not merged into `main`; the repo has no remote. The only slice left in the plan is Slice 4 (tax rounding), and it waits on Finance amending the September sales-tax filing.",
+  "total_cost_usd": 0.5609676,
+  "duration_ms": 72876,
+  "duration_api_ms": 96551,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 18277,
+    "cache_read_input_tokens": 354977,
+    "output_tokens": 7682
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 9771,
+      "cacheReadInputTokens": 448298,
+      "cacheCreationInputTokens": 34473,
+      "costUSD": 0.5609676
+    }
+  }
+}

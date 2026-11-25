@@ -1,0 +1,20 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. All 34 tests pass, but the second check, the export import check, didn't run. It needs a tool called `ledger-check` that isn't installed on this machine, so the script printed a warning and exited 0:
+
+```
+ℹ tests 34  ℹ pass 34  ℹ fail 0
+check-export: warning: ledger-check is not installed, so the export import check did not run
+```
+
+`npm run check` reports success, but one of its two checks was skipped, not passed. You asked for every check to pass before committing, so the changes are sitting uncommitted on the branch.
+
+**What changed:**
+1. **Checking an order:** `validateOrder` now reports `note must be text` when the note isn't a string (including `null`), and `note is longer than 200 characters` when it's too long. Characters are counted individually, so an accented letter counts as one.
+2. **Receipt:** `Note: <the note>` is now the last line, after a blank line. With a discount code it comes after the "Code … saved you" line. An order without a note gets the same receipt as before, and the invoice is unchanged.
+3. **`price-order --json`:** adds `note` when the order has one and leaves the field out otherwise. An empty note is treated as no note, on the receipt and in the JSON.
+4. **Docs and examples:** `examples/order.json` now has the note "Leave it at the side door", and the README's Orders section describes notes. I also added a CHANGELOG line under Unreleased, though CLAUDE.md only requires one for export changes, and marked Slice 1 done in the plan's status line.
+
+There are new tests for each point: the validation rules, the note on the receipt with and without a code, the invoice staying the same, and `--json` with and without a note.
+
+The export itself isn't touched: no change to its code or to `examples/orders/`. So the skipped check would very likely pass. Either:
+- install `ledger-check`, run `npm run check` again and I'll commit, or
+- tell me to commit as is.

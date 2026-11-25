@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `31d663b`. It isn't pushed.\n\n- **Refunds of discounted orders:** a partial refund of an order with a discount code now works instead of throwing. Each refunded line pays back its price after its share of the discount (from `computeTotals(...).lines`), plus tax on those lines added together. The 15% restocking fee is taken from the discounted price. A whole refund pays back the same as before.\n- **Refund note:** each line now shows its discounted price, and `Items` is the sum of those prices.\n- **CLI and README:** `refund-order --code` already passed the code through, so it works with `--sku` with no change to the script. The README no longer says these refunds aren't supported yet and explains how they're worked out.\n- **Tests:** they cover a partial refund with a code, the fee on the discounted price, refunding every line by SKU matching a whole refund, the note, and the CLI with `--code` and `--sku`. All 33 pass. As before, the export import check didn't run because `ledger-check` isn't installed on this machine. The export format didn't change.\n- The plan's status line and Slice 3 heading are marked done.\n\n**Found, not fixed (outside the slice):** the comment on `restockingFee` in `src/config.js` still says the fee is \"a fraction of the line's amount\". It's now taken from the discounted price. I can fix that comment if you want.\n\n**Still waiting on you:**\n- **Finding 2:** I didn't touch the note's `Restocking fee` row. The README (lines 56\u201358) says that row stays separate so the bookkeeper's import can book the fee. That's one more reason to keep it as it is.\n- **The findings file:** should I delete `review/findings-refunds.md`?",
+  "total_cost_usd": 0.5126219999999999,
+  "duration_ms": 66505,
+  "duration_api_ms": 79205,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 17426,
+    "cache_read_input_tokens": 304334,
+    "output_tokens": 6661
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 8043,
+      "cacheReadInputTokens": 400930,
+      "cacheCreationInputTokens": 33935,
+      "costUSD": 0.5126219999999999
+    }
+  }
+}

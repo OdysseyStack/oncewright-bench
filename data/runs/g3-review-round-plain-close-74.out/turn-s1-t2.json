@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session.\n\n1. **Where `refunds-fixes` stands:**\n   - The tax fix and the `Set` change are committed as `ea45f21`.\n   - The branch isn't pushed and has no PR, so the next session should only do either if you ask.\n   - The fee-row finding stays skipped, as an open question for whoever owns the accounting import rather than a to-do.\n   - Slice 3 of the refunds plan (partial refunds of discounted orders) is the next planned work. It also relies on the refunded lines adding up to `Items`.\n2. **The export check doesn't run on this machine.** `ledger-check` isn't installed, so `npm run check` only runs the tests and then a warning. If a change touches the export, the next session should say the check didn't run instead of reporting it as passed.\n\nNothing is left uncommitted. Why the fee-row finding was skipped is also written in the commit message, so it's on record outside these notes.",
+  "total_cost_usd": 0.37210160000000003,
+  "duration_ms": 23221,
+  "duration_api_ms": 59603,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3037,
+    "cache_read_input_tokens": 106390,
+    "output_tokens": 2218
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5516,
+      "cacheReadInputTokens": 261788,
+      "cacheCreationInputTokens": 26169,
+      "costUSD": 0.37210160000000003
+    }
+  }
+}

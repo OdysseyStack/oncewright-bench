@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as d6a1838 (not pushed). Partial refunds of discounted orders now work.\n\n- **`src/refunds.js`:**\n  - A partial refund with a discount code no longer throws.\n  - Each refunded line pays back its net (its amount less its share of the discount), and the restocking fee is 15% of that net.\n  - Tax is still `percentOf` of the summed nets, not worked out line by line, so the cent lost per line doesn't come back. `percentOf` itself is unchanged.\n  - A whole refund of a discounted order gives the same amounts as before.\n- **The refund note** prints each line at its net price. This also fixes an older problem: the whole-order note for a discounted order used to list full prices that didn't add up to `Items`, which the bookkeeper's import would reject.\n- **`bin/refund-order.js`** needed no change, because it already passed `--code` through. A new test shows `--code` working with `--sku`.\n- **Tests:** I added tests in `test/refunds.test.js` for each point. Five of them fail against the old code. `npm run check` passes all 36 tests, but the export import check didn't run because `ledger-check` isn't installed here.\n- **`README.md`:** removed \"not supported yet\" and described how `--code` works with a partial refund.\n- **Plan:** marked Slice 3 done in its status line.\n\nNo files outside the slice's scope were changed. Still open: whether to push the branch or open a PR, and whether to keep `review/findings-refunds.md`.",
+  "total_cost_usd": 0.5449248,
+  "duration_ms": 74830,
+  "duration_api_ms": 95334,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 15926,
+    "cache_read_input_tokens": 385342,
+    "output_tokens": 7803
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 9904,
+      "cacheReadInputTokens": 449704,
+      "cacheCreationInputTokens": 32100,
+      "costUSD": 0.5449248
+    }
+  }
+}

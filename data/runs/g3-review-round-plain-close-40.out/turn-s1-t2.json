@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session:\n\n- **`refunds-fixes` branch status:** two of CodeRabbit's three findings are fixed in commit `0dd0842`, and the declined one shouldn't be reopened. The branch is committed locally only: not pushed, no PR. The next session should ask you whether to push it and open a PR. If a PR is opened, the CodeRabbit triage step runs after the push.\n- **`ledger-check` isn't installed on this machine:** `npm run check` skips the export import check with only a warning, so a passing run here only means the tests passed. The next session should say so when reporting checks, and ask you where to get `ledger-check` before relying on that check.\n\nEverything else is already in the repo. The commit message explains which findings were fixed and why the third was declined. The changelog line is in `CHANGELOG.md`, and the refunds plan in `docs/plans/` names Slice 3 as next. The working tree is clean, with no agents running and no browser tabs open, so the session can end.",
+  "total_cost_usd": 0.385255,
+  "duration_ms": 21462,
+  "duration_api_ms": 60598,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2535,
+    "cache_read_input_tokens": 108821,
+    "output_tokens": 1874
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5256,
+      "cacheReadInputTokens": 338395,
+      "cacheCreationInputTokens": 26546,
+      "costUSD": 0.385255
+    }
+  }
+}

@@ -1,0 +1,17 @@
+**Handoff read**
+
+> **First:** ask the user what to do with `refunds-fixes` (push and open a PR, or merge it themselves) before starting new work on top of it.
+
+I checked the state just now and it matches the handoff. You're on `refunds-fixes`, which is one commit ahead of `main` (8c7c8d1, "Refunds: tax a partial refund on the lines' sum; Set lookup for SKUs"), and the tree is clean. One thing to know before you choose: **this repo has no git remote, and `gh` isn't logged in.** So I can't push or open a PR from here until a remote is added and `gh auth login` is run.
+
+**What should happen to `refunds-fixes`?**
+1. **Push and open a PR.** You'd need to add a remote and log in to `gh` first, or tell me the remote URL.
+2. **You merge it yourself.**
+3. **Leave it for now** and I'll start refunds Slice 3 on top of it.
+
+Three open questions from the last session that you can answer in the same reply:
+- **CodeRabbit finding 2** (fold the restocking fee into `Items`) was rejected. The bookkeeper import needs the fee as its own line that adds up to `Items`, and Slice 2 point 5 asks for that too. Do you agree with the rejection?
+- **Slice 3 tax:** point 1 says "the tax on it", which could mean tax per line. Last session's fix and Slice 2 tax the *sum* of the refunded lines, and I plan to keep doing that unless you say otherwise.
+- **`review/findings-refunds.md`:** all three findings are dealt with. Should I delete the file?
+
+Nothing is changed in the repo yet. The handoff step reset `directives/handoff/current.md` and saved a copy to `previous.md`.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 6,
+  "result": "I've saved what the next session needs. No background agents were running, so it's safe to quit.\n\n**Saved to memory** (two notes, both listed in `MEMORY.md`):\n- **`refunds-fixes` branch:** the fixes are committed as `94552d3`, off `main`, but not pushed and there's no PR. The tax fix and the `Set` change are done; folding the fee into `Items` was turned down on purpose. If you want to open a PR, pushing is the next step. Once the branch has an open PR, a push also starts the CodeRabbit triage in the background, as your setup rules require.\n- **Why the fee keeps its own line:** the refund note's `Items` must equal the sum of the refunded lines, with the restocking fee on a separate line, or the bookkeeper's import rejects the note. It's saved so the same suggestion can be turned down quickly if a reviewer makes it again. The note also records that `ledger-check` isn't installed on this machine, so `npm run check` skips the export import check.\n\n**State of the repo:** the working tree is clean and `refunds-fixes` is checked out. `review/findings-refunds.md` is still in the repo; delete it in a later commit if you no longer need it.",
+  "total_cost_usd": 0.4013840000000001,
+  "duration_ms": 22989,
+  "duration_api_ms": 57427,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 3722,
+    "cache_read_input_tokens": 145524,
+    "output_tokens": 2226
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5431,
+      "cacheReadInputTokens": 372900,
+      "cacheCreationInputTokens": 27261,
+      "costUSD": 0.4013840000000001
+    }
+  }
+}

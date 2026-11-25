@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't actually run, so I can't say every check passes.\n\n**Check results**\n- **Tests: 34 of 34 pass.** That's the 30 that were there before plus 4 new ones.\n- **Export import check: did not run.** `ledger-check` isn't installed on this machine. The script prints `check-export: warning: ledger-check is not installed, so the export import check did not run` and still exits 0, so `npm run check` looks green even though this check was skipped. It was skipped on `main` before my changes too.\n\nThis slice doesn't change any export code or the example orders the export reads, so the check would most likely pass. But your condition was that every check passes, so I left the changes uncommitted.\n\n**What changed**\n- **Validation:** an order may now carry `note`. `validateOrder` reports `note must be text` if it isn't a string (including `null`) and `note is longer than 200 characters` if it's too long. The length is counted in characters, so 200 \u2615 count as 200. The limit is `NOTE_MAX` in `src/validate.js`.\n- **Receipt:** the receipt ends with a blank line and `Note: \u2026`, below the \"Code \u2026 saved you\" line when there is one. Without a note the receipt is unchanged. The invoice is unchanged, and a test confirms it.\n- **`price-order --json`:** the output includes `note` when the order has one and leaves the field out when it doesn't.\n- **Example, README and plan:** `examples/order.json` has the note \"Leave it at the side door\", the README's Orders section describes `note`, and the plan's status line says Slice 1 is done.\n- **Tests:** they cover each point above, including the command-line tool refusing an order whose note is too long.\n\nAn empty `note: \"\"` passes validation and is treated as no note, so it doesn't print or appear in the JSON. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.\n\n**Your call:** install `ledger-check` and I'll run the full check and commit, or tell me to commit without the export check.",
+  "total_cost_usd": 0.3712356,
+  "duration_ms": 54194,
+  "duration_api_ms": 51633,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 26049,
+    "cache_read_input_tokens": 293218,
+    "output_tokens": 5206
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5206,
+      "cacheReadInputTokens": 293218,
+      "cacheCreationInputTokens": 26049,
+      "costUSD": 0.3712356
+    }
+  }
+}

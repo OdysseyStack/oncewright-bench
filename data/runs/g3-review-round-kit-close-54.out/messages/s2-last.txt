@@ -1,0 +1,12 @@
+Slice 3 is done and committed on `refunds-fixes` as `e577d8a`. I didn't push it, and the repo has no remote anyway.
+
+- **Amounts:** a partial refund of an order that used a discount code no longer throws an error. Each refunded line pays back its net, meaning its amount less its share of the discount. Tax is charged once on the total of those nets, the same way the earlier commit (`4304be6`) taxes partial refunds. An opened line's restocking fee is 15% of its net.
+- **Refund note:** each line now prints at its net price. This also fixes whole refunds of discounted orders: before, their lines printed at full price and didn't add up to `Items`.
+- **CLI and README:** `--code` already worked with `--sku`, so `bin/refund-order.js` only got a new header comment. The README drops the "aren't supported yet" note and explains how `--code` affects a refund.
+- **Plan:** Slice 3 is marked done, dated 2026-11-19.
+
+New tests cover each point: amounts with SAVE10 and with TAKE5 (where the discount doesn't split evenly), the fee, a whole refund with and without `skus`, the note, and the CLI with `--code` and `--sku`. Against the old `src/refunds.js`, 4 of them fail.
+
+`npm run check` passes all 35 tests. As usual on this machine, the export import check was skipped because `ledger-check` isn't installed. This slice doesn't change the export format.
+
+I didn't touch any file outside the plan's scope.

@@ -1,0 +1,17 @@
+## Handoff read
+
+> **First:** ask the user what to do with `refunds-fixes`: push it and open a PR, or merge. Raise the open flag below at the same time.
+
+I checked the handoff against the repo and memory. It matches, with one exception:
+
+- **Branch:** `refunds-fixes` has the one commit `72c18e2` and nothing uncommitted. That commit makes partial refunds tax the summed line amount, which fixes the lost cent. It also adds a regression test.
+- **No git remote is configured**, so this repo can't push or open a PR right now. If you want a PR, I need a remote URL first.
+- **Memory:** `refund-note-layout` matches the handoff. You haven't ruled on that question yet.
+
+## What I need from you
+
+1. **`refunds-fixes`:** do you want to push it and open a PR (that needs a remote), merge it into `main` locally, or leave it as it is?
+2. **Refund note layout (CodeRabbit finding 2):** CodeRabbit suggested folding the Restocking fee into `Items`. The last session rejected that because Slice 2 point 5 of the refunds plan calls for a separate negative "Restocking fee" row. Do you want to keep the plan's layout? If you want CodeRabbit's version instead, I'll change the plan first, then `renderRefundNote` and its test.
+3. **`review/findings-refunds.md`:** this file of CodeRabbit's pasted findings is still in the repo. Should I delete it or keep it?
+
+The next planned work after this is refunds Slice 3 (partial refunds of discounted orders). I haven't changed any files.

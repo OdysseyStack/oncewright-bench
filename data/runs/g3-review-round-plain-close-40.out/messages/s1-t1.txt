@@ -1,0 +1,13 @@
+I fixed two of CodeRabbit's three findings and declined the third. The work is committed on the new branch `refunds-fixes` as `0dd0842`.
+
+**Fixed:**
+1. **Tax on a partial refund came out low.** `src/refunds.js` now works out tax on the refunded lines' total, the way the order charges it and the refunds plan specifies. Before, it worked out tax on each line and added those up, which could lose a cent per line. I added a test using CodeRabbit's example ($6.19 + $10.19): the new code refunds $1.31 of tax, the old code refunded $1.30. That test fails on the old code and passes now.
+2. **Slow SKU lookup (minor).** `linesFor` now checks SKUs against a `Set` instead of scanning a list.
+
+**Declined:**
+3. **Folding the restocking fee into `Items` on the refund note.** This conflicts with the README. The bookkeeper's import requires the refunded lines to add up to `Items`, and the fee to stay on its own line so the import can book it. Point 5 of Slice 2 in the plan also calls for that separate `Restocking fee` row. I explained this in the commit message.
+
+**Worth knowing:**
+- **Refund amounts change.** Some partial refunds will now pay back a cent or more extra tax, so I added a line to `CHANGELOG.md` under Unreleased. The export format didn't change, so `docs/export-format.md` needed no update.
+- **Part of `npm run check` didn't run.** All 31 tests pass, but the export import check was skipped because `ledger-check` isn't installed on this machine.
+- **Nothing is pushed.** The branch is local only.

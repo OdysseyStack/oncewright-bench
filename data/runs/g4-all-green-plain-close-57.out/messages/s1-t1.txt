@@ -1,0 +1,17 @@
+Slice 1 is done and committed on the new `order-notes` branch as `c158047`. The tests all pass, but the export import check didn't actually run because `ledger-check` isn't installed on this machine.
+
+**Check results (`npm run check`):**
+- **Tests:** 35 of 35 pass, 0 fail. That's the 30 that were there before plus 5 new ones. I also ran the new tests against the old code: the 3 that test the new behaviour failed there, so they do test the change.
+- **Export import check:** `scripts/check-export.sh` prints a warning and exits 0 when `ledger-check` is missing, so `npm run check` looks green without having done this check. This slice doesn't touch the export: I compared the export output for `examples/orders` before and after, and it's byte-for-byte the same. So I left `docs/export-format.md` alone. Still, running the real check needs a machine with `ledger-check` on it.
+
+**What changed:**
+1. **Checking the note:** an order may now carry `note`, a string of up to 200 characters. `validateOrder` reports `note must be a string` or `note is longer than 200 characters`, and the command-line tools refuse such an order. Length counts characters, so an emoji counts as one.
+2. **Receipt:** when the order has a note, the receipt ends with a blank line and then `Note: <the note>`. That still holds when there's a discount-code line, which the note follows. Without a note the receipt and the invoice are unchanged, and there are tests for both.
+3. **`price-order --json`:** includes `note` when the order has one and leaves it out otherwise.
+4. **Example, docs and tests:** `examples/order.json` has the note "Leave it at the side door". The README's Orders section describes notes, `CHANGELOG.md` has a line under Unreleased, and the plan's status line now says Slice 1 is done.
+
+**Decisions for you to check:**
+- **Empty notes:** I treat `""` as no note, so a blank comment box doesn't print a bare `Note: ` line. The plan doesn't say either way.
+- **Line breaks:** a note containing line breaks is accepted as is, so it would print over several lines at the end of the receipt. The plan doesn't cover this; tell me if you'd rather reject it or flatten it to one line.
+
+I haven't pushed the branch.

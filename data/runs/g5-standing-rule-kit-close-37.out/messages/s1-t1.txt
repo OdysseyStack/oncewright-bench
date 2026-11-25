@@ -1,0 +1,9 @@
+All three slices are done, one commit each, on the new local branch `pickup-locations`. `npm run check` passes (37 tests). Nothing is pushed.
+
+- **`63bdf5a` Slice 1:** the config now lists the two counters, "Pier Road" and "Northside". `validateOrder` names any `pickupAt` that isn't one of them, and spelling counts (`"northside"` is rejected). An order with `pickupAt` pays no shipping, whether or not `pickup` is set.
+- **`73dcf63` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line (after the code line, if there is one), and the invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and refuses one that isn't a counter. `--json` includes `pickupAt` only when the order has one. The README's Orders section has a paragraph about it.
+- **`2b55fb2` Slice 3:** the export has a new `pickup` column after `total`, holding the location or left empty. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`. Because the export format changed, I also updated `docs/export-format.md` and added a line to `CHANGELOG.md` under Unreleased, as the repo's instructions require. The plan's status line says all three slices are done.
+
+**Before this ships:** `ledger-check` isn't installed on this machine, so the check that the bookkeeper's import accepts the export did not run. Nothing has confirmed the import will take an eighth column. `docs/export-format.md` says the bookkeeper is told before an export change ships, so they should hear about the new `pickup` column.
+
+No files outside the scope I listed at the start were changed.

@@ -1,0 +1,7 @@
+I put `src/config.js` back and committed it on `refunds-fixes` as a667626. My change there was only a reworded comment on `restockingFee`, so no behavior changes.
+
+`config.js` is now identical to how it was before Slice 3. The slice touches only `src/refunds.js`, its tests, the README, the changelog and the plan. The fix is a new commit on top rather than a rewrite of the Slice 3 commit; I can squash the two into one if you prefer, since nothing has been pushed.
+
+`npm run check` passes all 33 tests. The export import check didn't run because ledger-check isn't installed here.
+
+I've also saved a note to change only the files a slice actually needs.

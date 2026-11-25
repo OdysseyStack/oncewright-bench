@@ -1,0 +1,15 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. They're local only, nothing pushed. The tests pass (38 of 38), but `npm run check` didn't run the export import check because `ledger-check` isn't installed here.
+
+- **Slice 1 (`9bab873`):** the config now lists the two counters, Pier Road and Northside. `validateOrder` reports any `pickupAt` that isn't one of them, spelled exactly. An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.
+- **Slice 2 (`aa9190a`):** the receipt ends with `Pickup at <location>` after a blank line, and comes after the discount-code line when there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at` sets it. A location that isn't on the list is refused with the same message as one in an order file. I added `pickupAt` to the README's Orders section.
+- **Slice 3 (`04d4d75`):** the export has a new `pickup` column after `total`, empty when an order has no location. `A-1042` is now picked up at Northside; I replaced its `"pickup": true` rather than keeping both. `docs/export-format.md` and `CHANGELOG.md` are updated, as the repo's instructions require.
+
+The plan's status line now reads "Slices 1, 2 and 3 done." No file outside the slices' scope was changed.
+
+**Before this ships:**
+- **Import check:** nothing has confirmed that the bookkeeper's import accepts the new `pickup` column. `docs/export-format.md` also says the bookkeeper is told before a format change ships, so they need to hear about this one.
+- **Two stale README lines, left alone because they're outside the slices' scope:**
+  - Around line 99, the README still lists the old export columns, without `pickup`.
+  - Around line 91, the `price-order` flags list doesn't mention `--pickup-at`.
+
+  Say if you want me to fix them.

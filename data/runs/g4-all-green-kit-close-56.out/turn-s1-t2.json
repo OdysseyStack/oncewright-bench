@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `d67d38c`, but only the tests ran: the export import check was skipped again.\n\n**Check results**\n- **Tests:** all 34 pass, none fail.\n- **Export import check:** skipped because `ledger-check` still isn't installed (`check-export: warning: ledger-check is not installed, so the export import check did not run`). `npm run check` exits 0 regardless, so this is not a confirmed pass. The slice doesn't touch the export code or the `examples/orders` files that check reads. I noted the skipped check in the commit message.\n\n**What's in the commit:** the note feature from last turn (validation, the receipt's last line, `--json`, the example order, the README, and tests for each). I also set the plan's status line to \"Slice 1 is done.\"\n\nEvery file changed is one the slice names, its test, or the plan, and nothing is pushed. Once `ledger-check` is installed, `npm run check` will run the import check too.",
+  "total_cost_usd": 0.4173566,
+  "duration_ms": 13041,
+  "duration_api_ms": 61397,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1628,
+    "cache_read_input_tokens": 118609,
+    "output_tokens": 990
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5855,
+      "cacheReadInputTokens": 349523,
+      "cacheCreationInputTokens": 28783,
+      "costUSD": 0.4173566
+    }
+  }
+}

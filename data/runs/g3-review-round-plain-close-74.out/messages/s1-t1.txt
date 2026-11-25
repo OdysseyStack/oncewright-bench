@@ -1,0 +1,10 @@
+I fixed two of CodeRabbit's three findings and skipped the third, which would break the accounting import. The commit is `ea45f21` on a new branch, `refunds-fixes`. The tests pass (31/31), but the export import check part of `npm run check` didn't run, because `ledger-check` isn't installed on this machine. I didn't touch the export, so that check shouldn't be affected.
+
+**Fixed:**
+1. **Tax on a partial refund came out short.** It was worked out line by line and then added up, so each line lost its own fraction of a cent. With lines of $6.19 and $10.19, the refund paid back $1.30 of tax where the order charged $1.31. It's now worked out once on the refunded lines' total, which is how the order is charged and what the refunds plan specifies. I added a test using those amounts and a line under Unreleased in `CHANGELOG.md`, since some refund amounts change by a cent.
+2. **Matching refunded lines by SKU** now uses a `Set` in `linesFor`. It behaves the same.
+
+**Not taken:**
+3. **Folding the restocking fee into `Items` and removing the `Restocking fee` row from the note.** Finance's accounting import checks that the refunded lines add up to `Items`, and it needs the fee on its own line so it can book it. With this change, the note wouldn't add up and the import would reject it (README, lines 56–58). The refunds plan (Slice 2, point 5) also calls for the separate fee row. If you'd still like it, that's a decision for whoever owns the import, not a code fix. The commit message gives the reason for skipping it.
+
+I haven't pushed the branch or opened a PR.

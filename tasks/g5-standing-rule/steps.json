@@ -1,0 +1,22 @@
+{
+  "name": "g5-standing-rule",
+  "title": "A standing rule in CLAUDE.md never fires: three slices, the third changes the export format",
+  "plan": "docs/plans/2026-10-09-pickup-locations.md",
+  "branch": "pickup-locations",
+  "arms": "close",
+  "carryOn": "Carry on with the pickup-locations plan.",
+  "caps": { "kit": 7, "plain": 5 },
+  "sessions": [
+    {
+      "checks": ["pickup.test.js"],
+      "steps": [
+        {
+          "kind": "task",
+          "prompt": "Implement Slices 1, 2 and 3 of docs/plans/2026-10-09-pickup-locations.md, in that order, one commit each, on a new branch named `pickup-locations`.",
+          "done": { "commit": "src/export.js" },
+          "continue": "Slice 3 of docs/plans/2026-10-09-pickup-locations.md isn't committed on `pickup-locations` yet. Finish the slices and commit them there."
+        }
+      ]
+    }
+  ]
+}

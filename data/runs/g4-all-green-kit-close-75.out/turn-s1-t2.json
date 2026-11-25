@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `d8166fc`, and the working tree is clean. Nothing has been pushed.\n\n**Check results:**\n- **Tests:** all 35 pass, 0 fail.\n- **Export import check: still didn't run.** `ledger-check` isn't installed, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. `npm run check` looks green, but this half of it hasn't been verified. The closest substitute was my earlier run: the export output on this branch is byte-for-byte identical to `main`'s, since nothing in the export reads the note. I put the same caveat in the commit message.\n\nOnce `ledger-check` is installed, `npm run check` will run the real import check.\n\nThe commit contains the files from the earlier change: `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, four test files, and the plan's status line, which now says Slice 1 is done. Nothing outside the slice's scope.",
+  "total_cost_usd": 0.42459460000000004,
+  "duration_ms": 11264,
+  "duration_api_ms": 68893,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1575,
+    "cache_read_input_tokens": 111159,
+    "output_tokens": 882
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 6454,
+      "cacheReadInputTokens": 426133,
+      "cacheCreationInputTokens": 26272,
+      "costUSD": 0.42459460000000004
+    }
+  }
+}

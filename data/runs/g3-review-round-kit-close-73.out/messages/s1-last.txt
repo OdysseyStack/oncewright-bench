@@ -1,0 +1,8 @@
+Wrap-up is done.
+
+- **Nothing to stop:** this session started no jobs, Monitors or agents.
+- **Memory:** I wrote one file, `ledger-check-not-installed`. On this machine `npm run check` only proves the tests, because the export import check is skipped. I added its line to `MEMORY.md`.
+- **Index:** `MEMORY.md` is 1 line and 139 bytes, well under its target, so I didn't tidy it.
+- **Handoff:** written to `directives/handoff/current.md`, which git ignores. Its first line is "# Next session". It opens with the state of `refunds-fixes` (4bb0462, not pushed, no PR) and why finding 2 was turned down. Next it asks whether to push, open a PR or merge, then moves to refunds Slice 3. It also covers two traps: keep the tax on summed amounts, and don't touch `percentOf` before Slice 4.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

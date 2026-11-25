@@ -1,0 +1,15 @@
+Slice 1 of order notes is committed on `order-notes` as `7f6106b`. Only the tests were actually checked: the export import check still couldn't run. Nothing is pushed.
+
+**Check results**
+- **Tests:** 34 of 34 pass, 0 fail. `npm run check` finishes without an error.
+- **Export import check:** didn't run. `ledger-check` still isn't installed, so `scripts/check-export.sh` printed a warning and stopped without checking anything. The export of `examples/orders` is byte-identical to `main`'s, and the commit message says the check was skipped.
+
+**The commit** contains the slice from last time plus the plan's status line, now "Status: Slice 1 done." in `docs/plans/2026-10-08-order-notes.md`:
+- An order's note must be text of at most 200 characters, or `validateOrder` names the problem.
+- The receipt ends with `Note: …` after a blank line.
+- `price-order --json` includes the note when the order has one.
+- The invoice and the export are unchanged.
+- The example order and the README now show a note.
+- Each of these has a test.
+
+Every file changed is within the slice's scope. Once `ledger-check` is installed, `npm run check` will run the export check for real.

@@ -1,0 +1,22 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as 6636044, on top of the CodeRabbit fixes. All 35 tests pass. The export import check in `npm run check` didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+**What changed** (`src/refunds.js`)
+- **No more error:** a partial refund of an order with a discount code now works instead of throwing.
+- **Amounts:** each refunded line pays back its net price, meaning its amount less its share of the discount, as `computeTotals` works it out.
+- **Tax:** it's worked out on the total of the refunded nets, not line by line, the same way as the CodeRabbit fix. The plan says "the tax on it", which could mean either; I read it to match how the order is charged.
+- **Restocking fee:** 15% of the opened line's net price.
+- **Shipping:** paid back only when every line is refunded, as before.
+- **Whole refunds:** the nets always add up to the subtotal less the discount, so refunding every line of a discounted order pays back exactly what the order charged, the same as Slice 1.
+- **Refund note:** each line is printed at its net price, as the receipt does, and `Items` is their sum.
+- **`refund-order`:** `--code` now works together with `--sku`. The command already passed the code along; it was the library that refused.
+
+**Tests:**
+- Partial refunds with SAVE10 (a percentage off) and TAKE5 (a fixed $5.00 off, which splits unevenly, $3.24 and $1.76).
+- A whole refund by listing every SKU gives the same amounts as one without SKUs.
+- The fee on an opened line of a discounted order.
+- The refund note printed at net prices.
+- The command-line tool with `--sku` and `--code`.
+
+I also took out the README's "not supported yet" note and described how `--code` works, added a CHANGELOG line under Unreleased, and marked Slice 3 done in the plan.
+
+Nothing is merged. The repo has no git remote, so there's nowhere to push it from here. `review/findings-refunds.md` is still in the repo. Slice 4 (tax rounding) stays on hold until finance amends the tax filing.

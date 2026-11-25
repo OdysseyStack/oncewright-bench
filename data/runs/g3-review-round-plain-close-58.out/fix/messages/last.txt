@@ -1,0 +1,3 @@
+I've put `src/config.js` back the way it was before Slice 3 and committed that on `refunds-fixes` as c5b4db2. Compared with c6fee86, the branch now changes only the Slice 3 files: `src/refunds.js`, its tests, the README, `CHANGELOG.md` and the plan. All 35 tests pass. The export import check still didn't run because `ledger-check` isn't installed.
+
+The restored comment says the restocking fee is a share of "the line's amount". For discounted orders it's now taken from the amount after the discount, which `src/refunds.js` explains in its own comments.

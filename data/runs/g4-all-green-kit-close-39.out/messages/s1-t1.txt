@@ -1,0 +1,15 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed it**. One of the two checks didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** 36 of 36 pass, 7 of them new.
+- **Export import check:** skipped. `scripts/check-export.sh` printed "ledger-check is not installed, so the export import check did not run" and exited 0, so `npm run check` looks green even though this check never ran. I couldn't find `ledger-check` anywhere on this machine. The slice doesn't touch `src/export.js`, `bin/export-orders.js` or `examples/orders/`, so the export should be unaffected, but that hasn't been checked.
+
+**What the slice does:**
+1. `validateOrder` reports a note that isn't text (`note must be text`) or is over 200 characters (`note is longer than 200 characters`). Characters are counted as Unicode code points, so 200 "☕" is allowed.
+2. When the order has a note, the receipt adds a blank line and then `Note: …` as its last line, after the discount-code line if there is one. Receipts without a note and the invoice are unchanged. An empty note (`""`) counts as no note.
+3. `price-order --json` includes `note` only when the order has one.
+4. `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes notes. Each point has a test.
+
+I changed `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, their four test files, and the plan's status line (now says Slice 1 is done). Nothing outside the slice's scope was touched.
+
+If you install `ledger-check`, I'll re-run the checks and commit. Or tell me to commit now with the import check unverified.

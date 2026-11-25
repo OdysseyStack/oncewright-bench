@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes to memory so the next session can pick up from here. Nothing was left running and I opened no browser tabs, so the session can end now.\n\n**Where things stand:**\n- The work is committed locally on `refunds-fixes` (`f0bceb4`) and the working tree is clean.\n- It is not pushed and there is no PR yet. If you want one, I'll push the branch, and the CodeRabbit check will then start in the background, as your CLAUDE.md asks.\n\n**What the notes say:**\n- **The branch:** two findings fixed and one declined, with the reason. Next on the refunds plan is Slice 3 (partial refunds of orders that used a discount code), which changes the same tax line I just edited.\n- **The export check:** `ledger-check` isn't installed on this machine, so `npm run check` passes without checking the export. That matters for any future change to the export format.",
+  "total_cost_usd": 0.3599896,
+  "duration_ms": 18086,
+  "duration_api_ms": 44291,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2631,
+    "cache_read_input_tokens": 106853,
+    "output_tokens": 1874
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 4592,
+      "cacheReadInputTokens": 301468,
+      "cacheCreationInputTokens": 25972,
+      "costUSD": 0.3599896
+    }
+  }
+}

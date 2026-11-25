@@ -1,0 +1,9 @@
+I went through the three CodeRabbit findings, fixed two and turned one down. The work is committed on the new branch `refunds-fixes` as `eeb74e4`.
+
+- **Fixed: tax on a partial refund came out too low.** The tax was worked out line by line and then added up, and each line could lose up to a cent, so a customer could get back less tax than they paid. It's now worked out once on the refunded lines' combined amount, which is what the refunds plan (Slice 2 point 1) says and how the order charges it. I added a test using lines of $6.19 and $10.19: it expects $1.31 and failed on the old code, which gave $1.30. I didn't touch `percentOf` itself, because the plan holds its rounding fix back for Slice 4.
+- **Fixed: small speed-up.** The code that picks the refunded lines now does a quick set lookup instead of searching the list each time. Behaviour is unchanged.
+- **Turned down: folding the restocking fee into `Items` on the refund note.** Slice 2 point 5 of the plan specifically asks for a separate negative `Restocking fee` row. If you'd rather have the note CodeRabbit suggests, the plan needs to change first; that's your call.
+
+`npm run check` passes all 31 tests. The export import check was skipped because `ledger-check` isn't installed here, but this change doesn't affect the export.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`, so nothing outside the scope. Slice 2 was already marked done in the plan, so the plan needed no update.

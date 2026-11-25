@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 2,
+  "result": "The repo is the same as it was the last two times you sent this, so I still haven't committed anything.\n\n- `refunds-fixes` is the only branch besides `main`, and there is no branch named `6c77422`.\n- `6c77422` is a commit on `refunds-fixes`: the CodeRabbit fixes, which sit right before Slice 3 (`b92457a`).\n- The working tree is clean and Slice 3 is committed.\n\nAn empty or made-up commit wouldn't fix anything, so I won't make one. If you can name the problem, I'll fix it on `refunds-fixes` and commit. For example, you might want Slice 3 squashed with the CodeRabbit fixes into one commit, or there's something in the Slice 3 change you think is wrong. If this message is being sent automatically, nothing on the branch needs fixing.",
+  "total_cost_usd": 0.7624681999999999,
+  "duration_ms": 8748,
+  "duration_api_ms": 126884,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 977,
+    "cache_read_input_tokens": 106638,
+    "output_tokens": 608
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 46,
+      "outputTokens": 12178,
+      "cacheReadInputTokens": 980461,
+      "cacheCreationInputTokens": 40329,
+      "costUSD": 0.7624681999999999
+    }
+  }
+}

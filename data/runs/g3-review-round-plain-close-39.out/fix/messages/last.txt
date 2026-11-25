@@ -1,0 +1,3 @@
+`src/config.js` is back to what it was before Slice 3. I committed that on `refunds-fixes` as `34b3573`. The file now matches `77c5b19` exactly, and `npm run check` still passes all 35 tests.
+
+The restored `restockingFee` comment says the fee is "a fraction of the line's amount". With a discount code, the fee is now taken from the line's price after the discount, so the comment is slightly out of date for discounted orders. I've left it as you asked.

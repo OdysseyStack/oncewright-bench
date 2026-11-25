@@ -1,0 +1,16 @@
+Slice 1 is committed on `order-notes` as `aad7d0b`, and nothing is left uncommitted. Only the tests have actually run: the export import check is still skipped.
+
+**Check results** (I ran `npm run check` again just before committing):
+- **Tests:** 34 run, 34 pass, 0 fail.
+- **Export import check:** skipped. `ledger-check` still isn't installed, so the script printed its warning and exited 0. This check has not passed; it has never run on this work. I said so in the commit message.
+
+The slice doesn't change the export code or the example orders it runs on, so I expect the check to pass. Once `ledger-check` is installed, `npm run check` will confirm it.
+
+**What the commit contains:**
+- **Validation:** `validateOrder` rejects a `note` that isn't a string or is over 200 characters.
+- **Receipt:** prints `Note: …` as its last line, after a blank line, and after the discount-code line when there is one. Without a note the receipt is unchanged, and the invoice is unchanged.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Docs:** the example order has a note, and the README's Orders section describes notes. There's a CHANGELOG line under Unreleased, and the plan's status line says Slice 1 is done.
+- **Tests:** new ones cover each of these.
+
+The branch is local only; I haven't pushed it.

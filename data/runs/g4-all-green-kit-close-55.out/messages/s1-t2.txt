@@ -1,0 +1,9 @@
+I committed Slice 1 on `order-notes` as `06efc95`, but only the tests were actually checked: the export import check still didn't run.
+
+**Check results (`npm run check`, exit 0):**
+- **Tests:** all 35 pass, including the new ones for each point in the slice.
+- **Export import check:** didn't run, because `ledger-check` still isn't installed on this machine. The script only prints a warning and exits 0, which is why `npm run check` passes anyway. The slice doesn't touch the export code, and the export output is byte-for-byte the same as on `main`, but that doesn't replace the bookkeeper's import check. I said this in the commit message too.
+
+**In the commit:** the note in validation, on the receipt and in `price-order --json`, with tests; a note in `examples/order.json`; a mention in the README; and the plan's status line set to "Slice 1 done (2026-11-19)". Nothing outside the slice's scope changed. The working tree is clean and nothing is pushed.
+
+Once `ledger-check` is installed, `npm run check` will run the import check for real.

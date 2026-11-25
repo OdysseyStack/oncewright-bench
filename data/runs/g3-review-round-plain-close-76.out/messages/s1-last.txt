@@ -1,0 +1,6 @@
+I saved two notes for the next session:
+
+- **`ledger-check` isn't installed on this machine.** Without it, `npm run check` passes on the tests alone and skips the export import check, printing only a warning. Any change to the export format needs that check run on a machine that has `ledger-check`.
+- **Where `refunds-fixes` stands.** It has one commit (`4965507`) and isn't pushed or merged. The skipped CodeRabbit finding (moving the fee into `Items`) is waiting on your decision. Refunds Slice 3 edits the same tax line in `src/refunds.js`, so it should start from this branch once it's merged.
+
+I didn't save anything the repo already holds, such as the fixes or the reason for skipping that finding, which are in the commit message. The working tree is clean.

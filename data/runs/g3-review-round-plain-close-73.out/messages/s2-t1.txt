@@ -1,0 +1,12 @@
+The CodeRabbit round on `refunds-fixes` is finished, and I can't go further without a decision from you. Where it stands:
+
+**Done** (commit `68abec7`, local only: not pushed, no PR)
+- **Finding 1:** a partial refund now charges tax on the summed amount of the refunded lines, as the order did. Before, it taxed each line separately and could refund a cent a line too little. There's a test for the $6.19 + $10.19 case: the tax now comes out at $1.31 instead of $1.30. I added a CHANGELOG line under Unreleased.
+- **Finding 3:** `linesFor` now checks SKUs against a `Set`.
+- **Checks:** I re-ran `npm run check` just now and all 31 tests pass. The export import check didn't run, though, because `ledger-check` isn't installed on this machine. Neither fix touches the export.
+
+**Waiting on you**
+- **Finding 2** (show the refund note's `Items` net of the restocking fee and drop the fee row): I still haven't applied it. The bookkeeper import in the README needs the refunded lines to add up to `Items`, with the fee on its own line, and Slice 2 point 5 of the refunds plan specifies that row. Has whoever owns the import agreed to change it? If they have, I'll change the note and update the plan and tests.
+- **Push / PR:** should I push the branch and open a PR against `main`? I haven't, because you haven't asked yet.
+
+The refunds plan has Slice 3 next (partial refunds of discounted orders). I can start it on a new branch if you want, but it's separate from this review round, so I haven't begun it.

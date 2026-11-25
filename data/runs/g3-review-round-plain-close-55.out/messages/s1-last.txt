@@ -1,0 +1,6 @@
+I saved two notes for the next session:
+
+- **`refunds-fixes` branch:** the fixes are committed only on this machine (41f4946); nothing is pushed and there's no PR yet. The note also says the restocking-fee finding was left out on purpose and why, so the next session doesn't apply it by mistake.
+- **`ledger-check` isn't installed here:** a passing `npm run check` doesn't cover the export import check, so any change that touches the export still needs that check run.
+
+No background agents are running and I opened no browser tabs, so it's safe to end the session. Pushing the branch and opening a PR are up to you. Once there's a PR, CodeRabbit triage would run automatically after the push.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "I haven't committed: one of the two checks didn't run. The work for Slice 1 is done on the new `order-notes` branch and all 34 tests pass, but the changes are uncommitted.\n\n**Check results (`npm run check`):**\n- **Tests:** 34 of 34 pass (30 before, plus 4 new), 0 fail.\n- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, and I couldn't find it anywhere on the PATH. The script prints a warning and still exits 0, so `npm run check` looks green even though nothing was checked. That's why I didn't commit: you asked for every check to pass first, and I can't say that about this one.\n\nThe slice doesn't touch the export: `src/export.js`, `bin/export-orders.js` and `examples/orders/` are unchanged, and the note isn't an export column. If the check had run, it would have seen the same export as on `main`. That's also why I didn't update `docs/export-format.md` or `CHANGELOG.md`.\n\n**What changed, by point in the plan:**\n1. **Validation:** `validateOrder` reports `note must be text` (this includes `null`) or `note is longer than 200 characters`. The limit is `MAX_NOTE_LENGTH` in `src/validate.js`.\n2. **Receipt:** `renderReceipt` adds a blank line, then `Note: \u2026` as the last line, after the \"Code \u2026 saved you\" line if there is one. Without a note the receipt is the same as before. The invoice doesn't show the note, and a test checks that.\n3. **`price-order --json`:** includes `note` when the order has one, and leaves the key out otherwise. The plain-text output is unchanged.\n4. **Example and docs:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes the note. There are new tests in `validate`, `receipt`, `invoice` and `cli`.\n\nI also marked Slice 1 done in the plan's status line.\n\nAn empty note (`\"\"`) passes validation and prints nothing on the receipt or in the JSON. That seemed the sensible reading of \"when the order has one\".\n\nTo finish, either run `npm run check` where `ledger-check` is installed, or tell me to commit without it and I'll commit on `order-notes`.",
+  "total_cost_usd": 0.35119540000000005,
+  "duration_ms": 52994,
+  "duration_api_ms": 50582,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 23938,
+    "cache_read_input_tokens": 287257,
+    "output_tokens": 5108
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5108,
+      "cacheReadInputTokens": 287257,
+      "cacheCreationInputTokens": 23938,
+      "costUSD": 0.35119540000000005
+    }
+  }
+}

@@ -1,0 +1,17 @@
+I built Slice 1 on the new `order-notes` branch, but I haven't committed it: one of the two checks didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** all 36 pass, none fail. 6 of them are new.
+- **Export import check:** it didn't run. The script printed `ledger-check is not installed, so the export import check did not run`, then exited 0 anyway. So `npm run check` reports success even though this check was skipped.
+
+This slice doesn't touch the export code or `examples/orders`. I ran `export-orders` with and without the change and the output is byte-for-byte identical, so the import check should give the same result it gives on `main`. But it hasn't actually passed here, and you asked for every check to pass before committing. If you install `ledger-check`, I'll run the check again and commit; or say so and I'll commit now with the check noted as skipped.
+
+**What the slice does:**
+1. `validateOrder` rejects a `note` that isn't a string ("note must be a string") or is longer than 200 characters ("note is longer than 200 characters"). Characters are counted the way a person would, so an emoji or accented letter counts as one.
+2. The receipt ends with a blank line and then `Note: …`, after the discount-code line if there is one. Orders without a note and the invoice are unchanged.
+3. `price-order --json` includes `note` when the order has one.
+4. `examples/order.json` now has a note, and the README's Orders section describes it.
+
+An empty-string note passes validation but is treated as no note, so it prints nothing and isn't in the JSON.
+
+**Files changed:** `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, four test files (`test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js`, `test/cli.test.js`), and the plan's status line. I set the status to "built, waiting on the export import check" rather than done. Nothing outside the slice's scope changed, and the export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.

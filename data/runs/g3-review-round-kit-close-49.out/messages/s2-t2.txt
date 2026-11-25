@@ -1,0 +1,11 @@
+I've implemented refunds Slice 3 and committed it on `refunds-fixes` as `ab61b91`, on top of `4ea63de`. It isn't pushed: the repo has no remote.
+
+- **Partial refunds of discounted orders now work** (`src/refunds.js`): they used to throw an error. Each refunded line pays back its share after the discount, and tax is charged on the total of those shares. An opened line's restocking fee is 15% of its discounted price. Refunding a whole discounted order still gives the same amounts as before.
+- **Refund note:** each line is printed at its discounted price, the way the receipt prints it, and `Items` is their sum.
+- **CLI and README:** `--code` already reached the refund code, so `bin/refund-order.js` only needed its header comment updated. The README replaces the "not supported yet" sentence with how discounted refunds are worked out.
+- **Tests** (`test/refunds.test.js`): new tests cover each point, including a discount that doesn't split evenly between lines (TAKE5's $5.00 splits $3.24 / $1.76). Four of them fail against the old code and pass now.
+- **Plan:** the status line in `docs/plans/2026-09-30-refunds.md` now marks Slice 3 done.
+
+`npm run check` passes all 35 tests. The export import check didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+No files changed outside the slice's scope. The open questions from the handoff are still waiting on you: whether to push and open a PR (that needs a remote first), the rejected CodeRabbit note-format finding, and `review/findings-refunds.md`.

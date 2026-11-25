@@ -1,0 +1,24 @@
+Slice 1 is implemented on the new `order-notes` branch, but **I haven't committed it**, because not every check passed. The tests pass, but the export import check didn't run: `ledger-check` isn't installed on this machine.
+
+## Check results
+
+`npm run check`:
+- **Tests: 34 of 34 pass.** That's the 30 already there plus 4 new ones.
+- **Export import check: didn't run.** `scripts/check-export.sh` prints `warning: ledger-check is not installed, so the export import check did not run` and exits 0 anyway. So `npm run check` looks green even though this check never happened.
+
+This change shouldn't affect the export: it doesn't touch the export code or the example orders it reads. I ran `export-orders` on `main` and on this branch, and the output is byte-for-byte the same. But I haven't actually run it through the bookkeeper's checker.
+
+## What changed
+- **`src/validate.js`**: `validateOrder` now reports `note must be text` (for a number, `null`, etc.) or `note must be 200 characters or fewer`. The CLIs refuse such orders because they use `loadOrder`.
+- **`src/receipt.js`**: when the order has a note, the receipt ends with a blank line and then `Note: <the note>`. That comes after the "Code … saved you" line if there is one. The receipt is unchanged without a note, and the invoice is untouched.
+- **`bin/price-order.js`**: `--json` adds `note` when the order has one.
+- **`examples/order.json`**: now has `"note": "Leave it at the side door"`.
+- **`README.md`**: the Orders section describes the note.
+- **Tests**: limits of 200 and 201 characters, wrong types, the note on the receipt with and without a code, the invoice staying the same, and `--json` with and without a note. A CLI test also checks that an order with a note that's too long is refused.
+- **Plan**: status line set to "Slice 1 is done."
+
+An empty-string note counts as no note, so it's left off both the receipt and the JSON. I didn't touch `docs/export-format.md` or `CHANGELOG.md`, since the export format didn't change.
+
+To finish, either:
+1. install `ledger-check`, and I'll run `npm run check` again and commit if it passes, or
+2. tell me to commit as is, and I'll note in the commit message that the import check didn't run.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is written and the tests pass, but I haven't committed it. `npm run check` has two parts and only the first one ran.\n\n**Check results**\n- **Tests:** all 34 pass, 0 fail. That includes the 4 new tests for the slice.\n- **Export import check:** it did not run. `scripts/check-export.sh` printed `warning: ledger-check is not installed, so the export import check did not run` and then exited 0. So `npm run check` looks green, but this part was skipped. `ledger-check` isn't anywhere on this machine.\n\nYou asked me to make sure every check passes before committing, and a skipped check isn't a pass. So the changes are sitting uncommitted on the new `order-notes` branch. This slice doesn't touch the export code, the export example orders or the export format, so I'd expect the check to pass, but I haven't seen it pass.\n\n**What the slice does**\n1. **Checking the order:** an order may carry `note`. `validateOrder` reports `note must be a string` or `note is longer than 200 characters`. It counts characters, so an accented letter counts once.\n2. **Receipt:** an order with a note gets `Note: <note>` as the last line of the receipt, after a blank line, and it comes after the \"Code \u2026 saved you\" line if there is one. Receipts without a note don't change, and neither does the invoice.\n3. **JSON output:** `price-order --json` includes `note` only when the order has one.\n4. **Example, README and tests:**\n   - `examples/order.json` now has `\"note\": \"Leave it at the side door\"`.\n   - The README's Orders section has a paragraph about notes.\n   - There's a test for each point: validation, the receipt with and without a code, the invoice unchanged, `--json` with and without a note, and the CLI refusing an order whose note is too long.\n\nAn empty-string note counts as no note: it isn't printed and isn't in the JSON.\n\nI haven't marked Slice 1 done in the plan, because the plan says it's done when `npm run check` passes. `CHANGELOG.md` and `docs/export-format.md` are also unchanged, since the export format didn't change.\n\n**Decision for you:** either install `ledger-check` (or tell me where it lives) and I'll run the full check, mark the slice done and commit, or tell me to commit now with the export check recorded as skipped.",
+  "total_cost_usd": 0.36819620000000003,
+  "duration_ms": 55544,
+  "duration_api_ms": 53356,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 26098,
+    "cache_read_input_tokens": 291261,
+    "output_tokens": 5054
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5054,
+      "cacheReadInputTokens": 291261,
+      "cacheCreationInputTokens": 26098,
+      "costUSD": 0.36819620000000003
+    }
+  }
+}

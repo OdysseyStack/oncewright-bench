@@ -1,0 +1,14 @@
+Slice 3 is done and committed on `refunds-fixes` as `8be3446`. `npm run check` passes all 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export format.
+
+**What changed:**
+- **Refund amounts** (`src/refunds.js`): a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its amount minus its share of the discount, which I'll call its net price. Tax is charged on the total of those net prices, and the 15% restocking fee is taken from the net price too. Shipping is still refunded only when every line is. Refunding a whole discounted order gives the same amounts as before.
+- **Refund note:** each line now shows its net price, as the receipt does, and `Items` is the sum of those prices.
+- **CLI:** `refund-order --code … --sku …` now works. I didn't need to change the CLI itself, because the error came from the library.
+- **Tests:** they cover each point, including a `TAKE5` order where the discount doesn't split evenly and one line gets the extra cent.
+- **Docs:** the README drops the "not supported yet" line and explains `--code` with `--sku`. `CHANGELOG.md` has a line under Unreleased, and the plan's status line marks Slice 3 done.
+
+**Two changes to existing behaviour, both following the plan:**
+- On a whole refund of a discounted order, the note's lines used to show full prices that didn't add up to `Items`. They now show net prices, which do.
+- On a discounted order, an opened line's restocking fee is now 15% of its net price, not its full price. That makes the fee slightly smaller.
+
+The branch is still local only: the repo has no remote and there's no PR. Tell me if you want it pushed or merged into `main`. I've left Slice 4 alone, since the plan says the rounding fix has to wait for finance to amend the September sales-tax filing.

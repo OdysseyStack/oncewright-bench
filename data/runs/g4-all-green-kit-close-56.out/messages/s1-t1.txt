@@ -1,0 +1,18 @@
+I've built Slice 1 on a new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't run, so I can't say every check passed.
+
+**Check results**
+- **Tests:** all 34 pass, none fail (29 existing plus 5 new).
+- **Export import check:** it printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. `npm run check` therefore exits 0, but that check was skipped, not passed. This slice doesn't touch the export code or the example orders it reads, so the export shouldn't have changed, but nothing here has confirmed that.
+
+**What I changed** (all files the slice names, plus their tests):
+- `src/validate.js`: `note` is optional. A note that isn't a string fails with "note must be text", and one longer than 200 characters fails with "note is longer than 200 characters".
+- `src/receipt.js`: when the order has a note, the receipt ends with a blank line and then `Note: …`. That comes after the "Code … saved you" line if there is one. Receipts without a note are unchanged.
+- `bin/price-order.js`: `--json` includes `note` only when the order has one.
+- `examples/order.json` now has a note, and the README's Orders section describes it.
+- New tests cover note validation, the receipt with and without a code, the invoice staying unchanged, the `--json` output with and without a note, and the CLI refusing a note that's too long.
+
+A null note fails validation, and an empty string is accepted but printed as no note at all.
+
+I left the plan's status line saying "Slice 1 is next", since the slice is only done once the check passes.
+
+**Decision for you:** to finish, either install `ledger-check` and I'll rerun the check, then commit and mark the slice done, or tell me to commit without the import check. Nothing outside the slice's files was changed.

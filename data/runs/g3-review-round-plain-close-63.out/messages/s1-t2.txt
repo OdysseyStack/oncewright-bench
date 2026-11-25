@@ -1,0 +1,6 @@
+I saved two notes for the next session, plus an index file that lists them:
+
+- **Where the `refunds-fixes` branch stands:** commit `3c7ab12` fixes findings 1 and 3 and hasn't been pushed, and there's no PR. I declined finding 2 (folding the restocking fee into `Items`) because it conflicts with the plan and the README, and that's waiting on your decision. The note tells the next session not to apply finding 2 unless you say so, and to ask you about pushing or opening a PR.
+- **`ledger-check` isn't installed on this machine:** `npm run check` only warns and skips the export import check, so a passing run here really just means the tests passed. That matters for any change to the export format.
+
+I left out anything the repo already records, like the fixes, the reasons in the commit message and the changelog line. The working tree is clean and nothing else is pending.

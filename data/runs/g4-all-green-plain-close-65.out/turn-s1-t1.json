@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 1 is built on the new `order-notes` branch, but **I haven't committed it.** You asked for every check to pass first, and one of the two checks in `npm run check` never actually ran.\n\n**`npm run check` results**\n- **Tests: 35 run, 35 pass, 0 fail.** That includes 6 new or extended tests.\n- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed `warning: ledger-check is not installed, so the export import check did not run` and exited 0. `npm run check` therefore reports success, but the export was never checked.\n\nThe risk to the export is low. This slice doesn't touch `src/export.js` or `examples/orders/`, and I ran `export-orders` on this branch and on `main`: the output is byte-for-byte identical. Because the export format didn't change, `docs/export-format.md` and `CHANGELOG.md` don't need updating under the CLAUDE.md rule.\n\n**What changed, by point in the plan**\n1. `validateOrder` (`src/validate.js`) now rejects a `note` that isn't a string (\"note must be text\") or is longer than 200 characters (\"note is longer than 200 characters\"). The limit is exported as `NOTE_MAX`.\n2. The receipt (`src/receipt.js`) ends with a blank line and then `Note: \u2026` when the order has a note. If there's a discount code, the note comes after the \"Code \u2026 saved you\" line. The invoice is unchanged, and a test confirms that.\n3. `price-order --json` includes `note` only when the order has one; tests cover both cases. The CLI also refuses an order whose note is too long.\n4. `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes the note. The plan's status line now reads \"Slice 1 is done.\"\n\nAn empty-string note passes validation and is treated as no note: the receipt and the JSON both leave it out.\n\n**Decision for you:** install `ledger-check` so I can run the full check and then commit, or tell me to commit now on the strength of the passing tests and the identical export output.",
+  "total_cost_usd": 0.3156222,
+  "duration_ms": 45510,
+  "duration_api_ms": 44231,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 22833,
+    "cache_read_input_tokens": 207171,
+    "output_tokens": 4573
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 16,
+      "outputTokens": 4573,
+      "cacheReadInputTokens": 207171,
+      "cacheCreationInputTokens": 22833,
+      "costUSD": 0.3156222
+    }
+  }
+}

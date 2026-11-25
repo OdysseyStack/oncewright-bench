@@ -1,0 +1,18 @@
+**Handoff read.** First line: "ask the user whether to push `refunds-fixes` and open a PR. After a push to a PR branch, dispatch `/odyssey:cr-triage` in the background, as the global CLAUDE.md says."
+
+I re-checked the state live and it matches the handoff. `refunds-fixes` has one commit, f41c427, on top of `main`. The tree is clean, it hasn't been pushed, and there's no PR.
+
+One thing the handoff didn't mention: **this repo has no git remote configured** (`git remote -v` shows nothing). So I can't push or open a PR yet, and CodeRabbit has nowhere to review it.
+
+What that commit did:
+- **Finding 1 (fixed):** partial-refund tax is now `percentOf` on the summed lines (`src/refunds.js:27`). A test covers it, and that test fails on the old code.
+- **Finding 3 (fixed):** `linesFor` now looks SKUs up in a `Set`.
+- **Finding 2 (not done):** CodeRabbit wanted a different refund note layout, but the plan's Slice 2 says the opposite. If you want CodeRabbit's layout, I'd change the plan first, then the code and the note tests.
+
+The export import check doesn't run on this machine because `ledger-check` isn't installed, but this commit doesn't touch the export.
+
+**Decision for you:** do you want to push `refunds-fixes` and open a PR? If so, tell me which remote to add, or add it yourself. Once it's pushed, I'll start the CodeRabbit triage in the background.
+
+The next planned work after this is refunds Slice 3: partial refunds of discounted orders. Slice 4 (rounding `percentOf`) is waiting on Finance.
+
+No files changed apart from resetting the handoff file.

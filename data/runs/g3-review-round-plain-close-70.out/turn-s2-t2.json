@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `ddc6fcc`, on top of the earlier fixes commit. It's not merged, and there's no remote to push to.\n\n**What changed** (`src/refunds.js`):\n- **Partial refunds with a code work now.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount, the same per-line figures `computeTotals` already works out.\n- **Tax** is 8% of those lines' total, the same rule as the finding 1 fix.\n- **Restocking fee** for an opened line is 15% of its discounted price.\n- **Whole refunds** of a discounted order still pay back exactly what the order charged.\n- **The refund note** prints each line at its discounted price, and `Items` is their sum. This also fixes an existing problem: a whole refund of a discounted order used to print the lines at full price above a discounted `Items`. The lines didn't add up, and the bookkeeper's import rejects notes that don't add up.\n- **`refund-order --code` with `--sku`** now works. The CLI needed no changes because it was already passing the code through.\n\n**Tests** cover each point in the slice:\n- Partial refunds with a percent code (SAVE10) and a fixed-amount code (TAKE5), on an order where the discount doesn't split evenly, so one line gets the leftover cent.\n- The fee on an opened line's discounted price.\n- A whole refund matching what the order charged.\n- The note printing discounted lines that add up to `Items`.\n- The CLI with `--code --sku`, as the note and as `--json`.\n\n**Docs:** the README no longer says partial refunds of discounted orders aren't supported, and describes how they work instead. I added a CHANGELOG line under Unreleased and marked Slice 3 done in the plan's status line. I didn't touch `percentOf`'s rounding (Slice 4).\n\n`npm run check`: all 35 tests pass. The export import check was skipped again because `ledger-check` isn't installed here. This change doesn't touch the export.\n\nTwo questions from before are still open:\n1. Finding 2 (folding the restocking fee into `Items`) is still waiting on the bookkeeper.\n2. Should I merge `refunds-fixes` into main? It now holds both commits.",
+  "total_cost_usd": 0.5715762,
+  "duration_ms": 87040,
+  "duration_api_ms": 104282,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 18529,
+    "cache_read_input_tokens": 345445,
+    "output_tokens": 9289
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 10997,
+      "cacheReadInputTokens": 433581,
+      "cacheCreationInputTokens": 33102,
+      "costUSD": 0.5715762
+    }
+  }
+}

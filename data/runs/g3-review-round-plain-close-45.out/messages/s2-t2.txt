@@ -1,0 +1,17 @@
+Slice 3 is done and committed on `refunds-fixes` as c36e166, on top of e727952. All 35 tests pass. The export import check didn't run because ledger-check isn't installed here, but this change doesn't touch the export format.
+
+**What changed** (`src/refunds.js`):
+- **Refunding some lines of an order that used a code** no longer throws an error.
+  - Each refunded line pays back its net, meaning its amount less its share of the discount.
+  - An opened line's restocking fee is 15% of that net. For example, the beans with SAVE10 keep $3.24, not $3.60.
+  - Shipping is still refunded only when every line is.
+- **Refunding a whole discounted order** still pays back exactly what the order charged. A test checks this for all three codes.
+- **The refund note** prints each line at its net, and `Items` is the sum of those nets. `Restocking fee` stays its own row, which the bookkeeper's import needs.
+- **`refund-order`:** `--code` now works together with `--sku`. Tests cover both the note and the `--json` output.
+- **Docs:** the README no longer says these refunds aren't supported, and it gives a library example. I added a line to the changelog under Unreleased and marked Slice 3 done in the plan's status line.
+
+**One choice I made:** the plan says each line pays back "the tax on it." I charge the tax once on the sum of the refunded lines' nets, the way the order charged it. That's the same fix as e727952. Taxing each line separately would refund up to a cent too little per line.
+
+**A known limit, left alone on purpose:** refunding an order in several separate partial refunds can still come up a cent short on tax overall. With TAKE5, refunding the two lines separately pays back $1.66 + $0.89, against the $2.56 the order charged. The cause is that `percentOf` drops fractions of a cent instead of rounding, and fixing that is Slice 4, which the plan holds back until Finance can amend the September tax filing.
+
+Still not pushed, merged or in a PR. The repo has no remote, so merging into `main` here is the only way to land it; say if you want that.

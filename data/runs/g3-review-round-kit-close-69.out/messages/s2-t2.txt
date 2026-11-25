@@ -1,0 +1,6 @@
+Slice 3 is committed on `refunds-fixes` as `d7e9f80` ("Refunds Slice 3: partial refunds of discounted orders"), on top of `3435e57`. It's the work from earlier in this session, unchanged: `src/refunds.js`, `test/refunds.test.js`, `README.md`, and the plan, now marked done for Slice 3. Nothing is pushed.
+
+- `npm run check` passed 35/35 just before the commit. The export import check didn't run because `ledger-check` isn't installed here, but Slice 3 doesn't change the export.
+- No files outside the slice's scope were changed. Still outside the scope and not fixed: the comment on `restockingFee` in `src/config.js` still says the fee is a fraction of "the line's amount" rather than its net.
+
+Still your call: pushing, opening a PR, or merging `refunds-fixes`, and whether to keep the rejection of CodeRabbit finding #2.

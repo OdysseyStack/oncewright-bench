@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `5074cf6`. It isn't pushed.\n\n- **Refunds of discounted orders:** a partial refund with a discount code no longer throws. Each refunded line pays back its price after its share of the discount. Tax is charged on those prices added together, and the restocking fee on an opened line is 15% of its discounted price. Refunding every line gives exactly the same amounts as refunding the whole order; the tests check this for all three codes.\n- **The refund note:** each line now shows its price after the discount, so the lines add up to `Items`. That keeps the note passing the bookkeeper's import rule in the README.\n- **The CLI:** `--code` already passed through with `--sku`, so `bin/refund-order.js` only needed an updated header comment. A CLI test now covers using the two together.\n- **Docs:** the README no longer says partial refunds of discounted orders aren't supported, and documents the new behaviour. The plan marks Slice 3 done.\n- **Tests:** `npm run check` passes (35 tests). The five new or extended refund tests fail when run against the previous `src/refunds.js`. The export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export, which is also why `CHANGELOG.md` and `docs/export-format.md` weren't changed.\n\nNo files were changed outside the slice's scope.\n\nTwo questions from the handoff are still open: whether you accept rejecting CodeRabbit finding #2, and whether to delete `review/findings-refunds.md`.",
+  "total_cost_usd": 0.49330700000000005,
+  "duration_ms": 63527,
+  "duration_api_ms": 73758,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 19093,
+    "cache_read_input_tokens": 369155,
+    "output_tokens": 6514
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 7604,
+      "cacheReadInputTokens": 433455,
+      "cacheCreationInputTokens": 31804,
+      "costUSD": 0.49330700000000005
+    }
+  }
+}

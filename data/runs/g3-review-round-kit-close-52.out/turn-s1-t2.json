@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Wrap-up is done.\n\n- **Stopped:** nothing. This session started no agents, jobs or background tasks.\n- **Memory:** I created `ledger-check-not-installed.md`, which notes that `npm run check` on this Mac skips the export import check, and added its line to `MEMORY.md`. The index is 1 line and 155 bytes, well under its target, so I didn't tidy it.\n- **Handoff's first line:** \"Handoff from the refunds-fixes session (2026-11-19)\". It says `refunds-fixes` (`3010f9d`) is not pushed and has no PR, and that you still need to decide on leaving out finding 2 (the refund note change). After that it points to refunds Slice 3.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.41884200000000005,
+  "duration_ms": 25334,
+  "duration_api_ms": 60138,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4604,
+    "cache_read_input_tokens": 117670,
+    "output_tokens": 2414
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5490,
+      "cacheReadInputTokens": 320730,
+      "cacheCreationInputTokens": 30602,
+      "costUSD": 0.41884200000000005
+    }
+  }
+}

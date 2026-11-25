@@ -1,0 +1,7 @@
+I fixed two of CodeRabbit's three findings and left the third alone because it contradicts the refunds plan. The work is committed as `db2c02b` on the new branch `refunds-fixes`. It isn't pushed.
+
+- **Tax on a partial refund (fixed):** the tax was worked out line by line and added up, so each line could lose a cent. For lines of $6.19 and $10.19 the refund gave back $1.30 of tax when the order had charged $1.31. It's now worked out on the lines' combined amount, as the plan's Slice 2 point 1 says. I added a test with those amounts; it failed before the fix and passes after. The rounding function itself is untouched, as Slice 4 requires.
+- **Set lookup in `linesFor` (done):** a small speed tidy-up with no change in behaviour.
+- **Folding the restocking fee into `Items` on the refund note (not done):** the plan's Slice 2 point 5 asks for a separate negative `Restocking fee` line, and Slice 3 point 2 says `Items` is the sum of the refunded lines. If you'd rather have the note CodeRabbit suggests, the plan needs to change first.
+
+`npm run check` ran all 31 tests and they pass. The export import check didn't run because `ledger-check` isn't installed here; this change doesn't touch the export. I only changed `src/refunds.js` and `test/refunds.test.js`.

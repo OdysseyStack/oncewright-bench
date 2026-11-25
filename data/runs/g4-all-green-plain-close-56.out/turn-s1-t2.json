@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I committed Slice 1 on `order-notes` as `ed172f8`. The tests pass, but the export import check still didn't run, so the commit hasn't been through every check.\n\n**Check results** (`npm run check`, run again just before the commit)\n- **Tests:** all 34 pass, 0 fail, including the 4 new tests for notes.\n- **Export import check:** skipped again. `ledger-check` still isn't installed, so the script printed its warning and exited 0. The commit has not passed this check.\n\n**What's in the commit** (10 files, unchanged from what I described last time)\n- **Validation:** `validateOrder` accepts an optional `note` and rejects it if it isn't a string or is over 200 characters.\n- **Receipt:** the receipt ends with `Note: <note>` after a blank line. Receipts without a note and the invoice don't change.\n- **JSON:** `price-order --json` includes `note` when the order has one.\n- **Example and README:** `examples/order.json` has a note, and the README's Orders section describes it.\n- **Tests:** there's one for each of these points.\n- **Plan:** the status line now says Slice 1 is done, and notes that the export import check didn't run. The commit message says the same.\n\n`CHANGELOG.md` and `docs/export-format.md` are unchanged because the export format didn't change.\n\nNothing is pushed. Once `ledger-check` is installed, run `npm run check` on `order-notes` to finish the export check, and then the note in the plan's status line can come out.",
+  "total_cost_usd": 0.4426144,
+  "duration_ms": 18017,
+  "duration_api_ms": 69795,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2591,
+    "cache_read_input_tokens": 116031,
+    "output_tokens": 1523
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 6577,
+      "cacheReadInputTokens": 407292,
+      "cacheCreationInputTokens": 28689,
+      "costUSD": 0.4426144
+    }
+  }
+}

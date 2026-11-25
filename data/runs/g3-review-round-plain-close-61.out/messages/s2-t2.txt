@@ -1,0 +1,8 @@
+Slice 3 is committed on `refunds-fixes` as `7ebc275`, on top of the CodeRabbit fixes (`7646f78`). It's the change I described in my last message, unchanged.
+
+- **What it does:** a partial refund of an order that used a discount code now works. Each refunded line pays back its net, meaning its amount less its share of the discount. The restocking fee on an opened line is 15% of that net. The refund note prints each line at its net, so the lines add up to `Items`. `refund-order --code` now works together with `--sku`.
+- **Tax:** I kept tax on the refunded lines' total rather than per line, the same rule as the CodeRabbit fix. So refunding an order's lines one at a time can pay back a cent less tax in total than the order charged. That comes from `percentOf` rounding down, which is waiting for Slice 4.
+- **Docs:** the README, CHANGELOG (under Unreleased) and the plan's status line are updated in the same commit.
+- **Check:** `npm run check` passed with all 34 tests before I committed. The export import check didn't run because `ledger-check` isn't installed here. That doesn't matter for this change, since the export format didn't change.
+
+The branch isn't pushed or merged. Let me know if you want either, or a PR.

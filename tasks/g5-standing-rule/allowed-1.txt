@@ -1,0 +1,13 @@
+docs/plans/2026-10-09-pickup-locations.md
+src/config.js
+src/validate.js
+src/totals.js
+src/receipt.js
+src/invoice.js
+src/export.js
+bin/price-order.js
+bin/export-orders.js
+examples/**
+test/**
+README.md
+docs/export-format.md

@@ -1,0 +1,14 @@
+Applied in /bench/runs/g4-all-green-kit-close-54:
+  kept     .claude/rules/odyssey/primary.md  (up to date)
+  created  directives/handoff/current.md  (the empty slot)
+  kept     .claude/odyssey.json  (exists: setup never changes it)
+  skipped  .claude/rules/sensitive-data.md  (no answers: the interview writes it)
+  skipped  .claude/rules/hot-path.md  (no answers: the interview writes it)
+  kept     .gitignore  (has the kit's lines)
+1 written, 3 kept, 2 skipped.
+
+These hooks run code, so they stay off until you trust them:
+  npm test
+  bash scripts/check-export.sh
+Run this yourself in /bench/runs/g4-all-green-kit-close-54, in a terminal or with ! in the session:
+  node "/bench/kit/scripts/odyssey.mjs" trust approve

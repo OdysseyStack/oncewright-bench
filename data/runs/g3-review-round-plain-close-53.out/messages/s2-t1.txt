@@ -1,0 +1,11 @@
+Refunds Slice 3 is done: partial refunds now work on orders that used a discount code. It's committed locally on `refunds-fixes` as `b92457a`, on top of the CodeRabbit fixes. I haven't pushed it and there's no PR.
+
+- **Refund amounts:** a partial refund with a code no longer throws an error. Each refunded line pays back its price after its share of the discount, plus tax on the sum of those prices. The 15% restocking fee on an opened line is taken from that discounted price. Refunding every line still gives the same amounts as a whole refund (e.g. $41.95 for the example order with `SAVE10`).
+- **Refund note:** lines now print at their discounted price, the way the receipt does, so they add up to `Items`. This also fixes a bug: a whole refund of a discounted order used to print full-price lines that didn't add up to `Items`, so the bookkeeper's import would have rejected the note.
+- **CLI and docs:** `refund-order --code` now works with `--sku`. I removed the README's "not supported yet" sentence and added an example, added a line to the CHANGELOG, and marked Slice 3 done in the plan.
+
+`npm run check` passes: 35 tests, including new ones for each point in the slice. As before, the export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export, so that check wouldn't cover it anyway.
+
+Refunding an order's lines in separate refunds can pay back a cent less tax in total than one whole refund. For the example order with `SAVE10`, the two lines refunded separately pay back $2.65 in tax against $2.66. That comes from tax rounding down, which is waiting for Slice 4, so I left it alone as the plan says.
+
+Do you want me to push `refunds-fixes` and open a PR?

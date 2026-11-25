@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "The session is wrapped up and the next session's handoff is written.\n\n- **Stopped:** nothing. This session didn't start any jobs, monitors or agents.\n- **Memory:** I added one file, `export-check-ledger-check-missing`: on this machine `npm run check` quietly skips the export import check because `ledger-check` isn't installed, so a passing check covers only the tests. `MEMORY.md` is 1 line and 151 bytes, well under its size limit, so it didn't need tidying.\n- **Handoff:** the first line is \"Handoff: refunds review fixes committed on `refunds-fixes`, not pushed\". It asks you whether to push or open a PR for `refunds-fixes`. It also leaves two decisions open: whether to change the plan so the refund note shows the fee inside `Items` (the finding I declined), and whether to keep or delete `review/findings-refunds.md`.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.4025946,
+  "duration_ms": 29610,
+  "duration_api_ms": 60834,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 5582,
+    "cache_read_input_tokens": 142082,
+    "output_tokens": 3028
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6208,
+      "cacheReadInputTokens": 299133,
+      "cacheCreationInputTokens": 27316,
+      "costUSD": 0.4025946
+    }
+  }
+}

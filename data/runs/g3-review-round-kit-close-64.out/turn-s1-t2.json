@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "The session is wrapped up and the handoff for the next session is written.\n\n- **Jobs and agents:** none were started, so nothing needed stopping.\n- **Memory files touched:**\n  - `export-check-needs-ledger-check` (new): `npm run check` exits 0 here but skips the export import check, because `ledger-check` isn't installed.\n  - `refunds-review-rulings` (new): CodeRabbit's suggestion to fold the restocking fee into `Items` was rejected because the plan says otherwise. You haven't ruled on it yet.\n  - `MEMORY.md` was created with one line per file.\n- **Index:** under its target (2 lines, 307 bytes), so it wasn't tidied.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line: \"Branch `refunds-fixes` holds the fixes for CodeRabbit's refunds findings (commit ac15a6f). It isn't pushed and has no PR.\"\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.4467086,
+  "duration_ms": 32576,
+  "duration_api_ms": 69645,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 5779,
+    "cache_read_input_tokens": 150953,
+    "output_tokens": 3164
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6694,
+      "cacheReadInputTokens": 376983,
+      "cacheCreationInputTokens": 29667,
+      "costUSD": 0.4467086
+    }
+  }
+}

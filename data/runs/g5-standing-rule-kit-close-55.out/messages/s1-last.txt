@@ -1,0 +1,9 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. It hasn't been pushed. `npm run check` passes with 38 tests, but the export import check didn't run because `ledger-check` isn't installed here. So the new export column hasn't been checked against the bookkeeper's import.
+
+- **Slice 1** (`a472f9c`): the config now lists the two counters, Pier Road and Northside. `validateOrder` names a `pickupAt` that isn't one of them, matching the exact spelling. An order with `pickupAt` pays no shipping, whether or not `pickup` is set too.
+- **Slice 2** (`935f585`): the receipt ends with `Pickup at <location>` after a blank line, and the invoice prints that line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has it. The new `--pickup-at` option sets it, and refuses a name that isn't one of the counters. The README's Orders and CLIs sections describe it.
+- **Slice 3** (`4fca130`): the export has a `pickup` column after `total`, empty for orders without `pickupAt`. In `A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`, since `pickupAt` already makes it a pickup order. `docs/export-format.md` and the Unreleased section of `CHANGELOG.md` are updated, as the repo requires. The plan's status line marks all three slices done.
+
+No files changed outside the scope I listed. Two things to act on:
+- **Stale README text:** the README's CLIs section still gives the export columns as `id,date,subtotal,discount,shipping,tax,total`. Slice 3 doesn't name the README, so I left it. Shall I add `pickup` there?
+- **Tell the bookkeeper:** `docs/export-format.md` says the bookkeeper gets told before an export format change ships. That's still to do, and so is running `npm run check` somewhere `ledger-check` is installed.

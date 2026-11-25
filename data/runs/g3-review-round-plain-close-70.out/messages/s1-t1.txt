@@ -1,0 +1,14 @@
+I made two of CodeRabbit's three changes and skipped the third. Everything is committed on the new branch `refunds-fixes` as `a4f4cde`.
+
+**1. Tax on a partial refund (fixed).** The refund worked out tax for each line separately and added the results. Each line drops its fraction of a cent, so the total could come out a cent or more below what the order charged. It now takes tax once on the refunded lines added together, which is what the refunds plan (Slice 2, point 1) says and how the order's own total charges it. I added a test with lines of $6.19 and $10.19: the refund now gives $1.31 tax where it used to give $1.30. This changes the amounts customers get back, so I added a line to `CHANGELOG.md` under Unreleased.
+
+**2. Folding the restocking fee into `Items` (skipped).** CodeRabbit wanted the note's `Items` line to show the amount after the fee and the separate `Restocking fee` line removed. That would break things:
+- The README says the bookkeeper's import checks refund notes and records the fee from its own line ("The fee stays a line of its own, so the import can book it").
+- The plan (Slice 2, point 5) asks for that line.
+- With the fee taken out, the refunded lines would no longer add up to `Items`, so the import would reject the note.
+
+If you do want this change, it has to be agreed with the bookkeeper first.
+
+**3. Faster SKU lookup (done).** It's a small change and doesn't affect any results.
+
+**Checks:** all 31 tests pass, but the export import check didn't run because `ledger-check` isn't installed on this machine. None of these changes touch the export, but `npm run check` hasn't fully passed here.

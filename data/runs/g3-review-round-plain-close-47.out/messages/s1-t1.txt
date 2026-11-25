@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and committed them on the new branch `refunds-fixes` (05581c7). I didn't take the third because it would break the bookkeeper's import. `npm run check` passes all 31 tests, but the export import check in that script didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export.
+
+**Fixed:**
+1. **Tax on a partial refund** (`src/refunds.js:27`): the tax is now taken on the total of the refunded lines, as the refunds plan says (Slice 2, point 1) and as the order was charged. Taxing each line separately could refund a cent less than the customer paid. I added a test using CodeRabbit's example amounts ($6.19 and $10.19): the refund's tax is now $1.31, not $1.30. `percentOf` itself is unchanged, because the plan's Slice 4 says to leave it alone until the rounding fix ships alongside Finance's tax-filing amendment.
+2. **SKU lookup**: `linesFor` now checks SKUs against a `Set`.
+
+**Not taken: putting the amount after the restocking fee in `Items` and dropping the `Restocking fee` line.** Refund notes go through the bookkeeper's import. The README says the refunded lines on the note must add up to `Items`, and the fee has to stay on its own line so the import can book it. CodeRabbit's version would fail both, so the import would reject notes for opened items. It would also go against point 5 of Slice 2 in the plan. The commit message gives this reason so the decision is on record.
+
+Nothing has been pushed and no PR is open.

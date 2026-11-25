@@ -1,0 +1,19 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it, because one of the two checks never ran.
+
+**Check results (`npm run check`):**
+- **Tests: 34 of 34 pass** (30 old plus 4 new). With the source changes removed, three of the new tests fail, so they do test the new code. The fourth (the invoice doesn't change) passes either way, as it should.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. `npm run check` reports success, but that check was skipped, not passed. It was already skipped before I made any changes. This slice doesn't touch the export, but you asked for every check to pass before committing, so I've held off. Say the word and I'll commit, or install `ledger-check` and I'll run the full check first.
+
+**What changed (all four points of the slice):**
+1. `src/validate.js`: an order with a `note` that isn't a string gets "note must be a string". One over 200 characters gets "note is longer than 200 characters".
+2. `src/receipt.js`: a receipt for an order with a note ends with a blank line and then `Note: …`, after the "Code … saved you" line if there is one. An order with no note gets the same receipt as before, and the invoice doesn't change.
+3. `bin/price-order.js`: `--json` includes `note` when the order has one.
+4. `examples/order.json` has a note, the README's Orders section explains it, and there are tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.
+
+The plan's status line now says "Slice 1 is done." No files outside the slice were changed.
+
+Two choices the plan didn't settle:
+- A note of `""` counts as no note, so it neither shows on the receipt nor goes into the JSON.
+- The 200-character limit counts what a person sees as characters, so an emoji counts as one.
+
+A note containing a line break would print over more than one line on the receipt; the plan doesn't say how to handle that.

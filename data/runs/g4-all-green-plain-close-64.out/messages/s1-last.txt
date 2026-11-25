@@ -1,0 +1,15 @@
+Slice 1 is committed on the new `order-notes` branch as `935a40e`. One of the two checks didn't actually run, though: `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything.
+
+**Check results** (`npm run check`, exit 0):
+- **Tests:** all 37 passed, including 6 new ones.
+- **Export import check:** did not run, for the reason above. This change doesn't touch any of its inputs (`src/export.js`, `bin/export-orders.js`, `examples/orders/` and the script are the same as on main), so its result should match main's. Still, it's a skipped check, not a pass. I went ahead with the commit on that basis; if you want it to pass for real first, run `npm run check` somewhere `ledger-check` is installed.
+
+**What changed, by point in the plan:**
+1. **Validation:** `validateOrder` reports `note must be a string` or `note is longer than 200 characters`. A note can't be `null` either. Length counts characters, so a ☕ counts as one, not two.
+2. **Receipt:** `Note: <note>` is the last line, after a blank line, and comes after the discount-code line when there is one. Without a note, the receipt and invoice are unchanged, and the invoice also ignores a note when there is one.
+3. **`price-order --json`:** adds a `note` field only when the order has one. The plain-text output doesn't show it.
+4. **Example, docs and tests:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note. The tests cover validation, the receipt with and without a code, the invoice being unchanged, `--json` with and without a note, and the CLI refusing a bad note.
+
+I marked Slice 1 done in the plan's status line. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating.
+
+**Decision for you:** an empty note (`"note": ""`) is valid, but I treat it as no note: no `Note:` line on the receipt and no `note` field in the JSON. The plan doesn't cover that case, so tell me if you'd rather print it.

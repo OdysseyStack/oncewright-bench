@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Session wrapped up.\n\n- **Stopped:** nothing needed stopping, since this session started no jobs, monitors or agents.\n- **Memory:** I created two files:\n  - `ledger-check-not-installed`: `npm run check` exits 0 even when the export import check is skipped.\n  - `refunds-coderabbit-rulings`: the restocking-fee row stays because of the README's bookkeeper rule, and a partial refund's tax is taken on the lines' total, which also applies to Slice 3.\n- **Index:** `MEMORY.md` has 2 lines and is 288 bytes, well under its limit, so it didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line is \"# Handoff: CodeRabbit's refunds findings are fixed on `refunds-fixes`\".\n- **Still open:** whether to push `refunds-fixes` and open a PR, whether to commit the untracked `review/findings-refunds.md.resolved`, and the export import check, which still hasn't run.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.537682,
+  "duration_ms": 30317,
+  "duration_api_ms": 84513,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5444,
+    "cache_read_input_tokens": 128885,
+    "output_tokens": 3081
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 8379,
+      "cacheReadInputTokens": 446390,
+      "cacheCreationInputTokens": 35090,
+      "costUSD": 0.537682
+    }
+  }
+}

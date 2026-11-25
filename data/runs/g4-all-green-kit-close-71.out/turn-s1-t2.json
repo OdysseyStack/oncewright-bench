@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `26d7f97`. Nothing is left uncommitted.\n\n**Check results:**\n- **Tests:** all 34 pass and `npm run check` exits 0.\n- **Export import check:** still didn't run. `ledger-check` isn't installed on this machine, so the script printed a warning and exited successfully without checking anything. The slice doesn't change the export code, and `export-orders` output is exactly the same as on `main`, but the import checker itself hasn't seen it. I put this in the commit message too.\n\nThe commit contains the 10 files from before: the slice's code, the example order, the README, the four test files, and the plan, now marked \"Slice 1 is done.\" I didn't push, and nothing outside the slice's scope changed.",
+  "total_cost_usd": 0.4025242,
+  "duration_ms": 11959,
+  "duration_api_ms": 62522,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1633,
+    "cache_read_input_tokens": 109510,
+    "output_tokens": 869
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6152,
+      "cacheReadInputTokens": 366021,
+      "cacheCreationInputTokens": 25773,
+      "costUSD": 0.4025242
+    }
+  }
+}

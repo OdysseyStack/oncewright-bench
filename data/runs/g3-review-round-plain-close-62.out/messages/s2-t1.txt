@@ -1,0 +1,14 @@
+Nothing has changed since last time. `refunds-fixes` is still one commit ahead of `main` (6e81223). It's local only: not pushed, no PR, not merged. The tree is clean.
+
+**Where the CodeRabbit findings stand** (`review/findings-refunds.md`):
+1. **Tax on partial refunds: fixed.** The refund's tax is now `percentOf` the refunded lines' summed amount, which is how the order charged it. There's a test using $6.19 + $10.19, where the order charged $1.31 in tax and the old code refunded $1.30. There's also a CHANGELOG line under Unreleased.
+2. **Fold the restocking fee into `Items` and drop the fee row: declined, waiting on you.** Dropping that row from the refund note would break the bookkeeper's import, which relies on receipts and invoices adding up (README; refunds plan Slice 2 point 5). If you want this change, the import has to change first.
+3. **`Set` for the SKU lookup: fixed.**
+
+I just re-ran `npm run check`: all 31 tests pass. The export import check didn't run, because `ledger-check` isn't installed on this machine, so the green result covers only the tests. That doesn't matter for this branch, which doesn't touch the export format.
+
+**To carry on, I need a decision from you:**
+- **Finding 2:** keep it declined, or plan the import change so it can go ahead?
+- **Landing the branch:** shall I push `refunds-fixes` and open a PR against `main`? Once it lands I can also delete `review/findings-refunds.md`.
+
+After that, the next feature work is refunds plan Slice 3 (partial refunds of discounted orders), which builds on the tax fix. I can start it on a new branch once this one is settled.

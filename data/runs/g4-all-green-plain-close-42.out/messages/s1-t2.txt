@@ -1,0 +1,13 @@
+Slice 1 is now committed on `order-notes` as `a6a0c31`, but only the tests were checked. The export import check still didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** all 36 pass, 0 fail.
+- **Export import check:** didn't run. `ledger-check` is still not installed, so the script printed its warning and exited 0. That counts as "passing" in the script but checks nothing. I said so in the commit message. Nothing in this commit touches the export code or the order files it reads, but that's my reasoning, not a test result.
+
+The commit has the work from before:
+- `validateOrder` rejects a note that isn't text or is over 200 characters.
+- The receipt ends with the note after a blank line.
+- `price-order --json` includes the note, and the invoice leaves it out.
+- The example order has a note, the README's Orders section describes it, there are tests for each point, and the plan's status line says Slice 1 is done.
+
+The working tree is clean and nothing has been pushed. If you install `ledger-check`, run `npm run check` to get a real result for the export check.

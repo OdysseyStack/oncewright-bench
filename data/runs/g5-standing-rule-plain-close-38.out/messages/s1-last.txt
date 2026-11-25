@@ -1,0 +1,14 @@
+All three slices are done on a new branch `pickup-locations`, one commit each. `npm run check` passes after each commit (37 tests at the end). Nothing is pushed.
+
+**The export import check did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed its warning and skipped. That matters for Slice 3: it adds a `pickup` column, and nothing has confirmed the bookkeeper's import accepts it. `docs/export-format.md` says the bookkeeper is told before a format change ships. Before this merges, someone should tell them and run the check where `ledger-check` is installed.
+
+| Commit | Slice | What changed |
+|---|---|---|
+| `b4d5f8c` | 1 | `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` names any other `pickupAt`, including a different capitalisation like `"pier road"`. `computeTotals` charges no shipping for an order with `pickupAt`, even when `pickup` is false. |
+| `8089f51` | 2 | The receipt ends with a blank line and `Pickup at <location>`; with a discount code, that line comes after the "Code … saved you" line. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and rejects an unknown one; `--json` includes `pickupAt` when the order has one. The README's Orders section explains `pickupAt`, and its CLIs section has the new flag. |
+| `b9e3290` | 3 | The export has a new `pickup` column after `total`: the location, or empty. `examples/orders/A-1042.json` is now picked up at Northside. `docs/export-format.md`, the README and the changelog describe the new column. |
+
+Choices you might want to check:
+- In `A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"` rather than keeping both, since `pickupAt` already makes it a pickup order. Its totals in the export are unchanged.
+- I also added changelog lines under Unreleased for Slices 1 and 2, though CLAUDE.md only requires them for export format changes.
+- The plan's status line is updated in each commit and now reads "Slices 1, 2 and 3 done."

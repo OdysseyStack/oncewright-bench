@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes to memory for the next session:\n\n- **`refunds-fixes` branch:** CodeRabbit's refunds findings are dealt with in commit `b90c468`. The branch hasn't been pushed and has no PR, and it waits until you ask. If CodeRabbit raises the fee-into-`Items` change again, it gets turned down for the same reason: the bookkeeper's import needs the fee on its own line. If you do push to a PR, the CodeRabbit triage rule applies.\n- **`ledger-check` isn't installed here:** `npm run check` skips the export import check with only a warning, so a passing check doesn't prove the export is fine.\n\nThe working tree is clean on `refunds-fixes`, with nothing uncommitted. No background agents are running and I didn't open any Chrome tabs, so it's safe to quit.",
+  "total_cost_usd": 0.39218780000000003,
+  "duration_ms": 19289,
+  "duration_api_ms": 56747,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2663,
+    "cache_read_input_tokens": 111417,
+    "output_tokens": 1903
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5187,
+      "cacheReadInputTokens": 342159,
+      "cacheCreationInputTokens": 27491,
+      "costUSD": 0.39218780000000003
+    }
+  }
+}

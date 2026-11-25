@@ -1,0 +1,19 @@
+**Handoff read**
+
+> **First:** ask Lincoln whether to push `refunds-fixes` and open a PR, or merge it. Don't push without his yes.
+
+I checked the current state. `refunds-fixes` is clean and has one commit, `2e83495`, on top of `main`. It hasn't been pushed or merged.
+
+One thing the handoff didn't mention: **this repo has no git remote configured** (`git remote -v` is empty). Pushing and opening a PR can't happen until a remote is added. That also means the CodeRabbit triage step after a push doesn't apply yet.
+
+Also from the handoff: `npm run check` passes without running the export import check, because ledger-check isn't installed on this Mac. This commit only touches refunds code, not the order export, so that gap doesn't affect it.
+
+**What would you like to do with `refunds-fixes`?**
+1. **Push and open a PR.** Tell me which remote to add (URL), and I'll push the branch and open the PR.
+2. **Merge into `main` locally.** No remote is needed for this.
+
+Two questions the handoff left open for you:
+- **CodeRabbit finding 2** wants the refund note to show `Items` net of the restocking fee and drop the `Restocking fee` row. The refunds plan's Slice 2 point 5 specifies that row, so I didn't take the finding. Do you want to keep the plan as it is, or change the plan and then the note?
+- **`review/findings-refunds.md`** is still in the repo. Should it be deleted once these fixes land?
+
+Next on the list after that is refunds Slice 3: partial refunds of discounted orders.

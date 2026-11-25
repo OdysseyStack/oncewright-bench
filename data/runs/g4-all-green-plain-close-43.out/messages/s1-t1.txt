@@ -1,0 +1,19 @@
+I haven't committed: one of the two checks didn't run. The work for Slice 1 is done on the new `order-notes` branch and all 34 tests pass, but the changes are uncommitted.
+
+**Check results (`npm run check`):**
+- **Tests:** 34 of 34 pass (30 before, plus 4 new), 0 fail.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, and I couldn't find it anywhere on the PATH. The script prints a warning and still exits 0, so `npm run check` looks green even though nothing was checked. That's why I didn't commit: you asked for every check to pass first, and I can't say that about this one.
+
+The slice doesn't touch the export: `src/export.js`, `bin/export-orders.js` and `examples/orders/` are unchanged, and the note isn't an export column. If the check had run, it would have seen the same export as on `main`. That's also why I didn't update `docs/export-format.md` or `CHANGELOG.md`.
+
+**What changed, by point in the plan:**
+1. **Validation:** `validateOrder` reports `note must be text` (this includes `null`) or `note is longer than 200 characters`. The limit is `MAX_NOTE_LENGTH` in `src/validate.js`.
+2. **Receipt:** `renderReceipt` adds a blank line, then `Note: …` as the last line, after the "Code … saved you" line if there is one. Without a note the receipt is the same as before. The invoice doesn't show the note, and a test checks that.
+3. **`price-order --json`:** includes `note` when the order has one, and leaves the key out otherwise. The plain-text output is unchanged.
+4. **Example and docs:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note. There are new tests in `validate`, `receipt`, `invoice` and `cli`.
+
+I also marked Slice 1 done in the plan's status line.
+
+An empty note (`""`) passes validation and prints nothing on the receipt or in the JSON. That seemed the sensible reading of "when the order has one".
+
+To finish, either run `npm run check` where `ledger-check` is installed, or tell me to commit without it and I'll commit on `order-notes`.

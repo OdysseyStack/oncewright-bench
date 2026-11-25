@@ -1,0 +1,14 @@
+All three slices are done, one commit each, on the new `pickup-locations` branch. Nothing was pushed. The tests pass (37/37), but `ledger-check` isn't installed here, so `npm run check` skipped the export import check.
+
+- **`b7b2567` Slice 1:** `config.pickupLocations` lists `Pier Road` and `Northside`. `validateOrder` rejects a `pickupAt` that isn't one of them, matching the spelling exactly. An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.
+- **`a350b22` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, and the invoice prints that line under `Bill to:`. `price-order --pickup-at <location>` sets the location and is checked the same way. `--json` includes `pickupAt` when the order has it. The README's Orders section explains `pickupAt`.
+- **`24484ca` Slice 3:** the export has a new `pickup` column after `total`. `A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`, and its shipping stays $0.00.
+
+Before this ships:
+- **The import check hasn't run on the new column.** Run `npm run check` somewhere `ledger-check` is installed.
+- **Tell the bookkeeper.** `docs/export-format.md` says they hear about a format change before it ships.
+
+Files changed outside the plan's own list:
+- `docs/export-format.md` and `CHANGELOG.md`, which CLAUDE.md requires when the export format changes.
+- `README.md` in Slice 3, to add `pickup` to the column list in its CLIs section. That section is outside the Orders section the plan names, and Slice 2 also added `--pickup-at` to it.
+- The plan's status line, which now says all three slices are done.

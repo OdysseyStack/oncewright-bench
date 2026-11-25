@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done on a new branch, `pickup-locations`, one commit each. The tests pass (36 of them), but the bookkeeper's import check didn't run because `ledger-check` isn't installed on this machine. Nothing is pushed.\n\n- **`682230b` Slice 1, the location on the order:** the config now lists the two counters, `\"Pier Road\"` and `\"Northside\"`. `validateOrder` rejects any `pickupAt` that isn't spelled exactly as the config spells it, so `\"northside\"` is an error. An order with `pickupAt` gets no shipping, whether or not `pickup` is also set.\n- **`158280b` Slice 2, the receipt and the invoice:** the receipt ends with `Pickup at <location>` after a blank line, below the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has it. `--pickup-at <LOCATION>` sets it, replacing any value from the file, and the location is checked against the list. The README's Orders section and CLI section describe all this.\n- **`143ecff` Slice 3, the export:** the export has a new `pickup` column after `total`, holding the location or left empty. `examples/orders/A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`. As CLAUDE.md asks, I updated `docs/export-format.md` and added a line to `CHANGELOG.md` under Unreleased. I also updated the column list in the README.\n\nI updated the plan's status line with each commit; it now reads \"Slices 1, 2 and 3 done.\"\n\nBefore this ships:\n- **Import check:** the new export has an extra column and a trailing comma on rows without a location. The bookkeeper's import has never been run against that. Please run `npm run check` somewhere with `ledger-check` installed.\n- **Tell the bookkeeper:** `docs/export-format.md` says they get told before any change to the export format ships, and this is one.",
+  "total_cost_usd": 0.6020409999999999,
+  "duration_ms": 88704,
+  "duration_api_ms": 83944,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 36995,
+    "cache_read_input_tokens": 477285,
+    "output_tokens": 10526
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 10526,
+      "cacheReadInputTokens": 477285,
+      "cacheCreationInputTokens": 36995,
+      "costUSD": 0.6020409999999999
+    }
+  }
+}

@@ -1,0 +1,12 @@
+I've saved the session to memory and written the handoff for the next session.
+
+- **Stopped:** nothing was running. This session started no jobs, agents or background tasks.
+- **Memory:** I added one note, `ledger-check-missing.md`, and listed it in `MEMORY.md`. It records that `ledger-check` isn't installed on this machine, so a passing `npm run check` here hasn't checked the export.
+- **Index:** `MEMORY.md` is 1 line and 144 bytes, well under its 16 KB / 150-line limit, so it didn't need tidying.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line is "Handoff: CodeRabbit's refunds findings are dealt with, committed on `refunds-fixes`".
+- **Open questions in the handoff for you:**
+  - Should `refunds-fixes` be pushed as a PR or merged? It's still local only.
+  - Do you want to keep the `Restocking fee` line in the refund note, or change the plan as finding 2 suggests?
+  - Slice 3's wording ("the tax on it") could be read as taxing each line separately, which would bring back the lost cent this fix removed.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude "/odyssey:handoff"` from the repo root.

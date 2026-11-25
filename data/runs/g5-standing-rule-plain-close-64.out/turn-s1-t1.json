@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "I've implemented all three slices on the new `pickup-locations` branch, one commit each. All 37 tests pass. **The bookkeeper's import check didn't run**, though, because `ledger-check` isn't installed on this machine. That matters most for Slice 3, which adds a column to the export.\n\n- **`682a4b2` Slice 1:** the config now lists the two counters, \"Pier Road\" and \"Northside\". `validateOrder` reports an order whose `pickupAt` isn't spelled exactly as the config spells it, so \"northside\" is rejected. An order with `pickupAt` is charged no shipping, whether or not `pickup` is set.\n- **`2019c93` Slice 2:** the receipt ends with a blank line and then `Pickup at <location>`, after the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it. An unknown location there is refused, and the flag replaces any `pickupAt` already in the file. The README's Orders section and CLI section describe all this.\n- **`8ccf148` Slice 3:** the export has a new `pickup` column after `total`, empty for orders without `pickupAt`. The example order A-1042 is now picked up at Northside. As CLAUDE.md requires for format changes, I updated `docs/export-format.md` and added a line to `CHANGELOG.md` under Unreleased. I also updated the column list in the README.\n\nI marked each slice done in the plan's status line.\n\nDecisions for you:\n- **Before this ships:** run `npm run check` somewhere `ledger-check` is installed, to confirm the import accepts the new `pickup` column. The export format doc also says the bookkeeper is told before a format change ships, so they need to hear about this one.\n- **A-1042:** I replaced its `\"pickup\": true` with `\"pickupAt\": \"Northside\"` rather than keeping both, since `pickupAt` already means it's a pickup order. The totals don't change.\n- **Pickup orders without a counter:** an order that sets only `pickup: true` still exports an empty `pickup` column, as the plan says (\"empty otherwise\"). The format doc says so explicitly.\n\nNothing has been pushed.",
+  "total_cost_usd": 0.5769592,
+  "duration_ms": 98338,
+  "duration_api_ms": 94962,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 35542,
+    "cache_read_input_tokens": 340616,
+    "output_tokens": 11221
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 11221,
+      "cacheReadInputTokens": 340616,
+      "cacheCreationInputTokens": 35542,
+      "costUSD": 0.5769592
+    }
+  }
+}

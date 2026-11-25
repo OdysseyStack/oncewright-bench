@@ -1,0 +1,17 @@
+I've implemented Slice 1 on the new `order-notes` branch, but I haven't committed it. You asked for every check to pass first, and one of the two checks in `npm run check` didn't run.
+
+**Check results**
+- **Tests:** all 35 pass, including 6 new ones.
+- **Export import check:** didn't run. `scripts/check-export.sh` printed `warning: ledger-check is not installed, so the export import check did not run` and exited 0, so `npm run check` reports success. But that check never happened, and `ledger-check` isn't installed anywhere on this machine.
+
+This slice doesn't touch the export. I ran `export-orders` on `examples/orders` with and without these changes and the output was byte-for-byte the same, so `docs/export-format.md` and the changelog don't need updating. Still, that's my comparison, not `ledger-check`.
+
+**What changed**
+1. **Validation:** `validateOrder` reports `note must be a string` or `note is longer than 200 characters`. I count characters as Unicode code points, so a note with emoji isn't cut short.
+2. **Receipt:** it ends with a blank line, then `Note: <note>`. That comes after the "Code … saved you" line when there is one. Without a note the receipt is unchanged, and the invoice is unchanged either way.
+3. **`price-order --json`:** includes `note` when the order has one and leaves it out otherwise.
+4. **Example and README:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note. There are tests for each point, including one confirming the invoice ignores the note.
+
+An empty note (`""`) passes validation but counts as no note, so it isn't printed and doesn't appear in the JSON.
+
+**Decision for you:** if you can install `ledger-check` (or tell me where it is), I'll rerun `npm run check`, mark Slice 1 done in the plan's status line, and commit. Or, given the unchanged export output, I can commit now and note in the commit message that the export import check was skipped. Which do you want?

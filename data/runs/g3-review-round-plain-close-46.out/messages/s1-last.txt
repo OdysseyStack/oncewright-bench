@@ -1,0 +1,9 @@
+I saved two notes to memory so the next session can pick up from here. Nothing was left running and I opened no browser tabs, so the session can end now.
+
+**Where things stand:**
+- The work is committed locally on `refunds-fixes` (`f0bceb4`) and the working tree is clean.
+- It is not pushed and there is no PR yet. If you want one, I'll push the branch, and the CodeRabbit check will then start in the background, as your CLAUDE.md asks.
+
+**What the notes say:**
+- **The branch:** two findings fixed and one declined, with the reason. Next on the refunds plan is Slice 3 (partial refunds of orders that used a discount code), which changes the same tax line I just edited.
+- **The export check:** `ledger-check` isn't installed on this machine, so `npm run check` passes without checking the export. That matters for any future change to the export format.

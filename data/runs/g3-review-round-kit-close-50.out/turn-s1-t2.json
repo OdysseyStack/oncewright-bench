@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and the handoff for the next session is written.\n\n- **Stopped:** nothing. This session started no agents, jobs or monitors.\n- **Memory:** I added `ledger-check-not-installed`. On this Mac `npm run check` passing means only the tests ran, because the export import check is skipped. `MEMORY.md` is 1 line and 141 bytes, well under its size target, so I didn't tidy the index.\n- **Handoff:** `directives/handoff/current.md` starts \"Handoff from the 2026-11-19 session (refunds CodeRabbit fixes)\". It covers the `refunds-fixes` branch at `db2c02b`, which isn't pushed and has no PR. Its first step for the next session is to ask you whether to push and open a PR. It also flags two things you still need to decide: whether to change the plan to the refund note layout CodeRabbit suggested, and whether to delete `review/findings-refunds.md`.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.4062526,
+  "duration_ms": 20257,
+  "duration_api_ms": 50737,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4236,
+    "cache_read_input_tokens": 113161,
+    "output_tokens": 2142
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5306,
+      "cacheReadInputTokens": 348903,
+      "cacheCreationInputTokens": 28783,
+      "costUSD": 0.4062526
+    }
+  }
+}

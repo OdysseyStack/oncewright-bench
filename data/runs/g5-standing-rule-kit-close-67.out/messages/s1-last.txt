@@ -1,0 +1,9 @@
+All three slices are done, one commit each, on the new `pickup-locations` branch: `3e9f1ba` for Slice 1, `771a956` for Slice 2 and `75e983e` for Slice 3. The branch isn't pushed. The tests pass (37 of 37), but `npm run check` didn't fully run: `ledger-check` isn't installed here, so the step that checks the export against the bookkeeper's import was skipped.
+
+- **Slice 1:** the config lists the two counters, `"Pier Road"` and `"Northside"`. `validateOrder` names any `pickupAt` that isn't one of them, and an order with `pickupAt` pays no shipping whether or not `pickup` is set.
+- **Slice 2:** the receipt ends with `Pickup at <location>`, and the invoice prints that line under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it; an unknown location is an error. The README covers both.
+- **Slice 3:** the export has a new `pickup` column after `total`. `A-1042.json` now says `"pickupAt": "Northside"` instead of `"pickup": true`. `docs/export-format.md` and `CHANGELOG.md` are updated, as CLAUDE.md requires. The plan's status line says all three slices are done.
+
+No files outside each slice's scope were changed. Two things are still open:
+- **Stale README line (not fixed):** `README.md:105` still lists the export's columns without `pickup`. The README isn't in Slice 3's scope, so I left it; say yes and I'll update it.
+- **Export check and bookkeeper:** the new column hasn't been through `ledger-check`. Since it changes what the nightly import reads, run the check where it's installed. The export docs also say the bookkeeper is told before a format change ships.

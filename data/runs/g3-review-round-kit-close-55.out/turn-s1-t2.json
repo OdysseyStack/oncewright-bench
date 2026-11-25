@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and the next session's handoff is written.\n\n- **Agents and jobs:** none were started, so nothing had to stop.\n- **Memory:** one new file, `ledger-check-missing`. `ledger-check` isn't installed on this Mac, so `npm run check` passes without running the export import check. The index is one line, well under its size limit, so it didn't need tidying.\n- **Handoff:** its first line is \"Handoff: CodeRabbit refunds findings fixed on `refunds-fixes`, not pushed\". Its first task is to ask you whether to push the branch and open a PR. It also flags that you haven't decided on finding 2 (showing the restocking fee inside \"Items\" on the refund note).\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.382825,
+  "duration_ms": 21109,
+  "duration_api_ms": 56471,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4282,
+    "cache_read_input_tokens": 109903,
+    "output_tokens": 2117
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5280,
+      "cacheReadInputTokens": 275045,
+      "cacheCreationInputTokens": 27768,
+      "costUSD": 0.382825
+    }
+  }
+}

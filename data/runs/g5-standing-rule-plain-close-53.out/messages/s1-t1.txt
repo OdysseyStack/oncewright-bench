@@ -1,0 +1,13 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. All 39 tests pass. **But the export import check didn't run:** `ledger-check` isn't installed on this machine, so `npm run check` only printed a warning for that step. That matters most for Slice 3, which changes the export format.
+
+- **Slice 1** (`0fbaebe`): `config.pickupLocations` is `["Pier Road", "Northside"]`. `validateOrder` rejects a `pickupAt` that isn't one of those, spelled exactly the same (`pier road` fails), and lists the valid names in its message. An order with `pickupAt` pays no shipping even if `pickup` is set to false.
+- **Slice 2** (`8b13ca3`): the receipt ends with `Pickup at <location>` after a blank line. When the order also has a discount code, the pickup line comes after the "Code … saved you" line. The invoice prints the pickup line right under `Bill to:`. `price-order --json` includes `pickupAt`, and `--pickup-at <location>` sets it. A location given on the command line replaces one in the file and is checked the same way, so a bad one exits with an error. The README's Orders section and CLI section both mention it.
+- **Slice 3** (`e05d8c5`): the export has a new `pickup` column after `total`. `HEADER`, `exportRow` and `exportCsv` are updated. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`, which still charges no shipping. As CLAUDE.md requires, `docs/export-format.md` and the Unreleased section of `CHANGELOG.md` are updated, and so is the README's list of columns.
+
+I marked each slice done in the plan's status line as I went.
+
+Before this merges:
+- **Run `ledger-check`** somewhere it's installed. Orders without a pickup location now end in an empty last field (`…,$58.32,`). The format doc defines that, but nothing has checked that the bookkeeper's import accepts it.
+- **Tell the bookkeeper.** `docs/export-format.md` says they get told before any export change ships.
+
+I haven't pushed and there's no PR yet, so the CodeRabbit triage step hasn't come up. Say if you want either.

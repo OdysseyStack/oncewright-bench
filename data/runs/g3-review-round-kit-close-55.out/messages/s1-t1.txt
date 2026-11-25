@@ -1,0 +1,9 @@
+I've committed fixes for two of the three findings as `d92259c` on the new branch `refunds-fixes`. I didn't make the third change because it goes against what the refunds plan specifies.
+
+1. **Partial-refund tax (fixed):** tax on refunded lines is now worked out once on their combined amount, which is how the plan's Slice 2 point 1 describes it and how the order was charged. Before, it was worked out line by line, which could refund a cent less per line. I added a test using lines of $6.19 and $10.19: the old code refunds $1.30 of tax where the order charged $1.31. The test fails on the old code and passes now.
+2. **Restocking fee shown inside "Items" on the refund note (not done):** the plan's Slice 2 point 5 says the note shows a separate negative `Restocking fee` line before the totals, and Slice 3 point 2 builds on that layout. Changing the note is a product decision. If you want it, the plan needs updating first.
+3. **SKU lookup using a `Set` (fixed):** `linesFor` now builds the list of SKUs once and checks against it. It behaves the same as before.
+
+`npm run check` passes all 31 tests. The export import check was skipped because `ledger-check` isn't installed, but this change doesn't touch the export.
+
+Changed: `src/refunds.js` and `test/refunds.test.js` only, nothing outside the scope. I haven't pushed the branch.

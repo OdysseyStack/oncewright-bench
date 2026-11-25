@@ -1,0 +1,8 @@
+The session is wrapped up and the next session's handoff is written.
+
+- **Stopped:** nothing. This session started no jobs, monitors or agents.
+- **Memory:** I added one file, `export-check-ledger-check-missing`. It records that `npm run check` on this machine runs only the tests, because `ledger-check` isn't installed. `MEMORY.md` gets one line pointing to it.
+- **Index:** not needed. `MEMORY.md` is 1 line and 143 bytes, well under its target.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line is "# Handoff (written 2026-11-21, after CodeRabbit's refunds findings)". The next session will first ask whether to push `refunds-fixes` and open a PR, then move on to refunds Slice 3. It also flags that you still need to decide on the rejected restocking-fee layout.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude "/odyssey:handoff"` from the repo root.

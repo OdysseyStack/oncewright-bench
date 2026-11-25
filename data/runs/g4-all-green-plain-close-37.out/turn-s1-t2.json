@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `36f496a`, and nothing is left uncommitted. Only the tests actually passed: the export import check was skipped again.\n\n**Check results:**\n- **Tests:** all 34 pass.\n- **Export import check:** did not run. `ledger-check` still isn't installed, so `scripts/check-export.sh` printed its warning and exited 0. `npm run check` therefore reports success even though this check never ran. The only evidence for the export is that the output for `examples/orders` is byte-for-byte the same as on `main`. I wrote this into the commit message.\n\n**What the commit contains:**\n- **Validation:** an order may carry a `note` of up to 200 characters, and `validateOrder` rejects one that isn't a string or is too long.\n- **Receipt:** prints `Note: \u2026` as its last line, after a blank line. The invoice doesn't change.\n- **`price-order --json`:** includes `note` when the order has one.\n- **Example and docs:** the example order has a note, and the README's Orders section describes notes.\n- **Tests:** new tests in the validate, receipt, invoice and CLI test files cover each point above.\n- **Plan:** its status line now says Slice 1 is done.\n\nThe branch hasn't been pushed. Once `ledger-check` is installed, `npm run check` will run the export check for real.",
+  "total_cost_usd": 0.40148199999999995,
+  "duration_ms": 11931,
+  "duration_api_ms": 54563,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1779,
+    "cache_read_input_tokens": 111965,
+    "output_tokens": 1065
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5750,
+      "cacheReadInputTokens": 365490,
+      "cacheCreationInputTokens": 26661,
+      "costUSD": 0.40148199999999995
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `7c43b64`, on top of `1d2072c`. Nothing is pushed, because the repo has no remote.\n\n**What changed**\n- **Discounted partial refunds work now.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its `net`: its amount minus its share of the discount. For example, with `SAVE10`, refunding the filters pays back $11.70 plus $0.93 tax.\n- **Restocking fee:** for an opened line it's now 15% of the line's `net`. This also changes one case that worked before: a whole refund of a discounted order with an opened line used to charge the fee on the full amount. Orders without a code come out the same as before.\n- **Shipping** is still refunded only when every line is. A whole refund of a discounted order gives the same amounts as Slice 1.\n- **The note** prints each line at its net price, and `Items` is the sum of those prices. So the README's bookkeeper-import rule still holds: the lines add up to `Items`.\n- **CLI:** `refund-order --sku \u2026 --code \u2026` works.\n- **Docs:** I removed the \"not supported yet\" note from the README and described the net pricing. I also put the `export-orders` sentence, which had run onto the end of the refund paragraph, into its own paragraph. There's a CHANGELOG line, the comment on `restockingFee` in `src/config.js` now says the fee is on the net, and the plan marks Slice 3 done.\n- **Tests:** new ones cover each point of the slice, including the CLI. `npm run check` passes with 35 tests. The export import check still didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.\n\n**Decision for you:** the plan says \"the tax on it\", which could mean tax on each line. I charged tax once on the total of the refunded lines' nets instead. That's how `computeTotals` charges it, and it matches the fix you just made for finding 1. Per-line tax could come out up to a cent low per line.\n\n**Known gap:** refunding an order's lines in separate refunds can pay back a cent less tax in total than the order charged. With `TAKE5`, $1.66 + $0.89 comes to $2.55 against $2.56 charged. That comes from `percentOf` dropping fractions of a cent. The plan says to leave it alone until Slice 4, so I did.\n\nStill open from before: whether to drop finding 2 for good, and where to push this branch if you want a PR.",
+  "total_cost_usd": 0.5138870000000001,
+  "duration_ms": 72289,
+  "duration_api_ms": 83913,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 19783,
+    "cache_read_input_tokens": 294062,
+    "output_tokens": 8086
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 9012,
+      "cacheReadInputTokens": 358395,
+      "cacheCreationInputTokens": 32735,
+      "costUSD": 0.5138870000000001
+    }
+  }
+}

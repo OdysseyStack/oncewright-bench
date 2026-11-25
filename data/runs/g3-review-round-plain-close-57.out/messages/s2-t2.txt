@@ -1,0 +1,13 @@
+Slice 3 is now on `refunds-fixes`. I had already built and committed it last time (`7f3d0b2`, "Refunds Slice 3: partial refunds of discounted orders") on a separate branch sitting right on top of `refunds-fixes`. So I moved `refunds-fixes` forward to that commit instead of writing it again, and deleted the extra branch. `refunds-fixes` now has the CodeRabbit fixes (`2c8b870`) followed by Slice 3 (`7f3d0b2`), and nothing is pushed.
+
+Each point in the plan is covered:
+- **Amounts:** a partial refund with a discount code no longer throws an error. Each line pays back its price after its share of the discount, the tax is 8% of those lines added together, and an opened item's fee is 15% of its discounted price. Refunding every line gives the same amounts as refunding the whole order.
+- **Refund note:** each line is printed at its discounted price, and the lines add up to `Items`.
+- **CLI and docs:** `--code` works with `--sku`. The README no longer says this isn't supported yet, the changelog has a line under Unreleased, and the plan marks Slice 3 done.
+
+I ran `npm run check` again on `refunds-fixes` and all 35 tests pass. The export import check didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+These are still open from last time:
+- **Separate refunds:** refunding an order's lines in separate refunds can pay back a cent less tax in total than the order charged. I left it alone because Slice 4 says not to change the rounding yet.
+- **CodeRabbit's finding 2:** I still need your call on whether to leave the restocking fee on its own line.
+- **Pushing and PRs:** say if you want the branch pushed or a PR opened.

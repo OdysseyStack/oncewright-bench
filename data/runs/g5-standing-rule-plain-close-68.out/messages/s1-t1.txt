@@ -1,0 +1,19 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (37) after every commit, but the export import check has never actually run, which matters for Slice 3.
+
+- **9415d95, Slice 1:** the config now lists the two counters, `"Pier Road"` and `"Northside"`.
+  - `validateOrder` rejects any other `pickupAt` value, including a different case like `"northside"`, and says which values are allowed.
+  - An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.
+- **960790d, Slice 2:**
+  - The receipt ends with a blank line and then `Pickup at <location>`. If a discount code was used, this line comes after the "Code … saved you" line.
+  - The invoice prints the same line under `Bill to:`.
+  - `price-order --pickup-at <location>` sets the location and checks it the same way an order file is checked. `--json` includes `pickupAt` when the order has one.
+  - The README's Orders and CLIs sections describe all of this.
+- **76e185c, Slice 3:** the export has a new `pickup` column after `total`. It holds the location, or is empty, so those rows end with a comma. `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`; its totals don't change. As CLAUDE.md asks, I updated `docs/export-format.md` (the new column, the example and the column count) and added a changelog line. I also updated the column list in the README.
+
+The plan's status line now says all three slices are done. I also added Unreleased changelog lines for Slices 1 and 2, which CLAUDE.md only requires for export changes; drop them if you'd rather keep the changelog to that.
+
+**Before Slice 3 ships:**
+- **The export import check didn't run.** `ledger-check` isn't installed here, so `npm run check` only printed its warning and skipped it. Nobody has confirmed that the bookkeeper's import accepts the new eight-column export. Please run `npm run check` somewhere `ledger-check` is installed before merging.
+- **The bookkeeper needs to be told.** `docs/export-format.md` says they get told before any export format change ships, and this is one.
+
+Nothing has been pushed.

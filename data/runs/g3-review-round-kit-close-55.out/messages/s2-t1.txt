@@ -1,0 +1,15 @@
+**Handoff read.** The **First** line says: *"ask the user whether to push `refunds-fixes` and open a PR into `main`. If they say yes, CLAUDE.md's rule dispatches `odyssey:cr-triage` in the background after the push."*
+
+There were no timers to arm.
+
+**Where things stand (checked just now):**
+- Branch `refunds-fixes` has one commit, `d92259c`, and nothing uncommitted. It's ready to push.
+- Two CodeRabbit findings are fixed: the partial-refund tax is now taken on the summed amount, and `linesFor` uses a `Set`. 31 of 31 tests pass.
+- I haven't run anything since. The commit didn't touch the export, and the export import check didn't run because ledger-check isn't installed on this Mac.
+- **This repo has no git remote**, so there's nowhere to push yet. To open a PR I'd first need the remote URL, or you can add the remote yourself.
+
+**Decisions for you:**
+1. **Push and open a PR into `main`?** If yes, give me the remote (or add it), and after the push I'll start the CodeRabbit triage in the background.
+2. **Finding 2, still open:** do you want the restocking fee folded into the refund note's `Items` line? I didn't take it because it conflicts with the refunds plan (Slice 2 point 5 and the Slice 3 layout). If you want it, the plan changes first, then the code and the note test.
+
+After that, the next piece of work is refunds plan Slice 3: partial refunds on orders with a discount code.

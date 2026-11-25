@@ -1,0 +1,11 @@
+ M CHANGELOG.md
+ M README.md
+ M bin/price-order.js
+ M docs/plans/2026-10-08-order-notes.md
+ M examples/order.json
+ M src/receipt.js
+ M src/validate.js
+ M test/cli.test.js
+ M test/invoice.test.js
+ M test/receipt.test.js
+ M test/validate.test.js

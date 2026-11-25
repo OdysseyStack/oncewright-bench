@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is written on the new `order-notes` branch and all 34 tests pass. **I haven't committed it**, because one of the two checks in `npm run check` didn't actually run.\n\n**Check results**\n- **Tests:** 34 passed, 0 failed, including the four new ones.\n- **Export import check:** didn't run. It needs a tool called `ledger-check`, which isn't installed on this machine. Its script prints `warning: ledger-check is not installed, so the export import check did not run` and then exits 0, so `npm run check` reports success even though nothing was checked. You asked for every check to pass before committing, and I can't say this one passed.\n\nThis slice almost certainly doesn't affect the export. None of the export code or its sample orders changed, and the export output is byte-for-byte the same as on `main`. But that is my own comparison, not the import check.\n\n**What changed**\n- **Validation** (`src/validate.js`): a `note` is optional. `validateOrder` reports `note must be text` (including for `null`) or `note is longer than 200 characters`. The limit counts characters as you'd see them, so an emoji counts as one.\n- **Receipt** (`src/receipt.js`): when there's a note, the last line is `Note: \u2026` after a blank line. With a discount code, it comes after the \"saved you\" line. A receipt without a note is unchanged, and so is the invoice.\n- **`price-order --json`**: includes `note` only when the order has one.\n- **Docs and example:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`. The README's Orders and CLIs sections mention the note, `CHANGELOG.md` has a line under Unreleased, and the plan's status line says Slice 1 is done.\n- **Tests:** one each for validation, the receipt (with and without a code), the invoice staying the same, and the `--json` output.\n\nAn empty note (`\"\"`) passes validation but is treated as no note, so nothing is printed. The plan doesn't cover this case.\n\n**Next step:** if you're happy to commit without the import check, given that the export output is unchanged, say so and I'll commit. Otherwise, install `ledger-check` and I'll run `npm run check` again before committing.",
+  "total_cost_usd": 0.36693680000000006,
+  "duration_ms": 60093,
+  "duration_api_ms": 58845,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 24645,
+    "cache_read_input_tokens": 247324,
+    "output_tokens": 6012
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 6012,
+      "cacheReadInputTokens": 247324,
+      "cacheCreationInputTokens": 24645,
+      "costUSD": 0.36693680000000006
+    }
+  }
+}

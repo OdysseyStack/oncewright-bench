@@ -1,0 +1,9 @@
+Wrap-up is done, and the handoff for the next session is written.
+
+- **Agents and jobs:** none were running, so there was nothing to stop or wait for.
+- **Memory:** I added `ledger-check-not-installed`, which records that `npm run check` on this Mac skips the export import check. `MEMORY.md` is 1 line and 144 bytes, well under its 16 KB / 150-line target, so the index didn't need tidying.
+- **Handoff:** it's in `directives/handoff/current.md` and starts: "Handoff: CodeRabbit refunds findings fixed on `refunds-fixes`, not pushed". It leaves you two questions to answer:
+  - whether to push and open a PR;
+  - whether you agree with declining finding 2.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or `claude "/odyssey:handoff"` from the repo root.

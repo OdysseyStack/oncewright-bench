@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are in, one commit each, on the new `pickup-locations` branch. `npm run check` passes: 37 tests, up from 30. But the export import check didn't actually run, because `ledger-check` isn't installed on this machine. So nobody has confirmed that the bookkeeper's import accepts the new `pickup` column. `docs/export-format.md` also says the bookkeeper gets told before a format change ships.\n\n- **Slice 1** (`213e08e`): the config now lists the two counters, \"Pier Road\" and \"Northside\". An order can name one in `pickupAt`. `validateOrder` reports any other value, including wrong spellings like \"northside\". An order with `pickupAt` is charged no shipping, whether or not `pickup` is set.\n- **Slice 2** (`325cb4f`): the receipt ends with a blank line, then `Pickup at <location>`, and the invoice prints that line under `Bill to:`. `price-order --pickup-at <location>` sets the location and rejects one that isn't a counter. `--json` includes `pickupAt` when the order has one. The README's Orders section explains it.\n- **Slice 3** (`21b3425`): the export has a new `pickup` column after `total`, empty when there's no location. In `examples/orders/A-1042.json` I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"`. The format doc and the Unreleased section of `CHANGELOG.md` describe the change, as CLAUDE.md requires.\n\nThe plan's status line now says all three slices are done. No files outside the scope I listed at the start were changed. Nothing is pushed.",
+  "total_cost_usd": 0.584216,
+  "duration_ms": 98380,
+  "duration_api_ms": 92967,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 35043,
+    "cache_read_input_tokens": 459840,
+    "output_tokens": 10590
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 10590,
+      "cacheReadInputTokens": 459840,
+      "cacheCreationInputTokens": 35043,
+      "costUSD": 0.584216
+    }
+  }
+}

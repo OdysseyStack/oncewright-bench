@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session.\n\n1. **Where the `refunds-fixes` branch stands.** It's committed as `0634c68` but not pushed, and there's no pull request. Findings 1 and 3 are fixed. Finding 2 (moving the restocking fee into `Items`) is declined because of the README's bookkeeper-import rule, and it's still waiting on your decision. The note tells the next session not to re-apply finding 2 unless you ask, and to check with you before pushing. It also mentions that `review/findings-refunds.md` is still in the repo, and that the refund plan's Slice 3 builds on this tax fix.\n2. **`ledger-check` isn't installed on this machine.** That means `npm run check` passes after running only the tests; the export import check is skipped with a warning. The note says to report it as not run.\n\nI didn't save anything the repo already records: the code changes, the CHANGELOG line, and the reason for declining finding 2 are all in the commit.\n\nNothing is uncommitted, and the current branch is `refunds-fixes`. Still up to you: push it and open a PR, or merge it into `main`, and whether you want finding 2 after all.",
+  "total_cost_usd": 0.3725010000000001,
+  "duration_ms": 22590,
+  "duration_api_ms": 57395,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3069,
+    "cache_read_input_tokens": 103778,
+    "output_tokens": 2237
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5329,
+      "cacheReadInputTokens": 319205,
+      "cacheCreationInputTokens": 25249,
+      "costUSD": 0.3725010000000001
+    }
+  }
+}

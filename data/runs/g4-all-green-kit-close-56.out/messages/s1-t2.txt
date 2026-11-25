@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `d67d38c`, but only the tests ran: the export import check was skipped again.
+
+**Check results**
+- **Tests:** all 34 pass, none fail.
+- **Export import check:** skipped because `ledger-check` still isn't installed (`check-export: warning: ledger-check is not installed, so the export import check did not run`). `npm run check` exits 0 regardless, so this is not a confirmed pass. The slice doesn't touch the export code or the `examples/orders` files that check reads. I noted the skipped check in the commit message.
+
+**What's in the commit:** the note feature from last turn (validation, the receipt's last line, `--json`, the example order, the README, and tests for each). I also set the plan's status line to "Slice 1 is done."
+
+Every file changed is one the slice names, its test, or the plan, and nothing is pushed. Once `ledger-check` is installed, `npm run check` will run the import check too.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and nothing was left running: no agents, jobs or monitors were started.\n\n- **Memory:** I added one file, `ledger-check-not-installed`. It records that a passing `npm run check` on this Mac covers only the tests, because the export import check is skipped. `MEMORY.md` is 1 line and 139 bytes, well under its target, so the index didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line is \"Handoff: CodeRabbit's refunds findings dealt with on `refunds-fixes`, not pushed\".\n- **Still for you to decide:**\n  - whether to push `refunds-fixes` and open a PR, or merge it;\n  - whether to answer CodeRabbit on the finding I declined (folding the restocking fee into `Items`);\n  - whether to keep `review/findings-refunds.md` in the repo.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.409297,
+  "duration_ms": 22874,
+  "duration_api_ms": 50725,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4529,
+    "cache_read_input_tokens": 115321,
+    "output_tokens": 2445
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5389,
+      "cacheReadInputTokens": 315505,
+      "cacheCreationInputTokens": 29792,
+      "costUSD": 0.409297
+    }
+  }
+}

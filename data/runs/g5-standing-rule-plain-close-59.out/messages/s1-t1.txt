@@ -1,0 +1,12 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (43 of 43), but **`npm run check` never actually ran the export import check**: `ledger-check` isn't installed here, so it printed its warning and skipped. That matters for Slice 3, which adds a column to the CSV the bookkeeper's import reads every night. Nobody has checked whether the import accepts the new format. Run `npm run check` on a machine with `ledger-check` before merging, and tell the bookkeeper before it ships, as `docs/export-format.md` asks.
+
+- **`8a64f7c` Slice 1:** the config now lists the two counters, `"Pier Road"` and `"Northside"`. `validateOrder` reports any `pickupAt` that isn't one of them, spelled exactly the same, with a message like `pickupAt "pier road" is not a pickup location (Pier Road, Northside)`. An order with `pickupAt` is charged no shipping, whatever `pickup` says. Refunds use the same totals, so a full refund of such an order pays back no shipping either.
+- **`c6ad8eb` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, below the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and refuses one that isn't on the list, and `--json` includes `pickupAt` only when the order has one. The README covers it.
+- **`46fecc3` Slice 3:** the export has a `pickup` column after `total`, empty when an order has no location, so those rows end in a comma. In `examples/orders/A-1042.json` I swapped `"pickup": true` for `"pickupAt": "Northside"`, which also shows that the location alone removes the shipping. `docs/export-format.md`, the README's export header and the changelog are updated.
+
+Other changes:
+- I also added changelog lines under Unreleased for Slices 1 and 2. Only the export change strictly required one.
+- The import splits rows on commas and doesn't understand quotes. I added a test that no pickup location contains a comma.
+- The plan's status line now reads "Slices 1, 2 and 3 done."
+
+Nothing has been pushed.

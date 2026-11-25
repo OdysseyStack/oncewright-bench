@@ -1,0 +1,6 @@
+I saved two notes for the next session, both listed in `MEMORY.md`:
+
+- **Where the refunds fixes stand:** they're committed on `refunds-fixes` (`8742769`) but not pushed or merged. Findings 1 and 3 are fixed. Finding 2 is still your call, because doing it means changing the README's bookkeeper-import rule and the refunds plan first. The note also says to build Slice 3 (partial refunds of discounted orders) on this branch, since it changes the same tax line.
+- **`ledger-check` isn't installed here:** without it, `npm run check` skips the export import check and still passes. Anything that changes the export format needs checking on a machine that has it.
+
+I didn't save the code changes or the reasons for declining finding 2, because the commit and its message already record them.

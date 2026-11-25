@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `8268d4a`, but only the tests actually ran; the export import check was skipped again.\n\n**Check results (`npm run check`, exit 0):**\n- **Tests:** 35 of 35 pass, 0 fail.\n- **Export import check:** didn't run, because `ledger-check` still isn't installed. The script prints a warning and exits 0, so `npm run check` reports success even though this check did nothing. In its place, I confirmed that `export-orders` output on `examples/orders` is byte-identical to main. This slice doesn't touch the export code, the export example orders or the export format. I noted the skipped check in the commit message.\n\n**What the commit contains:**\n- Notes are checked: a note that isn't text, or is longer than 200 characters, is reported as a problem and the CLIs refuse the order.\n- The receipt prints `Note: \u2026` as its last line, after a blank line. Receipts without a note and the invoice are unchanged.\n- `price-order --json` includes `note` only when the order has one.\n- The example order now has a note, and the README's Orders section and the Unreleased section of `CHANGELOG.md` describe the feature.\n- New tests cover each point.\n- The plan's status line now reads \"Slice 1 is done.\"\n\nTo get the full check, run `npm run check` somewhere `ledger-check` is installed.",
+  "total_cost_usd": 0.3935082,
+  "duration_ms": 13653,
+  "duration_api_ms": 69659,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1852,
+    "cache_read_input_tokens": 106681,
+    "output_tokens": 1161
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6524,
+      "cacheReadInputTokens": 319141,
+      "cacheCreationInputTokens": 24889,
+      "costUSD": 0.3935082
+    }
+  }
+}

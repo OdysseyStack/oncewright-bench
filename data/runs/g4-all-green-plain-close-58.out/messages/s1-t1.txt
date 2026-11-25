@@ -1,0 +1,23 @@
+Slice 1 is written on a new `order-notes` branch, but **I haven't committed it**. You asked for every check to pass first, and one of them didn't run.
+
+## Check results
+
+- **Tests: 35 of 35 pass.** That's the 30 that were already there plus 5 new ones.
+- **Export import check: skipped.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. `npm run check` therefore reports success even though this check never ran. It was skipped on `main` before my changes too.
+
+The slice shouldn't affect what the check looks at: I didn't touch `src/export.js` or `examples/orders/`, and running `export-orders` on `examples/orders` gives the same output byte for byte on `main` and on this branch. That still isn't the check passing, though.
+
+## What changed (each point in the plan)
+
+1. **Validation:** `validateOrder` (`src/validate.js`) now reports "the note must be text" or "the note is longer than 200 characters". It counts characters rather than UTF-16 code units, so 200 ☕ is allowed.
+2. **Receipt:** it ends with a blank line and then `Note: <the note>`, after the "Code … saved you" line if there is one. Without a note the receipt is unchanged, and an empty-string note counts as no note. The invoice is unchanged, and a test checks that.
+3. **`price-order --json`:** adds `note` when the order has one and leaves it out otherwise.
+4. **Example, docs and tests:** `examples/order.json` has the note "Leave it at the side door", and the README's Orders section describes `note`. There are new tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`, including the CLI refusing a 201-character note.
+
+I also added a line under Unreleased in `CHANGELOG.md`, and set the plan's status line to "Slice 1 is done." The export format didn't change, so `docs/export-format.md` stays as it is.
+
+## Decision for you
+
+- **Newlines in a note:** the plan doesn't say what to do with them. Right now a note with line breaks prints on several lines, so `Note:` would no longer be the receipt's only last line. Rejecting newlines in `validateOrder` would be a one-line change if you want it.
+
+To finish, either install `ledger-check` and I'll rerun `npm run check` and commit, or tell me to commit now with the export check skipped. The commit message will say it was skipped.

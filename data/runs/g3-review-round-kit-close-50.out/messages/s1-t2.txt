@@ -1,0 +1,7 @@
+The session is wrapped up and the handoff for the next session is written.
+
+- **Stopped:** nothing. This session started no agents, jobs or monitors.
+- **Memory:** I added `ledger-check-not-installed`. On this Mac `npm run check` passing means only the tests ran, because the export import check is skipped. `MEMORY.md` is 1 line and 141 bytes, well under its size target, so I didn't tidy the index.
+- **Handoff:** `directives/handoff/current.md` starts "Handoff from the 2026-11-19 session (refunds CodeRabbit fixes)". It covers the `refunds-fixes` branch at `db2c02b`, which isn't pushed and has no PR. Its first step for the next session is to ask you whether to push and open a PR. It also flags two things you still need to decide: whether to change the plan to the refund note layout CodeRabbit suggested, and whether to delete `review/findings-refunds.md`.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

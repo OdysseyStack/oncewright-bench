@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Session wrapped up.\n\n- **Nothing to stop:** this session started no jobs, Monitors or agents.\n- **Memory:** I created `ledger-check-not-installed.md`, which records that `npm run check` here skips the export import check and only warns. `MEMORY.md` is 1 line (134 bytes), well under its target, so I didn't tidy the index.\n- **Handoff:** I wrote it to `directives/handoff/current.md`. Its first line is \"# Handoff \u2014 refunds-fixes committed (CodeRabbit refunds findings dealt with), not pushed\". It asks the next session to:\n  - check whether you want `refunds-fixes` pushed, made into a PR or merged;\n  - work on refunds Slice 3 next;\n  - raise the rejected note-layout finding with you;\n  - ask whether `review/findings-refunds.md` should stay in the repo.\n- Git: on branch `refunds-fixes`, commit `677b1ed`, nothing uncommitted, not pushed.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.4277058,
+  "duration_ms": 28636,
+  "duration_api_ms": 68357,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 5333,
+    "cache_read_input_tokens": 108347,
+    "output_tokens": 2873
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6428,
+      "cacheReadInputTokens": 363209,
+      "cacheCreationInputTokens": 28301,
+      "costUSD": 0.4277058
+    }
+  }
+}

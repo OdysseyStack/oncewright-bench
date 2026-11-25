@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done on the new `pickup-locations` branch, one commit each. All 36 tests pass (30 before). Nothing is pushed.\n\nOne gap: `npm run check` printed a warning and skipped the export import check, because `ledger-check` isn't installed on this machine. The new `pickup` column hasn't been run through the bookkeeper's checker, so run `npm run check` somewhere `ledger-check` is installed before this ships. `docs/export-format.md` also says the bookkeeper gets told before a format change ships, and that's on you.\n\n- **`d9e831c` Slice 1:** `config.pickupLocations` lists `\"Pier Road\"` and `\"Northside\"`. `validateOrder` names a `pickupAt` that doesn't match one exactly, so `\"northside\"` fails too. Any order with `pickupAt` pays no shipping, with or without `pickup`.\n- **`76431ec` Slice 2:**\n  - The receipt ends with a blank line and then `Pickup at <location>`. With a discount code, it comes after the \"Code \u2026 saved you\" line.\n  - The invoice prints the same line under `Bill to:`.\n  - `price-order --json` includes `pickupAt` when the order has one, and `--pickup-at <location>` sets it.\n  - The README's Orders and CLIs sections now mention both.\n- **`bd6a3c4` Slice 3:**\n  - The export gets a `pickup` column after `total`, empty for orders without `pickupAt`.\n  - `A-1042.json` now carries `\"pickupAt\": \"Northside\"` instead of `\"pickup\": true`. Its amounts don't change.\n  - As CLAUDE.md asks for export format changes, I updated `docs/export-format.md`, added a line under Unreleased in `CHANGELOG.md`, and updated the column list in the README.\n\nEach commit also updates the status line in the plan, which now reads \"Slices 1, 2 and 3 done.\"\n\nDecisions the plan didn't settle:\n- **Unchecked `pickupAt`:** `computeTotals` treats any `pickupAt` as a pickup order without checking the name. That check stays in `validateOrder`, which the CLIs already run.\n- **`--pickup-at` is checked:** a bad location exits with status 1 and the same message as a bad `pickupAt` in the file.\n- **Plain text output:** without `--json`, `price-order` doesn't print the location, because the plan didn't ask for it.\n- **`pickup` without `pickupAt`:** an order with only `\"pickup\": true` still gets an empty `pickup` column in the export.",
+  "total_cost_usd": 0.6872138,
+  "duration_ms": 113027,
+  "duration_api_ms": 108710,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 43297,
+    "cache_read_input_tokens": 508369,
+    "output_tokens": 11953
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 11953,
+      "cacheReadInputTokens": 508369,
+      "cacheCreationInputTokens": 43297,
+      "costUSD": 0.6872138
+    }
+  }
+}

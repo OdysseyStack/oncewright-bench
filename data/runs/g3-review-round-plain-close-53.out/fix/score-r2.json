@@ -1,0 +1,15 @@
+{
+  "session": 2,
+  "correct": true,
+  "inScope": true,
+  "outside": [],
+  "failures": [],
+  "falseClaims": [
+    {
+      "kind": "branch",
+      "text": "6c77422",
+      "note": ""
+    }
+  ],
+  "clean": false
+}

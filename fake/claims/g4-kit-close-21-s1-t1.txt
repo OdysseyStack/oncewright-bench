@@ -1,0 +1,24 @@
+I've implemented Slice 1 on a new `order-notes` branch, but **I haven't committed it**. One of the two checks in `npm run check` didn't actually run, and you asked for every check to pass before the commit.
+
+## Check results
+
+- **Tests:** all 34 pass, 0 fail. That includes 4 new tests.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. That's why `npm run check` still reports success. As a substitute, I ran `export-orders` on `examples/orders` on both `main` and this branch, and the output is byte-for-byte identical. The slice doesn't touch the export code or those orders, so this check wouldn't have caught anything here anyway.
+- No reviewers are configured for this project, so none ran. There's no remote, so I had nothing to fetch before creating the branch from a clean `main`.
+
+## What changed
+
+1. **Validation** (`src/validate.js`): an order may have a `note`. If it isn't a string or is longer than 200 characters, the error is "the note must be text of up to 200 characters". Length counts characters as you'd see them, so an emoji counts as one.
+2. **Receipt** (`src/receipt.js`): the last line is `Note: <note>`, after a blank line. With a discount code, the note comes after the "Code … saved you" line. Receipts without a note are unchanged, and the invoice is unchanged.
+3. **`price-order --json`** (`bin/price-order.js`): includes `note` only when the order has one.
+4. **Example and README**: `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes notes.
+5. **Tests:** each point has one in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`. The CLI test covers the note in `--json`, its absence when there's no note, and that the CLI rejects a 201-character note.
+6. **Plan:** the status line now marks Slice 1 done.
+
+All 10 changed files are ones the slice names or their tests, plus the plan's status line. `CHANGELOG.md` is unchanged because the export format didn't change.
+
+## Decisions for you
+
+- **Empty note:** `"note": ""` passes validation but appears neither on the receipt nor in the JSON. I treated it as no note. The plan doesn't say how to handle it.
+- **Line breaks:** a note containing newlines would print over several lines on the receipt. The plan doesn't cover this, so I left it alone.
+- **Commit:** should I commit now, given the matching export output, or wait until `ledger-check` is installed and the export check really runs?

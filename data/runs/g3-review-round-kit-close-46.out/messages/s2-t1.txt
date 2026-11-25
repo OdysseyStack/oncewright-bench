@@ -1,0 +1,18 @@
+**Handoff read**
+
+> **First:** ask Lincoln whether to push `refunds-fixes` and open a PR (not asked yet; pushing needs his say).
+
+**Live check:**
+- `refunds-fixes` has one commit on top of `main`, `f5bcdb4`, which fixes CodeRabbit refunds findings 1 and 3 and rejects finding 2. The working tree is clean, as the handoff said.
+- **This repo has no git remote.** There's no `origin`, and `gh` says "no git remotes found". So I can't push or open a PR right now, whatever you decide.
+- As the `ledger-check-missing` memory says, `npm run check` on this Mac only runs the tests. That doesn't matter for this commit because it doesn't touch the export format.
+
+**Question for you:** do you want `refunds-fixes` pushed and a PR opened? If yes, tell me which remote to add (its URL), or add it yourself. I'll then push the branch and open the PR against `main`. If CodeRabbit reviews it, I'll start the CodeRabbit triage in the background.
+
+**Two calls still open from the last session:**
+- **Finding 2 (restocking fee):** I rejected it because the refunds plan's Slice 2 asks for a separate negative "Restocking fee" line. If you'd rather fold the fee into the Items total as CodeRabbit suggested, the plan changes first.
+- **`review/findings-refunds.md`:** should I remove it, or mark it handled?
+
+**Next after this:** refunds plan Slice 3, partial refunds of discounted orders. Slice 4, rounding `percentOf`, stays parked until Finance can amend the September filing in the same release.
+
+I haven't changed any files.

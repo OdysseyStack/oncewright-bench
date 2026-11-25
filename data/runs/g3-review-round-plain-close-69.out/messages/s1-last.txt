@@ -1,0 +1,6 @@
+I saved two notes for the next session.
+
+- **Where the refunds fixes stand:** findings 1 and 3 are fixed and finding 2 was declined, with the reason (the bookkeeper's import needs the refunded lines to add up to `Items` and the fee on its own line). The work is on `refunds-fixes` (e8cd717), only on this machine: not pushed, no PR, not merged. You haven't said yet whether you agree with declining finding 2. The next feature work is Slice 3 of the refunds plan; Slice 4 has to wait.
+- **The check here only runs the tests:** `ledger-check` isn't installed, so the export import check is skipped while `npm run check` still passes. Any change to the export still needs checking on a machine that has it.
+
+The working tree is clean and everything is committed. `review/findings-refunds.md` is still in the repo; I've left it, since removing it is your call.

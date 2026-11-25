@@ -1,0 +1,7 @@
+I fixed two of the three findings and turned down the third. The commit is `74b51f6` on the new branch `refunds-fixes`, not pushed.
+
+- **Tax on a partial refund (fixed):** the tax was worked out line by line and then added up, so it could come out a cent below what the order charged. It's now taken on the refunded lines' total, as the refunds plan (Slice 2 point 1) says. The new test, a $6.19 and a $10.19 line, expects $1.31 of tax where the old code gave $1.30. I ran it against the old code and it failed there, so it does catch the bug. I didn't touch `percentOf` itself, because the plan's Slice 4 holds back its rounding fix until the tax filing is amended.
+- **Restocking fee on the refund note (not done):** CodeRabbit wanted the fee taken out of `Items` and its separate line removed. The plan says the note shows the fee as its own negative line (Slice 2 point 5) and that `Items` is the sum of the refunded lines (Slice 3 point 2). If you'd rather have CodeRabbit's version, the plan needs changing first.
+- **SKU lookup (fixed):** the code that picks the refunded lines now checks SKUs against a `Set`. Nothing it returns changes.
+
+`npm run check` passes all 31 tests, but its second step, the export import check, didn't run because `ledger-check` isn't installed on this machine. The export format didn't change, so neither `docs/export-format.md` nor `CHANGELOG.md` needed updating. I only changed `src/refunds.js` and `test/refunds.test.js`.

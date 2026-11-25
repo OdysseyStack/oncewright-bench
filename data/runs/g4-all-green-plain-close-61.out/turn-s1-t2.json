@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `aad7d0b`, and nothing is left uncommitted. Only the tests have actually run: the export import check is still skipped.\n\n**Check results** (I ran `npm run check` again just before committing):\n- **Tests:** 34 run, 34 pass, 0 fail.\n- **Export import check:** skipped. `ledger-check` still isn't installed, so the script printed its warning and exited 0. This check has not passed; it has never run on this work. I said so in the commit message.\n\nThe slice doesn't change the export code or the example orders it runs on, so I expect the check to pass. Once `ledger-check` is installed, `npm run check` will confirm it.\n\n**What the commit contains:**\n- **Validation:** `validateOrder` rejects a `note` that isn't a string or is over 200 characters.\n- **Receipt:** prints `Note: \u2026` as its last line, after a blank line, and after the discount-code line when there is one. Without a note the receipt is unchanged, and the invoice is unchanged.\n- **`price-order --json`:** includes `note` only when the order has one.\n- **Docs:** the example order has a note, and the README's Orders section describes notes. There's a CHANGELOG line under Unreleased, and the plan's status line says Slice 1 is done.\n- **Tests:** new ones cover each of these.\n\nThe branch is local only; I haven't pushed it.",
+  "total_cost_usd": 0.3932488,
+  "duration_ms": 14735,
+  "duration_api_ms": 64032,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1779,
+    "cache_read_input_tokens": 108538,
+    "output_tokens": 1183
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6179,
+      "cacheReadInputTokens": 325184,
+      "cacheCreationInputTokens": 25568,
+      "costUSD": 0.3932488
+    }
+  }
+}

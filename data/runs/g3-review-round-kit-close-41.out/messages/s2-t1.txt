@@ -1,0 +1,15 @@
+## Handoff read
+
+> **First:** get the user's answer on finding 2 (see Open flags). If they want CodeRabbit's note, change the plan's Slice 2 point 5 first. Then change `renderRefundNote` in `src/refunds.js` (rows at about lines 33–38) and the expected strings in the note and CLI tests in `test/refunds.test.js`, keeping `fee` in `--json`.
+
+The state matches the handoff. `refunds-fixes` is one commit (`84d4be8`) ahead of `main`, nothing is uncommitted, and nothing is pushed. A reminder from memory: on this machine a passing `npm run check` covers only the tests, because the export import check is skipped.
+
+I need two decisions from you before I change anything:
+
+**1. Finding 2: how should the refund note show the restocking fee?**
+- **(a) Keep the plan's layout.** The note shows `Items` as the full amount of the refunded lines, then a separate negative `Restocking fee` row (`docs/plans/2026-09-30-refunds.md` Slice 2 point 5, built in `src/refunds.js:36-38`). Nothing changes.
+- **(b) Take CodeRabbit's suggestion.** `Items` shows the amount after the fee is taken off, and the `Restocking fee` row goes away. `fee` stays in the `--json` output. This means editing Slice 2 point 5 first, then `renderRefundNote` and the note and CLI tests.
+
+I recommend **(a)**. Showing the fee on its own row tells the customer why they're getting back less than they paid for the goods. With (b), the fee doesn't appear on the note at all, which is more likely to lead to support calls. The plan also asks for the separate row explicitly.
+
+**2.** The review round is finished. Should I delete `review/findings-refunds.md`?

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "I implemented Slice 1 and committed it on the new `order-notes` branch as `49569e2`. One part of `npm run check` did not run: the export import check was skipped because `ledger-check` isn't installed on this machine.\n\n**Check results**\n- **Tests:** all 36 pass, none fail. There were 30 before; I added 6.\n- **Export import check:** skipped. `scripts/check-export.sh` prints a warning and exits 0 when `ledger-check` is missing, so `npm run check` exits 0 even though this step never ran. It was skipped the same way on `main` before I started. This slice doesn't change the export (`src/export.js` and `examples/orders/` are untouched), so the risk is low. Still, the import check needs a run on a machine that has `ledger-check` before this counts as fully verified.\n\n**What changed, by plan point**\n1. **Validation:** `validateOrder` reports `note must be text` when the note isn't a string (including `null`) and `note is longer than 200 characters` when it's too long. The 200 limit counts characters, so a note of 200 \u2615 passes.\n2. **Receipt:** when the order has a note, the receipt ends with a blank line and `Note: \u2026`. With a discount code, the note comes after the \"Code \u2026 saved you\" line. Without a note the receipt is unchanged, and the invoice is unchanged either way.\n3. **`price-order --json`:** includes `note` when the order has one and leaves the key out when it doesn't.\n4. **Example, docs and tests:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes the note. There are tests for validation, the receipt with and without a code, the invoice staying the same, and the CLI's JSON output and its refusal of a note that's too long.\n\nI also added a line under Unreleased in `CHANGELOG.md` and set the plan's status line to \"Slice 1 is done.\" I didn't touch `docs/export-format.md` because the export format didn't change.\n\nAn empty note (`\"\"`) counts as no note: it's accepted, adds nothing to the receipt and is left out of `--json`.",
+  "total_cost_usd": 0.3553988,
+  "duration_ms": 59227,
+  "duration_api_ms": 56485,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 23139,
+    "cache_read_input_tokens": 272834,
+    "output_tokens": 5782
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5782,
+      "cacheReadInputTokens": 272834,
+      "cacheCreationInputTokens": 23139,
+      "costUSD": 0.3553988
+    }
+  }
+}

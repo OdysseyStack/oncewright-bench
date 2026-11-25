@@ -1,0 +1,18 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. Only one of the two checks in `npm run check` actually ran.
+
+**Check results**
+- **Tests:** 36 of 36 pass, 7 of them new.
+- **Export import check:** did not run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. That makes `npm run check` look green when this check never happened.
+- **What I checked instead:** I ran `export-orders` on `examples/orders` with and without these changes, and the output is byte-for-byte the same. This slice doesn't touch the export, but that is not the same as the import check passing.
+
+You asked for every check to pass before committing, so I've left the changes uncommitted. If you install `ledger-check` I'll re-run the check and commit. Or say "commit anyway" and I'll commit now, noting in the message that the export check didn't run.
+
+**What changed (all inside the slice's scope)**
+- **Validation:** `src/validate.js` accepts an optional `note`. It rejects a note that isn't text ("the note must be text") or is over 200 characters ("the note is longer than 200 characters"). An empty note passes and prints nothing.
+- **Receipt:** `src/receipt.js` ends with a blank line and then `Note: …` when the order has a note, coming after the "Code … saved you" line if there is one. Without a note the receipt is unchanged.
+- **JSON output:** `bin/price-order.js` adds `note` to `--json` output only when the order has one.
+- **Example and docs:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- **Tests:** added to `test/validate.test.js`, `test/receipt.test.js` and `test/cli.test.js`. There's also a test in `test/invoice.test.js` confirming the invoice doesn't change.
+- **Plan:** the status line in `docs/plans/2026-10-08-order-notes.md` now reads "Slice 1 done (2026-11-21)".
+
+I didn't change any file outside the scope. The export format is unchanged, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating.

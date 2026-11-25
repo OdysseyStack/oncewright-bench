@@ -1,0 +1,23 @@
+I've implemented Slice 3 and committed it to `refunds-fixes` as `95397a2`, on top of `f5bcdb4`. It isn't pushed, and the repo has no remote yet.
+
+**What changed**
+- **`src/refunds.js`:** you can now partly refund an order that used a discount code; it no longer throws. Each refunded line pays back its `net` from `computeTotals(...).lines`, which is its amount less its share of the discount.
+  - Tax is charged on the refunded lines' combined net, the same way the previous commit fixed it.
+  - An opened line keeps 15% of its net as the restocking fee.
+  - Shipping is refunded only when every line is.
+  - The refund note prints each line at its net, and `Items` is the sum of those nets.
+  - A whole refund of a discounted order gives the same amounts as Slice 1.
+- **`bin/refund-order.js`:** unchanged. It already passed `--code` along with `--sku`.
+- **`test/refunds.test.js`:** the old "discounted partial refund throws" test is replaced with tests for:
+  - partial refunds with SAVE10 and with TAKE5;
+  - a restocking fee on a discounted line;
+  - the note for a discounted refund;
+  - `--code` with `--sku` in the CLI.
+
+  The TAKE5 case checks a cent of rounding when the discount is split across lines: the filters line takes $1.76 of the $5.00, not $1.75.
+- **`README.md`:** the "aren't supported yet" sentence is gone, replaced by a description of what `--code` does now, and there's a library example. That sentence had also run into the `export-orders` paragraph, which now starts on its own line.
+- **Plan:** marked Slice 3 done in the status line and the heading.
+
+**Checks:** `npm run check` passes all 34 tests. The plan says the slice is done when `npm run check` passes, but here that only means the tests: ledger-check isn't installed, so the import check that the README says refund notes go through didn't run. The note's lines do still add up to `Items`, so the rule that import enforces holds. Should ledger-check be installed?
+
+I didn't change any file outside the slice's scope. I left `CHANGELOG.md` alone because the repo only requires an entry when the export format changes; earlier releases did list each refunds slice, so say if you want a line added under Unreleased.

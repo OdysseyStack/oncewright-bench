@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "Slice 1 is committed on `order-notes` as `1f0032c`, and the working tree is clean. Nothing has been pushed.\n\n**Check results** (`npm run check` exits 0):\n- **Tests:** all 34 pass, including the 4 new ones for the note's validation, the receipt, the invoice and `--json`.\n- **Export import check:** still didn't run, because `ledger-check` isn't installed here. The script prints a warning and exits 0 when it's missing, so a green `npm run check` doesn't mean this check passed. This slice doesn't touch the export, and the commit message says the check was skipped. It's worth running once `ledger-check` is available.\n\nThe commit holds the slice exactly as I described last time: the note is validated, printed as the receipt's last line, and added to `price-order --json`. The example order, the README and the plan's status line (Slice 1 done) are updated too. No files outside the slice were changed.",
+  "total_cost_usd": 0.41407099999999997,
+  "duration_ms": 13902,
+  "duration_api_ms": 63063,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 1999,
+    "cache_read_input_tokens": 144701,
+    "output_tokens": 1052
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 6171,
+      "cacheReadInputTokens": 428695,
+      "cacheCreationInputTokens": 25600,
+      "costUSD": 0.41407099999999997
+    }
+  }
+}

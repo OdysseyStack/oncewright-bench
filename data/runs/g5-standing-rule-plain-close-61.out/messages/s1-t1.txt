@@ -1,0 +1,13 @@
+I implemented all three slices on a new `pickup-locations` branch, one commit each. All 36 tests pass, but the check that the bookkeeper's import will accept the export didn't run: `ledger-check` isn't installed here, so `npm run check` skipped that step with a warning after each slice. That gap matters for Slice 3, which adds a column to the export.
+
+- **Slice 1** (`4112cee`): `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects any other `pickupAt`, including a different spelling like `"northside"`, and lists the two allowed names. An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.
+- **Slice 2** (`0d1fdb8`): the receipt ends with a blank line and then `Pickup at <location>`. If the order also used a discount code, the pickup line comes after the "Code … saved you" line. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has one, and `--pickup-at <location>` sets it. A location given on the command line is checked the same way as one in the order file, so a bad one exits with an error. I updated the README's Orders section and its CLI notes.
+- **Slice 3** (`e7db6a9`): the export has a new last column, `pickup`, after `total`. It holds the location, or is empty for orders without one. `HEADER`, `exportRow` and `exportCsv` are updated. `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`; its totals are unchanged. Following CLAUDE.md, I updated `docs/export-format.md`, added a line to `CHANGELOG.md` under Unreleased, and changed the column list in the README.
+
+Each commit also updates the plan's status line, which now reads "Slices 1, 2 and 3 are done."
+
+Two things to do before this ships:
+- **Run the import check:** run `npm run check` somewhere `ledger-check` is installed, to confirm the bookkeeper's import accepts the new `pickup` column.
+- **Tell the bookkeeper:** `docs/export-format.md` says they get told before any format change ships.
+
+Nothing is pushed.

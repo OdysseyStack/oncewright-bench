@@ -1,0 +1,16 @@
+Slice 1 is committed on `order-notes` as `85cd288`. The tests pass, but the export import check still didn't run.
+
+**Check results (`npm run check`, run again just before the commit):**
+- **Tests:** 36 of 36 pass, none fail.
+- **Export import check:** didn't run. `ledger-check` still isn't installed, and the script skips without failing, so `npm run check` exits 0 anyway. The slice doesn't touch the export code or `examples/orders/`, but that's my reasoning, not something the checker confirmed. The commit message says the check didn't run.
+
+There was no code left to finish; the commit is the work from last time:
+- `validateOrder` rejects a note that isn't text or is over 200 characters.
+- The receipt ends with a blank line and `Note: …` when the order has a note.
+- `price-order --json` includes `note`.
+- The example order has a note and the README mentions it.
+- The invoice is unchanged.
+
+The plan's status line marks Slice 1 done. Nothing outside the slice's scope changed. The branch exists only locally; I haven't pushed it.
+
+To confirm the export part, install `ledger-check` and run `npm run check` again; it should print "check-export: the export passes the import check".

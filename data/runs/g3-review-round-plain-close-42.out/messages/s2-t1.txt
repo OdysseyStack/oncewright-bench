@@ -1,0 +1,12 @@
+The CodeRabbit review round on the refunds work is finished, so there's nothing half-done to pick up. Here's where it stands:
+
+- **Branch `refunds-fixes`** (commit `b90c468`, one commit on top of main) holds the fixes for CodeRabbit's three findings:
+  - **Fixed:** tax on a partial refund is now worked out on the refunded lines' total, not line by line, which could lose up to a cent per line. There's a new test with amounts where the two methods differ, plus a CHANGELOG line.
+  - **Fixed:** the SKU lookup uses a Set.
+  - **Declined:** folding the restocking fee into `Items` on the refund note. The bookkeeper's import needs the lines to add up to `Items`, with the fee on a line of its own.
+- **Checks:** I just re-ran `npm run check` and all 31 tests pass. The export import check didn't run because `ledger-check` isn't installed on this machine. These changes don't touch the export, so that doesn't affect them.
+- **Not pushed, no PR:** the repo has no git remote set up, so pushing isn't possible until one is added.
+
+**Next up:** the refunds plan lists Slice 3 next: partial refunds of orders that used a discount code. Each refunded line would pay back its net amount after its share of the discount, plus the tax on it. The restocking fee would be 15% of the net amount, and `--code` would work together with `--sku`.
+
+I'd start Slice 3 on its own branch off `refunds-fixes`, so the review fixes stay a separate commit. Should I go ahead, or would you rather set up a remote and push `refunds-fixes` first?

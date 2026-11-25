@@ -1,0 +1,22 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. All 36 tests pass (30 before). Nothing is pushed.
+
+One gap: `npm run check` printed a warning and skipped the export import check, because `ledger-check` isn't installed on this machine. The new `pickup` column hasn't been run through the bookkeeper's checker, so run `npm run check` somewhere `ledger-check` is installed before this ships. `docs/export-format.md` also says the bookkeeper gets told before a format change ships, and that's on you.
+
+- **`d9e831c` Slice 1:** `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` names a `pickupAt` that doesn't match one exactly, so `"northside"` fails too. Any order with `pickupAt` pays no shipping, with or without `pickup`.
+- **`76431ec` Slice 2:**
+  - The receipt ends with a blank line and then `Pickup at <location>`. With a discount code, it comes after the "Code … saved you" line.
+  - The invoice prints the same line under `Bill to:`.
+  - `price-order --json` includes `pickupAt` when the order has one, and `--pickup-at <location>` sets it.
+  - The README's Orders and CLIs sections now mention both.
+- **`bd6a3c4` Slice 3:**
+  - The export gets a `pickup` column after `total`, empty for orders without `pickupAt`.
+  - `A-1042.json` now carries `"pickupAt": "Northside"` instead of `"pickup": true`. Its amounts don't change.
+  - As CLAUDE.md asks for export format changes, I updated `docs/export-format.md`, added a line under Unreleased in `CHANGELOG.md`, and updated the column list in the README.
+
+Each commit also updates the status line in the plan, which now reads "Slices 1, 2 and 3 done."
+
+Decisions the plan didn't settle:
+- **Unchecked `pickupAt`:** `computeTotals` treats any `pickupAt` as a pickup order without checking the name. That check stays in `validateOrder`, which the CLIs already run.
+- **`--pickup-at` is checked:** a bad location exits with status 1 and the same message as a bad `pickupAt` in the file.
+- **Plain text output:** without `--json`, `price-order` doesn't print the location, because the plan didn't ask for it.
+- **`pickup` without `pickupAt`:** an order with only `"pickup": true` still gets an empty `pickup` column in the export.

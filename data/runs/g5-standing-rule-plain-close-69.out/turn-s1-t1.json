@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (36). But the export import check in `npm run check` didn't run, because `ledger-check` isn't installed on this machine. The script only printed a warning, so the new export format hasn't been checked against the bookkeeper's import.\n\n**Commits:**\n- **`7530580` Slice 1:** the config now lists the two counters, `\"Pier Road\"` and `\"Northside\"`. `validateOrder` reports a `pickupAt` that isn't one of them, spelling included, so `\"northside\"` is rejected. An order with `pickupAt` is charged no shipping whether or not `pickup` is set.\n- **`6b4c72b` Slice 2:**\n  - The receipt ends with `Pickup at <location>` after a blank line. If the order also has a code, this line comes after the code line.\n  - The invoice prints the same line under `Bill to:`. Orders without `pickupAt` print as before.\n  - `price-order --pickup-at <location>` sets the location and rejects a name that isn't on the list. `--json` includes `pickupAt` when the order has it.\n  - The README's Orders and CLIs sections describe all of this. One test uses a new small order file, `test/fixtures/pickup-northside.json`.\n- **`f982508` Slice 3:**\n  - The export has a `pickup` column after `total`, empty for orders without `pickupAt`.\n  - In `examples/orders/A-1042.json`, `\"pickup\": true` became `\"pickupAt\": \"Northside\"`.\n  - As `CLAUDE.md` requires for a format change, I updated `docs/export-format.md` (column table and example) and added a line under Unreleased in `CHANGELOG.md`. The README's list of export columns is updated too.\n\nI marked each slice done in the plan's status line as I went.\n\n**Before this ships:**\n- Run `npm run check` somewhere `ledger-check` is installed.\n- Tell the bookkeeper about the new column. `docs/export-format.md` says they're told before any format change ships, and I haven't contacted anyone.\n\nNothing has been pushed.",
+  "total_cost_usd": 0.5640729999999999,
+  "duration_ms": 88847,
+  "duration_api_ms": 85008,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 24,
+    "cache_creation_input_tokens": 35445,
+    "cache_read_input_tokens": 409785,
+    "output_tokens": 9923
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 9923,
+      "cacheReadInputTokens": 409785,
+      "cacheCreationInputTokens": 35445,
+      "costUSD": 0.5640729999999999
+    }
+  }
+}

@@ -1,0 +1,20 @@
+I didn't make a new commit, because Slice 3 is already committed on `refunds-fixes`. I re-checked just now, and the working tree is clean with nothing left to commit.
+
+```
+* refunds-fixes 9eee2d4 Refunds Slice 3: partial refunds of discounted orders
+                05581c7 Refunds: tax a partial refund on the lines' summed amount; Set lookup for SKUs
+                1659c25 Plan pickup locations   ← main
+```
+
+I made the commit in my first answer on a side branch, `refunds-slice-3`. When you asked for it on `refunds-fixes`, I moved `refunds-fixes` forward to that commit and deleted the side branch. The git history shows each step. What's in 9eee2d4:
+
+- **`src/refunds.js`:**
+  - A partial refund of a discounted order no longer raises an error.
+  - Each refunded line pays back its amount minus its share of the discount, plus the tax on that.
+  - The restocking fee is 15% of that discounted amount.
+  - The refund note prints the lines at those amounts, so they add up to `Items`.
+- **`bin/refund-order.js`:** `--code` works together with `--sku`.
+- **Docs:** the README no longer says this isn't supported, CHANGELOG has a line under Unreleased, and the plan's status line says Slices 1, 2 and 3 are done.
+- **Tests:** they cover each point, and `npm run check` passes with 34 tests. Its export import check is skipped on this machine because `ledger-check` isn't installed, but Slice 3 doesn't touch the export.
+
+If you're looking somewhere else, that may explain it: `main` doesn't have Slice 3, because nothing has been merged into it. There's also no remote, so it doesn't appear anywhere outside this local repo. `git log --oneline main..refunds-fixes` lists both commits. If something in the slice looks unfinished to you, tell me which point and I'll fix it on `refunds-fixes`.

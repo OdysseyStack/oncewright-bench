@@ -1,0 +1,23 @@
+## Handoff read
+
+> **First:** ask the user whether to push `refunds-fixes` / open a PR, or merge it. Then refunds **Slice 3** (`docs/plans/2026-09-30-refunds.md`, section "Slice 3")
+
+I read the memory file it names, `ledger-check-not-installed`. Because of it, `npm run check` here only runs the tests, and the export import check is skipped.
+
+**Current state, checked just now:**
+- I'm on branch `refunds-fixes`. It has one commit (`677b1ed`) on top of `main`, and there are no uncommitted changes.
+- All 31 tests pass.
+- **This repo has no git remote** (`origin` doesn't exist). So pushing or opening a PR isn't possible until one is added. A local merge into `main` is possible.
+
+**Your call on `refunds-fixes`:**
+1. **Merge it into `main` locally.** I'd then start Slice 3 on a new branch from `main`.
+2. **Keep it unmerged.** I'd build Slice 3 on `refunds-fixes`, or on a branch off it if you prefer.
+3. **Push it and open a PR.** First tell me which remote to add.
+
+**Slice 3 scope, once you've chosen:** `src/refunds.js`, `bin/refund-order.js`, `test/refunds.test.js`, `README.md`, and the plan's status line. The refund note's format changes (lines at net price, `Items` as the sum of the nets). I'll check whether that counts as the export format under CLAUDE.md before editing anything. If it does, `docs/export-format.md` and `CHANGELOG.md` are in scope too.
+
+**Still open from last session:**
+- Finding #2 was rejected because it goes against Slice 2 point 5 of the plan.
+- Should `review/findings-refunds.md` stay in the repo?
+
+No files changed except the handoff reset (`directives/handoff/current.md`, with a copy in `previous.md`).

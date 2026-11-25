@@ -1,0 +1,7 @@
+Session wrapped up.
+
+- **Stopped:** nothing. This session started no agents, jobs or monitors.
+- **Memory:** I added one file, `ledger-check-not-installed`: `ledger-check` isn't on this Mac, so `npm run check` passes without the export import check. `MEMORY.md` is 1 line and 155 bytes, well under its 16 KB / 150-line target, so the index didn't need tidying.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line is "# Handoff (from the 2026-11-19 refunds-fixes session)". Its first task is to ask whether to push `refunds-fixes` and open a PR. It also flags the rejected change to the refund note's layout, which needs your decision.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

@@ -1,0 +1,10 @@
+Slice 3 is already committed on `refunds-fixes`, so I haven't made a second commit. Here is what the branch shows right now:
+
+- **Branch:** `refunds-fixes` is checked out, the working tree is clean, and its latest commit is `b9b327a Partial refunds of discounted orders (refunds Slice 3)`, right after the tax fix `e8cda74`.
+- **What the commit touches:** `src/refunds.js`, `test/refunds.test.js`, `README.md`, `CHANGELOG.md`, and the plan, whose status line now reads "Slices 1, 2 and 3 done. Slice 4 later."
+- **Check:** `npm run check` passes (35 tests, 0 failures). The export import check didn't run because `ledger-check` isn't installed here; this slice doesn't change the export format.
+- **The command runs:** `refund-order examples/order.json --code SAVE10 --sku FILTER-100 --opened FILTER-100` refunds the filters at their discounted $11.70. It keeps a $1.75 restocking fee, which is 15% of $11.70 with the fraction of a cent dropped, as `percentOf` does today. It refunds $0.93 tax, for a total refund of $10.88.
+
+You may be looking somewhere that can't show it. The repo has no remote and nothing has been pushed, so the commit exists only in this local clone. Also, an earlier attempt had it on a separate `refunds-slice-3` branch; I moved it onto `refunds-fixes` and deleted that branch.
+
+If you're looking at something specific that seems missing or wrong, tell me what and I'll fix it. And if you meant it should be pushed, say so; I'll need the remote to push to, since none is set up.

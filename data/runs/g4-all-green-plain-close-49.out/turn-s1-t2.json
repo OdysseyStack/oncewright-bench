@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is committed on `order-notes` as `03135c6`, and the working tree is clean. One of the two checks didn't run, though.\n\n- **Tests:** all 34 pass, 0 fail.\n- **Export import check:** skipped. `ledger-check` still isn't installed, so the script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. `npm run check` looks green, but this check has never been run on this branch. As a stand-in, the export output is byte-for-byte the same as on `main`, since this slice doesn't change anything the export uses. That isn't the same as the bookkeeper's import check passing, and the commit message says so.\n\nThe commit contains the Slice 1 work from before:\n- the note validation, up to 200 characters\n- the `Note:` line at the end of the receipt\n- `note` in `price-order --json`\n- the example order's note, the README text, and tests for each point\n\nIt also changes the plan's status line to \"Slice 1 is done.\"\n\nNothing is pushed. To fully clear the remaining check, install `ledger-check` and run `npm run check` again.",
+  "total_cost_usd": 0.36976000000000003,
+  "duration_ms": 11228,
+  "duration_api_ms": 49710,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1824,
+    "cache_read_input_tokens": 107844,
+    "output_tokens": 969
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5099,
+      "cacheReadInputTokens": 327620,
+      "cacheCreationInputTokens": 25271,
+      "costUSD": 0.36976000000000003
+    }
+  }
+}

@@ -1,0 +1,16 @@
+I've read the handoff and reset `current.md`. A copy is kept in `directives/handoff/previous.md`.
+
+**Handoff read.** The First line says:
+> **First:** ask Lincoln what to do with `refunds-fixes`: push it and open a PR (then the CR triage runs in the background), or merge it some other way. Also ask whether the reasoning on #2 holds.
+
+**Live state:** The branch `refunds-fixes` is one commit (`0351cec`) ahead of `main`, and the working tree is clean. The repo has **no git remote**, so "push and open a PR" can't happen until a remote is added. That also means there's no PR yet and no CodeRabbit triage to start.
+
+A standing caveat from memory: `ledger-check` isn't installed on this Mac. A passing `npm run check` here has only run the tests, not the export import check.
+
+Three questions for you:
+
+1. **`refunds-fixes`:** How should it land? With no remote, the options are adding a remote and opening a PR (the CodeRabbit triage would then run in the background), or merging it into `main` locally.
+2. **CodeRabbit #2 (rejected):** It suggested folding the restocking fee into `Items` on the refund note. I rejected it because refunds plan Slice 2 point 5 and README lines 55–57 (the bookkeeper import) need the fee on its own line. Does that reasoning hold?
+3. **`review/findings-refunds.md`:** It's still tracked on `main`. Keep it or delete it?
+
+After that, the next piece of work is refunds Slice 3 (partial refunds of discounted orders).

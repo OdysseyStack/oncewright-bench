@@ -1,0 +1,13 @@
+I fixed two of CodeRabbit's three findings and committed them on the new branch `refunds-fixes` (commit `1d2072c`). I left the third one out on purpose.
+
+**Fixed:**
+1. **Tax on a partial refund** (`src/refunds.js:27`): the tax is now worked out once on the total of the refunded lines, the same way the order charged it and as the plan's Slice 2 point 1 says. Before, it was worked out line by line, which could lose up to a cent per line. I added a test with lines of $6.19 and $10.19: the old code refunded $1.30 of tax and the new code refunds $1.31, matching what the order charged. I didn't touch `percentOf` itself, since the plan holds back its rounding fix for Slice 4.
+2. **Finding which lines to refund** (`src/refunds.js:7`): it now checks the SKUs against a `Set` instead of searching the list for each line. Behaviour is the same.
+
+I also added a line about the tax fix to `CHANGELOG.md` under Unreleased. CLAUDE.md only requires that for export format changes, but this changes an amount customers get back.
+
+**Not applied: putting the restocking fee into `Items`.** It would break the bookkeeper's import. The README says the refunded lines on a refund note must add up to `Items`, and the fee has to stay a line of its own so the import can book it. The plan's Slice 2 point 5 also calls for that separate negative `Restocking fee` line. If you still want this, the import rule and the plan need to change first. The commit message gives the same reason.
+
+**Checks:** `npm run check` passed all 31 tests. The export import check part didn't run, because `ledger-check` isn't installed on this machine. This change doesn't touch the export, so that check isn't the one that matters here.
+
+I haven't pushed the branch.

@@ -1,0 +1,16 @@
+Slice 1 is committed on the new `order-notes` branch as `876707e`. The tests all pass, but one of the two checks didn't actually run.
+
+**Check results**
+- **Tests:** all 34 passed. Five of them are new and cover each point of the slice.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. `npm run check` therefore looks green, but that half proved nothing. This slice doesn't change the export, and I confirmed that `export-orders examples/orders` gives byte-identical output with and without the changes. Still, the check itself needs to be run somewhere `ledger-check` is installed.
+
+**What changed**
+- `src/validate.js`: an order may carry a `note`. `validateOrder` reports one that isn't text, or is longer than 200 characters. Length counts characters, so emoji and accented letters count as one each.
+- `src/receipt.js`: when there's a note, the receipt ends with a blank line and then `Note: …`, after the code-savings line if there is one. Without a note the receipt is unchanged.
+- `bin/price-order.js`: `--json` includes `note` when the order has one.
+- The invoice is unchanged, and a test confirms it.
+- `examples/order.json` now carries a note, and the README's Orders section describes it.
+- An empty note (`""`) passes validation but prints nothing, the same as no note.
+- The plan's status line now reads "Slice 1 is done."
+
+Every file I changed is one the slice names, plus its tests and the plan; nothing outside that. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating. Nothing has been pushed.

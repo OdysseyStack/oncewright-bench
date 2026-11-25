@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `053bf38`, and the working tree is clean.\n\n**Check results**\n- **Tests:** all 34 pass, 0 fail.\n- **Export import check:** still didn't run. `ledger-check` isn't installed, so the script printed a warning and exited 0. That's why `npm run check` reports exit 0 even though this check was skipped. My only evidence for the export is the earlier comparison, which showed the export of `examples/orders` is byte-for-byte identical before and after this change.\n\n**What's in the commit:** the note is validated (text, up to 200 characters), printed as the receipt's last line after a blank line, and included in `price-order --json`. The invoice and export don't change. The example order and the README have a note, there are tests for each point, and the plan's status line says Slice 1 is done.\n\nI changed no files outside the slice's scope. Nothing was pushed. Once `ledger-check` is installed, `npm run check` will run the export check for real.",
+  "total_cost_usd": 0.38913099999999995,
+  "duration_ms": 12325,
+  "duration_api_ms": 61380,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1563,
+    "cache_read_input_tokens": 109233,
+    "output_tokens": 848
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5602,
+      "cacheReadInputTokens": 359255,
+      "cacheCreationInputTokens": 25643,
+      "costUSD": 0.38913099999999995
+    }
+  }
+}

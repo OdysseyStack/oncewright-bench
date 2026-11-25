@@ -1,0 +1,173 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 15808ad..d408b80 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,8 @@
+ 
+ - A partial refund's tax is taken on the refunded lines' summed amount, as the order charged it,
+   instead of per line, which could come out a cent or more low.
++- Partial refunds of orders that used a discount code (`refund-order --code --sku`): each line
++  pays back its net, after its share of the discount, and the note prints it that way.
+ 
+ ## 0.7.0 (2026-10-04)
+ 
+diff --git a/README.md b/README.md
+index 23e4fae..c26b1a3 100644
+--- a/README.md
++++ b/README.md
+@@ -73,6 +73,7 @@ renderReceipt(order, { code: "SAVE10" }); // the receipt text, amounts in one co
+ renderInvoice(order, { number: "INV-0007", date: "2026-09-01", customer: "Northside Cafe" });
+ refundFor(order); // { items, fee, shipping, tax, total }: the whole order, paid back
+ refundFor(order, { skus: ["MUG-12OZ"], opened: ["MUG-12OZ"] }); // one line, less a restocking fee
++refundFor(order, { skus: ["MUG-12OZ"], code: "SAVE10" }); // one line at its net, after its share of the discount
+ splitEvenly(4595, 2); // [2298, 2297]: the parts always add up to the total
+ ```
+ 
+@@ -95,7 +96,10 @@ totals in cents instead.
+ amounts). `--sku <SKU>` refunds only that line (repeat it for more): its amount and the tax on it,
+ and the shipping only when every line is refunded. `--opened <SKU>` marks a refunded line as
+ opened: the shop keeps a 15% restocking fee of its amount. A SKU that isn't on the order is an
+-error. Partial refunds of orders that used a discount code aren't supported yet. `node bin/export-orders.js <folder>` prints the accounting export for every order file
++error. With `--code`, each refunded line pays back its net, its amount less its share of the
++discount, as the receipt prints it, and the restocking fee is 15% of that net.
++
++`node bin/export-orders.js <folder>` prints the accounting export for every order file
+ in the folder: one CSV row per order, `id,date,subtotal,discount,shipping,tax,total`, amounts as
+ `$1234.50` (`docs/export-format.md`).
+ 
+diff --git a/docs/plans/2026-09-30-refunds.md b/docs/plans/2026-09-30-refunds.md
+index 3869773..e0a000b 100644
+--- a/docs/plans/2026-09-30-refunds.md
++++ b/docs/plans/2026-09-30-refunds.md
+@@ -1,6 +1,6 @@
+ # Refunds
+ 
+-Status: Slices 1 and 2 done. Slice 3 is next. Slice 4 later.
++Status: Slices 1, 2 and 3 done. Slice 4 later.
+ Owner: Sam Lee. Written 2026-09-30, Slice 3 spelled out 2026-10-08.
+ 
+ ## Why
+@@ -34,7 +34,7 @@ the shipping and the tax. `renderRefundNote` prints the note the customer gets,
+    prints an error naming it and exits with status 1.
+ 7. The README documents partial refunds and the flags, and the tests cover each point above.
+ 
+-## Slice 3: partial refunds of discounted orders
++## Slice 3: partial refunds of discounted orders (done, 2026-11-21)
+ 
+ Slice 2 of the line-discounts plan is done, so each line now has its share of the discount.
+ 
+diff --git a/src/refunds.js b/src/refunds.js
+index 461962e..8d54c42 100644
+--- a/src/refunds.js
++++ b/src/refunds.js
+@@ -1,39 +1,44 @@
+-// Refunds: a whole order (the refund plan's Slice 1), or some of its lines (Slice 2).
++// Refunds: a whole order (the refund plan's Slice 1), or some of its lines (Slices 2 and 3).
+ import { config } from "./config.js";
+ import { formatMoney, percentOf, sumCents } from "./money.js";
+-import { computeTotals, lineTotal } from "./totals.js";
++import { computeTotals } from "./totals.js";
+ 
+-// The order's lines a refund covers: those whose SKUs are listed, or all of them.
+-const linesFor = (order, skus) => {
+-  if (skus === undefined) return order.items;
+-  const wanted = new Set(skus);
+-  return order.items.filter((item) => wanted.has(item.sku));
++// The order's lines a refund covers, each with its net from computeTotals (its amount less its
++// share of any discount): those whose SKUs are listed, or all of them.
++const linesFor = (order, skus, totals) => {
++  const wanted = skus === undefined ? null : new Set(skus);
++  return order.items
++    .map((item, i) => ({ ...item, net: totals.lines[i].net }))
++    .filter((item) => wanted === null || wanted.has(item.sku));
+ };
+ 
+ // What a refund pays back, in cents: { items, fee, shipping, tax, total }. options: the options the
+ // order was priced with (pickup, code), plus skus, the lines to refund (all of them when absent),
+-// and opened, the refunded lines that keep a restocking fee.
++// and opened, the refunded lines that keep a restocking fee. Each line pays back its net, the
++// amount it was charged after its share of any discount, and the fee is taken on that net.
+ export function refundFor(order, options = {}) {
+   const t = computeTotals(order, options);
+   const { skus, opened = [] } = options;
+   const unknown = [...(skus ?? []), ...opened].find((sku) => !order.items.some((item) => item.sku === sku));
+   if (unknown !== undefined) throw new Error(`SKU not on the order: ${unknown}`);
+-  const lines = linesFor(order, skus);
++  const lines = linesFor(order, skus, t);
+   const whole = lines.length === order.items.length;
+-  if (!whole && t.code) throw new Error("Partial refunds of discounted orders aren't supported yet");
+-  const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(lineTotal(item), config.restockingFee)));
+-  const items = whole ? t.subtotal - t.discount : sumCents(lines.map(lineTotal));
++  const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(item.net, config.restockingFee)));
++  // The nets add up to subtotal - discount (allocate() sees to it), so a whole refund pays back the
++  // items as the order charged them.
++  const items = sumCents(lines.map((item) => item.net));
+   // The tax on the summed amount of the lines, as computeTotals charges it, not a sum of per-line taxes.
+   const tax = whole ? t.tax : percentOf(items, config.taxRate);
+   const shipping = whole ? t.shipping : 0;
+   return { items, fee, shipping, tax, total: items - fee + shipping + tax };
+ }
+ 
+-// The note the customer gets with a refund: the refunded lines, then the totals.
++// The note the customer gets with a refund: the refunded lines at their net price, as the receipt
++// prints them, so they add up to Items; then the totals.
+ export function renderRefundNote(order, options = {}) {
+   const r = refundFor(order, options);
+   const rows = [
+-    ...linesFor(order, options.skus).map((item) => [`${item.qty} x ${item.name}`, lineTotal(item)]),
++    ...linesFor(order, options.skus, computeTotals(order, options)).map((item) => [`${item.qty} x ${item.name}`, item.net]),
+     null,
+     ...(r.fee ? [["Restocking fee", -r.fee]] : []),
+     ["Items", r.items],
+diff --git a/test/refunds.test.js b/test/refunds.test.js
+index 8661855..caabbc6 100644
+--- a/test/refunds.test.js
++++ b/test/refunds.test.js
+@@ -40,9 +40,22 @@ test("an opened line keeps a 15% restocking fee", () => {
+   assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"] }), { items: 2400, fee: 360, shipping: 0, tax: 192, total: 2232 });
+ });
+ 
+-test("a SKU not on the order, or a partial refund of a discounted order, is an error", () => {
++test("a SKU not on the order is an error", () => {
+   assert.throws(() => refundFor(order, { skus: ["TEA-50"] }), /TEA-50/);
+-  assert.throws(() => refundFor(order, { skus: ["BEANS-1KG"], code: "SAVE10" }), /discount/);
++});
++
++test("a refund of some lines of a discounted order pays back their nets and the tax on them", () => {
++  // SAVE10 takes 370 off: 240 from the beans, 130 from the filters.
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], code: "SAVE10" }), { items: 2160, fee: 0, shipping: 0, tax: 172, total: 2332 });
++  assert.deepEqual(refundFor(order, { skus: ["FILTER-100"], code: "SAVE10" }), { items: 1170, fee: 0, shipping: 0, tax: 93, total: 1263 });
++  // A fixed-amount code: TAKE5's 500 splits 324 / 176 by amount, so the filters' net is 1300 - 176.
++  assert.deepEqual(refundFor(order, { skus: ["FILTER-100"], code: "TAKE5" }), { items: 1124, fee: 0, shipping: 0, tax: 89, total: 1213 });
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG", "FILTER-100"], code: "SAVE10" }), refundFor(order, { code: "SAVE10" }));
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG", "FILTER-100"], code: "TAKE5" }), refundFor(order, { code: "TAKE5" }));
++});
++
++test("the restocking fee of an opened line of a discounted order is 15% of its net", () => {
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"], code: "SAVE10" }), { items: 2160, fee: 324, shipping: 0, tax: 172, total: 2008 });
+ });
+ 
+ test("the refund note shows each part", () => {
+@@ -52,11 +65,22 @@ test("the refund note shows each part", () => {
+   );
+ });
+ 
++test("the refund note of a discounted order prints each line at its net, adding up to Items", () => {
++  assert.equal(
++    renderRefundNote(order, { skus: ["FILTER-100"], code: "SAVE10" }),
++    "Refund for order A-1040\n\n2 x Paper filters x100  $11.70\n\nItems                   $11.70\nShipping                 $0.00\nTax                      $0.93\nRefund                  $12.63",
++  );
++  assert.match(renderRefundNote(order, { code: "SAVE10" }), /^1 x House beans 1kg +\$21\.60\n2 x Paper filters x100 +\$11\.70\n\nItems +\$33\.30$/m);
++});
++
+ test("refund-order prints the note, or --json the amounts", () => {
+   const cli = (...args) => spawnSync(process.execPath, [at("../bin/refund-order.js"), ...args], { encoding: "utf8" });
+   assert.match(cli(at("../examples/order.json")).stdout, /^Refund +\$45\.95$/m);
+   assert.deepEqual(JSON.parse(cli(at("../examples/order.json"), "--json").stdout), { items: 3700, fee: 0, shipping: 599, tax: 296, total: 4595 });
+   assert.match(cli(at("../examples/order.json"), "--sku", "BEANS-1KG", "--opened", "BEANS-1KG").stdout, /^Restocking fee +-\$3\.60$/m);
++  const discounted = cli(at("../examples/order.json"), "--code", "SAVE10", "--sku", "FILTER-100", "--json");
++  assert.equal(discounted.status, 0);
++  assert.deepEqual(JSON.parse(discounted.stdout), { items: 1170, fee: 0, shipping: 0, tax: 93, total: 1263 });
+   const unknown = cli(at("../examples/order.json"), "--sku", "TEA-50");
+   assert.equal(unknown.status, 1);
+   assert.match(unknown.stderr, /TEA-50/);

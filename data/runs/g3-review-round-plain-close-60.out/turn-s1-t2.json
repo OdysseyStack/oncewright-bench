@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes so the next session can pick this up:\n\n1. **The `refunds-fixes` branch is local only.** It has one commit (816f2dc) and hasn't been pushed or merged; the next session should ask you what to do with it. The note also records that I turned down the reviewer's suggestion to merge the restocking fee into `Items`, because it would break the bookkeeper's import. That needs agreement from whoever owns the import before anyone picks it up again.\n2. **`ledger-check` isn't installed on this machine.** So `npm run check` passing here only means the tests passed; the export import check didn't run. Any future change to the export should say so.\n\nI left out what git already has: what the fixes changed, the new test, and why I turned the suggestion down (all in the commit message).\n\nYou still need to decide whether to push `refunds-fixes`, open a PR, or merge it into main.",
+  "total_cost_usd": 0.38294580000000006,
+  "duration_ms": 22841,
+  "duration_api_ms": 61340,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3097,
+    "cache_read_input_tokens": 106232,
+    "output_tokens": 2184
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5768,
+      "cacheReadInputTokens": 292649,
+      "cacheCreationInputTokens": 26122,
+      "costUSD": 0.38294580000000006
+    }
+  }
+}

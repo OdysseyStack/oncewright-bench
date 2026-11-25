@@ -1,0 +1,11 @@
+I committed the fixes as `a563248` on the new branch `refunds-fixes`. It isn't pushed.
+
+**Open item:** the tests in `npm run check` passed (31 of 31), but the export import check didn't run because `ledger-check` isn't installed on this machine. The script printed only a warning and exited 0. Nothing in the export format changed, so the risk is low, but that half of the check is unverified.
+
+**3 findings → 2 accepted / 0 deferred / 1 rejected**
+
+1. **Accepted – tax on a partial refund.** The tax was worked out line by line and added up, so each line could lose a cent. It's now taken on the refunded lines' total, as the plan's Slice 2 point 1 says and as the order itself charges it. A new test uses lines of $6.19 and $10.19: the old code refunded 130 cents of tax, the new code refunds 131. I left `percentOf` rounding down as it is, because fixing that is the plan's Slice 4.
+2. **Rejected – showing `Items` after the restocking fee and dropping the fee row.** The README says the fee must stay a line of its own so the bookkeeper's import can book it, and the refunded lines have to add up to `Items`.
+3. **Accepted – nitpick.** The check for which lines a refund covers now uses a `Set`. Behaviour is unchanged.
+
+Files changed: `src/refunds.js` and `test/refunds.test.js`. The ruling for each finding is in `review/findings-refunds.md.resolved`, which I left uncommitted. Nothing outside that scope changed. `docs/export-format.md` and `CHANGELOG.md` didn't need updating because the export format is the same. The plan already marks Slice 2 done, and this fix brings the code in line with it.

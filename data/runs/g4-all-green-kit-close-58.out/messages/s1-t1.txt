@@ -1,0 +1,17 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. You asked for every check to pass first, and one of the two checks in `npm run check` didn't run.
+
+**Check results:**
+- **Tests: 35 of 35 pass**, including the 6 new ones.
+- **Export import check: didn't run.** `ledger-check` isn't installed on this machine, so the script printed a warning and exited 0. That means `npm run check` reports success even though the import check never ran. This slice doesn't change the export: it reads `examples/orders/`, which I didn't touch. I compared the export from this branch with the one from `main` and they're byte-identical. Still, that isn't the same as the check passing.
+
+**What changed:**
+- **Validation:** `src/validate.js` now reports a `note` that isn't a string ("the note must be text") or is longer than 200 characters.
+- **Receipt:** `src/receipt.js` prints `Note: …` as the last line, after a blank line. It comes after the "Code … saved you" line when a code is used. Without a note the receipt is the same as before.
+- **JSON output:** `price-order --json` (in `bin/price-order.js`) includes `note` only when the order has one. The plain text output doesn't change.
+- **Example and docs:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- **Tests:** each point is covered in the validate, receipt and cli tests. A new invoice test checks that a note leaves the invoice unchanged.
+- **Plan:** the status line now reads "Slice 1 is done."
+
+No files outside the slice's scope were changed.
+
+**Decision for you:** if you can install `ledger-check` (or run the check in CI), I'll rerun `npm run check` and commit. Or, if the identical-export evidence is enough, say so and I'll commit now.

@@ -1,0 +1,13 @@
+I saved two notes for the next session. The working tree is clean, and the work is only on the local `refunds-fixes` branch (`7d7b335`, one commit on top of `main`).
+
+- **`refunds-fixes` branch state:**
+  - The branch isn't pushed, has no PR and isn't merged, so the next session should ask you before pushing.
+  - Findings 1 and 3 are done.
+  - I left finding 2 out on purpose: the plan and the README need the restocking fee on its own line so the bookkeeper's import can book it.
+  - `review/findings-refunds.md` is still in the repo; nobody has said whether to delete it.
+  - Once this is merged, the next refunds work is Slice 3 (partial refunds of discounted orders). Slice 4 (rounding in `percentOf`) waits for finance to amend the tax filing.
+- **`ledger-check` isn't installed on this machine:** `npm run check` skips the export import check and still passes, so any change to the export needs checking somewhere that has the tool.
+
+I didn't save anything that's already recorded in the commit message, the plan or the README.
+
+What's left for you: decide whether to push `refunds-fixes` and open a PR, and whether to delete the findings file.

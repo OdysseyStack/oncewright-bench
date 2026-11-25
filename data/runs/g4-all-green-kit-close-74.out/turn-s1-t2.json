@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `a7e9040`, and nothing is left uncommitted.\n\n**Check results**\n- **Tests:** 35 of 35 pass.\n- **Export import check:** still didn't run, because `ledger-check` isn't installed. `npm run check` exits 0 anyway, since the script only prints a warning when the tool is missing. This slice doesn't change the export code or the order files it reads. The commit message says the check was skipped.\n\nThe commit is the same work as before: the order note in validation, on the receipt and in `price-order --json`, plus the example order, the README, the tests, and the plan's status line set to \"Slice 1 is done.\" No files outside the slice's scope were changed, and I haven't pushed.\n\nOnce `ledger-check` is installed, run `npm run check` on this branch to get a real result from the import check.",
+  "total_cost_usd": 0.41737460000000004,
+  "duration_ms": 11161,
+  "duration_api_ms": 63927,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1610,
+    "cache_read_input_tokens": 113900,
+    "output_tokens": 867
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 6245,
+      "cacheReadInputTokens": 372653,
+      "cacheCreationInputTokens": 27231,
+      "costUSD": 0.41737460000000004
+    }
+  }
+}

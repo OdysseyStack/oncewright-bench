@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "All three slices are done, one commit each, on the new `pickup-locations` branch (not pushed). `npm run check` passes with 37 tests, but its second step, the export import check, didn't run because `ledger-check` isn't installed here. So nothing has checked whether the bookkeeper's import accepts the new export column.\n\n- **`554c12d` Slice 1:** the config now lists the two counters, `\"Pier Road\"` and `\"Northside\"`. `validateOrder` names a `pickupAt` that isn't one of them, and the spelling must match exactly. An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.\n- **`477a8ab` Slice 2:** when an order has `pickupAt`, the receipt ends with a blank line and `Pickup at <location>` (after the discount code line, if there is one), and the invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`. The new `price-order --pickup-at <location>` sets it, and an unknown location exits with an error. The README covers both.\n- **`b0028c6` Slice 3:** the export has a `pickup` column after `total`: the location, or empty. `A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`. As CLAUDE.md requires, I updated `docs/export-format.md`, added a line under Unreleased in `CHANGELOG.md`, and changed the column list in the README. None of the location names contain a comma, so the import's comma split is safe.\n\nI marked all three slices done in the plan's status line. It also notes that `ledger-check` hasn't been run on the new column.\n\n**Before this ships:**\n1. Run `npm run check` somewhere `ledger-check` is installed, to confirm the import accepts the extra column, including the empty value for orders that aren't pickups.\n2. `docs/export-format.md` says the bookkeeper is told before any change to the export format ships, so they need to hear about the new `pickup` column.",
+  "total_cost_usd": 0.5981678000000001,
+  "duration_ms": 94572,
+  "duration_api_ms": 91523,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 39285,
+    "cache_read_input_tokens": 401599,
+    "output_tokens": 10174
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 10174,
+      "cacheReadInputTokens": 401599,
+      "cacheCreationInputTokens": 39285,
+      "costUSD": 0.5981678000000001
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Wrap-up is done.\n\n- **Nothing to stop:** this session started no jobs, Monitors or agents.\n- **Memory:** I wrote one file, `ledger-check-not-installed`. On this machine `npm run check` only proves the tests, because the export import check is skipped. I added its line to `MEMORY.md`.\n- **Index:** `MEMORY.md` is 1 line and 139 bytes, well under its target, so I didn't tidy it.\n- **Handoff:** written to `directives/handoff/current.md`, which git ignores. Its first line is \"# Next session\". It opens with the state of `refunds-fixes` (4bb0462, not pushed, no PR) and why finding 2 was turned down. Next it asks whether to push, open a PR or merge, then moves to refunds Slice 3. It also covers two traps: keep the tax on summed amounts, and don't touch `percentOf` before Slice 4.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.41349840000000004,
+  "duration_ms": 29609,
+  "duration_api_ms": 64853,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4968,
+    "cache_read_input_tokens": 109782,
+    "output_tokens": 2969
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6285,
+      "cacheReadInputTokens": 302032,
+      "cacheCreationInputTokens": 28414,
+      "costUSD": 0.41349840000000004
+    }
+  }
+}

@@ -1,0 +1,11 @@
+I've implemented Slice 3 and committed it on `refunds-fixes` as `44e6606`. Partial refunds of discounted orders now work instead of throwing an error.
+
+- **Amounts:** each refunded line pays back its amount less its share of the discount. The 15% restocking fee and the tax are both worked out on those reduced amounts. A whole refund of a discounted order gives the same amounts as before.
+- **Note:** each line is printed at its discounted price, as the receipt prints it, so the lines add up to `Items`. The separate `Restocking fee` line is still there.
+- **CLI and README:** `refund-order --code` now works with `--sku`, and the README no longer says these refunds aren't supported.
+- **Tests:** I wrote the new tests first and checked that they failed. They cover two discount codes, an opened line on a discounted order, a whole refund, both note layouts, and the command line.
+- **Check:** `npm run check` passes all 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed here. Slice 3 doesn't touch the export.
+
+The plan marks Slice 3 done. I changed no files outside the slice's scope. Nothing is pushed: the repo still has no git remote.
+
+Two questions from my last reply are still open: whether you accept rejecting CodeRabbit finding 2, and whether to push and open a PR, which first needs a remote. Implementing Slice 3 as the plan describes kept the separate restocking-fee line.

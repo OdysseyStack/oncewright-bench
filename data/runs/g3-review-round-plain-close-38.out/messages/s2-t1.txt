@@ -1,0 +1,16 @@
+Slice 3 of the refunds plan is done: you can now refund some of the lines of an order that used a discount code. It's committed locally as `22700c6` on a new branch, `refunds-slice-3`, built on `refunds-fixes` because it uses the tax fix from there. Nothing is pushed.
+
+**How it works now**
+- Each refunded line pays back its price after its share of the discount, plus 8% tax on the refunded lines' total. For example, with SAVE10, refunding the filters pays back $11.70 + $0.93 = $12.63 instead of throwing an error.
+- For an opened line, the 15% restocking fee is taken from that discounted price.
+- Shipping is still refunded only when every line is.
+- Refunding a whole discounted order gives exactly the same amounts as before.
+- The refund note shows each line at its discounted price, like the receipt, so the lines still add up to `Items`. The fee keeps its own row.
+- `refund-order --code` now works with `--sku`. The README no longer says this isn't supported, and the plan's status line and `CHANGELOG.md` are updated.
+- In the README, the export paragraph was run into the end of the refunds paragraph, so I gave it a paragraph of its own.
+
+**Checks:** all 34 tests pass, including new ones for each point. The export import check didn't run because ledger-check still isn't installed on this Mac. This change doesn't affect the export, so that matters less here.
+
+**Still waiting on you:**
+1. CodeRabbit's finding 2 (moving the restocking fee into `Items`) is still declined. That needs a decision from whoever owns the bookkeeper's import.
+2. Should I push either branch or open PRs? I haven't. A push would also start the CodeRabbit triage in the background.

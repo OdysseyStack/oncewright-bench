@@ -1,0 +1,41 @@
+# Triage of CodeRabbit's findings on the refunds work
+
+Findings file: `review/findings-refunds.md`. Judged against `CLAUDE.md` and
+`docs/plans/2026-09-30-refunds.md` (Slice 2 is the work reviewed). Each cited span was checked
+against `src/refunds.js` as committed at 99fa4fd.
+
+## 1. src/refunds.js:22, potential_issue: partial-refund tax summed per line
+
+- Issue: `tax` for a partial refund was `sumCents(lines.map((item) => percentOf(lineTotal(item), config.taxRate)))`.
+  `percentOf` floors, so each line can lose a cent: lines of 619 and 1019 cents refund 49 + 81 = 130,
+  while tax on their sum is floor(1638 * 0.08) = 131.
+- Repo: Slice 2 point 1 says the tax on the refunded lines "is `percentOf` their summed amount at the
+  tax rate, as `computeTotals` charges it" (`src/totals.js:31`: `percentOf(subtotal - discount, config.taxRate)`).
+  Slice 4 keeps `percentOf`'s flooring as it is; this fix doesn't touch it.
+- Verdict: **Accept.** Partial refunds compute `percentOf(items, config.taxRate)`. A test uses
+  619 + 1019 cents and expects 131.
+
+## 2. src/refunds.js:34-38, refactor_suggestion: net `Items` and no `Restocking fee` row on the note
+
+- Issue: the suggestion is to show `Items` net of the fee and drop the `Restocking fee` row.
+- Repo: Slice 2 point 5: the note lists the refunded lines, "then a `Restocking fee` line (as a
+  negative amount) when there is one, before the totals". Slice 3 point 2 keeps `Items` as the sum
+  of the refunded lines.
+- Verdict: **Reject.** The refunds plan (`docs/plans/2026-09-30-refunds.md`, Slice 2 point 5) sets
+  the note's layout: a negative `Restocking fee` row, and `Items` as the sum of the refunded lines.
+
+## 3. src/refunds.js:7, nitpick: `skus.includes` in `linesFor`
+
+- Issue: membership test is O(n*m).
+- Repo: nothing against it; the change stays inside `linesFor`.
+- Verdict: **Accept.** `linesFor` builds a `Set` of the SKUs once and filters with `has`.
+
+## Disposition Table
+
+| # | file | title | severity | disposition |
+|---|------|-------|----------|-------------|
+| 1 | src/refunds.js:22 | Partial-refund tax summed per line | potential_issue | accept |
+| 2 | src/refunds.js:34-38 | Net `Items`, drop `Restocking fee` row | refactor_suggestion | reject |
+| 3 | src/refunds.js:7 | `Set` instead of `includes` | nitpick | accept |
+
+Accepted 2 / deferred 0 / rejected 1.

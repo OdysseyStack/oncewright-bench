@@ -1,0 +1,36 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed**, because one of the two checks didn't actually run.
+
+## Check results (`npm run check`)
+
+| Stage | Result |
+|---|---|
+| `npm test` | **34 passed, 0 failed** (30 existing tests plus 4 new ones) |
+| `scripts/check-export.sh` | **Did not run.** `ledger-check` isn't installed on this machine, so the script prints a warning and exits 0. That reads as a pass, but nothing was checked. |
+
+The slice doesn't touch the export: `src/export.js`, `bin/export-orders.js` and `examples/orders/` are unchanged. I compared `export-orders examples/orders` before and after the change and the output is byte-for-byte the same. That's my own comparison, not the bookkeeper's import check. You asked for every check to pass before a commit, so I'm leaving that call to you.
+
+I also checked that the new tests can fail. With the source changes taken out, the four new tests fail and the rest pass. The invoice test still passes then, as it should, since the invoice isn't supposed to change.
+
+## What changed
+
+1. **Validation** (`src/validate.js`): an order can have a `note` of up to 200 characters. `validateOrder` reports "the note must be text" (this includes `null`) or "the note is longer than 200 characters". The CLIs refuse such an order.
+2. **Receipt** (`src/receipt.js`): when there's a note, the receipt ends with a blank line and then `Note: …`. With a discount code, the note comes after the "Code … saved you" line. An order without a note gets exactly the receipt it got before. The invoice ignores the note.
+3. **`price-order --json`** (`bin/price-order.js`): the output includes `note` when the order has one and leaves the key out otherwise.
+4. **Example, README and tests:**
+   - `examples/order.json` now carries `"Leave it at the side door"`.
+   - The README's Orders section describes the note.
+   - The tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js` cover each point.
+5. **The plan**: its status line now says Slice 1 is done.
+
+Every changed file is one the slice names, plus the plan's status line. Nothing falls outside that list. The plan's status line is the record of this work, so I didn't add a CHANGELOG line; the export format didn't change.
+
+## Three behaviours the plan doesn't specify
+- **Empty note:** `"note": ""` passes validation, but the receipt and the JSON treat it as no note.
+- **Counting characters:** the limit counts characters as people see them, so 200 ☕ pass even though each emoji takes two units of JavaScript string length.
+- **Line breaks:** a note containing newlines is printed as it is, across several lines.
+
+Tell me if you want any of these handled differently.
+
+## Your call
+- **Commit now:** reply "commit" and I'll commit the 10 files to `order-notes`, a local branch only, since the repo has no `origin` remote.
+- **Run the import check first:** install `ledger-check`, then I'll rerun `npm run check` and commit if both stages pass.

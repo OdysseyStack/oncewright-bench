@@ -1,0 +1,16 @@
+Refunds Slice 3 is built: you can now refund some lines of an order that used a discount code. It's on a new branch, `refunds-slice-3`, built on top of `refunds-fixes`. I haven't committed it so you can review it first. The 35 tests pass, but the export import check didn't run because `ledger-check` isn't installed on this machine.
+
+**What changed (`src/refunds.js`)**
+- **Refund amounts:** a partial refund of a discounted order no longer throws an error. Each refunded line pays back its amount after its share of the discount. The tax is 8% of the sum of those amounts, and the restocking fee is 15% of the line's amount after the discount. Shipping is still refunded only when every line is.
+- **Whole refunds:** a whole refund now goes through the same calculation. Its amounts come out exactly as before, because the lines' shares of the discount always add up to the full discount.
+- **Refund note:** each line now prints at its price after the discount, as the receipt does, and the lines add up to `Items`.
+- **Fix you didn't ask for:** a whole refund of a discounted order used to print each line at full price but `Items` after the discount. That note didn't add up, so the bookkeeper's import would have rejected it. The new layout fixes this.
+- **`refund-order`:** `--code` together with `--sku` already reached `refundFor`, so the CLI needed no change.
+
+**Tests:** they cover partial refunds with SAVE10 and TAKE5, the restocking fee on a discounted line, a refund of every line matching a whole refund for each code, both note layouts, and the CLI with `--code --sku`.
+
+**Docs:** the README drops "not supported yet" and explains what `--code` does on a refund. There's a CHANGELOG line under Unreleased, and the plan marks Slice 3 done. The export format didn't change, so `docs/export-format.md` stays as it is.
+
+Neither branch has been pushed, and the repo has no remote. Slice 4 (rounding tax to the nearest cent) is still on hold, so I left `percentOf` alone.
+
+Should I commit Slice 3 on `refunds-slice-3`?

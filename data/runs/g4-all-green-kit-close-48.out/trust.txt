@@ -1,0 +1,4 @@
+Trusted in /bench/runs/g4-all-green-kit-close-48 and its git worktrees:
+  npm test
+  bash scripts/check-export.sh
+Recorded in ~/.claude/odyssey-trust.json. A changed command, or a moved repo, needs approving again.

@@ -1,0 +1,8 @@
+{
+  "id": "A-1040",
+  "date": "2026-09-01",
+  "items": [
+    { "sku": "BEANS-1KG", "name": "House beans 1kg", "unitPrice": 2400, "qty": 1 },
+    { "sku": "FILTER-100", "name": "Paper filters x100", "unitPrice": 650, "qty": 2 }
+  ]
+}

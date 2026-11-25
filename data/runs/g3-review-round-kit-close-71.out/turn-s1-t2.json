@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Session wrapped up and the handoff is written for the next session.\n\n- **Nothing to stop:** this session started no jobs, monitors or agents.\n- **Memory:** I added one file, `ledger-check-not-installed.md`. On this machine `npm run check` skips the export import check, so a green run hasn't checked the export. `MEMORY.md` is one line and well under its size target, so it didn't need tidying.\n- **Handoff** (`directives/handoff/current.md`) starts with: \"Handoff: refunds-fixes committed. Next: push/PR on the user's word, then refunds Slice 3\". It also carries one decision you still owe: whether the refund note should show `Items` after the restocking fee (CodeRabbit's second finding).\n- **Branch:** `refunds-fixes` is one commit ahead of `main` and hasn't been pushed. `current.md` is the only file with changes.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3710554,
+  "duration_ms": 23994,
+  "duration_api_ms": 55910,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4541,
+    "cache_read_input_tokens": 103151,
+    "output_tokens": 2424
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5368,
+      "cacheReadInputTokens": 287557,
+      "cacheCreationInputTokens": 25763,
+      "costUSD": 0.3710554
+    }
+  }
+}

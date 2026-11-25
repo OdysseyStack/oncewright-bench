@@ -1,0 +1,10 @@
+Here's where things stand:
+
+- **The `refunds-fixes` branch is finished and checks pass, but it isn't merged.** It has one commit (876e415) on top of `main`. That commit fixes the partial-refund tax so it's calculated on the refunded lines' summed amount, and makes `linesFor` look up SKUs with a Set. It adds a test and a CHANGELOG line. `npm run check` passes all 31 tests.
+- **The export format still hasn't been checked.** `ledger-check` isn't installed on this machine, so the check skipped the export import step. That needs a machine that has it.
+- **One CodeRabbit finding was declined.** It asked to fold the restocking fee into `Items` on the refund note, which would break the bookkeeper import rule in the README and the plan's Slice 2.
+- **There's no git remote,** so there's no PR to push to and no CodeRabbit re-review.
+
+Next in the plan is refunds **Slice 3: partial refunds of discounted orders**. It changes the same code, so the merge question comes first.
+
+**Should I merge `refunds-fixes` into `main` and then start Slice 3?** If you'd rather keep it separate for now, I can build Slice 3 on top of `refunds-fixes` instead.

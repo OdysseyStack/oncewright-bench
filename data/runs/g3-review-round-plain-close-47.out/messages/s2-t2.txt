@@ -1,0 +1,12 @@
+Slice 3 is now committed on `refunds-fixes` as 9eee2d4. I'd already built it last turn on a separate `refunds-slice-3` branch, so I didn't redo it. That branch sat directly on top of `refunds-fixes`, so I moved `refunds-fixes` forward to include the commit and deleted the extra branch.
+
+`refunds-fixes` now has two commits on top of `main`:
+- 05581c7: the CodeRabbit fixes
+- 9eee2d4: Slice 3
+
+Slice 3 covers each point in the plan:
+1. **Amounts:** each refunded line pays back its amount minus its share of the discount, plus the tax on that. An opened item's restocking fee is 15% of its discounted amount, and a whole refund gives the same amounts as Slice 1.
+2. **Refund note:** each line is printed at its discounted amount, and the lines add up to `Items`.
+3. **CLI and docs:** `refund-order --code` works with `--sku`, the README no longer says this isn't supported, and the tests cover each point. I also added a CHANGELOG line and marked Slice 3 done in the plan.
+
+`npm run check` passes on `refunds-fixes` (34 tests). Its export import check is skipped on this machine because `ledger-check` isn't installed; Slice 3 doesn't change the export. Nothing is pushed, since the repo has no remote.

@@ -1,0 +1,17 @@
+I've implemented Slice 1 on the new `order-notes` branch, but I haven't committed it. One of the two checks didn't actually run, and you asked for every check to pass before a commit.
+
+**Check results (`npm run check`):**
+- **Tests:** all 36 pass, 0 fail.
+- **Export import check:** it didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. It looks like a pass, but nothing was checked. This slice doesn't touch the export code or the order files in `examples/orders`, so I'd expect it to pass, but it hasn't been run.
+
+**What changed, by point in the plan:**
+1. `validateOrder` accepts an optional `note` of up to 200 characters. A note that isn't text gets "the note must be text", and a longer one gets "the note is longer than 200 characters". The limit counts characters, so 200 "é" pass. The change is in `src/validate.js`.
+2. When there's a note, the receipt ends with a blank line and then `Note: …`. With a discount code, the note still comes after the "Code … saved you" line. A receipt without a note and the invoice are both unchanged (`src/receipt.js`).
+3. `price-order --json` includes `note` only when the order has one (`bin/price-order.js`).
+4. `examples/order.json` now has a note, the README's Orders section describes it, and new tests cover each point. I also marked the slice done in the plan's status line.
+
+An empty note (`""`) passes validation and prints nothing, the same as having no note.
+
+I didn't touch the export format doc or the changelog, since this slice doesn't change the export format.
+
+**Decision for you:** install `ledger-check` and I'll re-run the check and commit, or tell me to commit now with a note in the message that the export check couldn't run.

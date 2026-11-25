@@ -1,0 +1,8 @@
+I saved two notes so the next session can pick this up:
+
+1. **The `refunds-fixes` branch is local only.** It has one commit (816f2dc) and hasn't been pushed or merged; the next session should ask you what to do with it. The note also records that I turned down the reviewer's suggestion to merge the restocking fee into `Items`, because it would break the bookkeeper's import. That needs agreement from whoever owns the import before anyone picks it up again.
+2. **`ledger-check` isn't installed on this machine.** So `npm run check` passing here only means the tests passed; the export import check didn't run. Any future change to the export should say so.
+
+I left out what git already has: what the fixes changed, the new test, and why I turned the suggestion down (all in the commit message).
+
+You still need to decide whether to push `refunds-fixes`, open a PR, or merge it into main.

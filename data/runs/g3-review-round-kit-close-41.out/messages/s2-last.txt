@@ -1,0 +1,13 @@
+Slice 3 is done and committed on `refunds-fixes` as `31d663b`. It isn't pushed.
+
+- **Refunds of discounted orders:** a partial refund of an order with a discount code now works instead of throwing. Each refunded line pays back its price after its share of the discount (from `computeTotals(...).lines`), plus tax on those lines added together. The 15% restocking fee is taken from the discounted price. A whole refund pays back the same as before.
+- **Refund note:** each line now shows its discounted price, and `Items` is the sum of those prices.
+- **CLI and README:** `refund-order --code` already passed the code through, so it works with `--sku` with no change to the script. The README no longer says these refunds aren't supported yet and explains how they're worked out.
+- **Tests:** they cover a partial refund with a code, the fee on the discounted price, refunding every line by SKU matching a whole refund, the note, and the CLI with `--code` and `--sku`. All 33 pass. As before, the export import check didn't run because `ledger-check` isn't installed on this machine. The export format didn't change.
+- The plan's status line and Slice 3 heading are marked done.
+
+**Found, not fixed (outside the slice):** the comment on `restockingFee` in `src/config.js` still says the fee is "a fraction of the line's amount". It's now taken from the discounted price. I can fix that comment if you want.
+
+**Still waiting on you:**
+- **Finding 2:** I didn't touch the note's `Restocking fee` row. The README (lines 56–58) says that row stays separate so the bookkeeper's import can book the fee. That's one more reason to keep it as it is.
+- **The findings file:** should I delete `review/findings-refunds.md`?

@@ -1,0 +1,28 @@
+{
+  "name": "order-pricing",
+  "version": "0.7.0",
+  "description": "Prices shop orders in integer cents: discounts, tax, shipping, receipts, invoices, refunds and the accounting export.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/totals.js",
+    "./money": "./src/money.js",
+    "./receipt": "./src/receipt.js",
+    "./invoice": "./src/invoice.js",
+    "./refunds": "./src/refunds.js",
+    "./split": "./src/split.js",
+    "./export": "./src/export.js"
+  },
+  "bin": {
+    "price-order": "bin/price-order.js",
+    "refund-order": "bin/refund-order.js",
+    "export-orders": "bin/export-orders.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "npm test && bash scripts/check-export.sh"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

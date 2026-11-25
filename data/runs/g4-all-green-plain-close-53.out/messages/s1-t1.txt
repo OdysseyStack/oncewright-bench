@@ -1,0 +1,18 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't actually run, so I can't say every check passes.
+
+**Check results**
+- **Tests: 34 of 34 pass.** That's the 30 that were there before plus 4 new ones.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine. The script prints `check-export: warning: ledger-check is not installed, so the export import check did not run` and still exits 0, so `npm run check` looks green even though this check was skipped. It was skipped on `main` before my changes too.
+
+This slice doesn't change any export code or the example orders the export reads, so the check would most likely pass. But your condition was that every check passes, so I left the changes uncommitted.
+
+**What changed**
+- **Validation:** an order may now carry `note`. `validateOrder` reports `note must be text` if it isn't a string (including `null`) and `note is longer than 200 characters` if it's too long. The length is counted in characters, so 200 ☕ count as 200. The limit is `NOTE_MAX` in `src/validate.js`.
+- **Receipt:** the receipt ends with a blank line and `Note: …`, below the "Code … saved you" line when there is one. Without a note the receipt is unchanged. The invoice is unchanged, and a test confirms it.
+- **`price-order --json`:** the output includes `note` when the order has one and leaves the field out when it doesn't.
+- **Example, README and plan:** `examples/order.json` has the note "Leave it at the side door", the README's Orders section describes `note`, and the plan's status line says Slice 1 is done.
+- **Tests:** they cover each point above, including the command-line tool refusing an order whose note is too long.
+
+An empty `note: ""` passes validation and is treated as no note, so it doesn't print or appear in the JSON. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating.
+
+**Your call:** install `ledger-check` and I'll run the full check and commit, or tell me to commit without the export check.

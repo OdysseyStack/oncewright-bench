@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 6,
+  "result": "I fixed two of CodeRabbit's three findings and turned down the third because it goes against the refunds plan. The fixes are committed as `2cb783a` on the new branch `refunds-fixes`.\n\n- **Tax on a partial refund (fixed):** the tax is now worked out once on the total of the refunded lines, as `computeTotals` does. Before, it was worked out line by line and added up, which could refund a cent too little. A new test uses lines of $6.19 and $10.19, which refunded $1.30 before and $1.31 now. That test fails on the old code. I left `percentOf` alone, because the plan's Slice 4 holds the rounding fix.\n- **SKU lookup (fixed):** `linesFor` now checks SKUs against a `Set`.\n- **Refund note (not changed):** CodeRabbit wanted the restocking fee folded into `Items` and its separate line removed. The plan (Slice 2 point 5) says the note must show the fee as its own negative line, so I kept it. If you'd rather have CodeRabbit's version, the plan needs updating first.\n\nAll 31 tests pass. The export import check in `npm run check` didn't run because `ledger-check` isn't installed, but this change doesn't affect the export.\n\nThe only files changed are `src/refunds.js` and `test/refunds.test.js`. Nothing outside the scope was touched, and the plan's status line stays as it is because Slice 2 was already marked done.",
+  "total_cost_usd": 0.2749658,
+  "duration_ms": 36364,
+  "duration_api_ms": 34650,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 12,
+    "cache_creation_input_tokens": 23453,
+    "cache_read_input_tokens": 156969,
+    "output_tokens": 2795
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 12,
+      "outputTokens": 2795,
+      "cacheReadInputTokens": 156969,
+      "cacheCreationInputTokens": 23453,
+      "costUSD": 0.2749658
+    }
+  }
+}

@@ -1,0 +1,11 @@
+Refunds Slice 3 is done and committed on `refunds-fixes` as `3142cf2`. `npm run check` passes (35 tests); the export import check didn't run because `ledger-check` isn't installed, but this change doesn't touch the export.
+
+- **Amounts (`src/refunds.js`):** a partial refund of a discounted order no longer throws. Each refunded line pays back its price after its share of the discount. The tax is 8% of those prices added together, and an opened line's restocking fee is 15% of its discounted price. Refunding every line still gives the same amounts as a whole-order refund, and orders without a code come out as before.
+- **Note:** each refunded line prints at its discounted price, and those prices add up to the `Items` line. The `Restocking fee` row stays, as Slice 2 point 5 requires.
+- **CLI:** `bin/refund-order.js` needed no change, since it already passed `--code` through. A new test covers `--code` with `--sku`.
+- **Tests (`test/refunds.test.js`):** new ones cover partial refunds with SAVE10 and with TAKE5, where the discount splits unevenly between lines. They also cover an opened line's fee, a whole order refunded line by line under three codes, and the note. The old "this throws" test is gone.
+- **README and plan:** the README drops the "not supported yet" sentence and explains what `--code` does. The plan marks Slice 3 done in its status line and heading.
+
+Nothing was pushed, because the repo still has no git remote.
+
+No files changed outside the slice's scope.

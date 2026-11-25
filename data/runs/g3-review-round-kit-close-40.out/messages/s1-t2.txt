@@ -1,0 +1,8 @@
+Wrap-up is done.
+
+- **Jobs and agents:** none were started this session, so nothing had to stop or report.
+- **Memory:** one new file, `ledger-check-not-installed`. It records that `npm run check` on this machine runs only the tests and skips the export check. It's the only line in the index, so the index is well under its size limit and I didn't tidy it.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line: "Refunds fixes from CodeRabbit are committed on `refunds-fixes` (74b51f6). Not pushed, no PR. Finding 2 is still waiting on Lincoln."
+- **Waiting on you:** whether to push `refunds-fixes` and open a PR, and whether you want CodeRabbit's note layout. That layout means changing the refunds plan first.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

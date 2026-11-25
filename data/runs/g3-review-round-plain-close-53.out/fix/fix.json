@@ -1,0 +1,82 @@
+{
+  "task": "g3-review-round",
+  "rounds": [
+    {
+      "round": 1,
+      "why": "false claim: branch 6c77422",
+      "message": "round-1.txt",
+      "turns": [
+        {
+          "s": 2,
+          "k": 1,
+          "kind": "fix",
+          "prompt": "You mentioned the branch `6c77422`, but there's no such branch.\n\nFix it on the `refunds-fixes` branch and commit.",
+          "uuid": "session-2",
+          "file": "fix1-t1.json",
+          "cost": 0.6630526,
+          "share": 0.025,
+          "ask": false,
+          "subtype": "success",
+          "exit": 0,
+          "seconds": 7,
+          "label": "fix1",
+          "message": "messages/fix1-t1.txt",
+          "state": "state/fix1-t1"
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "why": "false claim: branch 6c77422",
+      "message": "round-2.txt",
+      "turns": [
+        {
+          "s": 2,
+          "k": 1,
+          "kind": "fix",
+          "prompt": "You mentioned the branch `6c77422`, but there's no such branch.\n\nFix it on the `refunds-fixes` branch and commit.",
+          "uuid": "session-2",
+          "file": "fix2-t1.json",
+          "cost": 0.7211485999999999,
+          "share": 0.0581,
+          "ask": false,
+          "subtype": "success",
+          "exit": 0,
+          "seconds": 15,
+          "label": "fix2",
+          "message": "messages/fix2-t1.txt",
+          "state": "state/fix2-t1"
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "why": "false claim: branch 6c77422",
+      "message": "round-3.txt",
+      "turns": [
+        {
+          "s": 2,
+          "k": 1,
+          "kind": "fix",
+          "prompt": "You mentioned the branch `6c77422`, but there's no such branch.\n\nFix it on the `refunds-fixes` branch and commit.",
+          "uuid": "session-2",
+          "file": "fix3-t1.json",
+          "cost": 0.7624681999999999,
+          "share": 0.0413,
+          "ask": false,
+          "subtype": "success",
+          "exit": 0,
+          "seconds": 9,
+          "label": "fix3",
+          "message": "messages/fix3-t1.txt",
+          "state": "state/fix3-t1"
+        }
+      ]
+    }
+  ],
+  "final": {
+    "round": 3,
+    "clean": false
+  },
+  "stopped": null
+}

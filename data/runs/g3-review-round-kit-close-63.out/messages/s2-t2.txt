@@ -1,0 +1,7 @@
+Refunds Slice 3 is committed on `refunds-fixes` as `154c5dc`, on top of the tax fix (`eeb74e4`). It isn't pushed, and nothing is left uncommitted.
+
+- **What it does:** a partial refund of an order that used a discount code no longer throws an error. Each refunded line pays back its amount after its share of the discount, and tax is charged on the total of those amounts. The restocking fee on an opened line is 15% of its discounted amount. The refund note prints lines at their discounted price, and `--code` now works with `--sku`.
+- **Files in the commit:** `src/refunds.js`, `test/refunds.test.js`, `README.md`, and the plan, whose status line now marks Slice 3 done.
+- **Check:** `npm run check` passed all 36 tests before the commit. Its export import check didn't run because `ledger-check` isn't installed here. That doesn't matter for this commit, since the export format didn't change.
+
+No files outside the slice's scope were changed. Still open: should I push and open a PR, and do you want a CHANGELOG line? The repo doesn't require one here.

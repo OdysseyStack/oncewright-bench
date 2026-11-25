@@ -1,0 +1,17 @@
+Slice 1 is committed on `order-notes` as `658890c`, but one of the two checks still didn't run, so not every check has actually passed.
+
+**Check results (`npm run check`, rerun just before the commit):**
+- **Tests:** 35 of 35 pass, 0 fail.
+- **Export import check:** didn't run. `ledger-check` still isn't installed on this machine, so the script printed a warning and skipped itself. It exits 0 when it skips, so `npm run check` looks green even though this check didn't happen. The slice doesn't touch the export code or `examples/orders/`, but that's my reasoning, not a passed check. The commit message says the check was skipped.
+
+**What the commit contains:**
+- **Checking the note:** an order file may carry `note`, text up to 200 characters. `validateOrder` reports a note that isn't text or is too long.
+- **Receipt:** an order with a note ends with a blank line and then `Note: …`. Receipts without a note and the invoice are unchanged.
+- **`price-order --json`:** includes `note` when the order has one.
+- **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- **Tests:** new tests cover each of these points.
+- **Plan:** the status line now reads "Slice 1 is done (2026-11-19)."
+
+An empty note (`""`) is accepted but left off the receipt and the JSON. `docs/export-format.md` and `CHANGELOG.md` are unchanged because the export format didn't change.
+
+Nothing has been pushed. To get a real result for the export check, install `ledger-check` and run `npm run check` on the branch.

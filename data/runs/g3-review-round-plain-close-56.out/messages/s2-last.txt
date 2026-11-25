@@ -1,0 +1,16 @@
+Slice 3 is done and committed on `refunds-fixes` as `7c43b64`, on top of `1d2072c`. Nothing is pushed, because the repo has no remote.
+
+**What changed**
+- **Discounted partial refunds work now.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its `net`: its amount minus its share of the discount. For example, with `SAVE10`, refunding the filters pays back $11.70 plus $0.93 tax.
+- **Restocking fee:** for an opened line it's now 15% of the line's `net`. This also changes one case that worked before: a whole refund of a discounted order with an opened line used to charge the fee on the full amount. Orders without a code come out the same as before.
+- **Shipping** is still refunded only when every line is. A whole refund of a discounted order gives the same amounts as Slice 1.
+- **The note** prints each line at its net price, and `Items` is the sum of those prices. So the README's bookkeeper-import rule still holds: the lines add up to `Items`.
+- **CLI:** `refund-order --sku … --code …` works.
+- **Docs:** I removed the "not supported yet" note from the README and described the net pricing. I also put the `export-orders` sentence, which had run onto the end of the refund paragraph, into its own paragraph. There's a CHANGELOG line, the comment on `restockingFee` in `src/config.js` now says the fee is on the net, and the plan marks Slice 3 done.
+- **Tests:** new ones cover each point of the slice, including the CLI. `npm run check` passes with 35 tests. The export import check still didn't run because `ledger-check` isn't installed here, but this change doesn't touch the export.
+
+**Decision for you:** the plan says "the tax on it", which could mean tax on each line. I charged tax once on the total of the refunded lines' nets instead. That's how `computeTotals` charges it, and it matches the fix you just made for finding 1. Per-line tax could come out up to a cent low per line.
+
+**Known gap:** refunding an order's lines in separate refunds can pay back a cent less tax in total than the order charged. With `TAKE5`, $1.66 + $0.89 comes to $2.55 against $2.56 charged. That comes from `percentOf` dropping fractions of a cent. The plan says to leave it alone until Slice 4, so I did.
+
+Still open from before: whether to drop finding 2 for good, and where to push this branch if you want a PR.

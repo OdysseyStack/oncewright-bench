@@ -1,0 +1,16 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. `npm run check` printed green, but one of its two checks never actually ran.
+
+**Results**
+- **Tests:** all 35 pass, 0 fail. 5 of them are new and cover the slice:
+  - `validateOrder` rejects a note that isn't a string or is longer than 200 characters.
+  - The receipt ends with a blank line and then `Note: …`, with or without a discount code.
+  - A receipt without a note is unchanged.
+  - The invoice is the same whether or not the order has a note.
+  - `price-order --json` includes `note` only when the order has one, and the CLI refuses a note that's too long.
+- **Export import check: didn't run.** `ledger-check` isn't installed here, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. As the closest substitute, I ran the export on this branch and on `main`: the output is byte-for-byte identical. That fits the change, since nothing in the export reads the note. But it isn't the bookkeeper's import check.
+
+You asked for every check to pass before I commit, and the export check can't pass if it never ran. So I've left the commit for you to decide: if the identical export is good enough, say so and I'll commit. Otherwise, install `ledger-check` and I'll rerun the check first.
+
+One choice the plan left open: an empty-string note counts as no note. It's valid, but it adds no receipt line and no `note` in the JSON.
+
+**Files changed:** `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, the tests (`validate`, `receipt`, `invoice`, `cli`), and the plan's status line (now "Slice 1 is done"). Nothing outside the slice's scope. The export format is unchanged, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating.

@@ -1,0 +1,345 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index eb20f4a..a20cb39 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2,6 +2,9 @@
+ 
+ ## Unreleased
+ 
++- Pickup locations: an order's `pickupAt` names the counter; the receipt and the invoice print
++  where a pickup order is collected.
++
+ ## 0.7.0 (2026-10-04)
+ 
+ - Refunds of some of an order's lines, with a 15% restocking fee for opened items
+diff --git a/README.md b/README.md
+index 23e4fae..5edba73 100644
+--- a/README.md
++++ b/README.md
+@@ -14,7 +14,9 @@ its date, and the options it was priced with (`code`, `pickup`):
+   "items": [{ "sku": "BEANS-1KG", "name": "House beans 1kg", "unitPrice": 2400, "qty": 1 }] }
+ ```
+ 
+-`validateOrder` names every problem with an order; the CLIs refuse an order that has any.
++A pickup order may carry `pickupAt`, the counter it is collected from (`Pier Road` or `Northside`,
++as `config.pickupLocations` spells them); it then pays no shipping, and the receipt and the
++invoice say where. `validateOrder` names every problem with an order; the CLIs refuse an order that has any.
+ 
+ ## Pricing rules
+ 
+@@ -96,7 +98,7 @@ amounts). `--sku <SKU>` refunds only that line (repeat it for more): its amount
+ and the shipping only when every line is refunded. `--opened <SKU>` marks a refunded line as
+ opened: the shop keeps a 15% restocking fee of its amount. A SKU that isn't on the order is an
+ error. Partial refunds of orders that used a discount code aren't supported yet. `node bin/export-orders.js <folder>` prints the accounting export for every order file
+-in the folder: one CSV row per order, `id,date,subtotal,discount,shipping,tax,total`, amounts as
++in the folder: one CSV row per order, `id,date,subtotal,discount,shipping,tax,total,pickup`, amounts as
+ `$1234.50` (`docs/export-format.md`).
+ 
+ ## Plans
+diff --git a/bin/price-order.js b/bin/price-order.js
+index ac267fa..bfcd0b8 100755
+--- a/bin/price-order.js
++++ b/bin/price-order.js
+@@ -1,16 +1,16 @@
+ #!/usr/bin/env node
+ // price-order: price an order file from the command line.
+ import { parseArgs } from "node:util";
+-import { loadOrder } from "../src/validate.js";
++import { loadOrder, validateOrder } from "../src/validate.js";
+ import { formatMoney } from "../src/money.js";
+ import { computeTotals } from "../src/totals.js";
+ 
+-const usage = "Usage: price-order <order.json> [--json] [--pickup] [--code <CODE>]";
++const usage = "Usage: price-order <order.json> [--json] [--pickup] [--pickup-at <location>] [--code <CODE>]";
+ let args;
+ try {
+   args = parseArgs({
+     allowPositionals: true,
+-    options: { json: { type: "boolean" }, pickup: { type: "boolean" }, code: { type: "string" } },
++    options: { json: { type: "boolean" }, pickup: { type: "boolean" }, "pickup-at": { type: "string" }, code: { type: "string" } },
+   });
+ } catch (err) {
+   console.error(`price-order: ${err.message}\n${usage}`);
+@@ -30,13 +30,16 @@ if (error) {
+ 
+ let t;
+ try {
++  if (args.values["pickup-at"] !== undefined) order.pickupAt = args.values["pickup-at"];
++  const problems = validateOrder(order);
++  if (problems.length) throw new Error(problems.join("; "));
+   t = computeTotals(order, { pickup: args.values.pickup, code: args.values.code });
+ } catch (err) {
+   console.error(`price-order: ${err.message}`);
+   process.exit(1);
+ }
+ if (args.values.json) {
+-  console.log(JSON.stringify(t));
++  console.log(JSON.stringify(order.pickupAt === undefined ? t : { ...t, pickupAt: order.pickupAt }));
+ } else {
+   console.log(`Subtotal: ${formatMoney(t.subtotal)}`);
+   if (t.code) console.log(`Discount (${t.code}): ${formatMoney(-t.discount)}`);
+diff --git a/docs/export-format.md b/docs/export-format.md
+index 03ccd5e..86f67ca 100644
+--- a/docs/export-format.md
++++ b/docs/export-format.md
+@@ -17,13 +17,14 @@ There is no thousands separator.
+ | `shipping` | The shipping charged; `$0.00` for a pickup order or a free-shipping order |
+ | `tax` | Sales tax on the subtotal after the discount |
+ | `total` | `subtotal - discount + shipping + tax` |
++| `pickup` | The counter a pickup order is collected from (`Pier Road` or `Northside`); empty otherwise |
+ 
+ ## Example
+ 
+ ```
+-id,date,subtotal,discount,shipping,tax,total
+-A-1041,2026-09-02,$60.00,$6.00,$0.00,$4.32,$58.32
+-A-1042,2026-09-02,$45.00,$0.00,$0.00,$3.60,$48.60
++id,date,subtotal,discount,shipping,tax,total,pickup
++A-1041,2026-09-02,$60.00,$6.00,$0.00,$4.32,$58.32,
++A-1042,2026-09-02,$45.00,$0.00,$0.00,$3.60,$48.60,Northside
+ ```
+ 
+ Every change to this format is listed in `CHANGELOG.md`, and the bookkeeper gets told before it
+diff --git a/docs/plans/2026-10-09-pickup-locations.md b/docs/plans/2026-10-09-pickup-locations.md
+index 2d9402d..40bda2b 100644
+--- a/docs/plans/2026-10-09-pickup-locations.md
++++ b/docs/plans/2026-10-09-pickup-locations.md
+@@ -1,6 +1,6 @@
+ # Pickup locations
+ 
+-Status: Slice 1 is next. Slices 2 and 3 after it.
++Status: Slices 1, 2 and 3 done.
+ Owner: Sam Lee. Written 2026-10-09.
+ 
+ ## Why
+@@ -11,7 +11,7 @@ Pier Road.
+ 
+ Work on the `pickup-locations` branch, one commit per slice.
+ 
+-## Slice 1: the location on the order
++## Slice 1: the location on the order (done, 2026-10-11)
+ 
+ 1. `config.pickupLocations` lists the counters: `"Pier Road"` and `"Northside"`.
+ 2. An order file may carry `pickupAt`, one of those names, spelled as the config spells it.
+@@ -20,7 +20,7 @@ Work on the `pickup-locations` branch, one commit per slice.
+    not `pickup` is set as well.
+ 4. The tests cover each point above.
+ 
+-## Slice 2: the location on the receipt and the invoice
++## Slice 2: the location on the receipt and the invoice (done, 2026-10-11)
+ 
+ 1. The receipt prints `Pickup at <location>` as its last line, after a blank line, when the order
+    has `pickupAt`; the invoice prints the same line under `Bill to:`. Without `pickupAt` neither
+@@ -29,7 +29,7 @@ Work on the `pickup-locations` branch, one commit per slice.
+    <location>` sets it from the command line.
+ 3. The README's Orders section mentions `pickupAt`, and the tests cover each point above.
+ 
+-## Slice 3: the location in the export
++## Slice 3: the location in the export (done, 2026-10-11)
+ 
+ 1. The order export gets a `pickup` column after `total`: the location for an order with
+    `pickupAt`, empty otherwise. `HEADER`, `exportRow` and `exportCsv` change accordingly.
+diff --git a/examples/orders/A-1042.json b/examples/orders/A-1042.json
+index 159dc20..b05d82d 100644
+--- a/examples/orders/A-1042.json
++++ b/examples/orders/A-1042.json
+@@ -1,6 +1,7 @@
+ {
+   "id": "A-1042",
+   "date": "2026-09-02",
++  "pickupAt": "Northside",
+   "pickup": true,
+   "items": [{ "sku": "GRINDER-H", "name": "Hand grinder", "unitPrice": 4500, "qty": 1 }]
+ }
+diff --git a/src/config.js b/src/config.js
+index c8c7a93..6c5d354 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -6,6 +6,7 @@ export const config = {
+     flat: 599, // per order
+     freeOver: 5000, // orders at or above this subtotal (before any discount) ship free
+   },
++  pickupLocations: ["Pier Road", "Northside"], // the counters a pickup order can name
+   // Discount codes: a percent off the subtotal, or a fixed amount off it (never more than the subtotal).
+   codes: {
+     SAVE10: { percent: 0.1 },
+diff --git a/src/export.js b/src/export.js
+index 0e1e0d3..2041732 100644
+--- a/src/export.js
++++ b/src/export.js
+@@ -4,12 +4,12 @@
+ import { formatMoney } from "./money.js";
+ import { computeTotals } from "./totals.js";
+ 
+-export const HEADER = "id,date,subtotal,discount,shipping,tax,total";
++export const HEADER = "id,date,subtotal,discount,shipping,tax,total,pickup";
+ 
+ // An order file may carry the options it was priced with: { code, pickup }.
+ export function exportRow(order) {
+   const t = computeTotals(order, { code: order.code, pickup: order.pickup });
+-  return [order.id, order.date, ...[t.subtotal, t.discount, t.shipping, t.tax, t.total].map(formatMoney)].join(",");
++  return [order.id, order.date, ...[t.subtotal, t.discount, t.shipping, t.tax, t.total].map(formatMoney), order.pickupAt ?? ""].join(",");
+ }
+ 
+ export function exportCsv(orders) {
+diff --git a/src/invoice.js b/src/invoice.js
+index 00333bd..ecca53a 100644
+--- a/src/invoice.js
++++ b/src/invoice.js
+@@ -44,6 +44,7 @@ export function renderInvoice(order, invoice, options = {}) {
+     `${b.name}, ${b.address}. Tax ID ${b.taxId}`,
+     `Date: ${invoice.date}`,
+     `Bill to: ${invoice.customer}`,
++    ...((options.pickupAt ?? order.pickupAt) ? [`Pickup at ${options.pickupAt ?? order.pickupAt}`] : []),
+     "",
+     ...lines,
+     "",
+diff --git a/src/receipt.js b/src/receipt.js
+index c8bc2ed..78f04a2 100644
+--- a/src/receipt.js
++++ b/src/receipt.js
+@@ -25,5 +25,7 @@ export function renderReceipt(order, options = {}) {
+     ["Tax", totals.tax],
+     ["Total", totals.total],
+   ]);
+-  return totals.code ? `${text}\n\nCode ${totals.code} saved you ${formatMoney(totals.discount)}` : text;
++  const coded = totals.code ? `${text}\n\nCode ${totals.code} saved you ${formatMoney(totals.discount)}` : text;
++  const at = options.pickupAt ?? order.pickupAt;
++  return at ? `${coded}\n\nPickup at ${at}` : coded;
+ }
+diff --git a/src/totals.js b/src/totals.js
+index 2f1abc2..c390d56 100644
+--- a/src/totals.js
++++ b/src/totals.js
+@@ -13,12 +13,13 @@ export function lineTotal(item) {
+ // The free-shipping threshold looks at the subtotal before any discount.
+ // TODO: weight-based rates for wholesale (see the old spreadsheet)
+ export function shippingFor(subtotal, options = {}) {
+-  if (options.pickup) return 0;
++  if (options.pickup || options.pickupAt) return 0;
+   if (subtotal >= config.shipping.freeOver) return 0;
+   return config.shipping.flat;
+ }
+ 
+-// options.pickup: no shipping. options.code: a discount code from config.codes.
++// options.pickup, or an order with pickupAt (a counter's name): no shipping. options.code: a discount
++// code from config.codes.
+ // Returns { subtotal, discount, code, shipping, tax, total, lines } in cents; code is the code in
+ // capitals, or null. lines: one { sku, amount, discount, net } per item, where discount is the line's
+ // share of the order's discount, in proportion to its amount; allocate() makes the shares add up to it.
+@@ -27,7 +28,7 @@ export function computeTotals(order, options = {}) {
+   const subtotal = sumCents(amounts);
+   const discount = discountFor(subtotal, options.code);
+   const code = options.code === undefined ? null : findCode(options.code).code;
+-  const shipping = shippingFor(subtotal, options);
++  const shipping = shippingFor(subtotal, { ...options, pickupAt: options.pickupAt ?? order.pickupAt });
+   const tax = percentOf(subtotal - discount, config.taxRate);
+   const shares = discount === 0 ? amounts.map(() => 0) : allocate(discount, amounts);
+   const lines = order.items.map((item, i) => ({ sku: item.sku, amount: amounts[i], discount: shares[i], net: amounts[i] - shares[i] }));
+diff --git a/src/validate.js b/src/validate.js
+index 2fff1e4..58fa80d 100644
+--- a/src/validate.js
++++ b/src/validate.js
+@@ -1,11 +1,13 @@
+ // Checks orders before anything prices them.
+ import { readFileSync } from "node:fs";
++import { config } from "./config.js";
+ 
+ // Returns a list of problems, empty when the order is fine.
+ export function validateOrder(order) {
+   const problems = [];
+   if (!order || !Array.isArray(order.items)) return ["the order has no items list"];
+   if (order.items.length === 0) problems.push("the order has no items");
++  if (order.pickupAt !== undefined && !config.pickupLocations.includes(order.pickupAt)) problems.push(`pickupAt ${JSON.stringify(order.pickupAt)} is not one of ${config.pickupLocations.join(", ")}`);
+   const seen = new Set();
+   order.items.forEach((item, i) => {
+     const where = `item ${i + 1}`;
+diff --git a/test/cli.test.js b/test/cli.test.js
+index 17fce37..af80ca2 100644
+--- a/test/cli.test.js
++++ b/test/cli.test.js
+@@ -16,6 +16,9 @@ test("prints the totals of an order file", () => {
+ test("--code shows the discount; --pickup drops the shipping", () => {
+   assert.equal(run(example, "--code", "SAVE10").stdout, "Subtotal: $37.00\nDiscount (SAVE10): -$3.70\nShipping: $5.99\nTax: $2.66\nTotal: $41.95\n");
+   assert.match(run(example, "--pickup").stdout, /^Shipping: \$0\.00$/m);
++  assert.match(run(example, "--pickup-at", "Northside").stdout, /^Shipping: \$0\.00$/m);
++  assert.equal(JSON.parse(run(example, "--pickup-at", "Northside", "--json").stdout).pickupAt, "Northside");
++  assert.equal(run(example, "--pickup-at", "Downtown").status, 1);
+ });
+ 
+ test("--json prints the totals in cents", () => {
+diff --git a/test/export.test.js b/test/export.test.js
+index 7161e3c..a1a2ce8 100644
+--- a/test/export.test.js
++++ b/test/export.test.js
+@@ -8,8 +8,9 @@ const at = (p) => fileURLToPath(new URL(p, import.meta.url));
+ 
+ test("one row per order, with its options", () => {
+   const order = { id: "A-1", date: "2026-09-01", code: "TAKE5", items: [{ sku: "A", name: "A", unitPrice: 2400, qty: 1 }] };
+-  assert.equal(exportRow(order), "A-1,2026-09-01,$24.00,$5.00,$5.99,$1.52,$26.51");
+-  assert.equal(exportCsv([order]).split("\n")[0], "id,date,subtotal,discount,shipping,tax,total");
++  assert.equal(exportRow(order), "A-1,2026-09-01,$24.00,$5.00,$5.99,$1.52,$26.51,");
++  assert.equal(exportRow({ ...order, pickupAt: "Northside" }), "A-1,2026-09-01,$24.00,$5.00,$0.00,$1.52,$20.52,Northside");
++  assert.equal(exportCsv([order]).split("\n")[0], "id,date,subtotal,discount,shipping,tax,total,pickup");
+ });
+ 
+ test("export-orders writes the CSV for a folder of orders", () => {
+@@ -17,6 +18,6 @@ test("export-orders writes the CSV for a folder of orders", () => {
+   assert.equal(r.status, 0, r.stderr);
+   assert.equal(
+     r.stdout,
+-    "id,date,subtotal,discount,shipping,tax,total\nA-1041,2026-09-02,$60.00,$6.00,$0.00,$4.32,$58.32\nA-1042,2026-09-02,$45.00,$0.00,$0.00,$3.60,$48.60\n",
++    "id,date,subtotal,discount,shipping,tax,total,pickup\nA-1041,2026-09-02,$60.00,$6.00,$0.00,$4.32,$58.32,\nA-1042,2026-09-02,$45.00,$0.00,$0.00,$3.60,$48.60,Northside\n",
+   );
+ });
+diff --git a/test/invoice.test.js b/test/invoice.test.js
+index de54c5f..98bba94 100644
+--- a/test/invoice.test.js
++++ b/test/invoice.test.js
+@@ -39,3 +39,7 @@ test("with a code, the invoice shows each line's discount", () => {
+   assert.match(text, /^Subtotal +\$32\.00$/m);
+   assert.match(text, /^Total +\$40\.55$/m);
+ });
++
++test("a pickup order's invoice says where it is collected", () => {
++  assert.match(renderInvoice({ ...order, pickupAt: "Pier Road" }, invoice), /^Bill to: Northside Cafe\nPickup at Pier Road$/m);
++});
+diff --git a/test/receipt.test.js b/test/receipt.test.js
+index 427d3e8..cb3acf5 100644
+--- a/test/receipt.test.js
++++ b/test/receipt.test.js
+@@ -40,3 +40,8 @@ test("with a code, each line shows its price after the discount", () => {
+     ].join("\n"),
+   );
+ });
++
++test("a pickup order's receipt says where it is collected", () => {
++  assert.ok(renderReceipt({ ...order, pickupAt: "Northside" }).endsWith("\n\nPickup at Northside"));
++  assert.match(renderReceipt({ ...order, pickupAt: "Northside" }), /^Shipping +\$0\.00$/m);
++});
+diff --git a/test/totals.test.js b/test/totals.test.js
+index 4e73661..7953f19 100644
+--- a/test/totals.test.js
++++ b/test/totals.test.js
+@@ -43,3 +43,7 @@ test("codes: any case, never more than the subtotal, an unknown one throws", ()
+   assert.equal(discountFor(3700, undefined), 0);
+   assert.throws(() => computeTotals(order([2400, 1]), { code: "FREE" }), /FREE/);
+ });
++
++test("an order with pickupAt pays no shipping", () => {
++  assert.equal(computeTotals({ ...order([2400, 1]), pickupAt: "Pier Road" }).shipping, 0);
++});
+diff --git a/test/validate.test.js b/test/validate.test.js
+index 0ca1cc4..9dbf344 100644
+--- a/test/validate.test.js
++++ b/test/validate.test.js
+@@ -22,3 +22,9 @@ test("each problem is named", () => {
+     "item 2: qty must be a whole number, 1 or more",
+   ]);
+ });
++
++test("pickupAt names one of the counters", () => {
++  const order = { items: [{ sku: "A", name: "A", unitPrice: 100, qty: 1 }] };
++  assert.deepEqual(validateOrder({ ...order, pickupAt: "Northside" }), []);
++  assert.deepEqual(validateOrder({ ...order, pickupAt: "Downtown" }), ['pickupAt "Downtown" is not one of Pier Road, Northside']);
++});

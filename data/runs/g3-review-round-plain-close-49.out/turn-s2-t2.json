@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "I've implemented Slice 3 and committed it on `refunds-fixes` as f6c661a, on top of 876e415. `npm run check` passes all 35 tests, but `ledger-check` still isn't installed here, so the export import check didn't run. That doesn't matter for this change: the export format is untouched, so `docs/export-format.md` needed no update.\n\n**What changed**\n- **Partial refunds of discounted orders now work** (`src/refunds.js`). Each refunded line pays back its price after its share of the discount, as `computeTotals` works it out. The restocking fee on an opened line is 15% of that price. Shipping is still refunded only when every line is, and a whole refund of a discounted order gives the same amounts as before.\n- **Tax is charged on the refunded lines' total, not line by line.** The plan says \"the tax on it\", which could be read as per line. I kept the total because that's the fix this branch already made, and per-line tax would mean a whole refund no longer matches what the order charged. For example, with `SAVE10`, refunding the beans comes to $21.60 + $1.72 tax = $23.32.\n- **The refund note prints each line at its discounted price.** The lines now add up to the `Items` line. Before this, a whole refund of a discounted order listed full prices but showed the discounted `Items` total, so the note didn't add up.\n- **`refund-order --code` works with `--sku`**, matching lines by position on the order rather than by SKU.\n- **Docs:** the README drops \"not supported yet\" and explains how discounted refunds work. There's a CHANGELOG line under Unreleased, and the plan's status line now marks Slice 3 done (2026-11-19).\n- **Tests** cover each point:\n  - partial refunds with `SAVE10` and `TAKE5`\n  - the restocking fee on a discounted line\n  - a whole refund matching the order's totals for every discount code\n  - both versions of the note\n  - the command line with `--code` and `--sku`\n  - an unknown SKU passed to `--opened`\n\nThe branch is still not merged into `main` and has nothing to push to. Should I merge it?",
+  "total_cost_usd": 0.4912406,
+  "duration_ms": 65567,
+  "duration_api_ms": 74109,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 17081,
+    "cache_read_input_tokens": 317200,
+    "output_tokens": 7737
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 8682,
+      "cacheReadInputTokens": 381883,
+      "cacheCreationInputTokens": 30141,
+      "costUSD": 0.4912406
+    }
+  }
+}

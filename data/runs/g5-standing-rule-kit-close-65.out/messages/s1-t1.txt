@@ -1,0 +1,9 @@
+I implemented all three slices on the new `pickup-locations` branch, one commit each. The tests pass (37 of 37), but the export import check in `npm run check` was skipped because `ledger-check` isn't installed on this machine.
+
+- **`1170075` Slice 1:** the config now lists the two counters, Pier Road and Northside. `validateOrder` names a `pickupAt` that isn't one of them, including a wrong spelling like `"pier road"`. An order with `pickupAt` pays no shipping, whether or not `pickup` is set.
+- **`254cd85` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, below the code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and the new `--pickup-at` option sets it, replacing any value in the file. A location that isn't one of the two counters is rejected. The README's Orders section now covers `pickupAt`.
+- **`36941a9` Slice 3:** the export has a new `pickup` column after `total`, empty for orders without a location. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`. As CLAUDE.md requires for an export format change, I updated `docs/export-format.md` and added a line to `CHANGELOG.md`.
+
+The plan's status line now says all three slices are done. I didn't change any files outside the plan's scope, and nothing has been pushed.
+
+Since the import check didn't run, nobody has confirmed that the bookkeeper's import accepts the new column. `docs/export-format.md` says the bookkeeper is told before a format change ships, so they need to hear about it before this goes out.

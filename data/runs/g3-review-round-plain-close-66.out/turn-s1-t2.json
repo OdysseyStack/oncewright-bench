@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session:\n\n- **The `refunds-fixes` branch:** it's committed (`a9f4fbc`) but not merged into main. The repo has no remote, so nothing has been pushed. The note says what was fixed and why I turned down the restocking-fee change (finding 2). It also says the next session should ask you two things before going further: whether to merge, and whether the bookkeeper's import should change so finding 2 can go in. After that comes Slice 3 of the refunds plan (partial refunds of discounted orders), and the rounding in `percentOf` stays as it is until Slice 4.\n- **`ledger-check` isn't installed here:** without it, `npm run check` only prints a warning and doesn't check the export. Any change to the export needs that check run on a machine that has `ledger-check`.\n\nI didn't save anything the repo already records, such as the plan's status, the code, or the commit message. The working tree is clean, on `refunds-fixes`.",
+  "total_cost_usd": 0.39490580000000003,
+  "duration_ms": 22606,
+  "duration_api_ms": 60731,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3143,
+    "cache_read_input_tokens": 109824,
+    "output_tokens": 2310
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5809,
+      "cacheReadInputTokens": 297869,
+      "cacheCreationInputTokens": 27384,
+      "costUSD": 0.39490580000000003
+    }
+  }
+}

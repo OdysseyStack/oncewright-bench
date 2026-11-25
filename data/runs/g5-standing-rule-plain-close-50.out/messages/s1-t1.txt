@@ -1,0 +1,24 @@
+I implemented Slices 1, 2 and 3 on the new `pickup-locations` branch, one commit each, and marked each slice done in the plan's status line. `npm run check` passes, with 36 tests, but the export import check did not run because `ledger-check` isn't installed on this machine. So nothing has checked the new export column against the bookkeeper's import. Nothing is pushed.
+
+**Slice 1** (`df75249`): the location on the order.
+- `config.pickupLocations` lists `"Pier Road"` and `"Northside"`.
+- `validateOrder` rejects any other `pickupAt`, including wrong spellings like `"northside"`, with a message that names it.
+- `computeTotals` charges no shipping when the order has `pickupAt`, whether or not `pickup` is also set.
+
+**Slice 2** (`b58930d`): the location on the receipt and the invoice.
+- The receipt ends with `Pickup at <location>` after a blank line. If the order also used a code, the pickup line comes after the "Code … saved you" line.
+- The invoice prints the same line under `Bill to:`.
+- `price-order --json` includes `pickupAt` when the order has it.
+- `price-order --pickup-at <location>` replaces any `pickupAt` in the file and is checked the same way. An unknown location exits with status 1.
+- The README's Orders and CLIs sections describe all this. The `--pickup-at` test uses a new test file, `test/fixtures/pickup-northside.json`.
+
+**Slice 3** (`a23ad71`): the location in the export.
+- The export has a new `pickup` column after `total`: the location, or empty. `HEADER`, `exportRow` and `exportCsv` are updated.
+- `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`.
+- As CLAUDE.md asks, `docs/export-format.md` describes the new column, the README's column list matches it, and `CHANGELOG.md` has a line under Unreleased.
+
+Two things for you:
+- **Run the import check:** please run `npm run check` somewhere `ledger-check` is installed before this merges.
+- **Tell the bookkeeper:** `docs/export-format.md` says they get told before an export change ships, because their nightly import will now see an eighth column. That's yours to do.
+
+`price-order`'s plain-text output is unchanged, since the plan only asks for the location in `--json`.

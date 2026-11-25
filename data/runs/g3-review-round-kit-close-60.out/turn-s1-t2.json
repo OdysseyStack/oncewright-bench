@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up and the handoff for the next session is written.\n\n- **Stopped:** nothing. This session started no jobs, monitors or agents.\n- **Memory:** one new note, `check-export-ledger-check-missing`. It records that `npm run check` only runs the tests here, because `ledger-check` isn't installed and the export import check gets skipped. `MEMORY.md` is 1 line, well under its limit, so it didn't need tidying.\n- **Handoff** (`directives/handoff/current.md`, not tracked by git) opens with: \"Handoff from the refunds-fixes session (2026-11-21)\". The next session's first task is to ask you whether to push `refunds-fixes` and open a PR, or merge it. It also flags the rejected net-`Items` finding for your decision, since changing the note means changing the plan.\n- **Repo:** branch `refunds-fixes` has nothing uncommitted and is one commit ahead of `main` (`f008202`).\n\nTo continue, quit with `/exit`, then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3762094,
+  "duration_ms": 22618,
+  "duration_api_ms": 57015,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4373,
+    "cache_read_input_tokens": 107096,
+    "output_tokens": 2236
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5393,
+      "cacheReadInputTokens": 266707,
+      "cacheCreationInputTokens": 26867,
+      "costUSD": 0.3762094
+    }
+  }
+}

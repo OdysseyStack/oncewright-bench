@@ -1,0 +1,7 @@
+Wrap-up is done. No jobs or agents were running, so there was nothing to stop or wait for.
+
+- **Memory:** saved one new note, `ledger-check-not-installed.md`: on this machine `npm run check` only runs the tests, because the export import check needs `ledger-check`, which isn't installed. It has a line in `MEMORY.md`.
+- **Index:** `MEMORY.md` is 1 line and 159 bytes, well under the target, so it wasn't tidied.
+- **Handoff:** written to `directives/handoff/current.md`, which is tracked, so it now shows as an uncommitted change on `refunds-fixes`. First line: "# Handoff from 2026-11-19 (refunds-fixes)". It asks the next session to find out what you want done with `refunds-fixes` (push and open a PR, merge, or leave it). It also notes two decisions still open: a `CHANGELOG.md` line for the refund tax fix, and confirming the rejected finding about the restocking fee.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

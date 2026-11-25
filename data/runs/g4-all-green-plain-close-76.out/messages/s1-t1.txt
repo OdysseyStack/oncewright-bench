@@ -1,0 +1,21 @@
+Slice 1 is written on the new `order-notes` branch, but I haven't committed it. All 35 tests pass. The second check, the export import check, didn't run, because `ledger-check` isn't installed on this machine. `npm run check` still exits 0: `scripts/check-export.sh` just prints a warning and exits cleanly when the tool is missing. So the green result covers only the tests, and you asked that every check pass before committing.
+
+**Results**
+- **Tests:** 35 pass, 0 fail, including the 6 new ones.
+- **Export import check:** didn't run (`check-export: warning: ledger-check is not installed, so the export import check did not run`).
+- As a substitute check, I ran `export-orders` on `examples/orders` with and without the changes and the output was byte-for-byte the same. The slice doesn't touch the export code, its columns or those order files, so this change can't affect what `ledger-check` would see. That doesn't tell us whether the export passes the import check today.
+
+**What changed**
+1. **Checking the note:** `validateOrder` reports `note must be text` (a number or `null`, for example) or `note is longer than 200 characters`. `src/validate.js`
+2. **Receipt:** when the order has a note, `Note: <note>` is the last line, after a blank line. That includes coming after the discount-code line. Receipts without a note are unchanged, and the invoice is unchanged; a test checks that. `src/receipt.js`
+3. **`price-order --json`:** includes `note` when the order has one and leaves the key out otherwise. `bin/price-order.js`
+4. **Example, docs and tests:**
+   - `examples/order.json` now has `"note": "Leave it at the side door"`.
+   - The README's Orders section describes the note.
+   - Each point has tests, including the CLI refusing a 201-character note.
+   - I added a line to `CHANGELOG.md` under Unreleased.
+   - The plan's status line now says "Slice 1 is done."
+
+An empty-string note (`""`) counts as no note: the receipt adds no line and `--json` leaves the key out.
+
+**Decision for you:** install `ledger-check` and I'll rerun `npm run check` and commit if it passes, or tell me to commit now on the strength of the unchanged export.

@@ -1,0 +1,11 @@
+Slice 3 is now committed on `refunds-fixes` as 19f276c, right after the CodeRabbit fixes (e8cd717). I'd already built it in my last turn on a separate `refunds-slice-3` branch stacked on `refunds-fixes`. So I moved `refunds-fixes` forward to that commit (a fast-forward, nothing rewritten) and deleted the extra branch.
+
+Summary of the slice:
+- **Library:** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount. Tax and the 15% restocking fee are worked out on those discounted prices. Refunding every line still gives the same amounts as a whole refund.
+- **Refund note:** each line prints at its discounted price, as on the receipt, and those lines add up to `Items`, so the bookkeeper's import still works.
+- **CLI:** `refund-order --code` now works with `--sku`.
+- **Docs:** the README no longer says this isn't supported, there's a changelog line under Unreleased, and the plan marks Slice 3 done.
+
+`npm run check` passes all 33 tests on `refunds-fixes`. The export import check didn't run because ledger-check isn't installed on this machine; this change doesn't touch the export.
+
+Nothing is pushed yet. Should I push `refunds-fixes` and open a PR? Two other things are still open: whether you're fine with my declining CodeRabbit #2, and whether to delete `review/findings-refunds.md`.

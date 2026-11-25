@@ -1,0 +1,11 @@
+I fixed two of CodeRabbit's three findings and declined the third. The work is committed on the new branch `refunds-fixes` as `e8cda74`; I haven't pushed it.
+
+**Fixed**
+1. **Tax on a partial refund came out a cent low.** The tax was worked out per line and then added up, and each line could lose a fraction of a cent. It's now worked out once on the total of the refunded lines, the same way the order charged it and as the refunds plan says. The new test uses the $6.19 + $10.19 lines from the finding: the refund now pays back $1.31 in tax instead of $1.30, and I checked that the test fails on the old code. I didn't touch the rounding itself (the plan's Slice 4 says to leave it for now).
+2. **Finding which lines a refund covers** now uses a `Set`, as the third finding suggested.
+
+**Declined: folding the restocking fee into `Items` on the refund note.** That would break the bookkeeper's import. The README says the refunded lines on the note must add up to `Items`, and the fee has to be a line of its own so the import can book it. The refunds plan (Slice 2 point 5) also asks for the separate negative `Restocking fee` line. The commit message explains why it was left out.
+
+I also added a line about the tax fix to `CHANGELOG.md` under Unreleased. The export format didn't change, so `docs/export-format.md` didn't need updating.
+
+**Checks:** `npm run check` passed all 31 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export.

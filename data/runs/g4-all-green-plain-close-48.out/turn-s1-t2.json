@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 4,
+  "result": "Slice 1 is committed on `order-notes` as `8a76217`. All 34 tests pass, but the export import check still didn't run, because `ledger-check` isn't installed on this machine.\n\n**Check results** (`npm run check` exits 0):\n- **Tests:** 34 run, 34 passed, none failed.\n- **Export import check:** skipped. The script prints a warning and exits 0, so `npm run check` reports success without running it. The slice doesn't touch the export: the export of `examples/orders` is byte-for-byte the same as on `main`.\n\n**What's in the commit:**\n- **Validation:** an order may carry a `note` of up to 200 characters, and `validateOrder` reports one that isn't text or is too long.\n- **Receipt:** prints `Note: \u2026` as its last line, after a blank line. The invoice and the export are unchanged.\n- **`price-order --json`:** includes `note` when the order has one.\n- **Docs and example:** `examples/order.json` has a note, and notes are described in the README's Orders section and under Unreleased in the changelog.\n- **Tests:** they cover each point in the plan.\n- **Plan:** the status line now reads \"Slice 1 done (2026-11-19)\" and says the export import check was skipped.\n\nAn empty note (`\"\"`) still passes validation and prints nothing on the receipt or in the JSON. I left it that way because the plan doesn't say what should happen.\n\nI haven't pushed the branch. Once `ledger-check` is installed, running `npm run check` again will run the export check for real.",
+  "total_cost_usd": 0.44030080000000005,
+  "duration_ms": 17595,
+  "duration_api_ms": 65244,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 8,
+    "cache_creation_input_tokens": 2698,
+    "cache_read_input_tokens": 152345,
+    "output_tokens": 1713
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 7117,
+      "cacheReadInputTokens": 376964,
+      "cacheCreationInputTokens": 27809,
+      "costUSD": 0.44030080000000005
+    }
+  }
+}

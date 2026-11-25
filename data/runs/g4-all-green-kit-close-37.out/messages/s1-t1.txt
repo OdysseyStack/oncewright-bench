@@ -1,0 +1,17 @@
+Slice 1 is built on the `order-notes` branch, but I haven't committed it. `npm run check` has two parts and only one of them could run.
+
+**Check results**
+- **Tests: passed.** 35 of 35, up from 30 before the change.
+- **Export import check: didn't run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. That's not a pass, and you asked for every check to pass before committing. One thing does point the right way: the export of `examples/orders` is byte-for-byte the same before and after the change. That's expected, since I didn't touch the export code or those order files.
+
+**What Slice 1 now does**
+1. `validateOrder` rejects a `note` that isn't a string or is longer than 200 characters, with the message `note must be a string of up to 200 characters`.
+2. When the order has a note, the receipt ends with a blank line and then `Note: …`. That's after the "Code … saved you" line if there is one. Receipts without a note and the invoice are unchanged, and tests cover both.
+3. `price-order --json` includes `note` only when the order has one.
+4. `examples/order.json` has the note "Leave it at the side door", the README's Orders section describes notes, and the plan's status line now says Slice 1 is done.
+
+An empty note `""` counts as no note: it passes validation and isn't printed.
+
+The files changed were `src/validate.js`, `src/receipt.js`, `bin/price-order.js`, `examples/order.json`, `README.md`, the plan, and the tests for validation, receipts, invoices and the CLI. Nothing outside the slice was touched.
+
+**Decision for you:** install `ledger-check` and I'll run the full check and commit, or tell me to commit now with only the tests passing.

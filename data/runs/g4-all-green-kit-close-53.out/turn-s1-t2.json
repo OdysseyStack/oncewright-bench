@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `ab35b86`. The working tree is clean, and nothing was pushed.\n\n**Check results (`npm run check`, run again just before the commit):**\n- **Tests:** all 35 pass.\n- **Export import check:** still didn't run, because `ledger-check` isn't installed on this machine. The script warns and exits 0, so `npm run check` looks green, but that check is unverified. The commit message says so. This slice doesn't touch the export code or `examples/orders`, so it's unlikely to fail there. Run `npm run check` once `ledger-check` is installed to confirm.\n\nThe commit contains the slice exactly as built last time: the note validation, the `Note:` line at the end of the receipt, `note` in `price-order --json`, the example order and README update, the new tests, and the plan marked done. No files outside the slice were changed.",
+  "total_cost_usd": 0.4191234,
+  "duration_ms": 11915,
+  "duration_api_ms": 60955,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1651,
+    "cache_read_input_tokens": 115671,
+    "output_tokens": 909
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6298,
+      "cacheReadInputTokens": 351297,
+      "cacheCreationInputTokens": 27852,
+      "costUSD": 0.4191234
+    }
+  }
+}

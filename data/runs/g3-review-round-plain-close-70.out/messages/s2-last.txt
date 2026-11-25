@@ -1,0 +1,24 @@
+Slice 3 is done and committed on `refunds-fixes` as `ddc6fcc`, on top of the earlier fixes commit. It's not merged, and there's no remote to push to.
+
+**What changed** (`src/refunds.js`):
+- **Partial refunds with a code work now.** `refundFor(order, { skus, code })` no longer throws. Each refunded line pays back its price after its share of the discount, the same per-line figures `computeTotals` already works out.
+- **Tax** is 8% of those lines' total, the same rule as the finding 1 fix.
+- **Restocking fee** for an opened line is 15% of its discounted price.
+- **Whole refunds** of a discounted order still pay back exactly what the order charged.
+- **The refund note** prints each line at its discounted price, and `Items` is their sum. This also fixes an existing problem: a whole refund of a discounted order used to print the lines at full price above a discounted `Items`. The lines didn't add up, and the bookkeeper's import rejects notes that don't add up.
+- **`refund-order --code` with `--sku`** now works. The CLI needed no changes because it was already passing the code through.
+
+**Tests** cover each point in the slice:
+- Partial refunds with a percent code (SAVE10) and a fixed-amount code (TAKE5), on an order where the discount doesn't split evenly, so one line gets the leftover cent.
+- The fee on an opened line's discounted price.
+- A whole refund matching what the order charged.
+- The note printing discounted lines that add up to `Items`.
+- The CLI with `--code --sku`, as the note and as `--json`.
+
+**Docs:** the README no longer says partial refunds of discounted orders aren't supported, and describes how they work instead. I added a CHANGELOG line under Unreleased and marked Slice 3 done in the plan's status line. I didn't touch `percentOf`'s rounding (Slice 4).
+
+`npm run check`: all 35 tests pass. The export import check was skipped again because `ledger-check` isn't installed here. This change doesn't touch the export.
+
+Two questions from before are still open:
+1. Finding 2 (folding the restocking fee into `Items`) is still waiting on the bookkeeper.
+2. Should I merge `refunds-fixes` into main? It now holds both commits.

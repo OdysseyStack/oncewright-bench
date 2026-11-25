@@ -1,0 +1,12 @@
+**Handoff read**
+> **First:** ask the user whether to push `refunds-fixes` and open a PR. After a push to a PR branch, dispatch `/odyssey:cr-triage` in the background per the global CLAUDE.md.
+
+I read the memory it names, `ledger-check-not-installed`. A green `npm run check` on this machine only means the tests passed. The export import check has never run here.
+
+**Live state:** you're on branch `refunds-fixes`, which has one commit (`9fe9c3c`) on top of `main`, and the working tree is clean. This repo has **no git remote**: `origin` doesn't exist and `gh` finds no remotes. So there's nothing to push to yet. There's no PR either, so the CodeRabbit triage step can't start.
+
+**Two questions for you:**
+1. **Push / PR:** do you want me to add a remote and open a PR for `refunds-fixes`? If so, which remote URL? Or should the branch stay local for now?
+2. **CodeRabbit finding 2 (unconfirmed):** the last session rejected CodeRabbit's suggestion to fold the restocking fee into `Items` on the refund note. Folding it in would break refunds plan Slice 2 point 5 and the bookkeeper import rule in `README.md:55-57`: the lines must add up to `Items`, with the fee on its own line. Do you agree with rejecting it?
+
+The next planned work after this is refunds Slice 3, partial refunds of discounted orders. I'll start it when you say. I haven't changed any files.

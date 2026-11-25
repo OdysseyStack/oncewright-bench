@@ -1,0 +1,16 @@
+Slice 3 is now committed on `refunds-fixes` as `35dc805`, on top of the CodeRabbit fixes (`f0bceb4`). I'd already written it last turn on a separate branch, `refunds-slice-3`, which was exactly one commit ahead. So I moved `refunds-fixes` forward to that commit and deleted the extra branch. It's the same commit as last turn, not a new one.
+
+On `refunds-fixes`, `npm run check` passes (34 tests). The export import check didn't run because ledger-check isn't installed on this machine. That doesn't affect this change, because the export format didn't change.
+
+What the slice does:
+- A partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its amount minus its share of the discount.
+- Tax is 8% of those discounted line amounts added together.
+- The 15% restocking fee is taken from the discounted amount.
+- The refund note shows each line at its discounted price, and the restocking fee stays on its own line.
+- Refunding every line of a discounted order gives the same amounts as before.
+- `--code` now works with `--sku`.
+- I updated the README, added a line to `CHANGELOG.md`, and marked Slice 3 done in the plan.
+
+One thing to know: two partial refunds of the same order can add up to a cent less tax than the order charged. Refunding the example order's two lines separately with SAVE10 gives $1.72 + $0.93 in tax, against $2.66 charged. That comes from `percentOf` dropping fractions of a cent, which the plan leaves alone until Slice 4.
+
+Nothing is pushed. I've updated memory to say both pieces of work are on `refunds-fixes`.

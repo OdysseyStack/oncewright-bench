@@ -1,0 +1,13 @@
+I picked up where we left off. The CodeRabbit refunds work is finished and committed on the local branch `refunds-fixes` (816f2dc, one commit ahead of `main`). I re-ran `npm run check` and the branch is clean.
+
+- **Tests:** all 31 pass, including the new one for the tax on a partial refund.
+- **Export import check:** it didn't run, because `ledger-check` isn't installed on this machine. That doesn't matter for this branch, since nothing in it touches the export.
+
+**Where the three findings stand:**
+1. **Tax on a partial refund:** fixed. It's now worked out once on the refunded lines' summed amount, as Slice 2 point 1 of the plan says. The new test uses $6.19 + $10.19 at 8%, and the refund now gives back $1.31, which matches what the order charged.
+2. **SKU lookup:** fixed. `linesFor` now checks SKUs against a Set.
+3. **Restocking fee folded into the note's `Items` line:** not done, on purpose. The bookkeeper's import needs the refunded lines to add up to `Items`, and it needs the fee on its own line so it can book it. If customers find the note confusing, that needs the import owner's agreement before anyone changes it.
+
+There's also a CHANGELOG line under Unreleased. The refunds plan's status line doesn't need changing, because these were fixes inside Slice 2, which was already marked done.
+
+**Your decision:** this repo has no git remote, so I can't push or open a PR from here. Should I merge `refunds-fixes` into `main` locally, or leave it on the branch for you to look at first?

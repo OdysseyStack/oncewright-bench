@@ -1,0 +1,13 @@
+**Handoff read.** Its **First** line:
+
+> **First:** ask Lincoln whether to push `refunds-fixes` and open a PR into `main`. If he does, after the push, dispatch the `odyssey:cr-triage` background subagent per `~/.claude/CLAUDE.md`.
+
+I checked the branch just now. `refunds-fixes` is clean, with the one commit `db2c02b` on top of `main`, as the handoff says. One thing the handoff didn't mention: **the repo has no git remote** (`git branch -r` / `gh` report "no git remotes found"). So pushing and opening a PR aren't possible yet. Someone would first have to add the remote, and that's your call.
+
+Three questions for you:
+
+1. **Push and open a PR?** If yes, tell me which remote to add, or add it yourself, and I'll push `refunds-fixes`, open the PR into `main`, and start the CodeRabbit triage (`cr-triage`) in the background.
+2. **The rejected finding about the note:** CodeRabbit wanted the restocking fee folded into `Items`. I rejected it because the refunds plan (`docs/plans/2026-09-30-refunds.md`, Slice 2 point 5 and Slice 3 point 2) asks for a separate negative `Restocking fee` line. Should the plan switch to CodeRabbit's format, or stay as written? Unless you say otherwise, it stays.
+3. **`review/findings-refunds.md`** is still in the repo. Keep it or delete it?
+
+Waiting for your answers. Later on the list: Slice 3 of the refunds plan (partial refunds of discounted orders).

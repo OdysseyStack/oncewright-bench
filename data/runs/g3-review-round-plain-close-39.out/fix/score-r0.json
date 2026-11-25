@@ -1,0 +1,11 @@
+{
+  "session": 2,
+  "correct": true,
+  "inScope": false,
+  "outside": [
+    "src/config.js"
+  ],
+  "failures": [],
+  "falseClaims": [],
+  "clean": false
+}

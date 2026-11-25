@@ -1,0 +1,15 @@
+I implemented Slice 1 and committed it on the new `order-notes` branch as `49569e2`. One part of `npm run check` did not run: the export import check was skipped because `ledger-check` isn't installed on this machine.
+
+**Check results**
+- **Tests:** all 36 pass, none fail. There were 30 before; I added 6.
+- **Export import check:** skipped. `scripts/check-export.sh` prints a warning and exits 0 when `ledger-check` is missing, so `npm run check` exits 0 even though this step never ran. It was skipped the same way on `main` before I started. This slice doesn't change the export (`src/export.js` and `examples/orders/` are untouched), so the risk is low. Still, the import check needs a run on a machine that has `ledger-check` before this counts as fully verified.
+
+**What changed, by plan point**
+1. **Validation:** `validateOrder` reports `note must be text` when the note isn't a string (including `null`) and `note is longer than 200 characters` when it's too long. The 200 limit counts characters, so a note of 200 ☕ passes.
+2. **Receipt:** when the order has a note, the receipt ends with a blank line and `Note: …`. With a discount code, the note comes after the "Code … saved you" line. Without a note the receipt is unchanged, and the invoice is unchanged either way.
+3. **`price-order --json`:** includes `note` when the order has one and leaves the key out when it doesn't.
+4. **Example, docs and tests:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes the note. There are tests for validation, the receipt with and without a code, the invoice staying the same, and the CLI's JSON output and its refusal of a note that's too long.
+
+I also added a line under Unreleased in `CHANGELOG.md` and set the plan's status line to "Slice 1 is done." I didn't touch `docs/export-format.md` because the export format didn't change.
+
+An empty note (`""`) counts as no note: it's accepted, adds nothing to the receipt and is left out of `--json`.

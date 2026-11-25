@@ -1,0 +1,180 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index eb20f4a..1e0cb25 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2,6 +2,9 @@
+ 
+ ## Unreleased
+ 
++- An order may carry a `note` (delivery instructions, up to 200 characters); the receipt prints it
++  as its last line and `price-order --json` includes it.
++
+ ## 0.7.0 (2026-10-04)
+ 
+ - Refunds of some of an order's lines, with a 15% restocking fee for opened items
+diff --git a/README.md b/README.md
+index 23e4fae..3e50b9a 100644
+--- a/README.md
++++ b/README.md
+@@ -14,6 +14,10 @@ its date, and the options it was priced with (`code`, `pickup`):
+   "items": [{ "sku": "BEANS-1KG", "name": "House beans 1kg", "unitPrice": 2400, "qty": 1 }] }
+ ```
+ 
++An order may also carry a `note`, the customer's delivery instructions, up to 200 characters. The
++receipt prints it as its last line (`Note: Leave it at the side door`) so the packers see it, and
++`price-order --json` includes it; the invoice leaves it out.
++
+ `validateOrder` names every problem with an order; the CLIs refuse an order that has any.
+ 
+ ## Pricing rules
+diff --git a/bin/price-order.js b/bin/price-order.js
+index ac267fa..350f58e 100755
+--- a/bin/price-order.js
++++ b/bin/price-order.js
+@@ -36,7 +36,7 @@ try {
+   process.exit(1);
+ }
+ if (args.values.json) {
+-  console.log(JSON.stringify(t));
++  console.log(JSON.stringify(order.note ? { ...t, note: order.note } : t));
+ } else {
+   console.log(`Subtotal: ${formatMoney(t.subtotal)}`);
+   if (t.code) console.log(`Discount (${t.code}): ${formatMoney(-t.discount)}`);
+diff --git a/examples/order.json b/examples/order.json
+index c60aaf3..e956332 100644
+--- a/examples/order.json
++++ b/examples/order.json
+@@ -1,6 +1,7 @@
+ {
+   "id": "A-1040",
+   "date": "2026-09-01",
++  "note": "Leave it at the side door",
+   "items": [
+     { "sku": "BEANS-1KG", "name": "House beans 1kg", "unitPrice": 2400, "qty": 1 },
+     { "sku": "FILTER-100", "name": "Paper filters x100", "unitPrice": 650, "qty": 2 }
+diff --git a/src/receipt.js b/src/receipt.js
+index c8bc2ed..a77762c 100644
+--- a/src/receipt.js
++++ b/src/receipt.js
+@@ -14,7 +14,8 @@ function layout(rows) {
+ 
+ // options: the same options computeTotals takes (pickup, code). With a code, each line shows its
+ // price after its share of the discount, the Subtotal is after the discount, and a last line says
+-// what the code saved.
++// what the code saved. An order's note (delivery instructions for the packers) is the last line,
++// after a blank line.
+ export function renderReceipt(order, options = {}) {
+   const totals = computeTotals(order, options);
+   const text = layout([
+@@ -25,5 +26,6 @@ export function renderReceipt(order, options = {}) {
+     ["Tax", totals.tax],
+     ["Total", totals.total],
+   ]);
+-  return totals.code ? `${text}\n\nCode ${totals.code} saved you ${formatMoney(totals.discount)}` : text;
++  const withCode = totals.code ? `${text}\n\nCode ${totals.code} saved you ${formatMoney(totals.discount)}` : text;
++  return order.note ? `${withCode}\n\nNote: ${order.note}` : withCode;
+ }
+diff --git a/src/validate.js b/src/validate.js
+index 2fff1e4..66bde50 100644
+--- a/src/validate.js
++++ b/src/validate.js
+@@ -1,11 +1,18 @@
+ // Checks orders before anything prices them.
+ import { readFileSync } from "node:fs";
+ 
++// The longest delivery note an order may carry, in characters.
++export const NOTE_MAX = 200;
++
+ // Returns a list of problems, empty when the order is fine.
+ export function validateOrder(order) {
+   const problems = [];
+   if (!order || !Array.isArray(order.items)) return ["the order has no items list"];
+   if (order.items.length === 0) problems.push("the order has no items");
++  if ("note" in order) {
++    if (typeof order.note !== "string") problems.push("note must be text");
++    else if ([...order.note].length > NOTE_MAX) problems.push(`note is longer than ${NOTE_MAX} characters`);
++  }
+   const seen = new Set();
+   order.items.forEach((item, i) => {
+     const where = `item ${i + 1}`;
+diff --git a/test/cli.test.js b/test/cli.test.js
+index 17fce37..4b9cf3d 100644
+--- a/test/cli.test.js
++++ b/test/cli.test.js
+@@ -1,5 +1,8 @@
+ import assert from "node:assert/strict";
+ import { spawnSync } from "node:child_process";
++import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
+ import test from "node:test";
+ import { fileURLToPath } from "node:url";
+ 
+@@ -26,6 +29,20 @@ test("--json prints the totals in cents", () => {
+   assert.deepEqual(coded.lines.map((l) => l.net), [2160, 1170]);
+ });
+ 
++test("--json includes the order's note when it has one", () => {
++  assert.equal(JSON.parse(run(example, "--json").stdout).note, "Leave it at the side door");
++  const dir = mkdtempSync(join(tmpdir(), "price-order-"));
++  const plain = join(dir, "plain.json");
++  writeFileSync(plain, JSON.stringify({ items: [{ sku: "A", name: "A", unitPrice: 100, qty: 1 }] }));
++  assert.equal("note" in JSON.parse(run(plain, "--json").stdout), false);
++  const long = join(dir, "long.json");
++  writeFileSync(long, JSON.stringify({ items: [{ sku: "A", name: "A", unitPrice: 100, qty: 1 }], note: "x".repeat(201) }));
++  const refused = run(long);
++  assert.equal(refused.status, 1);
++  assert.match(refused.stderr, /note is longer than 200 characters/);
++  rmSync(dir, { recursive: true });
++});
++
+ test("bad input: the usage, an unknown code, a bad order", () => {
+   assert.match(run().stderr, /Usage: price-order/);
+   const unknown = run(example, "--code", "FREE");
+diff --git a/test/invoice.test.js b/test/invoice.test.js
+index de54c5f..809af9b 100644
+--- a/test/invoice.test.js
++++ b/test/invoice.test.js
+@@ -39,3 +39,7 @@ test("with a code, the invoice shows each line's discount", () => {
+   assert.match(text, /^Subtotal +\$32\.00$/m);
+   assert.match(text, /^Total +\$40\.55$/m);
+ });
++
++test("a note doesn't change the invoice", () => {
++  assert.equal(renderInvoice({ ...order, note: "Ring twice" }, invoice), renderInvoice(order, invoice));
++});
+diff --git a/test/receipt.test.js b/test/receipt.test.js
+index 427d3e8..55f1116 100644
+--- a/test/receipt.test.js
++++ b/test/receipt.test.js
+@@ -40,3 +40,12 @@ test("with a code, each line shows its price after the discount", () => {
+     ].join("\n"),
+   );
+ });
++
++test("a note is the receipt's last line, after a blank line", () => {
++  const noted = { ...order, note: "Leave it at the side door" };
++  assert.equal(renderReceipt(noted), `${renderReceipt(order)}\n\nNote: Leave it at the side door`);
++  assert.equal(
++    renderReceipt(noted, { code: "SAVE10" }),
++    `${renderReceipt(order, { code: "SAVE10" })}\n\nNote: Leave it at the side door`,
++  );
++});
+diff --git a/test/validate.test.js b/test/validate.test.js
+index 0ca1cc4..a76fcb5 100644
+--- a/test/validate.test.js
++++ b/test/validate.test.js
+@@ -22,3 +22,13 @@ test("each problem is named", () => {
+     "item 2: qty must be a whole number, 1 or more",
+   ]);
+ });
++
++test("a note is text of up to 200 characters", () => {
++  const items = [{ sku: "A", name: "A", unitPrice: 100, qty: 1 }];
++  assert.deepEqual(validateOrder({ items, note: "Ring twice" }), []);
++  assert.deepEqual(validateOrder({ items, note: "x".repeat(200) }), []);
++  assert.deepEqual(validateOrder({ items, note: "☕".repeat(200) }), []);
++  assert.deepEqual(validateOrder({ items, note: "x".repeat(201) }), ["note is longer than 200 characters"]);
++  assert.deepEqual(validateOrder({ items, note: 42 }), ["note must be text"]);
++  assert.deepEqual(validateOrder({ items, note: null }), ["note must be text"]);
++});

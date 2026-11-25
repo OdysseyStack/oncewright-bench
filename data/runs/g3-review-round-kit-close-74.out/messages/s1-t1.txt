@@ -1,0 +1,9 @@
+I accepted 2 of CodeRabbit's 3 findings and rejected 1. The fixes are committed as `52fa319` on the new branch `refunds-fixes`, which is not pushed. The tests pass (31/31), but the export import check didn't run because `ledger-check` isn't installed on this machine.
+
+- **Accepted: tax on a partial refund.** The tax was worked out line by line and added up, so each line could lose a fraction of a cent. I ran it and confirmed it: refunding lines of $6.19 and $10.19 paid back $1.30 tax, but the order charged $1.31 for them. The refunds plan says the tax is taken on the lines' total, so it now is. I added a test with those amounts.
+- **Rejected: show `Items` after the restocking fee and drop the fee line.** The README says the bookkeeper's import needs the printed lines to add up to `Items` and needs the fee as a line of its own so it can book it. The refunds plan also asks for that separate fee line. Making this change would cause every refund note with a fee to fail the import.
+- **Accepted (minor): faster SKU matching.** `linesFor` now builds a set of the listed SKUs once instead of searching the list for each line. Behaviour is unchanged and the existing tests cover it.
+
+The reasons for each decision are in `review/findings-refunds.md.resolved`. I left that file uncommitted.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`, nothing outside that scope. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` don't need updating. The plan already marks Slice 2 done.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "All three slices are on the new `pickup-locations` branch, one commit each. The 39 tests pass, but the export import check didn't run because `ledger-check` isn't installed here. So no one has checked whether the bookkeeper's import accepts the new `pickup` column.\n\n- **Slice 1** (`ba1b035`): the settings now list the two counters, \"Pier Road\" and \"Northside\". An order can name one of them in `pickupAt`. Any other value, including a different spelling like `\"northside\"`, is rejected with a message such as `pickupAt \"Downtown\" is not a pickup location (Pier Road, Northside)`. An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.\n- **Slice 2** (`b92fd89`): the receipt ends with a blank line and then `Pickup at <location>`. When there's also a discount code, that line comes after the \"Code \u2026 saved you\" line. The invoice prints the same line under `Bill to:`. Orders without `pickupAt` print exactly as before. `price-order --pickup-at <location>` sets the location and refuses a name that isn't on the list. `--json` includes `pickupAt` when the order has one. The README's Orders and CLIs sections describe all this.\n- **Slice 3** (`c81a51b`): the export gets a `pickup` column after `total`, holding the location or left empty. `examples/orders/A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`. The plan didn't mention the docs, but CLAUDE.md says any export format change needs them, so I updated `docs/export-format.md`, the export line in the README and `CHANGELOG.md` under Unreleased. Each commit also updates the plan's status line.\n\nDecisions you may want to check:\n- **Old `pickup: true` orders:** an order marked `pickup: true` with no location still pays no shipping, but its `pickup` column is empty.\n- **`--json` output:** `pickupAt` is added only by `price-order`. `computeTotals` returns the same fields as before, so other code and tests that compare its output aren't affected.\n\nBefore this ships:\n- **Run the import check:** run `npm run check` somewhere with `ledger-check` installed.\n- **Tell the bookkeeper:** the export doc says they're told before any format change ships, and every row now has an extra column, ending in a trailing comma when there's no location.\n\nNothing has been pushed.",
+  "total_cost_usd": 0.605459,
+  "duration_ms": 103417,
+  "duration_api_ms": 100030,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 38144,
+    "cache_read_input_tokens": 382095,
+    "output_tokens": 11190
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 11190,
+      "cacheReadInputTokens": 382095,
+      "cacheCreationInputTokens": 38144,
+      "costUSD": 0.605459
+    }
+  }
+}

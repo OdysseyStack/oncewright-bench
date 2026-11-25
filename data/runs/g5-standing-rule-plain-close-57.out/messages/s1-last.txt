@@ -1,0 +1,15 @@
+All three slices are on the new `pickup-locations` branch, one commit each. The 39 tests pass, but the export import check didn't run because `ledger-check` isn't installed here. So no one has checked whether the bookkeeper's import accepts the new `pickup` column.
+
+- **Slice 1** (`ba1b035`): the settings now list the two counters, "Pier Road" and "Northside". An order can name one of them in `pickupAt`. Any other value, including a different spelling like `"northside"`, is rejected with a message such as `pickupAt "Downtown" is not a pickup location (Pier Road, Northside)`. An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.
+- **Slice 2** (`b92fd89`): the receipt ends with a blank line and then `Pickup at <location>`. When there's also a discount code, that line comes after the "Code … saved you" line. The invoice prints the same line under `Bill to:`. Orders without `pickupAt` print exactly as before. `price-order --pickup-at <location>` sets the location and refuses a name that isn't on the list. `--json` includes `pickupAt` when the order has one. The README's Orders and CLIs sections describe all this.
+- **Slice 3** (`c81a51b`): the export gets a `pickup` column after `total`, holding the location or left empty. `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`. The plan didn't mention the docs, but CLAUDE.md says any export format change needs them, so I updated `docs/export-format.md`, the export line in the README and `CHANGELOG.md` under Unreleased. Each commit also updates the plan's status line.
+
+Decisions you may want to check:
+- **Old `pickup: true` orders:** an order marked `pickup: true` with no location still pays no shipping, but its `pickup` column is empty.
+- **`--json` output:** `pickupAt` is added only by `price-order`. `computeTotals` returns the same fields as before, so other code and tests that compare its output aren't affected.
+
+Before this ships:
+- **Run the import check:** run `npm run check` somewhere with `ledger-check` installed.
+- **Tell the bookkeeper:** the export doc says they're told before any format change ships, and every row now has an extra column, ending in a trailing comma when there's no location.
+
+Nothing has been pushed.

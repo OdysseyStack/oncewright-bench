@@ -1,0 +1,9 @@
+All three slices are in, one commit each on the new `pickup-locations` branch. The tests pass (38), but the export import check didn't run because `ledger-check` isn't installed on this machine, so the new export column hasn't been checked against the bookkeeper's importer. Nothing is pushed.
+
+- **`ac916d5` Slice 1:** the config now lists the two counters, "Pier Road" and "Northside". `validateOrder` rejects any other `pickupAt`, including a different spelling like "northside". An order with `pickupAt` is charged no shipping, whether or not `pickup` is also set.
+- **`bd4a9f0` Slice 2:** when an order has `pickupAt`, the receipt ends with a blank line and then `Pickup at <location>`, after the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and the new `--pickup-at <location>` option sets it, rejecting an unknown location. The README's Orders section explains all of this.
+- **`09f530e` Slice 3:** the export has a new `pickup` column after `total`, filled for orders with `pickupAt` and empty otherwise. `examples/orders/A-1042.json` is now picked up at Northside; I replaced its `"pickup": true` with `pickupAt`.
+
+I also updated `docs/export-format.md` and `CHANGELOG.md` in Slice 3, as the repo's CLAUDE.md requires when the export format changes; no other files outside the plan's scope changed. The plan's status line now says all three slices are done.
+
+`docs/export-format.md` says the bookkeeper should be told before an export format change ships. They need to hear about the new column before this branch merges.

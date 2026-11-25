@@ -1,0 +1,16 @@
+Slice 1 is now committed on `order-notes` as `2da341e`, and the working tree is clean. The bookkeeper's import check still didn't run, so not every check has actually passed.
+
+**`npm run check` results**
+- **Tests: 35 run, 35 pass, 0 fail.**
+- **Export import check: did not run.** `ledger-check` still isn't installed here. The script printed its "not installed" warning and exited 0, so `npm run check` says it succeeded, but nothing checked the export. I committed anyway because you asked me to. The commit message says the import check was skipped, so the history doesn't suggest it passed.
+
+The risk to the export is low: this slice doesn't touch `src/export.js` or `examples/orders/`, and `export-orders` gives exactly the same output as on `main`. Once `ledger-check` is installed, run `npm run check` again to confirm.
+
+**What the commit contains**
+- `validateOrder` rejects a `note` that isn't a string or is longer than 200 characters.
+- The receipt ends with a blank line and then `Note: …` when the order has a note. Without a note it's unchanged, and the invoice never shows the note.
+- `price-order --json` includes `note` only when the order has one.
+- `examples/order.json` has a note, the README's Orders section describes it, and tests cover each of these points.
+- The plan's status line reads "Slice 1 is done."
+
+I haven't pushed the branch.

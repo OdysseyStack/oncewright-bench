@@ -1,0 +1,12 @@
+I fixed two of CodeRabbit's three findings, declined one, and committed as `50fbff7` on the new branch `refunds-fixes`. Nothing is pushed.
+
+**Fixed:**
+- **Tax on a partial refund:** it was a cent low on some orders. The refund now works out tax on the refunded lines' combined amount, which is how the order charged it and what the refunds plan (Slice 2 point 1) asks for. I added a test with two lines, $6.19 and $10.19: it expected 131¢ and got 130¢ before the fix.
+- **SKU lookup in `linesFor`:** it now checks SKUs against a `Set`. Behaviour is unchanged.
+
+**Declined:**
+- **Refund note layout:** CodeRabbit wanted `Items` shown after the restocking fee, with no separate fee row. The refunds plan (Slice 2 point 5) asks for exactly that row, as a negative amount, and Slice 3 keeps `Items` as the sum of the refunded lines. So the note stays as it is.
+
+**Checks:** `npm run check` passes, 31 of 31 tests. The export import check didn't actually run because `ledger-check` isn't installed here. That doesn't matter for this change, since the export format didn't change.
+
+The reasons for each decision are in `review/findings-refunds.md.resolved`, which I left out of the commit. The only files changed are `src/refunds.js` and `test/refunds.test.js`, both within the scope of the findings. The plan already marks Slice 2 done, so its status line is unchanged.

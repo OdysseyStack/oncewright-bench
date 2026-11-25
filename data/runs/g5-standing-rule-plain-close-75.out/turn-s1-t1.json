@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 12,
+  "result": "All three slices are on the new `pickup-locations` branch, one commit each. The tests pass (38, up from 30), but the export import check never ran: `ledger-check` isn't installed on this machine, so `npm run check` skipped it with a warning. That leaves the new export column untested against the bookkeeper's import.\n\n- **Slice 1 (`c00f81d`):** the config now lists the two counters, `\"Pier Road\"` and `\"Northside\"`. `validateOrder` reports any `pickupAt` that isn't one of them, spelled exactly as the config spells it, so `\"northside\"` is rejected. An order with `pickupAt` pays no shipping, even if `pickup: false` is passed.\n- **Slice 2 (`4307102`):** the receipt's last line is `Pickup at <location>`, after a blank line. If the order also used a discount code, it comes after the \"saved you\" line. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has one. `--pickup-at <location>` sets it, and an unknown location is rejected the same way as in an order file. The README's Orders and CLIs sections describe it.\n- **Slice 3 (`12f806e`):** the export has a new `pickup` column after `total`, empty for orders without `pickupAt`. In `examples/orders/A-1042.json` I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"` rather than keeping both. Per CLAUDE.md, I updated `docs/export-format.md`, added a line to `CHANGELOG.md` under Unreleased, and fixed the column list in the README.\n\nThe plan's status line is updated after each slice and now marks all three done.\n\nBefore you merge:\n- **Run the import check:** run `npm run check` somewhere `ledger-check` is installed. The `harbor-csv` format may not accept the extra column, especially since it's empty on most rows.\n- **Tell the bookkeeper:** `docs/export-format.md` says the bookkeeper is told before any format change ships, and adding this column is one.\n\nI haven't pushed the branch or opened a PR.",
+  "total_cost_usd": 0.6194836,
+  "duration_ms": 108177,
+  "duration_api_ms": 103915,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 24,
+    "cache_creation_input_tokens": 37200,
+    "cache_read_input_tokens": 424938,
+    "output_tokens": 11840
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 11840,
+      "cacheReadInputTokens": 424938,
+      "cacheCreationInputTokens": 37200,
+      "costUSD": 0.6194836
+    }
+  }
+}

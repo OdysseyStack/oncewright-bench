@@ -1,0 +1,13 @@
+Slice 3 is done and committed on `refunds-fixes` as 95e5013. All 35 tests pass. The export import check in `npm run check` didn't run, because `ledger-check` isn't installed on this machine. This change doesn't touch the export.
+
+- **Partial refunds of discounted orders now work** (`src/refunds.js`). Before, they were an error. Each refunded line pays back its net: its amount less its share of the discount. Tax is taken on the refunded lines' summed nets, the way an order's tax is charged. An opened line's restocking fee is 15% of its net. A whole refund of a discounted order still gives the same amounts as before.
+- **The refund note** prints each line at its net price, and the lines add up to `Items`.
+- **refund-order** accepts `--code` together with `--sku`. The README drops the "not supported yet" note and documents this. I also updated the comment at the top of `bin/refund-order.js`.
+- **New tests** in `test/refunds.test.js` cover partial refunds with `SAVE10` and with `TAKE5`. `TAKE5`'s $5.00 doesn't split evenly between the lines, so it checks where the spare cent goes. They also cover the fee on an opened line's net, all-lines-equals-whole for each code, the note with a code, and the CLI with `--code --sku`. These tests fail on the old code.
+- **The plan** now marks Slice 3 done, dated 2026-11-19.
+
+One behaviour change: on a whole refund of a discounted order with an opened line, the fee is now 15% of the net rather than of the full amount. The plan asks for this, but it gives a different amount from before.
+
+Found but not fixed, since it's outside the slice: the comment in `src/config.js` still says the restocking fee is "a fraction of the line's amount". Now it's a fraction of the net.
+
+The branch is two commits ahead of `main` and still has no remote, so nothing is pushed.

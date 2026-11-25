@@ -1,0 +1,6 @@
+I saved two memory notes for the next session:
+
+- **Where the `refunds-fixes` branch stands:** commit 4534d48 fixes findings 1 and 3. It hasn't been pushed or merged, and there's no PR. I left finding 2 (folding the restocking fee into `Items`) out on purpose, since it would break the bookkeeper's import. It shouldn't be made unless you confirm that whoever owns the import has agreed. The note also says that refunds Slice 3, the next planned work, touches the same code, so it should start from this branch or wait until it's merged.
+- **`ledger-check` isn't installed here:** without it, `npm run check` passes but quietly skips the export import check. So a passing run isn't full verification for any change that touches the export.
+
+The repo needed no changes: the refunds plan's status line ("Slices 1 and 2 done, Slice 3 next") is still accurate. Still open for you: push the branch or open a PR, and decide what to do about finding 2.

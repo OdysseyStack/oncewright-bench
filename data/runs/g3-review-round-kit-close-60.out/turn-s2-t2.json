@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 3 is implemented and committed on `refunds-fixes` as `107c7b8`. The branch is now two commits ahead of `main`, not pushed.\n\n- **Refund amounts** (`src/refunds.js`): a partial refund of a discounted order no longer throws. Each refunded line pays back its amount less its share of the discount (its \"net\"). Tax is 8% of those lines' combined nets, and an opened line's restocking fee is 15% of its net. A whole refund of a discounted order still gives the same amounts as before.\n- **Refund note:** each line now shows its net price, and the lines add up to `Items`.\n- **`refund-order`:** `--code` was already passed through; it works with `--sku` now that the error is gone. Only the header comment in `bin/refund-order.js` changed.\n- **README:** the \"not supported yet\" note is gone, replaced by a description of how `--code` works with refunds, plus a library example. That note had also run the `export-orders` paragraph onto the same line, so I split it back out.\n- **Tests** (`test/refunds.test.js`): new tests cover each point. For example, with SAVE10 the filters refund $11.70 + $0.93 tax, and with TAKE5 the opened beans keep a $3.11 fee instead of $3.60. These would fail on the old code.\n- **Plan:** Slice 3 is marked done in `docs/plans/2026-09-30-refunds.md`.\n\n`npm run check`: all 35 tests pass. The export import check did not run because ledger-check isn't installed here. This slice doesn't touch the export, so `docs/export-format.md` and `CHANGELOG.md` don't need changes.\n\nAll changed files are inside the slice's scope.",
+  "total_cost_usd": 0.5038148,
+  "duration_ms": 64095,
+  "duration_api_ms": 74256,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 20444,
+    "cache_read_input_tokens": 331052,
+    "output_tokens": 6863
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 8002,
+      "cacheReadInputTokens": 395234,
+      "cacheCreationInputTokens": 33079,
+      "costUSD": 0.5038148
+    }
+  }
+}

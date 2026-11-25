@@ -1,0 +1,15 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it. Of the two checks, the tests pass and the export import check didn't run. You said every check had to pass before committing, so I stopped there.
+
+**Check results** (`npm run check`, exits with code 0):
+- **Tests:** 34 of 34 pass (30 before this change).
+- **Export import check:** did not run. The script prints "ledger-check is not installed, so the export import check did not run" and still exits 0, so `npm run check` looks green without it. `ledger-check` isn't installed on this machine, so I couldn't run it. As a partial substitute, I compared the export of `examples/orders` from `main` and from this branch, and the output is byte-for-byte identical. Whatever `ledger-check` thought of the export on `main`, it would think the same here. That isn't the same as the check passing, though.
+
+**What changed, by point in the plan:**
+1. **Checking the note:** `validateOrder` now reports `note must be text` (including for `null`) and `note is longer than 200 characters`. Length is counted in characters, so a note of 200 emoji is allowed. The limit is defined once as `NOTE_MAX` in `src/validate.js`.
+2. **Receipt:** prints `Note: …` as its last line, after a blank line. With a discount code, it comes after the "Code … saved you" line. A receipt without a note is unchanged, and so is the invoice. An empty note (`""`) is treated as no note.
+3. **`price-order --json`:** includes `note` only when the order has one.
+4. **Example, docs, tests:** `examples/order.json` now has `"note": "Leave it at the side door"`. The README's Orders section describes the note. New tests cover each point: validation, the receipt with and without a code, the empty note, the invoice staying the same, and `--json` with and without a note.
+
+I also added a line to `CHANGELOG.md` under Unreleased and set the plan's status line to "Slice 1 is done." The export format is unchanged, so `docs/export-format.md` didn't need an update.
+
+**Decision for you:** to have the import check actually run, install `ledger-check` and I'll run it, then commit. If you're happy with the identical-export comparison instead, tell me and I'll commit as is.

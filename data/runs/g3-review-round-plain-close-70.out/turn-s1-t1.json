@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 7,
+  "result": "I made two of CodeRabbit's three changes and skipped the third. Everything is committed on the new branch `refunds-fixes` as `a4f4cde`.\n\n**1. Tax on a partial refund (fixed).** The refund worked out tax for each line separately and added the results. Each line drops its fraction of a cent, so the total could come out a cent or more below what the order charged. It now takes tax once on the refunded lines added together, which is what the refunds plan (Slice 2, point 1) says and how the order's own total charges it. I added a test with lines of $6.19 and $10.19: the refund now gives $1.31 tax where it used to give $1.30. This changes the amounts customers get back, so I added a line to `CHANGELOG.md` under Unreleased.\n\n**2. Folding the restocking fee into `Items` (skipped).** CodeRabbit wanted the note's `Items` line to show the amount after the fee and the separate `Restocking fee` line removed. That would break things:\n- The README says the bookkeeper's import checks refund notes and records the fee from its own line (\"The fee stays a line of its own, so the import can book it\").\n- The plan (Slice 2, point 5) asks for that line.\n- With the fee taken out, the refunded lines would no longer add up to `Items`, so the import would reject the note.\n\nIf you do want this change, it has to be agreed with the bookkeeper first.\n\n**3. Faster SKU lookup (done).** It's a small change and doesn't affect any results.\n\n**Checks:** all 31 tests pass, but the export import check didn't run because `ledger-check` isn't installed on this machine. None of these changes touch the export, but `npm run check` hasn't fully passed here.",
+  "total_cost_usd": 0.2855058,
+  "duration_ms": 40623,
+  "duration_api_ms": 39746,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 22496,
+    "cache_read_input_tokens": 185209,
+    "output_tokens": 3422
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 3422,
+      "cacheReadInputTokens": 185209,
+      "cacheCreationInputTokens": 22496,
+      "costUSD": 0.2855058
+    }
+  }
+}

@@ -1,0 +1,14 @@
+Slice 3 is done and committed on `refunds-fixes` as `5ba6d75`. It's not pushed, and the repo has no remote anyway.
+
+**What changed:**
+- **`src/refunds.js`:** a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its amount after its share of the discount (its net). The restocking fee on an opened line is now 15% of that net.
+- **Tax:** I kept tax as one calculation on the sum of the refunded nets, as the handoff asked. The plan's wording ("the tax on it at the tax rate") could be read as tax per line, which would come out a cent low on some refunds.
+- **Refund note:** each line is printed at its net price, so the lines still add up to `Items`, as the bookkeeper's import requires.
+- **Whole refunds:** refunding every line of a discounted order gives the same amounts as before.
+- **`test/refunds.test.js`:** I removed the "discounted partial refund is an error" check and added tests for each point in the slice. Four of the new tests fail against the old code. The fifth, the whole-refund one, passes on both versions; it guards behaviour that should not change.
+- **`README.md`:** dropped the "not supported yet" note and documented `--code` with `--sku`.
+- **The plan:** Slice 3 is marked done in its status line.
+
+`npm run check` passes with 35/35 tests. The export import check was skipped because `ledger-check` isn't installed, so only the tests ran.
+
+`bin/refund-order.js` needed no change: it already passed `--code` through, and the new tests confirm it works with `--sku`. I changed no files outside the scope. The comment on `restockingFee` in `src/config.js` still says the fee is "a fraction of the line's amount" when it's now of the net; I left it alone because it's outside the scope.

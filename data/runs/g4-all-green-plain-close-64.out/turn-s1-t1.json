@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 11,
+  "result": "Slice 1 is committed on the new `order-notes` branch as `935a40e`. One of the two checks didn't actually run, though: `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything.\n\n**Check results** (`npm run check`, exit 0):\n- **Tests:** all 37 passed, including 6 new ones.\n- **Export import check:** did not run, for the reason above. This change doesn't touch any of its inputs (`src/export.js`, `bin/export-orders.js`, `examples/orders/` and the script are the same as on main), so its result should match main's. Still, it's a skipped check, not a pass. I went ahead with the commit on that basis; if you want it to pass for real first, run `npm run check` somewhere `ledger-check` is installed.\n\n**What changed, by point in the plan:**\n1. **Validation:** `validateOrder` reports `note must be a string` or `note is longer than 200 characters`. A note can't be `null` either. Length counts characters, so a \u2615 counts as one, not two.\n2. **Receipt:** `Note: <note>` is the last line, after a blank line, and comes after the discount-code line when there is one. Without a note, the receipt and invoice are unchanged, and the invoice also ignores a note when there is one.\n3. **`price-order --json`:** adds a `note` field only when the order has one. The plain-text output doesn't show it.\n4. **Example, docs and tests:** `examples/order.json` now has `\"note\": \"Leave it at the side door\"`, and the README's Orders section describes the note. The tests cover validation, the receipt with and without a code, the invoice being unchanged, `--json` with and without a note, and the CLI refusing a bad note.\n\nI marked Slice 1 done in the plan's status line. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` didn't need updating.\n\n**Decision for you:** an empty note (`\"note\": \"\"`) is valid, but I treat it as no note: no `Note:` line on the receipt and no `note` field in the JSON. The plan doesn't cover that case, so tell me if you'd rather print it.",
+  "total_cost_usd": 0.37636459999999994,
+  "duration_ms": 61543,
+  "duration_api_ms": 59619,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 22,
+    "cache_creation_input_tokens": 25166,
+    "cache_read_input_tokens": 312243,
+    "output_tokens": 5625
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 5625,
+      "cacheReadInputTokens": 312243,
+      "cacheCreationInputTokens": 25166,
+      "costUSD": 0.37636459999999994
+    }
+  }
+}

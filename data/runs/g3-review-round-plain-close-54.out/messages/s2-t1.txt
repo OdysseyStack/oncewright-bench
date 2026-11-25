@@ -1,0 +1,14 @@
+Here's where we left off. The CodeRabbit refunds fixes are committed on `refunds-fixes` (94552d3, one commit on top of `main`). `npm run check` passes all 31 tests. The export import check still gets skipped because `ledger-check` isn't installed on this machine.
+
+- **Finding 1 (partial-refund tax):** fixed. Tax is now worked out on the refunded lines' total, the same way the order charged it, and a test covers it.
+- **Finding 3 (Set in `linesFor`):** done.
+- **Finding 2 (fold the restocking fee into `Items`):** declined. The bookkeeper's import needs `Items` to equal the sum of the refunded lines, with the fee on its own line.
+
+The memory note says the next step was push + PR, but this repo has no git remote, so there's nowhere to push yet. That also means CodeRabbit triage won't run. `review/findings-refunds.md` is still in the repo.
+
+What would you like next?
+1. **Merge `refunds-fixes` into `main` locally**, and delete `review/findings-refunds.md` now that it's been handled.
+2. **Start refunds Slice 3**, partial refunds of discounted orders. It's next in `docs/plans/2026-09-30-refunds.md`, and the line-discounts work it depends on is done.
+3. **Add a remote and open a PR**, if there's one you want to use. Tell me the URL.
+
+My recommendation is 1, then 2.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `84df881`, but only one of the two checks actually ran.\n\n- **Tests:** all 36 pass, 0 failed.\n- **Export import check: still didn't run.** `ledger-check` isn't installed here. The script prints a warning and exits 0 anyway, so `npm run check` reports success without having checked anything. This slice doesn't change the export code or the example orders, and the export output is byte-for-byte the same as on `main`. That's strong evidence, but it's not the import check. The commit message says the check didn't run. Run `npm run check` on a machine with `ledger-check` installed to settle it.\n\nThe commit includes the code, tests, example order and README changes from before, plus the plan's status line marking Slice 1 done. Nothing outside the slice's scope changed, and nothing was pushed.",
+  "total_cost_usd": 0.4490046,
+  "duration_ms": 12605,
+  "duration_api_ms": 69614,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1540,
+    "cache_read_input_tokens": 117882,
+    "output_tokens": 880
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 6816,
+      "cacheReadInputTokens": 421823,
+      "cacheCreationInputTokens": 28527,
+      "costUSD": 0.4490046
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is built on the new `order-notes` branch, but I haven't committed it, because one of the two checks never ran.\n\n**Check results (`npm run check`):**\n- **Tests: 34 of 34 pass** (30 old plus 4 new). With the source changes removed, three of the new tests fail, so they do test the new code. The fourth (the invoice doesn't change) passes either way, as it should.\n- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. `npm run check` reports success, but that check was skipped, not passed. It was already skipped before I made any changes. This slice doesn't touch the export, but you asked for every check to pass before committing, so I've held off. Say the word and I'll commit, or install `ledger-check` and I'll run the full check first.\n\n**What changed (all four points of the slice):**\n1. `src/validate.js`: an order with a `note` that isn't a string gets \"note must be a string\". One over 200 characters gets \"note is longer than 200 characters\".\n2. `src/receipt.js`: a receipt for an order with a note ends with a blank line and then `Note: \u2026`, after the \"Code \u2026 saved you\" line if there is one. An order with no note gets the same receipt as before, and the invoice doesn't change.\n3. `bin/price-order.js`: `--json` includes `note` when the order has one.\n4. `examples/order.json` has a note, the README's Orders section explains it, and there are tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.\n\nThe plan's status line now says \"Slice 1 is done.\" No files outside the slice were changed.\n\nTwo choices the plan didn't settle:\n- A note of `\"\"` counts as no note, so it neither shows on the receipt nor goes into the JSON.\n- The 200-character limit counts what a person sees as characters, so an emoji counts as one.\n\nA note containing a line break would print over more than one line on the receipt; the plan doesn't say how to handle that.",
+  "total_cost_usd": 0.4008782,
+  "duration_ms": 63167,
+  "duration_api_ms": 59602,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 28041,
+    "cache_read_input_tokens": 277591,
+    "output_tokens": 6048
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 6048,
+      "cacheReadInputTokens": 277591,
+      "cacheCreationInputTokens": 28041,
+      "costUSD": 0.4008782
+    }
+  }
+}

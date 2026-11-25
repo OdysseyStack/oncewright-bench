@@ -1,0 +1,11 @@
+I saved two notes to memory for the next session, so it's safe to quit now. No background agents or browser tabs are open.
+
+**State of the work**
+- `refunds-fixes` holds one commit, `01c66ff`, with fixes for findings 1 and 3. It isn't pushed and there's no PR. The working tree is clean and `npm run check` passes.
+- Finding 2 (fold the restocking fee into `Items` on the refund note) is declined but still waiting on your call. If you overrule it, the README's import paragraph and Slice 2 point 5 of the plan have to change with it.
+
+**Notes saved**
+- **Branch status:** the above, so the next session doesn't redo findings 1 and 3. It also notes that pushing to a PR branch starts the automatic CodeRabbit triage.
+- **`ledger-check` isn't installed here:** a passing `npm run check` on this machine runs only the tests, not the export import check. Any change to the export format has to be checked somewhere `ledger-check` is installed.
+
+**Next:** push `refunds-fixes` and open a PR when you're ready, and decide on finding 2.

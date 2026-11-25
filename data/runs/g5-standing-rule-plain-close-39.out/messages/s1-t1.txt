@@ -1,0 +1,14 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (38, up from 30). Nothing is pushed.
+
+- **`e186bf4` Slice 1:** `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` names a `pickupAt` that isn't one of them, spelled exactly as the config spells it, so `"northside"` is refused. `computeTotals` charges no shipping on an order with `pickupAt`, whether or not `pickup` is set.
+- **`db52b74` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, and comes after the "Code … saved you" line when there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt` when the order has it. `--pickup-at <location>` sets it, and the order is checked again so an unknown counter is refused. The README's Orders and CLI sections cover it.
+- **`de51018` Slice 3:** the export has a `pickup` column after `total`: the location, or empty. `A-1042` is now `"pickupAt": "Northside"` in place of `"pickup": true`. `docs/export-format.md`, the README and `CHANGELOG.md` (under Unreleased) describe the new column.
+
+The plan's status line now reads "Slices 1, 2 and 3 done."
+
+**Before Slice 3 goes anywhere:**
+- **The export import check didn't run.** `ledger-check` isn't installed here, so `npm run check` passed with only a warning. Nothing has confirmed that the bookkeeper's import accepts the extra column.
+- **Another plan says the export shouldn't change yet.** `docs/plans/2026-10-07-ledger-export.md` says "The nightly CSV export stays exactly as it is until the move is done", and that move hasn't started. Slice 3 changes the export, as this plan asks, so the two plans disagree. You'll want to settle which one wins before this merges. Slice 3 is its own commit, so it's easy to hold back.
+- **The bookkeeper needs telling.** `docs/export-format.md` says they get told before any format change ships.
+
+I also added a changelog line for the pickup locations feature itself, alongside the required one for the export column.

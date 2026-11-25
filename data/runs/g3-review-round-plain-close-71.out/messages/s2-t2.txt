@@ -1,0 +1,11 @@
+Slice 3 is committed on `refunds-fixes` as `de2e09f`, on top of the tax fix (`0634c68`). `npm run check` passes all 35 tests, but the export import check didn't run because `ledger-check` isn't installed on this machine.
+
+It's the code I wrote earlier this session that was waiting uncommitted. I moved it onto `refunds-fixes` and deleted the temporary `refunds-slice-3` branch, which had no commits of its own. Before committing I checked the diff against each point in the plan:
+
+1. **Partial refunds of discounted orders work now.** Each refunded line pays back its net, meaning its amount less its share of the discount. An opened line's restocking fee is 15% of its net. Tax is charged on the total of the refunded lines, so refunding every line one by one gives the same amounts as a whole refund (Slice 1).
+2. **The refund note** prints each line at its net price, and `Items` is the sum of those. The restocking fee is still a line of its own, as the bookkeeper's import needs.
+3. **`refund-order --code` now works with `--sku`.** The README no longer says this isn't supported, and the tests cover each point.
+
+The README, the changelog (under Unreleased) and the plan's status line are updated in the same commit. The export format didn't change, so `docs/export-format.md` didn't need touching.
+
+`refunds-fixes` still isn't pushed and has no PR. Tell me if you want either.

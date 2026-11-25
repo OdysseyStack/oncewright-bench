@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings, turned down the third, and committed on the new branch `refunds-fixes` (4bb0462).
+
+- **Fixed: tax on a partial refund.** The tax was worked out line by line, so each line could lose a fraction of a cent. It's now worked out on the total of the refunded lines, which is what the refunds plan says (Slice 2 point 1). A new test uses lines of $6.19 and $10.19: the refund now gives back $1.31 of tax, the same as the order charged, where it used to give $1.30.
+- **Fixed: SKU lookup.** `linesFor` now checks SKUs against a `Set`. Nothing it returns changes.
+- **Not done: removing the restocking fee row from the refund note.** The README (lines 55–57) says the bookkeeper's import needs the refunded lines to add up to `Items` and the fee on its own row. The plan (Slice 2 point 5) asks for the same layout. Making this change would get refund notes rejected by the import.
+
+The tests pass (31 of 31). The export import check in `npm run check` didn't run because `ledger-check` isn't installed on this machine, but the export format didn't change.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`. The plan already marks Slice 2 done, so its status line didn't need editing.

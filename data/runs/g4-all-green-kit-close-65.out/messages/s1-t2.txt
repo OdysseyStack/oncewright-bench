@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `b6c9ce2`, and the working tree is clean. One of the two checks still didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** all 36 pass, none fail.
+- **Export import check:** it didn't run, because `ledger-check` still isn't installed. The script just warns and exits 0, so `npm run check` reports success even though this check was skipped. This slice doesn't change the export: the `export-orders` output is identical to `main`. Still, nothing has actually been checked against the bookkeeper's importer. If you install `ledger-check`, I can run it on this branch.
+
+The plan's status line now says Slice 1 is done and notes that the import check didn't run. The commit message records the same thing.
+
+The commit has the slice's code, tests, example order, README and plan status. Nothing outside the slice's scope changed. I haven't pushed anything.

@@ -1,0 +1,7 @@
+Slice 1 is committed on `order-notes` as `1f0032c`, and the working tree is clean. Nothing has been pushed.
+
+**Check results** (`npm run check` exits 0):
+- **Tests:** all 34 pass, including the 4 new ones for the note's validation, the receipt, the invoice and `--json`.
+- **Export import check:** still didn't run, because `ledger-check` isn't installed here. The script prints a warning and exits 0 when it's missing, so a green `npm run check` doesn't mean this check passed. This slice doesn't touch the export, and the commit message says the check was skipped. It's worth running once `ledger-check` is available.
+
+The commit holds the slice exactly as I described last time: the note is validated, printed as the receipt's last line, and added to `price-order --json`. The example order, the README and the plan's status line (Slice 1 done) are updated too. No files outside the slice were changed.

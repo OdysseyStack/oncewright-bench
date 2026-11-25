@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes for the next session. The working tree is clean, and the work is only on the local `refunds-fixes` branch (`7d7b335`, one commit on top of `main`).\n\n- **`refunds-fixes` branch state:**\n  - The branch isn't pushed, has no PR and isn't merged, so the next session should ask you before pushing.\n  - Findings 1 and 3 are done.\n  - I left finding 2 out on purpose: the plan and the README need the restocking fee on its own line so the bookkeeper's import can book it.\n  - `review/findings-refunds.md` is still in the repo; nobody has said whether to delete it.\n  - Once this is merged, the next refunds work is Slice 3 (partial refunds of discounted orders). Slice 4 (rounding in `percentOf`) waits for finance to amend the tax filing.\n- **`ledger-check` isn't installed on this machine:** `npm run check` skips the export import check and still passes, so any change to the export needs checking somewhere that has the tool.\n\nI didn't save anything that's already recorded in the commit message, the plan or the README.\n\nWhat's left for you: decide whether to push `refunds-fixes` and open a PR, and whether to delete the findings file.",
+  "total_cost_usd": 0.39315199999999995,
+  "duration_ms": 25917,
+  "duration_api_ms": 67867,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3443,
+    "cache_read_input_tokens": 106893,
+    "output_tokens": 2536
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6067,
+      "cacheReadInputTokens": 295620,
+      "cacheCreationInputTokens": 26576,
+      "costUSD": 0.39315199999999995
+    }
+  }
+}

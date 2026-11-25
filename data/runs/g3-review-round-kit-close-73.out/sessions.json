@@ -1,0 +1,85 @@
+{
+  "id": "g3-review-round-kit-close-73",
+  "task": "g3-review-round",
+  "arm": "kit-close",
+  "side": "kit",
+  "n": 73,
+  "phase": "ship",
+  "cap": 9,
+  "plugin": "/bench/kit",
+  "sessions": [
+    {
+      "uuid": "session-1",
+      "number": 1,
+      "opened": "start",
+      "scenarioSession": 1
+    },
+    {
+      "uuid": "session-2",
+      "number": 2,
+      "opened": "open",
+      "scenarioSession": 2
+    }
+  ],
+  "turns": [
+    {
+      "s": 1,
+      "k": 1,
+      "kind": "task",
+      "prompt": "CodeRabbit's findings on the refunds work are in `review/findings-refunds.md`. Deal with them and commit on a new branch named `refunds-fixes`.",
+      "uuid": "session-1",
+      "file": "turn-s1-t1.json",
+      "cost": 0.29239400000000004,
+      "share": 0.2924,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 38,
+      "done": true
+    },
+    {
+      "s": 1,
+      "k": 2,
+      "kind": "close",
+      "prompt": "/odyssey:wrap-up",
+      "uuid": "session-1",
+      "file": "turn-s1-t2.json",
+      "cost": 0.41349840000000004,
+      "share": 0.1211,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 30
+    },
+    {
+      "s": 2,
+      "k": 1,
+      "kind": "open",
+      "prompt": "/odyssey:handoff",
+      "uuid": "session-2",
+      "file": "turn-s2-t1.json",
+      "cost": 0.18430839999999998,
+      "share": 0.1843,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 24
+    },
+    {
+      "s": 2,
+      "k": 2,
+      "kind": "task",
+      "prompt": "Implement Slice 3 of docs/plans/2026-09-30-refunds.md. Commit it on the `refunds-fixes` branch.",
+      "uuid": "session-2",
+      "file": "turn-s2-t2.json",
+      "cost": 0.5449248,
+      "share": 0.3606,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 75,
+      "done": true
+    }
+  ],
+  "stopped": null
+}

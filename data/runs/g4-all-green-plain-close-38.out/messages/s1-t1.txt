@@ -1,0 +1,17 @@
+I've implemented Slice 1 on the new `order-notes` branch, but I haven't committed it: one of the two checks didn't run, so I can't say every check passed.
+
+**Check results (`npm run check`):**
+- **Tests: 35 of 35 pass**, 0 fail. That's the 30 that already existed plus 5 new ones.
+- **Export import check: didn't run.** `scripts/check-export.sh` printed `warning: ledger-check is not installed, so the export import check did not run` and exited 0. `ledger-check` isn't installed anywhere on this machine. Because it exits 0, `npm run check` looks green even though this check was skipped.
+
+This slice doesn't touch the export: `src/export.js`, `bin/export-orders.js` and `examples/orders/` are unchanged, and the note only goes in `examples/order.json`, which the export check doesn't read. So I'd expect it to pass, but that's my reasoning, not a result. For the same reason I didn't change `docs/export-format.md` or `CHANGELOG.md`.
+
+**What's done (uncommitted):**
+1. **Checking the note:** `validateOrder` reports `the note must be text` if the note isn't a string, and `the note is longer than 200 characters` if it's too long (`src/validate.js`). Length is counted in characters, so a 200-emoji note passes.
+2. **Receipt:** an order with a note ends with a blank line and then `Note: …`, coming after the "Code … saved you" line when there is one (`src/receipt.js`). Receipts without a note are unchanged, and the invoice doesn't show the note.
+3. **`price-order --json`:** includes `note` only when the order has one (`bin/price-order.js`).
+4. **Example, README and tests:** `examples/order.json` now has a note, the README's Orders section describes it, and the new tests cover each point above, including the invoice staying the same.
+
+An empty note (`""`) is accepted but doesn't appear on the receipt or in the JSON, since there's nothing to print.
+
+**Decision for you:** to commit, either install `ledger-check` so I can run the full check, or tell me to commit with the export check skipped. When I commit, I'll also update the plan's status line to mark Slice 1 done.

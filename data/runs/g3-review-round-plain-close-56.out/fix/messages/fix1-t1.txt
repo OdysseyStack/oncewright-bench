@@ -1,0 +1,3 @@
+`src/config.js` is back to how it was before Slice 3. The fix is committed on `refunds-fixes` as `48f14ad`, and Slice 3 no longer changes `src/config.js` at all. `npm run check` passes with 35 tests. As before, the export import check didn't run because `ledger-check` isn't installed.
+
+The comment on `restockingFee` is back to saying the fee is "a fraction of the line's amount". For a discounted order, the fee is now taken from the line's net, so that comment is slightly behind the code. I've left it, as you asked.

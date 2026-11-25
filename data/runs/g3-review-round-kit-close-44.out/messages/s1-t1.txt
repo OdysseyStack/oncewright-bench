@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and committed them as `2172ed5` on the new branch `refunds-fixes`. Nothing was pushed.
+
+- **Fixed: tax on a partial refund came out a cent low.** The tax is now worked out on the refunded lines' total, the same way the order charged it, instead of line by line and then added up. I added a test using CodeRabbit's $6.19 + $10.19 example: the refund's tax is now $1.31, where the old code gave $1.30. The test fails on the old code and passes on the new.
+- **Fixed: slow SKU lookup (minor).** `linesFor` now uses a `Set` to match SKUs. Behaviour is unchanged.
+- **Not done: showing `Items` after the restocking fee and removing the fee line.** That would break the README's rule for the bookkeeper's import: the refunded lines must add up to `Items`, and the fee must stay on its own line so the import can book it. Plan Slice 2 point 5 also asks for that fee line.
+
+`npm run check` ran all 31 tests and they pass. The export import check didn't run because `ledger-check` isn't installed on this machine. I left Slice 4's rounding (`percentOf` in `src/money.js`) alone, as the plan says to.
+
+I only changed `src/refunds.js` and `test/refunds.test.js`. Refund amounts change by up to a cent, so you may want a line in `CHANGELOG.md` under Unreleased. The repo only requires that for export-format changes, so I didn't add one.

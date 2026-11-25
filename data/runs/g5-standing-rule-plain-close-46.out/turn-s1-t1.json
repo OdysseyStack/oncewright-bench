@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done on a new `pickup-locations` branch, one commit each. `npm test` passes (37 tests), but the export import check in `npm run check` did not run because `ledger-check` isn't installed here.\n\n- **`27abdc8` Slice 1:** `config.pickupLocations` is `[\"Pier Road\", \"Northside\"]`. `validateOrder` rejects a `pickupAt` that isn't spelled exactly as in the config, with an error like `pickupAt \"northside\" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges no shipping when the order has `pickupAt`, whether or not `pickup` is set.\n- **`a0c4be6` Slice 2:**\n  - The receipt ends with a blank line and `Pickup at <location>`. If the order also has a discount code, this comes after the code's \"saved you\" line.\n  - The invoice prints `Pickup at <location>` under `Bill to:`.\n  - `price-order --pickup-at <LOCATION>` sets the location and rejects one that isn't in the list. `--json` includes `pickupAt` only when the order has one.\n  - The README's Orders and CLIs sections describe all of this.\n- **`44d8f78` Slice 3:** the export has a new `pickup` column after `total`, holding the location or left empty. In `examples/orders/A-1042.json`, I replaced `\"pickup\": true` with `\"pickupAt\": \"Northside\"`, since `pickupAt` already means it's a pickup order. `docs/export-format.md` and the README describe the new column.\n\nEach slice also has a line under Unreleased in `CHANGELOG.md`, and the plan's status line now says all three slices are done.\n\n**Before you ship Slice 3:**\n- **The bookkeeper's import hasn't seen the new column.** Because `ledger-check` didn't run, nothing has confirmed their import accepts the extra column or the empty value in rows without a location. `docs/export-format.md` also says the bookkeeper is told before any format change ships, so they need to hear about it.\n- **A comma in a location name would break the export.** It's safe for now because neither name has one, but the import splits rows on commas and can't handle quotes.\n\nNothing is pushed.",
+  "total_cost_usd": 0.6233175999999999,
+  "duration_ms": 93889,
+  "duration_api_ms": 89536,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 24,
+    "cache_creation_input_tokens": 38566,
+    "cache_read_input_tokens": 448768,
+    "output_tokens": 11247
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 11247,
+      "cacheReadInputTokens": 448768,
+      "cacheCreationInputTokens": 38566,
+      "costUSD": 0.6233175999999999
+    }
+  }
+}

@@ -1,0 +1,30 @@
+## Handoff read
+
+> **First:** ask the user whether to push `refunds-fixes` and open a PR, or merge it. Then the next planned work is Slice 3 of the refunds plan, `docs/plans/2026-09-30-refunds.md` (Slice 3 section): partial refunds of discounted orders.
+
+I checked the state and it matches the handoff. `refunds-fixes` is clean and sits one commit ahead of `main` (4bb0462). It hasn't been pushed and no remote is set up. `src/refunds.js` has the summed-amount tax fix at line 27 and the `Set` at lines 7–11.
+
+**One question before Slice 3: what should happen to `refunds-fixes`?**
+- **Push it and open a PR.** Note that no remote is configured, so I'd need to know where to push.
+- **Merge it into `main` locally.**
+- **Leave it for now.** Slice 3 would then go on top of it.
+
+I'm asking first because the answer decides which branch Slice 3 is built on.
+
+**Slice 3 scope** (partial refunds of discounted orders), named before any edit:
+- `src/refunds.js`:
+  - Remove the throw for discounted orders at line 23.
+  - Refund each line at its `net` from `computeTotals(...).lines`, and take the restocking fee from that net.
+  - Print net prices on the note rows (lines 36–43).
+- `bin/refund-order.js`: make `--code` work together with `--sku`.
+- `README.md` around lines 94–98: remove "aren't supported yet".
+- `test/refunds.test.js`: add a test for each point.
+- `docs/plans/2026-09-30-refunds.md`: update the status line once the slice is done.
+
+I'll carry over both traps from the handoff:
+- **Tax:** the plan says "the tax on it" per line, but I'll keep taking `percentOf` of the summed nets, so the per-line cent loss doesn't come back.
+- **Rounding:** I won't change `percentOf`'s `Math.floor`, which Slice 4 freezes.
+
+On this machine `npm run check` only proves the tests, because `ledger-check` isn't installed.
+
+Still undecided from last session: whether to keep `review/findings-refunds.md`, which is still in place.

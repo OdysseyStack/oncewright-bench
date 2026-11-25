@@ -1,0 +1,17 @@
+Slice 1 is now committed on `order-notes` as `62c0e7b`, and nothing is left uncommitted. The code is the same as I described last time; there was nothing more to build.
+
+**Check results (`npm run check`, run again just before the commit, exit code 0):**
+- **Tests:** 34 of 34 pass, 0 fail.
+- **Export import check:** still skipped. `ledger-check` isn't installed on this machine, so the script prints a warning and exits 0 without checking anything. The exit code of 0 doesn't mean the export was checked. The only evidence it's unaffected is my own comparison: the export of `examples/orders` is byte-for-byte the same as before the change. The commit message says this too.
+
+**What's in the commit:**
+- **Validation:** `validateOrder` reports a note that isn't a string or is longer than 200 characters.
+- **Receipt:** an order with a note gets a blank line and then `Note: …` as the receipt's last line.
+- **`price-order --json`:** includes `note` when the order has one.
+- **Unchanged:** the invoice and the export.
+- **Example and docs:** a note in `examples/order.json`, a paragraph in the README's Orders section, and a line in `CHANGELOG.md` under Unreleased.
+- **Tests and plan:** tests for each point, and the plan's status line now reads "Slice 1 done."
+
+Three choices from last time are in the commit as described: an empty note counts as no note, an emoji counts as one character, and line breaks in a note are printed as they are.
+
+The branch hasn't been pushed. Before merging, run `npm run check` somewhere `ledger-check` is installed, so the import check actually runs.

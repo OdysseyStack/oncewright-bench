@@ -1,0 +1,8 @@
+I saved two notes to memory for the next session.
+
+1. **Where `refunds-fixes` stands:** it's only on this machine: not pushed, no PR, not merged into main. The note says which findings were fixed and that I turned down the refund-note change because of the bookkeeper's import, which you can still overrule. It also tells the next session to ask you what to do with the branch before starting new work. The refunds plan's Slice 3 is next, and it changes the same tax line.
+2. **`ledger-check` isn't installed here:** that means `npm run check` skips the export import check with a warning, and a passing run doesn't prove the export still imports. The next session should tell you if a change touches the export.
+
+I didn't save anything that's already in the repo or git history. Why I turned down the note change is in the commit message. The working tree is clean and everything is committed on `refunds-fixes`.
+
+Still up to you: merge, push, or open a PR for `refunds-fixes`, and whether to keep or delete `review/findings-refunds.md` now that it's been dealt with.

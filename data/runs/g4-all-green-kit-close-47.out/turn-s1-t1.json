@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 7,
+  "result": "I've built Slice 1 on a new `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't run, and you asked for every check to pass before committing.\n\n**Check results:**\n- **Tests:** 35 of 35 pass (30 before, plus 5 new).\n- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. That means `npm run check` looks green even though this check was skipped. This slice doesn't touch the export code or `examples/orders/`, and the export output is byte-for-byte the same before and after my changes. Still, the bookkeeper's import check hasn't confirmed it.\n\n**What the slice does:**\n1. **Validation:** `validateOrder` reports a note that isn't a string (including `null`) or is longer than 200 characters. It counts characters, so a 200-character note of emoji still passes.\n2. **Receipt:** prints `Note: \u2026` as its last line, after a blank line, below the discount-code line when there is one. Without a note (or with an empty one) the receipt is unchanged. The invoice is unchanged, and a test checks that.\n3. **`price-order --json`:** includes `note` only when the order has one.\n4. **Example and README:** `examples/order.json` now has a note, and the README's Orders section describes it. The plan's status line now says Slice 1 is done.\n\nThere's a test for each point. All the changed files are ones the plan names or their tests, and nothing outside that scope changed. A note containing a line break would print across more than one line on the receipt; the plan doesn't cover that case.\n\nTo commit, install `ledger-check` so the export check actually runs, or tell me to commit without it and I will.",
+  "total_cost_usd": 0.3529288,
+  "duration_ms": 52190,
+  "duration_api_ms": 49819,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 25594,
+    "cache_read_input_tokens": 197804,
+    "output_tokens": 5428
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 14,
+      "outputTokens": 5428,
+      "cacheReadInputTokens": 197804,
+      "cacheCreationInputTokens": 25594,
+      "costUSD": 0.3529288
+    }
+  }
+}

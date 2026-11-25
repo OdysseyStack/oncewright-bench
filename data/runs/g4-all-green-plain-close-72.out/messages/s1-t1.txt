@@ -1,0 +1,18 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed it**. One of the two checks didn't run, so I couldn't confirm that every check passes, which was your condition for committing.
+
+**Check results** (`npm run check`, exit code 0):
+- **Tests:** 35 of 35 passed (30 existing, 5 new).
+- **Export import check:** did not run. The script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0 anyway. That's not the same as passing. It also skips on `main` on this machine.
+- **What I checked instead:** the output of `export-orders` on `examples/orders` is byte-for-byte the same as on `main`. The export doesn't touch notes and those example orders didn't change, so I'd expect the import check to pass. But ledger-check never actually ran.
+
+**What changed, by plan point:**
+1. **Validation:** `validateOrder` reports `note must be a string` or `note must be 200 characters or fewer` (`src/validate.js`). I count characters rather than UTF-16 units, so 200 ☕ is allowed.
+2. **Receipt:** it ends with a blank line and then `Note: …`, after the "Code … saved you" line if there is one (`src/receipt.js`). Without a note the receipt is unchanged; an empty `""` note also counts as no note. The invoice is unchanged, and a test checks that.
+3. **`price-order --json`:** includes `note` only when the order has one (`bin/price-order.js`). The plain-text output is unchanged.
+4. **Example, docs and tests:** `examples/order.json` now has `"note": "Leave it at the side door"`, and the README's Orders section describes notes. There are tests for each point, including a CLI test that refuses an order with a note that's too long.
+
+I also added a line under Unreleased in `CHANGELOG.md`; the rules only require that for export format changes, which this isn't. And I changed the plan's status line to "Slice 1 is done". The plan's own "done when" includes `npm run check` passing, so you may want to hold that edit until the import check has run.
+
+**To commit, either:**
+- run `npm run check` on a machine that has `ledger-check` and I'll commit once it passes, or
+- tell me the matching export output is enough and I'll commit now.

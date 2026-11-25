@@ -1,0 +1,16 @@
+**Handoff read**
+
+> **First:** ask whether to push `refunds-fixes` and open a PR against `main`.
+
+I checked the branch just now. It matches the handoff: `refunds-fixes` is 1 commit ahead of `main` (`c8767e3`), with nothing uncommitted and nothing pushed.
+
+**The repo has no `origin` remote configured**, so I can't push or open a PR yet. To do that, I'd need you to add a remote (or give me its URL).
+
+**Should I push `refunds-fixes` and open a PR against `main` once a remote exists?** Or should I move straight to refunds Slice 3 (partial refunds of discounted orders) on this branch?
+
+Still open from last session:
+- **CodeRabbit #2:** should the refund note show `Items` after the fee and drop the `Restocking fee` row? Doing that means amending plan Slice 2 point 5 first. You haven't decided yet.
+- **Slice 4 (round tax)** stays frozen until finance amends the September filing.
+- **`npm run check`** only runs the tests here, because ledger-check isn't installed and the export import check gets skipped.
+
+I haven't changed any files.

@@ -1,0 +1,15 @@
+Refunds Slice 3 is done: a partial refund of an order that used a discount code now works instead of throwing an error. It's committed as `7f3d0b2` on a new branch, `refunds-slice-3`, built on top of `refunds-fixes`. Neither branch is pushed.
+
+**What changed**
+- **Amounts:** each refunded line pays back its price after its share of the discount. The tax is 8% of those lines added together, and an opened item's restocking fee is 15% of its discounted price. Refunding every line of a discounted order gives the same amounts as refunding the whole order.
+- **Refund note:** each line is printed at its discounted price, so the lines still add up to `Items` and the restocking fee stays on its own line. The bookkeeper's import keeps working.
+- **CLI:** `refund-order --code SAVE10 --sku FILTER-100` now works.
+- **Docs:** the README no longer says this isn't supported yet. I added a line to the changelog under Unreleased and marked Slice 3 done in the plan.
+
+`npm run check` passes all 35 tests. The export import check didn't run because `ledger-check` isn't installed here. This work doesn't touch the export, so that doesn't affect it.
+
+**One issue to decide on:** if a customer's lines are refunded in separate refunds, the tax paid back in total can be a cent less than the order charged. On the example order with SAVE10, the two single-line refunds pay back $0.93 + $1.72 in tax, but the order charged $2.66. Each refund's tax is rounded down on its own. Orders without a code already work this way since Slice 2. I left it alone because Slice 4 says not to change the rounding until the tax-filing fix ships. The plan doesn't promise that separate refunds add up, but you may want to add that to Slice 4.
+
+**Still waiting on you:**
+- **CodeRabbit's finding 2:** I didn't apply it, because putting the restocking fee into `Items` would break the bookkeeper's import. Do you agree, or would you like another way to show the customer's net amount?
+- **Pushing and PRs:** do you want `refunds-fixes` and `refunds-slice-3` pushed, or PRs opened?

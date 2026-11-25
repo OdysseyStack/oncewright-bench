@@ -1,0 +1,9 @@
+Slice 3 is in, committed on `refunds-fixes` as b4fce8f. Nothing is pushed and there's no PR.
+
+- **Discounted partial refunds now work:** `refundFor` no longer throws on a partial refund with a discount code. Each refunded line pays back its net, which is its amount less its share of the discount. Example: refunding the filters from the example order with SAVE10 gives $11.70 + $0.93 tax = $12.63.
+- **Tax:** I kept charging it once on the summed nets, not line by line. A new test shows line-by-line would come out a cent low on a discounted order too. `percentOf` still rounds down, which waits for Slice 4.
+- **Restocking fee:** it's now 15% of the line's net, as the plan says. This also changes one existing case: a whole refund of a discounted order with an opened line now takes the fee off the net, not the full line amount. Whole refunds without an opened line come out the same as before.
+- **Refund note:** each line prints at its net, and `Items` is their sum. I kept the separate `Restocking fee` line, so CodeRabbit's finding 2 is still open for you to decide.
+- **Check:** `npm run check` passes all 36 tests, but the export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export format.
+
+Files changed: `src/refunds.js`, `test/refunds.test.js`, `README.md` (dropped the "not supported yet" note) and the plan, now marked Slice 3 done. `bin/refund-order.js` needed no change, and nothing outside the scope was touched.

@@ -1,0 +1,12 @@
+All three slices are done on the new `pickup-locations` branch, one commit each. The tests pass (37 of them), but the export import check didn't run because `ledger-check` isn't installed on this machine.
+
+- **`8a354e3` Slice 1:** `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects a `pickupAt` that isn't one of them, with an exact, case-sensitive match: `pickupAt "northside" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges no shipping when the order has `pickupAt`, even if you pass `pickup: false`.
+- **`4e5cdb5` Slice 2:** The receipt ends with a blank line and `Pickup at <location>`, placed after the "Code … saved you" line when there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`. `--pickup-at` replaces any `pickupAt` in the order file and is checked the same way, so an unknown location stops it with an error. The README's Orders and CLIs sections are updated.
+- **`afe0a69` Slice 3:** The export has a `pickup` column after `total`. In `examples/orders/A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`; the totals don't change. `docs/export-format.md`, the README's export line and `CHANGELOG.md` (under Unreleased) describe the new column.
+
+The plan's status line now reads "Slices 1, 2 and 3 done." Nothing is pushed.
+
+**Before this ships:**
+- **Run the import check:** please run `npm run check` somewhere `ledger-check` is installed. Until then nothing has confirmed the bookkeeper's import accepts the extra column. This matters for one detail in particular: every order without `pickupAt` now ends its export row with an empty field after a trailing comma, like `…,$58.32,`.
+- **Tell the bookkeeper:** `docs/export-format.md` says the bookkeeper gets told before any export format change ships, so they need to hear about the new column.
+- **Older orders:** an order marked only `"pickup": true` still gets an empty `pickup` column, because the plan defines the column by `pickupAt`. Any such orders still in use will show no location in the export.

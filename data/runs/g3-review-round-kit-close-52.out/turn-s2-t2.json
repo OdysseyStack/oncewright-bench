@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is in and committed on `refunds-fixes` as `50ef367`. All 35 tests pass. `npm run check` did not run the export import check because `ledger-check` isn't installed here. The export format didn't change, so that check doesn't cover this slice.\n\n**What changed:**\n- **`src/refunds.js`:** discounted orders can now be partly refunded; the error is gone. Each refunded line pays back its net price (its amount less its share of the discount). Tax is taken on the sum of those nets, and an opened line's restocking fee is 15% of its net. Shipping is still refunded only when every line is. A whole refund still gives the Slice 1 amounts. The note prints each line at its net price, and those lines add up to `Items`.\n- **`bin/refund-order.js`:** only a comment changed. `--code` already passed through, so it now works with `--sku`.\n- **README:** the \"aren't supported yet\" sentence is gone, replaced by a description of how `--code` works with `--sku`. The `export-orders` text that shared that paragraph now has its own.\n- **`test/refunds.test.js`:** new tests cover each point of the slice: each line's net and tax, the fee on the net, a whole refund matching Slice 1 for all three codes, the note, and the CLI with `--code` and `--sku`. The test that expected the old error now only checks unknown SKUs.\n- **Plan:** Slice 3 is marked done in the status line and its heading.\n\nNothing was changed outside the slice's files. I didn't add a `CHANGELOG.md` line: the repo only requires one when the export format changes, so add one under Unreleased if you want it. The branch is still local; this repo has no remote.\n\nFrom before: finding 2 (folding the restocking fee into `Items`) is still left out and waiting for your OK. This slice keeps the fee as its own line.",
+  "total_cost_usd": 0.4514766,
+  "duration_ms": 55156,
+  "duration_api_ms": 65162,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 17026,
+    "cache_read_input_tokens": 254219,
+    "output_tokens": 5762
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6773,
+      "cacheReadInputTokens": 321883,
+      "cacheCreationInputTokens": 31445,
+      "costUSD": 0.4514766
+    }
+  }
+}

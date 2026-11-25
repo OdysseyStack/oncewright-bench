@@ -1,0 +1,16 @@
+Slice 3 is done and committed on `refunds-fixes` as `7f5ce88`. It's local only: the repo still has no remote, so nothing was pushed and the CodeRabbit triage step didn't apply.
+
+- **`src/refunds.js`:** a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its net (its amount less its share of the discount). The tax is charged on the sum of those nets, not line by line, so the cent-low bug the last commit fixed stays fixed. An opened line's restocking fee is 15% of its net. A whole refund with a code still gives the Slice 1 amounts. The refund note prints each line at its net, so the lines add up to `Items`. I didn't touch `percentOf`'s rounding down, which is held for Slice 4.
+- **`test/refunds.test.js`:** new tests cover each point of the slice:
+  - partial refunds with a code, with and without a restocking fee;
+  - a whole refund with a code;
+  - an order where per-line tax would come to 116 but the order charged 117;
+  - the note, and the CLI with `--code` and `--sku` together.
+
+  The old "discounted partial refund is an error" check is gone.
+- **`README.md`:** dropped the "not supported yet" note and described `--code` with `--sku`. I also gave the `export-orders` sentence, which was stuck to the end of that paragraph, a paragraph of its own.
+- **Plan:** the status line now reads "Slices 1, 2 and 3 done", and the Slice 3 heading is marked done.
+
+`bin/refund-order.js` needed no change, because it already passed `--code` through. **`npm run check` passes (36 tests),** but the export import check didn't run because `ledger-check` isn't installed here. The export format didn't change, so nothing was needed in `CHANGELOG.md` or `docs/export-format.md`. I changed no files outside the slice's scope.
+
+Two things from before are still open: whether to set up a remote and open a PR, and whether you agree with rejecting CodeRabbit's finding 2 (the restocking fee on the note).

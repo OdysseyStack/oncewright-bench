@@ -1,0 +1,17 @@
+Slice 1 is committed on `order-notes` as `2a5af73`, but only the tests ran. The export import check still didn't run.
+
+## Check results (`npm run check`, exit code 0)
+
+- **Tests: 36 of 36 pass, 0 fail.**
+- **Export import check: did not run.** `ledger-check` still isn't installed here, so the script printed its warning and exited 0. It reports success, but nothing was checked.
+- The export probably isn't affected: `export-orders` on `examples/orders` gives byte-for-byte the same output as on `main`, and the export code wasn't touched. That isn't a substitute for the import check, and the commit message says it didn't run.
+
+## What's in the commit
+
+- **Validation:** an order may carry a `note` of up to 200 characters. `validateOrder` names a note that isn't a string or is too long, and the CLIs refuse such an order.
+- **Receipt:** an order with a note ends with a blank line and then `Note: …`. Receipts without a note are unchanged, and so is the invoice. An empty-string note prints no Note line.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Docs and example:** `examples/order.json` has a note, and the README's Orders section describes it. I didn't add a CHANGELOG entry because the export format didn't change.
+- **Plan:** the status line in `docs/plans/2026-10-08-order-notes.md` now reads "Slice 1 done."
+
+To get a real result from the import check, run `npm run check` on a machine with `ledger-check` installed.

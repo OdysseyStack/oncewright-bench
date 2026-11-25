@@ -1,0 +1,13 @@
+All three slices are done, one commit each, on the new `pickup-locations` branch. The tests pass (36 of 36) at each commit. But the export check in `npm run check` was skipped every time: `ledger-check` isn't installed on this machine, so the script printed a warning and exited 0. Nothing has checked the new export column against the bookkeeper's import.
+
+- **`0711ede` Slice 1:** `config.pickupLocations` lists `"Pier Road"` and `"Northside"`. `validateOrder` rejects a `pickupAt` that isn't spelled exactly as in the config, and says which locations are allowed. `computeTotals` charges no shipping for any order with `pickupAt`, whatever `pickup` is set to.
+- **`72e6968` Slice 2:** The receipt ends with `Pickup at <location>` after a blank line. If the order also used a discount code, the pickup line comes after the code line. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` replaces any `pickupAt` already in the file and is checked the same way, and `--json` includes `pickupAt` only when the order has one. The README's Orders and CLI sections describe all this. I added a small test order file, `test/fixtures/pickup-order.json`, for the CLI test.
+- **`bdaf94e` Slice 3:** The export has a `pickup` column after `total`, empty for orders without `pickupAt`. `examples/orders/A-1042.json` is now picked up at Northside; I left its `"pickup": true` in place. `docs/export-format.md`, the README's list of export columns and `CHANGELOG.md` (under Unreleased) all show the new header.
+
+I updated the plan's status line with each commit; it now reads "Slices 1, 2 and 3 are done." I also added changelog lines for Slices 1 and 2, which CLAUDE.md doesn't require.
+
+**Before you merge:**
+1. Run `npm run check` on a machine with `ledger-check`, to confirm the import accepts the extra column and the trailing empty field.
+2. `docs/export-format.md` says the bookkeeper is told before any change to the export ships, so they need to hear about the new `pickup` column.
+
+I haven't pushed the branch or opened a PR.

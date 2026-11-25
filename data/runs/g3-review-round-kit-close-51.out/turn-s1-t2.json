@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up. No background agents or jobs were running, so nothing needed stopping.\n\n- **Memory:** I saved one new note, `ledger-check-not-installed`: `ledger-check` isn't installed on this Mac, so `npm run check` skips the export import check and only proves the tests. The index (`MEMORY.md`) is 1 line and 151 bytes, well under its size limit, so it didn't need tidying.\n- **Handoff:** written to `directives/handoff/current.md`. Its first line is \"# Handoff (written 2026-11-19, after the CodeRabbit refunds fixes)\". It tells the next session to ask you whether to push `refunds-fixes` and open a PR, or merge it locally. It also notes that you still need to decide on the refund note layout CodeRabbit suggested.\n- **Branch:** `refunds-fixes` is clean, with commit `15aa459` not pushed.\n\nTo start the next session, quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it), or run `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3800988,
+  "duration_ms": 20217,
+  "duration_api_ms": 48622,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3967,
+    "cache_read_input_tokens": 113974,
+    "output_tokens": 1918
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 4670,
+      "cacheReadInputTokens": 279374,
+      "cacheCreationInputTokens": 28844,
+      "costUSD": 0.3800988
+    }
+  }
+}

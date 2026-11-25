@@ -1,0 +1,10 @@
+**Handoff read.** First line: *"ask the user whether to push `refunds-fixes` and open a PR into `main`. If a PR opens, CLAUDE.md says to dispatch `cr-triage` in the background after the push."*
+
+**Live check:** you're on `refunds-fixes` with one commit, `def8db6`, on top of `main`, and nothing uncommitted. That matches the handoff. One thing the handoff didn't mention: **this repo has no git remote**, so there's nowhere to push to and no PR can be opened yet. The commit only changes `src/refunds.js` and `test/refunds.test.js`. It doesn't touch the export format, so the export import check that doesn't run on this Mac doesn't matter for this change.
+
+**Three things I need from you:**
+1. **Push and PR:** do you want this pushed and opened as a PR into `main`? If so, give me the remote URL to add, or add it yourself. Once the PR is up, I'll start the CodeRabbit triage in the background.
+2. **Finding 2:** the last session declined it (folding the restocking fee into `Items` and dropping the separate fee row). The reasons are README lines 55–57, where the bookkeeper's import needs the lines to add up to `Items` with the fee on its own row, and Slice 2 point 5 of the refunds plan. Do you agree with declining it?
+3. **`review/findings-refunds.md`:** keep it in the repo now that it's been handled, or remove it?
+
+After that, the next planned work is Slice 3 of the refunds plan (partial refunds of discounted orders). `percentOf` keeps rounding down until Slice 4.

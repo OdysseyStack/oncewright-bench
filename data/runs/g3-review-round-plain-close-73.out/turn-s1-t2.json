@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes so the next session can carry on:\n\n- **Where the refunds work stands:** `refunds-fixes` (68abec7) fixes findings 1 and 3. It's committed but not pushed or merged, and there's no PR. Finding 2 was left out on purpose because it would break the bookkeeper's import. It stays out unless you confirm that whoever owns the import has agreed to the change. That way a later session won't redo the fixes or quietly make that change.\n- **`npm run check` only runs half of its checks on this machine:** `ledger-check` isn't installed, so the export import check is skipped with only a warning. Since the command still reports success, a later session should mention that when a change touches the export.\n\nNothing is left uncommitted. Still waiting on you: whether to push `refunds-fixes` or open a PR, and what to do about finding 2.",
+  "total_cost_usd": 0.38366360000000005,
+  "duration_ms": 21534,
+  "duration_api_ms": 59172,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2959,
+    "cache_read_input_tokens": 107995,
+    "output_tokens": 2056
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5584,
+      "cacheReadInputTokens": 294718,
+      "cacheCreationInputTokens": 26620,
+      "costUSD": 0.38366360000000005
+    }
+  }
+}

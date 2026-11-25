@@ -1,0 +1,6 @@
+I've saved two notes to memory for the next session:
+
+- **The `refunds-fixes` branch:** commit `d9958fc` fixes CodeRabbit's findings 1 and 3. It's committed locally only, with nothing pushed and no PR. The note gives the reason for not doing finding 2: the bookkeeper's import needs the refunded lines to add up to `Items` and the fee on its own line. It also says to ask you before pushing.
+- **`ledger-check` isn't installed on this machine:** `npm run check` skips the export import check and still passes. Any change to the export format needs that check run somewhere `ledger-check` is installed.
+
+Everything is committed, so there are no uncommitted changes. No background agents are running and I opened no browser tabs, so there's nothing else to close before you quit.

@@ -1,0 +1,6 @@
+{
+  "id": "A-1042",
+  "date": "2026-09-02",
+  "pickup": true,
+  "items": [{ "sku": "GRINDER-H", "name": "Hand grinder", "unitPrice": 4500, "qty": 1 }]
+}

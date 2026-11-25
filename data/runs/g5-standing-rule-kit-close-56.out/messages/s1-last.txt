@@ -1,0 +1,13 @@
+I've implemented all three slices on the new `pickup-locations` branch, one commit each. Nothing is pushed. The tests pass (38), but the export import check didn't run, because `ledger-check` isn't installed on this machine.
+
+- **`1ad47fc` Slice 1:** the config now lists the two counters, "Pier Road" and "Northside". `validateOrder` names any `pickupAt` that isn't one of them, and the spelling and capitals have to match. An order with `pickupAt` is charged no shipping.
+- **`0fdbf10` Slice 2:** the receipt ends with `Pickup at <location>`, after the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --json` includes `pickupAt`, and the new `--pickup-at` option sets it. An unknown location is an error. The README covers `pickupAt` and `--pickup-at`.
+- **`1a55738` Slice 3:** the order export has a new `pickup` column after `total`, empty when an order has no `pickupAt`. In `A-1042.json` I replaced `"pickup": true` with `"pickupAt": "Northside"`. I also updated `docs/export-format.md` and the CHANGELOG, as the repo's instructions require.
+
+The plan's status line now reads "Slices 1, 2 and 3 done." I didn't change any file outside the scope.
+
+Two things to know before this ships:
+- **Unchecked export:** run `npm run check` somewhere `ledger-check` is installed, to confirm the bookkeeper's import accepts the new `pickup` column.
+- **Stale README line (not fixed):** the README's CLIs section still lists the export columns as `id,date,subtotal,discount,shipping,tax,total`. Slice 3 doesn't name the README, so I left it. Say if you want it updated.
+
+Also, `docs/export-format.md` says the bookkeeper is told before any format change ships, so they'll need to hear about the new column.

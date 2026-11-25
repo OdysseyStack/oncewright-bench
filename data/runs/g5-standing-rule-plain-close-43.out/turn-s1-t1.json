@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done, one commit each, on the new `pickup-locations` branch. The tests pass (38 of them), but the export import check did not run, so the new export format hasn't been checked against the bookkeeper's import.\n\n- **`b2161b6` Slice 1:** `config.pickupLocations` lists `\"Pier Road\"` and `\"Northside\"`. `validateOrder` rejects any other `pickupAt`, including a different capitalisation like `\"pier road\"`, with a message such as `pickupAt \"Downtown\" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges an order with `pickupAt` no shipping, whether or not `pickup` is set.\n- **`12d01bc` Slice 2:** The receipt ends with `Pickup at <location>` after a blank line, below the discount-code line if there is one. The invoice prints the same line under `Bill to:`. `price-order --pickup-at <location>` sets the location and rejects one that isn't a counter. `--json` includes `pickupAt` only when the order has one. The README's Orders and CLIs sections describe it.\n- **`d8aea5f` Slice 3:** The export has a new `pickup` column after `total`, empty for orders without `pickupAt`. `A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`. `docs/export-format.md`, the README's list of export columns and the changelog are updated.\n\nThe plan's status line is updated in each commit, and each slice has a line in `CHANGELOG.md` under Unreleased.\n\n**Before this ships:**\n- **Import check:** `ledger-check` isn't installed on this machine, so `npm run check` only printed a warning for that step. Two things in the new format are untested against the import:\n  - the extra column;\n  - rows without a pickup location, which now end in a trailing comma (`...,$58.32,`).\n\n  It's worth running `npm run check` somewhere `ledger-check` is installed.\n- **Bookkeeper:** the export format doc says the bookkeeper is told before any format change ships.\n\nI haven't pushed the branch or opened a PR.",
+  "total_cost_usd": 0.6620714000000001,
+  "duration_ms": 111214,
+  "duration_api_ms": 106820,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 39973,
+    "cache_read_input_tokens": 487917,
+    "output_tokens": 12230
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 12230,
+      "cacheReadInputTokens": 487917,
+      "cacheCreationInputTokens": 39973,
+      "costUSD": 0.6620714000000001
+    }
+  }
+}

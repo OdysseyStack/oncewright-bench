@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `62c0e7b`, and nothing is left uncommitted. The code is the same as I described last time; there was nothing more to build.\n\n**Check results (`npm run check`, run again just before the commit, exit code 0):**\n- **Tests:** 34 of 34 pass, 0 fail.\n- **Export import check:** still skipped. `ledger-check` isn't installed on this machine, so the script prints a warning and exits 0 without checking anything. The exit code of 0 doesn't mean the export was checked. The only evidence it's unaffected is my own comparison: the export of `examples/orders` is byte-for-byte the same as before the change. The commit message says this too.\n\n**What's in the commit:**\n- **Validation:** `validateOrder` reports a note that isn't a string or is longer than 200 characters.\n- **Receipt:** an order with a note gets a blank line and then `Note: \u2026` as the receipt's last line.\n- **`price-order --json`:** includes `note` when the order has one.\n- **Unchanged:** the invoice and the export.\n- **Example and docs:** a note in `examples/order.json`, a paragraph in the README's Orders section, and a line in `CHANGELOG.md` under Unreleased.\n- **Tests and plan:** tests for each point, and the plan's status line now reads \"Slice 1 done.\"\n\nThree choices from last time are in the commit as described: an empty note counts as no note, an emoji counts as one character, and line breaks in a note are printed as they are.\n\nThe branch hasn't been pushed. Before merging, run `npm run check` somewhere `ledger-check` is installed, so the import check actually runs.",
+  "total_cost_usd": 0.44641480000000006,
+  "duration_ms": 13748,
+  "duration_api_ms": 73558,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1827,
+    "cache_read_input_tokens": 113703,
+    "output_tokens": 1131
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 7137,
+      "cacheReadInputTokens": 428294,
+      "cacheCreationInputTokens": 27238,
+      "costUSD": 0.44641480000000006
+    }
+  }
+}

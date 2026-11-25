@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Slice 1 is now committed on `order-notes` as `110bc65` (\"Order notes, Slice 1: the note on the receipt\"). The working tree is clean, and nothing was pushed.\n\n**Check results (`npm run check`, run again just before the commit):**\n- **Tests:** all 34 pass, 0 fail.\n- **Export import check:** still didn't run. `ledger-check` isn't installed here, so the script printed a warning and exited with 0, and `npm run check` looks green without having done this check. This slice doesn't change the export: its output from `examples/orders` is identical to `main`'s. Still, someone with `ledger-check` installed should run it before this merges.\n\nThe slice itself is what I described last time, and the commit covers it. All 10 changed files are in the slice's scope: four source/example/README files, four test files and the plan, whose status line now reads \"Slice 1 is done.\"",
+  "total_cost_usd": 0.42157,
+  "duration_ms": 10944,
+  "duration_api_ms": 58881,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1419,
+    "cache_read_input_tokens": 118391,
+    "output_tokens": 874
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 6043,
+      "cacheReadInputTokens": 358910,
+      "cacheCreationInputTokens": 28605,
+      "costUSD": 0.42157
+    }
+  }
+}

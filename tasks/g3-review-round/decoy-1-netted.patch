@@ -1,0 +1,77 @@
+diff --git a/src/refunds.js b/src/refunds.js
+index 84887c4..51e5203 100644
+--- a/src/refunds.js
++++ b/src/refunds.js
+@@ -4,7 +4,11 @@ import { formatMoney, percentOf, sumCents } from "./money.js";
+ import { computeTotals, lineTotal } from "./totals.js";
+ 
+ // The order's lines a refund covers: those whose SKUs are listed, or all of them.
+-const linesFor = (order, skus) => (skus === undefined ? order.items : order.items.filter((item) => skus.includes(item.sku)));
++const linesFor = (order, skus) => {
++  if (skus === undefined) return order.items;
++  const wanted = new Set(skus);
++  return order.items.filter((item) => wanted.has(item.sku));
++};
+ 
+ // What a refund pays back, in cents: { items, fee, shipping, tax, total }. options: the options the
+ // order was priced with (pickup, code), plus skus, the lines to refund (all of them when absent),
+@@ -19,19 +23,21 @@ export function refundFor(order, options = {}) {
+   if (!whole && t.code) throw new Error("Partial refunds of discounted orders aren't supported yet");
+   const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(lineTotal(item), config.restockingFee)));
+   const items = whole ? t.subtotal - t.discount : sumCents(lines.map(lineTotal));
+-  const tax = whole ? t.tax : sumCents(lines.map((item) => percentOf(lineTotal(item), config.taxRate)));
++  // The tax on the refunded lines is percentOf their summed amount, as computeTotals charges it: line by
++  // line, percentOf would drop a fraction of a cent on each.
++  const tax = whole ? t.tax : percentOf(items, config.taxRate);
+   const shipping = whole ? t.shipping : 0;
+   return { items, fee, shipping, tax, total: items - fee + shipping + tax };
+ }
+ 
+-// The note the customer gets with a refund: the refunded lines, then the totals.
++// The note the customer gets with a refund: the refunded lines, then the totals. Items is what the
++// customer gets back for the goods, after any restocking fee.
+ export function renderRefundNote(order, options = {}) {
+   const r = refundFor(order, options);
+   const rows = [
+     ...linesFor(order, options.skus).map((item) => [`${item.qty} x ${item.name}`, lineTotal(item)]),
+     null,
+-    ...(r.fee ? [["Restocking fee", -r.fee]] : []),
+-    ["Items", r.items],
++    ["Items", r.items - r.fee],
+     ["Shipping", r.shipping],
+     ["Tax", r.tax],
+     ["Refund", r.total],
+diff --git a/test/refunds.test.js b/test/refunds.test.js
+index 0485b56..cd0a8f2 100644
+--- a/test/refunds.test.js
++++ b/test/refunds.test.js
+@@ -23,6 +23,11 @@ test("a refund of some lines pays back their amount and its tax, and no shipping
+   assert.deepEqual(refundFor(order, { skus: ["FILTER-100", "BEANS-1KG"] }), refundFor(order));
+ });
+ 
++test("the tax on a partial refund is on the lines' summed amount, not line by line", () => {
++  const three = { items: [{ sku: "OAT-1L", name: "Oat milk 1L", unitPrice: 619, qty: 1 }, { sku: "GROUND-250", name: "Ground coffee 250g", unitPrice: 1019, qty: 1 }, { sku: "MUG-12OZ", name: "Stoneware mug 12oz", unitPrice: 1800, qty: 1 }] };
++  assert.deepEqual(refundFor(three, { skus: ["OAT-1L", "GROUND-250"] }), { items: 1638, fee: 0, shipping: 0, tax: 131, total: 1769 });
++});
++
+ test("an opened line keeps a 15% restocking fee", () => {
+   assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"] }), { items: 2400, fee: 360, shipping: 0, tax: 192, total: 2232 });
+ });
+@@ -35,7 +40,7 @@ test("a SKU not on the order, or a partial refund of a discounted order, is an e
+ test("the refund note shows each part", () => {
+   assert.equal(
+     renderRefundNote(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"] }),
+-    "Refund for order A-1040\n\n1 x House beans 1kg  $24.00\n\nRestocking fee       -$3.60\nItems                $24.00\nShipping              $0.00\nTax                   $1.92\nRefund               $22.32",
++    "Refund for order A-1040\n\n1 x House beans 1kg  $24.00\n\nItems                $20.40\nShipping              $0.00\nTax                   $1.92\nRefund               $22.32",
+   );
+ });
+ 
+@@ -43,7 +48,7 @@ test("refund-order prints the note, or --json the amounts", () => {
+   const cli = (...args) => spawnSync(process.execPath, [at("../bin/refund-order.js"), ...args], { encoding: "utf8" });
+   assert.match(cli(at("../examples/order.json")).stdout, /^Refund +\$45\.95$/m);
+   assert.deepEqual(JSON.parse(cli(at("../examples/order.json"), "--json").stdout), { items: 3700, fee: 0, shipping: 599, tax: 296, total: 4595 });
+-  assert.match(cli(at("../examples/order.json"), "--sku", "BEANS-1KG", "--opened", "BEANS-1KG").stdout, /^Restocking fee +-\$3\.60$/m);
++  assert.match(cli(at("../examples/order.json"), "--sku", "BEANS-1KG", "--opened", "BEANS-1KG").stdout, /^Items +\$20\.40$/m);
+   const unknown = cli(at("../examples/order.json"), "--sku", "TEA-50");
+   assert.equal(unknown.status, 1);
+   assert.match(unknown.stderr, /TEA-50/);

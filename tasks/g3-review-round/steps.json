@@ -1,0 +1,33 @@
+{
+  "name": "g3-review-round",
+  "title": "A fixed review finding is re-broken later: the refunds findings, then refunds Slice 3",
+  "plan": "docs/plans/2026-09-30-refunds.md",
+  "branch": "refunds-fixes",
+  "arms": "close",
+  "carryOn": "Carry on with the refunds work.",
+  "caps": { "kit": 9, "plain": 5 },
+  "sessions": [
+    {
+      "checks": ["session-1.test.js"],
+      "steps": [
+        {
+          "kind": "task",
+          "prompt": "CodeRabbit's findings on the refunds work are in `review/findings-refunds.md`. Deal with them and commit on a new branch named `refunds-fixes`.",
+          "done": { "commit": "src/refunds.js" },
+          "continue": "The findings in review/findings-refunds.md aren't dealt with in a commit on `refunds-fixes` yet. Make the changes they call for, leave out the ones that shouldn't be made, and commit there."
+        }
+      ]
+    },
+    {
+      "checks": ["session-1.test.js", "session-2.test.js"],
+      "steps": [
+        {
+          "kind": "task",
+          "prompt": "Implement Slice 3 of docs/plans/2026-09-30-refunds.md. Commit it on the `refunds-fixes` branch.",
+          "done": { "commit": "src/refunds.js" },
+          "continue": "Slice 3 of docs/plans/2026-09-30-refunds.md isn't committed on `refunds-fixes` yet. Finish it and commit it there."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+Slice 3 is done and committed on `refunds-fixes` as **a703a1e**. `npm run check` passes all 35 tests (4 of them new). As before, the export import check was skipped because `ledger-check` isn't installed here, but this slice doesn't touch the export.
+
+**How each point is met** (`src/refunds.js`):
+1. **Amounts:** a partial refund of a discounted order no longer throws. Each refunded line pays back its net (its amount less its share of the discount). The tax is charged on the sum of those nets, the same way as last session's tax fix. An opened line's restocking fee is 15% of its net. Refunding every line gives exactly the whole-order refund, and the tests check this for SAVE10 and TAKE5.
+2. **Refund note:** each line is printed at its net price, and `Items` is the sum of those nets.
+3. **CLI and docs:** `--code` together with `--sku` works and is tested. The README drops the "not supported yet" note and explains how discounts affect a refund.
+
+Example: refunding just the filters from the example order with SAVE10 pays back $11.70 of items plus $0.93 tax, $12.63 in all.
+
+**Two behaviour changes to know about:**
+- **Whole refunds of discounted orders printed lines that didn't add up.** Before this, the note showed full prices on the lines but the discounted total on `Items`, so the bookkeeper's import would have rejected it. Printing nets fixes that.
+- **The restocking fee on a whole refund of a discounted order is now lower.** Slice 2 already allowed that case, but took the fee from the full price. It now comes from the net, as point 1 says. Orders without a code charge the same fee as before.
+
+I also updated the plan's status line, added a CHANGELOG line under Unreleased, and reworded the restocking-fee comment in `src/config.js`. I didn't touch `percentOf`, which Slice 4 leaves for later, or finding 2. Finding 2 is still declined until you decide, and the restocking fee is still its own line on the note.
+
+The branch is still unpushed, with no PR. Do you want me to push it and open a PR against `main`?

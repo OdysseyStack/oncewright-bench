@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 9,
+  "result": "Slice 1 is committed on the new `order-notes` branch as `71816e5`. Of the two checks `npm run check` runs, only one actually ran: the tests passed, 34 of 34, but the export import check was skipped.\n\n**Check results**\n- **Tests:** 34 pass, 0 fail. That's the 30 that were there before plus 4 new ones.\n- **Export import check:** this didn't run, because `ledger-check` isn't installed on this machine. The script prints a warning and exits 0, so `npm run check` reports success, but the export was never checked. This slice doesn't touch the export code or the example orders it uses, so I committed anyway. To get a real pass, install `ledger-check` and run `npm run check` again.\n\n**What changed**\n- **Validation** (`src/validate.js`): an order may carry `note`. `validateOrder` reports `note must be text` or `note is longer than 200 characters`. The limit counts characters, so a note of 200 emoji is accepted.\n- **Receipt** (`src/receipt.js`): when there's a note, the last line is `Note: <the note>` after a blank line. With a discount code it comes after the \"Code \u2026 saved you\" line. Receipts without a note are unchanged.\n- **`price-order --json`** (`bin/price-order.js`): includes `note` when the order has one and leaves the field out otherwise.\n- **Example and README:** `examples/order.json` now has the note \"Leave it at the side door\", and the README's Orders section explains what the note is for and where it shows up.\n- **Tests:** they cover the 200-character limit, a note that isn't text, the receipt's last line with and without a code, the invoice staying the same, and `--json` with and without a note. One CLI test checks that an order with an over-long note is refused.\n- **Plan and changelog:** the plan's status line now reads \"Slice 1 done.\" I also added a line to `CHANGELOG.md` under Unreleased. CLAUDE.md only requires that when the export format changes, which it didn't here, but the changelog lists other features too.\n\nAn empty note (`\"\"`) passes validation but counts as no note, so it doesn't appear on the receipt or in the JSON. Notes never appear in the export.",
+  "total_cost_usd": 0.344337,
+  "duration_ms": 57838,
+  "duration_api_ms": 55693,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 18,
+    "cache_creation_input_tokens": 22916,
+    "cache_read_input_tokens": 242285,
+    "output_tokens": 5624
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5624,
+      "cacheReadInputTokens": 242285,
+      "cacheCreationInputTokens": 22916,
+      "costUSD": 0.344337
+    }
+  }
+}

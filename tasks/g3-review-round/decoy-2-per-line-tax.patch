@@ -1,0 +1,136 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index eb20f4a..e3a296a 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2,6 +2,8 @@
+ 
+ ## Unreleased
+ 
++- Partial refunds of discounted orders: each line pays back its net amount.
++
+ ## 0.7.0 (2026-10-04)
+ 
+ - Refunds of some of an order's lines, with a 15% restocking fee for opened items
+diff --git a/README.md b/README.md
+index 23e4fae..c4c6dce 100644
+--- a/README.md
++++ b/README.md
+@@ -95,7 +95,7 @@ totals in cents instead.
+ amounts). `--sku <SKU>` refunds only that line (repeat it for more): its amount and the tax on it,
+ and the shipping only when every line is refunded. `--opened <SKU>` marks a refunded line as
+ opened: the shop keeps a 15% restocking fee of its amount. A SKU that isn't on the order is an
+-error. Partial refunds of orders that used a discount code aren't supported yet. `node bin/export-orders.js <folder>` prints the accounting export for every order file
++error. With `--code`, each refunded line pays back its price after its share of the discount. `node bin/export-orders.js <folder>` prints the accounting export for every order file
+ in the folder: one CSV row per order, `id,date,subtotal,discount,shipping,tax,total`, amounts as
+ `$1234.50` (`docs/export-format.md`).
+ 
+diff --git a/docs/plans/2026-09-30-refunds.md b/docs/plans/2026-09-30-refunds.md
+index 3869773..71bb4b5 100644
+--- a/docs/plans/2026-09-30-refunds.md
++++ b/docs/plans/2026-09-30-refunds.md
+@@ -1,6 +1,6 @@
+ # Refunds
+ 
+-Status: Slices 1 and 2 done. Slice 3 is next. Slice 4 later.
++Status: Slices 1, 2 and 3 done. Slice 4 later.
+ Owner: Sam Lee. Written 2026-09-30, Slice 3 spelled out 2026-10-08.
+ 
+ ## Why
+@@ -34,7 +34,7 @@ the shipping and the tax. `renderRefundNote` prints the note the customer gets,
+    prints an error naming it and exits with status 1.
+ 7. The README documents partial refunds and the flags, and the tests cover each point above.
+ 
+-## Slice 3: partial refunds of discounted orders
++## Slice 3: partial refunds of discounted orders (done, 2026-10-11)
+ 
+ Slice 2 of the line-discounts plan is done, so each line now has its share of the discount.
+ 
+diff --git a/src/refunds.js b/src/refunds.js
+index 4fa82e9..1f87650 100644
+--- a/src/refunds.js
++++ b/src/refunds.js
+@@ -1,31 +1,29 @@
+-// Refunds: a whole order (the refund plan's Slice 1), or some of its lines (Slice 2).
++// Refunds: a whole order (the refund plan's Slice 1), or some of its lines (Slice 2), discounted or not (Slice 3).
+ import { config } from "./config.js";
+ import { formatMoney, percentOf, sumCents } from "./money.js";
+-import { computeTotals, lineTotal } from "./totals.js";
++import { computeTotals } from "./totals.js";
+ 
+-// The order's lines a refund covers: those whose SKUs are listed, or all of them.
+-const linesFor = (order, skus) => {
+-  if (skus === undefined) return order.items;
+-  const wanted = new Set(skus);
+-  return order.items.filter((item) => wanted.has(item.sku));
++// The order's lines a refund covers, each with its net amount from computeTotals: those whose SKUs
++// are listed, or all of them.
++const linesFor = (order, totals, skus) => {
++  const wanted = skus === undefined ? null : new Set(skus);
++  return order.items.map((item, i) => ({ ...item, net: totals.lines[i].net })).filter((item) => wanted === null || wanted.has(item.sku));
+ };
+ 
+ // What a refund pays back, in cents: { items, fee, shipping, tax, total }. options: the options the
+ // order was priced with (pickup, code), plus skus, the lines to refund (all of them when absent),
+-// and opened, the refunded lines that keep a restocking fee.
++// and opened, the refunded lines that keep a restocking fee. Each line pays back its net amount (its
++// amount less its share of the discount), so a whole refund of a discounted order is unchanged.
+ export function refundFor(order, options = {}) {
+   const t = computeTotals(order, options);
+   const { skus, opened = [] } = options;
+   const unknown = [...(skus ?? []), ...opened].find((sku) => !order.items.some((item) => item.sku === sku));
+   if (unknown !== undefined) throw new Error(`SKU not on the order: ${unknown}`);
+-  const lines = linesFor(order, skus);
++  const lines = linesFor(order, t, skus);
+   const whole = lines.length === order.items.length;
+-  if (!whole && t.code) throw new Error("Partial refunds of discounted orders aren't supported yet");
+-  const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(lineTotal(item), config.restockingFee)));
+-  const items = whole ? t.subtotal - t.discount : sumCents(lines.map(lineTotal));
+-  // The tax on the refunded lines is percentOf their summed amount, as computeTotals charges it: line by
+-  // line, percentOf would drop a fraction of a cent on each.
+-  const tax = whole ? t.tax : percentOf(items, config.taxRate);
++  const fee = sumCents(lines.filter((item) => opened.includes(item.sku)).map((item) => percentOf(item.net, config.restockingFee)));
++  const items = whole ? t.subtotal - t.discount : sumCents(lines.map((item) => item.net));
++  const tax = whole ? t.tax : sumCents(lines.map((item) => percentOf(item.net, config.taxRate)));
+   const shipping = whole ? t.shipping : 0;
+   return { items, fee, shipping, tax, total: items - fee + shipping + tax };
+ }
+@@ -36,7 +34,7 @@ export function refundFor(order, options = {}) {
+ export function renderRefundNote(order, options = {}) {
+   const r = refundFor(order, options);
+   const rows = [
+-    ...linesFor(order, options.skus).map((item) => [`${item.qty} x ${item.name}`, lineTotal(item)]),
++    ...linesFor(order, computeTotals(order, options), options.skus).map((item) => [`${item.qty} x ${item.name}`, item.net]),
+     null,
+     ...(r.fee ? [["Restocking fee", -r.fee]] : []),
+     ["Items", r.items],
+diff --git a/test/refunds.test.js b/test/refunds.test.js
+index bcd4e2b..2b14996 100644
+--- a/test/refunds.test.js
++++ b/test/refunds.test.js
+@@ -25,16 +25,23 @@ test("a refund of some lines pays back their amount and its tax, and no shipping
+ 
+ test("the tax on a partial refund is on the lines' summed amount, not line by line", () => {
+   const three = { items: [{ sku: "OAT-1L", name: "Oat milk 1L", unitPrice: 619, qty: 1 }, { sku: "GROUND-250", name: "Ground coffee 250g", unitPrice: 1019, qty: 1 }, { sku: "MUG-12OZ", name: "Stoneware mug 12oz", unitPrice: 1800, qty: 1 }] };
+-  assert.deepEqual(refundFor(three, { skus: ["OAT-1L", "GROUND-250"] }), { items: 1638, fee: 0, shipping: 0, tax: 131, total: 1769 });
++  assert.deepEqual(refundFor(three, { skus: ["OAT-1L", "GROUND-250"] }), { items: 1638, fee: 0, shipping: 0, tax: 130, total: 1768 });
+ });
+ 
+ test("an opened line keeps a 15% restocking fee", () => {
+   assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"] }), { items: 2400, fee: 360, shipping: 0, tax: 192, total: 2232 });
+ });
+ 
+-test("a SKU not on the order, or a partial refund of a discounted order, is an error", () => {
++test("a SKU not on the order is an error", () => {
+   assert.throws(() => refundFor(order, { skus: ["TEA-50"] }), /TEA-50/);
+-  assert.throws(() => refundFor(order, { skus: ["BEANS-1KG"], code: "SAVE10" }), /discount/);
++});
++
++test("a partial refund of a discounted order pays back each line's net, and the tax on the nets' sum", () => {
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], code: "SAVE10" }), { items: 2160, fee: 0, shipping: 0, tax: 172, total: 2332 });
++  const three = { items: [{ sku: "A", name: "A", unitPrice: 1219, qty: 1 }, { sku: "B", name: "B", unitPrice: 1419, qty: 1 }, { sku: "C", name: "C", unitPrice: 1800, qty: 1 }] };
++  assert.deepEqual(refundFor(three, { skus: ["A", "B"], code: "TAKE5" }), { items: 2341, fee: 0, shipping: 0, tax: 186, total: 2527 });
++  assert.deepEqual(refundFor(order, { skus: ["BEANS-1KG"], opened: ["BEANS-1KG"], code: "SAVE10" }).fee, 324);
++  assert.match(renderRefundNote(order, { skus: ["BEANS-1KG"], code: "SAVE10" }), /^1 x House beans 1kg  \$21\.60$/m);
+ });
+ 
+ test("the refund note shows each part", () => {

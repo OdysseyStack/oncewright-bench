@@ -1,0 +1,18 @@
+**Handoff read.** First line:
+> ask the user about the one finding in `review/findings-refunds.md` that wasn't taken (the 2nd: show the refund note's `Items` after the restocking fee and drop the `Restocking fee` row).
+
+The branch matches the handoff: `refunds-fixes` has no uncommitted changes, holds one commit (`ec8dccc`) on top of `main`, and hasn't been pushed. Findings 1 (tax on the summed amount, `src/refunds.js:26`) and 3 (`Set` lookup, `src/refunds.js:9`) are already in that commit. One caveat from memory: `npm run check` only runs the tests on this machine, because `ledger-check` isn't installed and the export import check is skipped.
+
+**I need your call on finding 2.** CodeRabbit wants the refund note to show `Items` with the fee already taken off, with no separate `Restocking fee` row. We declined it because the plan asks for the opposite (`docs/plans/2026-09-30-refunds.md:31-32`, Slice 2 point 5): a separate negative `Restocking fee` line. Right now the note (`src/refunds.js:37-38`) prints:
+
+```
+Restocking fee   -$1.95
+Items            $13.00
+```
+
+so the customer has to subtract the fee from `Items` themselves.
+
+- **Keep the plan's layout** (my recommendation): it's what the plan specifies, and it shows the fee to the customer openly. Nothing to change.
+- **Take CodeRabbit's layout:** I'd change the plan first (Slice 2 point 5, and Slice 3 point 2, which says `Items` is the sum of the nets). Then I'd update `renderRefundNote` and the note and CLI tests in `test/refunds.test.js`. `fee` would stay in the `--json` output.
+
+Which one do you want? I also haven't asked yet whether to push `refunds-fixes` and open a PR, so tell me if you want that too.

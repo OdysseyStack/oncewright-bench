@@ -1,0 +1,20 @@
+**Handoff read.** The **First** line says:
+
+> **First:** ask Lincoln whether to push `refunds-fixes` and open a PR, or merge it. Git writes beyond the local commit need his yes.
+
+**Current state, checked just now:** you're on `refunds-fixes`. It has one commit, `98cf7d7`, on top of `main`, and the working tree is clean. That commit fixes the per-line tax finding and swaps the SKU lookup to a `Set`. It doesn't take the suggestion to fold the restocking fee into Items, because the bookkeeper's import needs the fee on its own line.
+
+**The handoff left out one thing:** this repo has no git remote, so pushing or opening a PR isn't possible until one is added. Merging into `main` locally is possible now.
+
+Also, `npm run check` passing here only proves the tests pass. `ledger-check` isn't installed on this Mac, so the export import check is skipped. This commit doesn't change the export format.
+
+**What should I do with `refunds-fixes`?**
+1. **Merge into `main` locally.** This is the only option that works without a remote.
+2. **Push and open a PR.** Give me the remote URL to add first.
+3. **Leave it for now.**
+
+Two other things are waiting on you:
+- **The declined restocking-fee finding:** do you want to reply to CodeRabbit about it, or overrule me and fold the fee in?
+- **`review/findings-refunds.md`:** keep it in the repo or remove it?
+
+After that, the next work is Slice 3 of the refunds plan (partial refunds of discounted orders).

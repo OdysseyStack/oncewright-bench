@@ -1,0 +1,9 @@
+Slice 1 is now committed on `order-notes` as `a7e9040`, and nothing is left uncommitted.
+
+**Check results**
+- **Tests:** 35 of 35 pass.
+- **Export import check:** still didn't run, because `ledger-check` isn't installed. `npm run check` exits 0 anyway, since the script only prints a warning when the tool is missing. This slice doesn't change the export code or the order files it reads. The commit message says the check was skipped.
+
+The commit is the same work as before: the order note in validation, on the receipt and in `price-order --json`, plus the example order, the README, the tests, and the plan's status line set to "Slice 1 is done." No files outside the slice's scope were changed, and I haven't pushed.
+
+Once `ledger-check` is installed, run `npm run check` on this branch to get a real result from the import check.

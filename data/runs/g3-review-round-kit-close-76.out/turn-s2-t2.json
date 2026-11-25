@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 7,
+  "result": "Slice 3 is in and committed on `refunds-fixes` as `a0bf59d`. The branch is still unpushed.\n\n- **Partial refunds of discounted orders work now.** `refundFor` no longer throws for them. Each refunded line pays back its share of the order after the discount, taken from `computeTotals(...).lines`. Tax is worked out on those amounts added together, the same way as the earlier lost-cent fix. An opened line's 15% restocking fee comes off that discounted amount too. A whole refund of a discounted order gives the same amounts as Slice 1.\n- **Refund note:** each line shows its price after the discount, and `Items` is their sum. The separate negative Restocking fee row stays, as the plan says.\n- **CLI and README:** `bin/refund-order.js` didn't need a change, because it already passed `--code` through, and a new test now runs it with `--sku`. The README no longer says these refunds aren't supported yet.\n- **Plan:** Slice 3 is marked done in its heading and status line.\n\n`npm run check` ran 35 tests and all passed. However, the export import check didn't run, because `ledger-check` isn't installed. That shouldn't matter here, since the export format didn't change.\n\nAll changes are inside the slice's files. One thing I found but didn't fix, because it's outside the scope: the comment on `restockingFee` in `src/config.js` still says the fee is a fraction of \"the line's amount\". With a discount code, it's now taken from the line's amount after the discount.\n\nStill waiting on your answers from earlier: what to do with the branch (there's no remote to push to), the refund note layout, and whether to keep `review/findings-refunds.md`.",
+  "total_cost_usd": 0.43088660000000006,
+  "duration_ms": 58255,
+  "duration_api_ms": 68258,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 14,
+    "cache_creation_input_tokens": 16103,
+    "cache_read_input_tokens": 241723,
+    "output_tokens": 5925
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 6984,
+      "cacheReadInputTokens": 305873,
+      "cacheCreationInputTokens": 28744,
+      "costUSD": 0.43088660000000006
+    }
+  }
+}

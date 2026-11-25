@@ -1,0 +1,15 @@
+Slice 1 is built on the new `order-notes` branch, but **I haven't committed**. One of the two checks didn't run, so I can't say every check passed.
+
+**Check results (`npm run check`):**
+- **Tests:** all 34 pass, 0 fail. That includes 4 new tests for the slice.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0 without checking anything. This slice doesn't change the export or the order files it reads (`examples/orders/`), so it's unlikely to be affected. But "unlikely" isn't a pass.
+
+**What Slice 1 does now:**
+- **Validation:** `validateOrder` accepts an optional `note`. It reports `note must be text` if the note isn't a string, and `note is longer than 200 characters` if it's too long (counted in characters, so an emoji counts as one).
+- **Receipt:** prints `Note: …` as its last line, after a blank line, including after the discount-code line. Without a note it's unchanged. The invoice ignores the note, and a test covers that.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Example and docs:** `examples/order.json` has a note and the README's Orders section mentions it. I marked Slice 1 done in the plan's status line.
+
+All changed files are inside the slice's scope: the 4 source files, `examples/order.json`, `README.md`, their tests, and the plan file. The export format didn't change, so `docs/export-format.md` and `CHANGELOG.md` are unchanged.
+
+**Your call:** install `ledger-check` and I'll rerun `npm run check` and commit, or tell me to commit now with the skipped check noted in the commit message.

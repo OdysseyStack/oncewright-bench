@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and committed them as `bec218d` on a new branch, `refunds-fixes`. The third finding I rejected because it conflicts with the refunds plan. Nothing is pushed.
+
+- **Tax on a partial refund (fixed):** the tax is now taken on the refunded lines' total, as the plan's Slice 2 point 1 says and as the order itself charges it. A new test uses $6.19 and $10.19 lines: the refund's tax is now $1.31, where the old code gave $1.30. The test failed before the fix and passes after it.
+- **SKU lookup (fixed):** `linesFor` now checks SKUs against a `Set`.
+- **Folding the restocking fee into `Items` on the refund note (rejected):** the plan's Slice 2 point 5 asks for a separate negative `Restocking fee` line, and Slice 3 relies on `Items` being the sum of the line amounts. If you want the note to work that way, the plan has to change first.
+
+`npm run check`: all 31 tests pass. The export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export.
+
+Files changed: `src/refunds.js` and `test/refunds.test.js`, nothing outside that scope.

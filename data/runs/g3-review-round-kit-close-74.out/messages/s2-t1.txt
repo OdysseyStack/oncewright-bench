@@ -1,0 +1,14 @@
+**Handoff read**
+
+> **First:** ask the user whether to push `refunds-fixes` and open a PR, and whether the `.resolved` file should be committed beside the tracked findings file or left untracked. Don't push without a yes.
+
+I read both memories it points to: `refunds-review-rulings` and `ledger-check-not-installed`. No timers were set.
+
+**Where things stand (checked just now):** `refunds-fixes` has one commit, `52fa319`, on top of `main`. Nothing is pushed. The only untracked file is `review/findings-refunds.md.resolved`. One thing the handoff didn't mention: this repo has no `origin` remote (`git ls-remote origin` fails). So I can't push or open a PR until you add one or tell me which remote to use.
+
+Two questions:
+
+1. **Push and PR:** do you want `refunds-fixes` pushed and a PR opened against `main`? If yes, which remote should it go to?
+2. **The `.resolved` file:** should `review/findings-refunds.md.resolved` (the triage record: 3 findings, 2 accepted, 1 rejected) be committed next to `review/findings-refunds.md`, or left untracked?
+
+Until you answer, I won't push, commit or change any files. After that, the next task is refunds Slice 3. Slice 4 stays blocked until Finance replies.

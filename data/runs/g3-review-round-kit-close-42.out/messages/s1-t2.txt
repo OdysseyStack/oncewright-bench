@@ -1,0 +1,9 @@
+I wrote this session's memory and the handoff for the next one.
+
+- **Stopped:** nothing; no agents, jobs or monitors ran this session.
+- **Memory:** one new file, `ledger-check-not-installed`. It records that `npm run check` passes on this machine without running the export import check. `MEMORY.md` is 1 line and 145 bytes, well under its 16 KB / 150-line limit, so the index didn't need tidying.
+- **Handoff:** written to `directives/handoff/current.md`. Its first line is "# Handoff: refunds fixes committed on `refunds-fixes`, not pushed".
+- **Still yours to decide:** whether to push `refunds-fixes` and open a PR, and whether you agree with turning down finding 2 (moving the restocking fee into `Items` on the refund note).
+- **Warning for Slice 3:** the plan's wording "the tax on it at the tax rate" could be read as per-line tax. That would bring back the cent-short bug fixed today, so the handoff says to charge tax on the total of the refunded lines.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

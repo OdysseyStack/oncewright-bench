@@ -1,0 +1,6 @@
+I saved two notes for the next session. The working tree is clean, the branch is `refunds-fixes`, and the commit is `c6fee86`.
+
+- **Where the refunds fixes stand:** the branch isn't pushed or merged yet, so the next session will ask you whether to push it, open a PR or merge. The note also says I turned down CodeRabbit's suggestion to put the restocking fee into `Items` because the bookkeeper's import needs the fee on its own line. That way it won't get applied quietly if it comes up again. After this, the refunds plan's next step is still Slice 3, partial refunds of discounted orders.
+- **`ledger-check` isn't installed here:** a passing `npm run check` on this machine means only the tests ran, not the export import check. If a change touches the export format, the next session will say so and ask how you want it checked.
+
+I didn't save the code changes or the reasons for them as notes. Those are already in the commit message and the changelog.

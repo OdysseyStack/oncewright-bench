@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I committed Slice 1 on `order-notes` as `dd43388`. All 34 tests pass, but the export import check still didn't run because `ledger-check` isn't installed on this machine.\n\n**Check results** (`npm run check`, run again just before committing):\n- **Tests:** 34 of 34 pass.\n- **Export import check:** skipped. The script prints a warning and exits 0, so `npm run check` looks like a full pass even though the bookkeeper's checker never ran. This slice doesn't touch the export code or `examples/orders`, and the export output is byte-for-byte the same as on `main`, so I don't expect a problem. The commit message records that the import check was skipped.\n\n**What the commit contains:**\n- **Validation:** an order can carry a `note` of up to 200 characters, and `validateOrder` reports a note that isn't text or is too long.\n- **Receipt:** it ends with a blank line and then `Note: <the note>` when the order has a note. Without one, the receipt is unchanged, and the invoice never shows the note.\n- **JSON output:** `price-order --json` includes `note` when there is one.\n- **Example, README and plan:** the example order now has a note, the README's Orders section describes it, and the plan's status line says Slice 1 is done.\n- **Tests:** they cover each point above.\n\nNothing has been pushed. To run the import check, install `ledger-check` and run `npm run check` again.",
+  "total_cost_usd": 0.4325629999999999,
+  "duration_ms": 12639,
+  "duration_api_ms": 70948,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 1733,
+    "cache_read_input_tokens": 114097,
+    "output_tokens": 964
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 6289,
+      "cacheReadInputTokens": 441675,
+      "cacheCreationInputTokens": 27292,
+      "costUSD": 0.4325629999999999
+    }
+  }
+}

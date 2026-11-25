@@ -1,0 +1,12 @@
+{
+  "name": "odyssey",
+  "version": "1.0.0",
+  "description": "Makes planned work and one-off requests directly, each with a one-line record and the repo's gate run before each commit, with a CodeRabbit review loop, session handoff and memory, and guard hooks.",
+  "author": {
+    "name": "Lincoln Powers ∙ Odyssey AI, Inc.",
+    "url": "https://www.odysseystack.com"
+  },
+  "homepage": "https://www.odysseystack.com",
+  "repository": "https://github.com/OdysseyStack/oncewright",
+  "license": "MIT"
+}

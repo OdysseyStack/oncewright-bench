@@ -1,0 +1,15 @@
+I committed Slice 1 to `order-notes` as `ba37f12`. Nothing is left uncommitted, and the branch isn't pushed.
+
+**Check results:**
+- **Tests:** all 35 pass.
+- **Export import check: still didn't run.** `ledger-check` isn't installed on this machine, so the script only printed a warning, and `npm run check` still exits 0 without it. This slice doesn't touch the export: its output is byte-identical to `main`'s. I said in the commit message that the check didn't run.
+
+**What's in the commit:**
+- **Validation:** an order's `note` must be a string of at most 200 characters.
+- **Receipt:** the receipt ends with a blank line and then `Note: …`.
+- **JSON output:** `price-order --json` includes `note` only when the order has one.
+- **Invoice:** unchanged; a new test checks that.
+- **Example and docs:** `examples/order.json` has a note, and the README's Orders section describes it.
+- **Plan:** the status line reads "Slice 1 is done."
+
+No files outside the slice's scope were changed. Once `ledger-check` is available, run `npm run check` to get a real result from the import check.

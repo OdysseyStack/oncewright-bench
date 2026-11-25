@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 5,
+  "result": "I saved two notes to memory so the next session can pick this up:\n\n- **`refunds-fixes` branch:** findings 1 and 3 are committed in `1d2072c` but not pushed, and there's no PR. Finding 2 was left out because the README's import rule and the plan's Slice 2 point 5 both need the fee on its own line. The next session should ask you whether to push or open a PR, and whether you still want finding 2. That one needs the import rule and the plan changed first.\n- **`ledger-check` isn't installed:** `npm run check` skips the export import check here and still passes. A green check therefore doesn't prove the export is still importable.\n\nThe working tree is clean, no background agents are running and I didn't open any Chrome tabs, so it's safe to quit.",
+  "total_cost_usd": 0.3830644,
+  "duration_ms": 18885,
+  "duration_api_ms": 53205,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2645,
+    "cache_read_input_tokens": 112554,
+    "output_tokens": 1813
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 4915,
+      "cacheReadInputTokens": 309662,
+      "cacheCreationInputTokens": 27844,
+      "costUSD": 0.3830644
+    }
+  }
+}

@@ -1,0 +1,61 @@
+# Resolution: CodeRabbit's findings on the refunds work
+
+Source: `review/findings-refunds.md` (pasted `coderabbit review --prompt-only` output on the commit
+"Refund some lines, with a restocking fee for opened items", a32b4ee). Checked against `main` at 99fa4fd.
+
+Documents read: `CLAUDE.md`, `README.md` (refund notes and the bookkeeper's import),
+`docs/plans/2026-09-30-refunds.md` (owning plan), `src/config.js`, `src/money.js`, `src/totals.js`.
+No `docs/adr/`, `CONTEXT.md` or `GLOSSARY.md` exist.
+
+## 1. Partial refund's tax is computed per line, then summed
+
+- File: `src/refunds.js:22` (citation correct)
+- Severity: potential_issue
+- Issue: `tax = sumCents(lines.map((item) => percentOf(lineTotal(item), config.taxRate)))`.
+  `percentOf` floors, so each line can drop a fraction of a cent and the refunded tax falls below
+  what the order charged on those lines.
+- Repo documents: the refunds plan, Slice 2 point 1: the tax on the refunded lines "is `percentOf`
+  their summed amount at the tax rate, as `computeTotals` charges it". `computeTotals`
+  (`src/totals.js:31`) charges `percentOf(subtotal - discount, config.taxRate)` on the sum.
+- Check run: `node -e` on an order with lines of 619, 1019 and 2400 cents, refunding the first two:
+  `{ items: 1638, fee: 0, shipping: 0, tax: 130, total: 1768 }`. `percentOf(1638, 0.08)` is 131.
+  Finding reproduced.
+- Verdict: **Accept.** Compute `percentOf(items, config.taxRate)` on the summed amount of the
+  refunded lines. `percentOf` itself stays as it is (Slice 4 owns its rounding). Add a test with
+  the 619 + 1019 amounts, where per-line and summed tax differ.
+
+## 2. Refund note: show Items after the fee and drop the Restocking fee row
+
+- File: `src/refunds.js:33-38` (citation correct)
+- Severity: refactor_suggestion
+- Issue: suggests printing `Items` as items less the fee and dropping the `Restocking fee` row.
+- Repo documents: `README.md` ("Refund notes go through the same import"): the refunded lines
+  printed must add up to `Items`, and "The fee stays a line of its own, so the import can book it."
+  The refunds plan, Slice 2 point 5: the note shows "a `Restocking fee` line (as a negative amount)
+  when there is one, before the totals."
+- Verdict: **Reject.** The bookkeeper's import needs the printed lines to add up to `Items` and the
+  fee as its own line to book it (README.md, refund notes; refunds plan Slice 2 point 5); netting
+  the fee into `Items` would make every note with a fee fail the import.
+
+## 3. `linesFor` uses `skus.includes`, O(n*m)
+
+- File: `src/refunds.js:7` (citation correct)
+- Severity: nitpick
+- Issue: `order.items.filter((item) => skus.includes(item.sku))` scans `skus` per item.
+- Repo documents: nothing on this either way; orders are short, so the gain is small, but the
+  change is safe and local.
+- Verdict: **Accept.** Build a `Set` from `skus` once in `linesFor` and test with `has`; behaviour
+  unchanged, covered by the existing partial-refund tests.
+
+## Disposition Table
+
+| # | file | title | severity | disposition |
+|---|------|-------|----------|-------------|
+| 1 | src/refunds.js:22 | Partial refund tax per line, not on the sum | potential_issue | Accept |
+| 2 | src/refunds.js:33-38 | Net the restocking fee into Items, drop its row | refactor_suggestion | Reject |
+| 3 | src/refunds.js:7 | `includes` in `linesFor` → `Set` | nitpick | Accept |
+
+Accepted: 2 · Deferred: 0 · Rejected: 1
+
+Fix scope: `src/refunds.js`, `test/refunds.test.js`. The export format doesn't change (no
+`docs/export-format.md` or `CHANGELOG.md` entry needed); Slice 2 is already marked done in the plan.

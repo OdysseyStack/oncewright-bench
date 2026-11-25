@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/OdysseyStack/oncewright/main/schema/odyssey.v1.json",
+  "title": ".claude/odyssey.json",
+  "description": "What the Odyssey kit runs or matches on in this repo. Only version is required; every other key has a default.",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "description": "Config format version.", "const": 1 },
+    "project": {
+      "description": "The project's name.",
+      "type": "string",
+      "minLength": 1
+    },
+    "srcDirs": {
+      "description": "Source directories, relative to the repo root. Default: [\"src\"].",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "testDirs": {
+      "description": "Test directories, relative to the repo root. Default: [\"test\"].",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "gate": {
+      "description": "The local gate /odyssey:local-gate runs: the same stages CI runs.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stages": {
+          "description": "Each stage runs on its own and reports pass or fail.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "command"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "command": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "fix": {
+          "description": "The auto-fix commands local-gate's fix mode runs before the stages.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "db": {
+      "description": "The migration flow /odyssey:db-migration drives. Without it, the repo has no migration flow.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaFile": { "description": "The schema file migrations are generated from.", "type": "string", "minLength": 1 },
+        "seedFile": { "description": "The seed, which must stay idempotent.", "type": "string", "minLength": 1 },
+        "generate": { "description": "Generates a migration from the schema.", "type": "string", "minLength": 1 },
+        "migrate": { "description": "Applies pending migrations to a local database.", "type": "string", "minLength": 1 },
+        "seed": { "description": "Runs the seed.", "type": "string", "minLength": 1 }
+      }
+    },
+    "docs": {
+      "description": "Project docs the kit reads.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plan": { "description": "The plan /odyssey:make-a-path and /odyssey:what-next read beside docs/plans/.", "type": "string", "minLength": 1 },
+        "check": { "description": "The repo's own docs check, which the gate's docs stage runs after the kit's, such as \"npm run docs:check\".", "type": "string", "minLength": 1 },
+        "roadmap": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+        "deploy": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+        "deployManifest": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+        "always": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." }
+      }
+    },
+    "metaSync": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+    "protect": {
+      "description": "Files the guard hooks protect.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "appendOnly": {
+          "description": "File names Claude may only append to, such as a session journal. Needs hooks.protectAppendOnly.",
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[^/\\\\]+$" }
+        },
+        "readOnly": {
+          "description": "File names only a human edits, such as an audit log. Every Claude session is blocked from them. Needs hooks.protectAppendOnly.",
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[^/\\\\]+$" }
+        },
+        "secrets": {
+          "description": "Extra secret-file patterns, added to the secrets guard's defaults, which stay in force. Without a slash a pattern matches a file name, with one the end of the path; * matches within one name, **/ any number of folders, and letter case is ignored. Names ending .example, .sample, .template, .dist or .pub stay writable. For example \".npmrc\" or \"config/*.local.yaml\".",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "manifests": {
+          "description": "Extra dependency manifests, such as pyproject.toml or Cargo.toml, added to package.json and the npm, yarn and pnpm lockfiles. Needs hooks.protectManifest.",
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[^/\\\\]+$" }
+        }
+      }
+    },
+    "layer2Owned": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+    "reviewers": { "description": "Retired: no longer read. Kept so a config written before it went stays valid." },
+    "hooks": {
+      "description": "The hooks' switches. The opt-in hooks are off by default; the secrets guard, the stamped-file guard and the zsh guard are always on, and the commit gate is on whenever gate.stages is set.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protectManifest": { "description": "Block hand edits to dependency manifests and lockfiles.", "type": "boolean" },
+        "protectAppendOnly": { "description": "Enforce protect.readOnly and protect.appendOnly.", "type": "boolean" },
+        "loadLog": {
+          "description": "Log each instruction file Claude Code loads, one line each under ~/.claude/odyssey-loads/, which the docs check and /odyssey:audit set beside the files that should load.",
+          "type": "boolean"
+        },
+        "formatOnEdit": {
+          "description": "Format each edited file with the repo's own Prettier, and lint-fix it with ESLint under srcDirs and testDirs. Runs only after you trust it.",
+          "type": "boolean"
+        },
+        "esmImportExtension": {
+          "description": "Flag relative imports without a .js extension in TypeScript under srcDirs and testDirs.",
+          "type": "boolean"
+        },
+        "commitGate": {
+          "description": "Run gate.stages and the docs stage before each git commit Claude runs, and block the commit when a stage fails. On whenever gate.stages is set; false turns it off. Runs only after you trust the stage commands.",
+          "type": "boolean"
+        },
+        "typecheckGate": {
+          "description": "When Claude stops while the working tree holds uncommitted TypeScript changes under srcDirs or testDirs, run command; errors send Claude back to fix them. Runs only after you trust the command.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "command": { "description": "For example \"npx tsc --noEmit\".", "type": "string", "minLength": 1 },
+            "timeoutSec": { "description": "The gate's own time limit. Default: 300.", "type": "integer", "minimum": 1, "maximum": 590 }
+          }
+        }
+      }
+    }
+  }
+}

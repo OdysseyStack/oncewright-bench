@@ -1,0 +1,14 @@
+{
+  "name": "odyssey-ai",
+  "description": "Claude Code plugins from Odyssey AI.",
+  "owner": {
+    "name": "Odyssey AI, Inc."
+  },
+  "plugins": [
+    {
+      "name": "odyssey",
+      "source": "./",
+      "description": "Makes planned work and one-off requests directly, each with a one-line record and the repo's gate run before each commit, with a CodeRabbit review loop, session handoff and memory, and guard hooks."
+    }
+  ]
+}

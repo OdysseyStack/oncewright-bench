@@ -1,0 +1,9 @@
+I fixed two of CodeRabbit's three findings and turned down the third. The work is committed on the new branch `refunds-fixes` (b59d89c).
+
+1. **Tax on a partial refund (fixed):** the tax is now worked out on the total of the refunded lines, not line by line and then added up. That is how the order charged it, and it's what the refunds plan says (Slice 2 point 1). I added a test using CodeRabbit's example amounts: lines of $6.19 and $10.19 now refund $1.31 in tax, not $1.30. The test fails on the old code and passes now. I didn't touch the existing cent-rounding in `percentOf`, which the plan's Slice 4 says to leave alone for now.
+2. **Refund note layout (turned down):** CodeRabbit wanted the note to show `Items` with the restocking fee already taken off and to drop the separate fee line. That would break the bookkeeper's import. The README says the refunded lines must add up to `Items` and the fee has to stay on its own line so the import can book it. Plan Slice 2 point 5 also asks for that line. If you still want the change, the plan and README would need updating first. The commit message records why I left it.
+3. **SKU lookup (fixed):** `linesFor` now checks SKUs against a `Set`.
+
+I also added a line to `CHANGELOG.md` under Unreleased for the tax fix. CLAUDE.md only requires that for export format changes, but this changes refund amounts customers see.
+
+All 31 tests pass. The export check didn't run, because `ledger-check` isn't installed on this machine; it skips with a warning. That should be harmless here, since nothing in the export changed.

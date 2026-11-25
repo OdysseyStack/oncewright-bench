@@ -1,0 +1,18 @@
+**Handoff read**
+
+> **First:** ask the user what happens to `refunds-fixes`: push it and open a PR, merge it, or leave it. Then ask whether they accept rejecting finding #2.
+
+I checked the live state and it matches the handoff. You're on `refunds-fixes`, with one commit (`44f06b0`) on top of `main`. The tree is clean and nothing has been pushed. One thing the handoff didn't say: this repo has no git remote, so pushing and opening a PR would need a remote added first.
+
+Also, `npm run check` passes here without running the export import check, because `ledger-check` isn't installed on this machine. The refunds fixes don't touch the export, so that doesn't affect this commit.
+
+**Two questions:**
+
+1. **What should happen to `refunds-fixes`?** Pick one:
+   - **Push and open a PR.** You'd need to give me a remote, or add one yourself.
+   - **Merge into `main`.**
+   - **Leave it** as it is.
+
+2. **Do you accept rejecting CodeRabbit finding #2?** It asked to fold the restocking fee into `Items` and drop the `Restocking fee` row. I rejected it because the refunds plan (`docs/plans/2026-09-30-refunds.md`) says the opposite in Slice 2 point 5 and Slice 3 point 2. If you want the fee folded in anyway, the plan has to change first. That's outside this work's scope, so I'd only do it once you say yes.
+
+Still open for later: whether to delete `review/findings-refunds.md` once the fixes land. After that, the next planned work is refunds Slice 3, which covers partial refunds of discounted orders.

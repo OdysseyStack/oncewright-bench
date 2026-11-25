@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 2,
+  "result": "Refunds Slice 3 is committed on `refunds-fixes` as `154c5dc`, on top of the tax fix (`eeb74e4`). It isn't pushed, and nothing is left uncommitted.\n\n- **What it does:** a partial refund of an order that used a discount code no longer throws an error. Each refunded line pays back its amount after its share of the discount, and tax is charged on the total of those amounts. The restocking fee on an opened line is 15% of its discounted amount. The refund note prints lines at their discounted price, and `--code` now works with `--sku`.\n- **Files in the commit:** `src/refunds.js`, `test/refunds.test.js`, `README.md`, and the plan, whose status line now marks Slice 3 done.\n- **Check:** `npm run check` passed all 36 tests before the commit. Its export import check didn't run because `ledger-check` isn't installed here. That doesn't matter for this commit, since the export format didn't change.\n\nNo files outside the slice's scope were changed. Still open: should I push and open a PR, and do you want a CHANGELOG line? The repo doesn't require one here.",
+  "total_cost_usd": 0.477615,
+  "duration_ms": 9703,
+  "duration_api_ms": 79163,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 1642,
+    "cache_read_input_tokens": 86219,
+    "output_tokens": 786
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 8264,
+      "cacheReadInputTokens": 340635,
+      "cacheCreationInputTokens": 30516,
+      "costUSD": 0.477615
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "g4-all-green-kit-close-39",
+  "task": "g4-all-green",
+  "arm": "kit-close",
+  "side": "kit",
+  "n": 39,
+  "phase": "cuts",
+  "cap": 5,
+  "plugin": "/bench/kit",
+  "sessions": [
+    {
+      "uuid": "session-1",
+      "number": 1,
+      "opened": "start",
+      "scenarioSession": 1
+    }
+  ],
+  "turns": [
+    {
+      "s": 1,
+      "k": 1,
+      "kind": "task",
+      "prompt": "Implement Slice 1 of docs/plans/2026-10-08-order-notes.md on a new branch named `order-notes`. Make sure every check passes before you commit, and tell me the results.",
+      "uuid": "session-1",
+      "file": "turn-s1-t1.json",
+      "cost": 0.3511588000000001,
+      "share": 0.3512,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 50,
+      "notDone": true
+    },
+    {
+      "s": 1,
+      "k": 2,
+      "kind": "continue",
+      "prompt": "Slice 1 of docs/plans/2026-10-08-order-notes.md isn't committed on `order-notes` yet. Finish it, run the checks, commit it there, and tell me the results.",
+      "uuid": "session-1",
+      "file": "turn-s1-t2.json",
+      "cost": 0.4089446000000001,
+      "share": 0.0578,
+      "ask": false,
+      "subtype": "success",
+      "exit": 0,
+      "seconds": 14,
+      "done": true
+    }
+  ],
+  "stopped": null
+}

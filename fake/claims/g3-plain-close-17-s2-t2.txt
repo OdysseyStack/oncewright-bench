@@ -1,0 +1,10 @@
+Slice 3 is committed on `refunds-fixes` as `bfcb215`, on top of the earlier CodeRabbit fixes commit (`d6f696d`). I'd already written it last turn on a branch called `refunds-slice-3`, which had no commits of its own. I moved the changes to `refunds-fixes` and deleted that branch.
+
+- **Partial refunds of discounted orders** now work instead of throwing an error. Each refunded line pays back its amount after its share of the discount. The tax is 8% of the sum of those amounts, and an opened line's restocking fee is 15% of its discounted amount. A whole refund gives the same amounts as before.
+- **The refund note** prints each line after its discount, so the lines add up to `Items`. This also fixes a bug: the note for a whole refund of a discounted order didn't add up before, so the bookkeeper's import would have rejected it.
+- **`refund-order --code` with `--sku`** works and is tested.
+- **Docs:** the README no longer says these refunds aren't supported yet. There's a CHANGELOG line under Unreleased, and the plan marks Slice 3 done.
+
+All 35 tests pass. `npm run check` skipped the export import step because `ledger-check` isn't installed on this machine. This change doesn't touch the export.
+
+Nothing is pushed, and the repo has no remote.

@@ -1,0 +1,6 @@
+I've saved two notes to memory so the next session can carry on:
+
+- **The `refunds-fixes` branch.** Commit 6e81223 has the tax fix and the faster SKU lookup. It's only on this machine: not pushed, no PR, not merged. The note also says I didn't apply the finding about removing the fee row from the refund note, and that it stays that way unless you say otherwise. Your next feature step is refunds plan Slice 3, which builds on this tax fix.
+- **The skipped export check.** `ledger-check` isn't installed here, so `npm run check` passes without running the export import check. When a change touches the export, I'll say the check was skipped instead of calling it verified.
+
+I left out anything the repo already records, like the reasons for each fix, which are in the commit message. Everything is committed. Two things still need you: whether to push the branch or open a PR, and whether to delete `review/findings-refunds.md` once the branch is merged.

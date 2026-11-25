@@ -1,0 +1,7 @@
+Slice 1 is committed on `order-notes` as `9544566`. One of the two checks still didn't actually run.
+
+- **Tests:** 34 of 34 passed, and `npm run check` exited 0.
+- **Export import check:** skipped again because `ledger-check` still isn't installed here. The script prints a warning and exits 0 without checking anything, so the green result covers only the tests. The slice doesn't touch the export, and the export output is byte-for-byte the same as on `main`. Still, `npm run check` needs to be run somewhere with `ledger-check` before this export can count as checked. The commit message says this.
+- **The commit** holds the code and tests listed in my last reply, plus the plan's status line, which now reads "Slice 1 is done." The working tree is clean.
+
+No files outside the slice were changed, and nothing was pushed.

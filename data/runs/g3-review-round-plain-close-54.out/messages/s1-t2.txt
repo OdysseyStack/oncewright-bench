@@ -1,0 +1,7 @@
+I've saved what the next session needs. No background agents were running, so it's safe to quit.
+
+**Saved to memory** (two notes, both listed in `MEMORY.md`):
+- **`refunds-fixes` branch:** the fixes are committed as `94552d3`, off `main`, but not pushed and there's no PR. The tax fix and the `Set` change are done; folding the fee into `Items` was turned down on purpose. If you want to open a PR, pushing is the next step. Once the branch has an open PR, a push also starts the CodeRabbit triage in the background, as your setup rules require.
+- **Why the fee keeps its own line:** the refund note's `Items` must equal the sum of the refunded lines, with the restocking fee on a separate line, or the bookkeeper's import rejects the note. It's saved so the same suggestion can be turned down quickly if a reviewer makes it again. The note also records that `ledger-check` isn't installed on this machine, so `npm run check` skips the export import check.
+
+**State of the repo:** the working tree is clean and `refunds-fixes` is checked out. `review/findings-refunds.md` is still in the repo; delete it in a later commit if you no longer need it.

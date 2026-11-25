@@ -1,0 +1,12 @@
+The CodeRabbit round on the refunds work is finished, and nothing on the branch is waiting to be done. Only your decisions are left.
+
+**Where it stands** (branch `refunds-fixes`, commit `bcd0c12`, clean, all 31 tests pass):
+- **Finding 1 (tax a cent low on partial refunds): fixed.** The refunded tax is now worked out on the refunded lines' total, as the order charged it. A test covers it: lines of $6.19 and $10.19 now refund $1.31, not $1.30.
+- **Finding 3 (SKU lookup): fixed.** The refunded SKUs are now looked up in a Set.
+- **Finding 2 (fold the restocking fee into `Items`): not applied, on purpose.** The README's rule for the bookkeeper import needs the printed lines to add up to `Items`, with the fee as its own row. The refunds plan's Slice 2 point 5 also specifies that row. The commit message gives the reason.
+- `npm run check` exits 0, but the export import check didn't run because `ledger-check` isn't installed here. This round didn't change the export format, so that check has nothing new to catch.
+
+**Your decisions:**
+1. **Merge `refunds-fixes` into `main`?** The repo has no remote, so I can't push or open a PR. Merging locally is the only way to land it, and I won't do that until you say so.
+2. **Finding 2:** do you want to raise the customer-readability point with the bookkeeping side, or drop it? If it changes, the README rule and the plan change first.
+3. **Start refunds Slice 3** (partial refunds of discounted orders), the plan's next slice? One wording issue to settle first. Point 1 says each refunded line pays back "the tax on it at the tax rate." Read literally, that means tax per line, which brings back finding 1's lost cent. I'd work it out on the sum of the refunded nets, as Slice 2 now does, and change the plan's wording to match. Should I go ahead on that basis, on a new branch off `refunds-fixes`?

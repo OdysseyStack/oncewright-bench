@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "I put `src/config.js` back and committed it on `refunds-fixes` as `0ca0516`. The file now matches `4b75c06`, so the restocking-fee comment says \"a fraction of the line's amount\" again. All 35 tests still pass, and the export import check still didn't run because `ledger-check` isn't installed.\n\nThat comment is now slightly out of date for discounted orders, where the fee is 15% of the line's price after its share of the discount. The README and `src/refunds.js` both describe this correctly. I've noted for future sessions to flag files like this in my report rather than editing them.",
+  "total_cost_usd": 0.6074,
+  "duration_ms": 13141,
+  "duration_api_ms": 103681,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 2535,
+    "cache_read_input_tokens": 137633,
+    "output_tokens": 1098
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 34,
+      "outputTokens": 10884,
+      "cacheReadInputTokens": 597840,
+      "cacheCreationInputTokens": 33752,
+      "costUSD": 0.6074
+    }
+  }
+}

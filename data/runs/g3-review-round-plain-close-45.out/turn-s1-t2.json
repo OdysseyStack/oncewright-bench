@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 6,
+  "result": "I saved three notes for the next session:\n\n- **The `refunds-fixes` branch:** commit `e727952` is local only. Nothing is pushed and there's no PR, so the next session should ask you before pushing or opening one.\n- **The refund note keeps the `Restocking fee` as its own line:** the next session should turn down any finding that folds the fee into `Items` again, because the bookkeeper's import needs the separate line.\n- **`ledger-check` isn't installed here:** so a passing `npm run check` only means the tests passed; the export import check was skipped.\n\nThe working tree is clean and everything is committed. No background agents are running and I opened no browser tabs, so the session can end now. I didn't change the refunds plan's status line, since these were fixes to Slice 2, which was already marked done. Slice 3 (partial refunds of discounted orders) is still the next piece of refunds work.",
+  "total_cost_usd": 0.3819246,
+  "duration_ms": 23872,
+  "duration_api_ms": 56882,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 3146,
+    "cache_read_input_tokens": 106700,
+    "output_tokens": 2369
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5518,
+      "cacheReadInputTokens": 299623,
+      "cacheCreationInputTokens": 26445,
+      "costUSD": 0.3819246
+    }
+  }
+}

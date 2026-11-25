@@ -1,0 +1,19 @@
+Slice 1 is built on the `order-notes` branch, but I haven't committed it. One of the two checks in `npm run check` didn't run, so I can't say every check passed.
+
+**Check results:**
+- **Tests:** 34 of 34 pass, including 5 new ones.
+- **Export import check:** did not run. `ledger-check` isn't installed on this machine, so the script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. That's why `npm run check` shows success even though this check was skipped.
+
+This slice doesn't change the export: the export output for `examples/orders` is byte-for-byte the same as on `main`. That makes it very likely the check would pass, but it isn't the check itself, so I held the commit.
+
+**What the slice does (each plan point):**
+1. **Validation:** `validateOrder` now rejects a note that isn't a string ("note must be a string") or is over 200 characters ("note is longer than 200 characters"). The limit is `NOTE_MAX` in `src/validate.js`.
+2. **Receipt:** prints `Note: …` as its last line, after a blank line, and after the discount code line when there is one. Without a note the receipt is unchanged, and the invoice doesn't change either way.
+3. **`price-order --json`:** includes `note` only when the order has one.
+4. **Example, docs and tests:** `examples/order.json` has the note "Leave it at the side door", the README's Orders section describes notes, and there are new tests in the validate, receipt, invoice and CLI test files. I also changed the plan's status line to "Slice 1 is done."
+
+I didn't add a `CHANGELOG.md` line or edit `docs/export-format.md`, because the export format didn't change. An empty note (`""`) counts as no note and prints nothing.
+
+Line breaks inside a note would print on the receipt as they are, so `Note:` wouldn't be a single last line. The plan doesn't cover this; it could be a check in a later slice.
+
+**Decision for you:** either install `ledger-check` and I'll rerun `npm run check` and commit, or tell me to commit now with the skipped export check noted in the message.

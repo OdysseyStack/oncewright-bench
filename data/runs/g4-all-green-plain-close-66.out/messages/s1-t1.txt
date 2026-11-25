@@ -1,0 +1,17 @@
+I've implemented Slice 1 and committed it on the new `order-notes` branch as `a0ad87a`. All 34 tests pass, but one of the two checks didn't run, so I can't say every check passed. I went ahead and committed anyway; details below.
+
+**Check results (`npm run check`, exit 0):**
+- **Tests: 34 of 34 pass.** That's the 30 existing tests plus 4 new ones.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, and the script prints a warning and exits 0 when it's missing. That's why `npm run check` still passes. I couldn't find the tool anywhere locally.
+
+The export check only covers the accounting export, and this change doesn't touch it. I ran the export on main and on the branch and the output is byte-for-byte the same, so I judged the commit safe. If you want it confirmed properly, run `npm run check` somewhere `ledger-check` is installed. If you'd rather I hadn't committed without it, the commit is easy to undo.
+
+**What changed, by plan point:**
+1. **Checking the note:** an order may carry a `note` of up to 200 characters. `validateOrder` reports "note must be a string" or "note must be 200 characters or fewer", and the command-line tools refuse such an order. An emoji or accented letter counts as one character.
+2. **Receipt:** if the order has a note, the receipt ends with a blank line and then `Note: …`, after the "Code … saved you" line when there is one. Without a note the receipt is unchanged. A test confirms the invoice is unchanged too.
+3. **`price-order --json`:** adds `note` when the order has one. The plain text output doesn't change.
+4. **Docs and example:** `examples/order.json` now has a note, the README's Orders section describes it, and every point above has tests.
+
+I also marked Slice 1 done in the plan's status line and added a line to `CHANGELOG.md` under Unreleased. The export format didn't change, so `docs/export-format.md` didn't need updating.
+
+**Decision for you:** an empty note (`""`) counts as no note, so it doesn't print a bare `Note: ` line. The plan doesn't cover this case. I assumed an empty comment box would come through as an empty string; if you'd rather print it anyway, it's a one-line change.

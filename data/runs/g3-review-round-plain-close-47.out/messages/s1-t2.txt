@@ -1,0 +1,9 @@
+I've saved two notes for the next session, and the work tree is clean. Nothing else is open: no background agents were started, no Chrome tabs were opened, and nothing was pushed.
+
+**Saved to memory:**
+- **The `refunds-fixes` branch:** it's committed locally as 05581c7 but not pushed, and has no PR. The note covers what was fixed, which finding I declined and why, and that the next piece of refunds work is Slice 3 (partial refunds of orders that used a discount code). It also warns that pushing to a branch with a PR triggers the CodeRabbit triage rule, so the next session should ask you before pushing.
+- **`ledger-check` isn't installed here:** on this machine, `npm run check` only runs the tests and skips the export import check. A passing check doesn't cover the export format.
+
+**Left for you:**
+- Push `refunds-fixes` and open a PR, if you want one.
+- Delete `review/findings-refunds.md` once you no longer need it. I left it in place.

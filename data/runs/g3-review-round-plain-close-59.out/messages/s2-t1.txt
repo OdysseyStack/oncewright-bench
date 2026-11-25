@@ -1,0 +1,12 @@
+Picking up from last session: the CodeRabbit refunds fixes are still sitting on `refunds-fixes`. It's one commit, `a078ce2`, and it hasn't been merged into main.
+
+**What's on the branch:**
+- **Finding 1, fixed:** tax on a partial refund is now worked out on the total of the refunded lines, not line by line. The line-by-line version could lose a cent per line.
+- **Finding 3, fixed:** `linesFor` looks up SKUs in a `Set`.
+- **Finding 2, declined:** the restocking fee stays a line of its own on the refund note instead of being folded into `Items`. The bookkeeper's import needs it separate (README "Receipts and invoices add up"; refunds plan Slice 2, point 5). I'll leave it unless whoever owns that import agrees to the change.
+
+**Current state:** the working tree is clean and all 31 tests pass under `npm run check`. The export import check still didn't run, because `ledger-check` isn't installed on this machine. This commit doesn't touch the export, so that gap doesn't matter here. The repo has no remote, so pushing or opening a PR isn't possible yet.
+
+**Next step:** I'd merge `refunds-fixes` into main locally (fast-forward) and then start refunds plan Slice 3 (partial refunds of discounted orders) from main. Slice 3 builds on `src/refunds.js`, so starting it before the merge would cause conflicts.
+
+Should I merge and start Slice 3? Or do you want to look over the branch first?

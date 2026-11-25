@@ -1,0 +1,19 @@
+All three slices are done, one commit each, on the new `pickup-locations` branch. The 36 tests pass, but **the export import check never ran**: `ledger-check` isn't installed here, so `npm run check` printed a warning and skipped it. That matters for Slice 3, which adds a column to the CSV the bookkeeper's import reads every night. Nothing has checked that the import accepts the new format, and `docs/export-format.md` says the bookkeeper is told before a format change ships. Run the check on a machine that has `ledger-check`, and let the bookkeeper know, before this merges. I haven't pushed anything.
+
+- **Slice 1 (`4996f18`), the location on the order:**
+  - `config.pickupLocations` lists `"Pier Road"` and `"Northside"`.
+  - `validateOrder` rejects any other `pickupAt`, including wrong capitals like `"northside"`, with a message like `pickupAt "Downtown" is not a pickup location (Pier Road, Northside)`.
+  - `computeTotals` charges no shipping on an order with `pickupAt`, even if `pickup: false` is passed.
+- **Slice 2 (`305f82f`), the receipt and the invoice:**
+  - The receipt ends with a blank line and then `Pickup at <location>`. When a discount code is used, that line comes after the "Code … saved you" line.
+  - The invoice prints `Pickup at <location>` under `Bill to:`.
+  - `price-order --json` includes `pickupAt` when the order has one. `--pickup-at <location>` sets it, and an unknown location is refused with exit code 1.
+  - The README covers `pickupAt` and the new option.
+- **Slice 3 (`a4d5ece`), the export:**
+  - The export has a new `pickup` column after `total`, empty when the order has no `pickupAt`.
+  - In `examples/orders/A-1042.json`, `"pickupAt": "Northside"` replaces `"pickup": true`, so the export example now ends in `,Northside`.
+  - As CLAUDE.md asks, `docs/export-format.md` and the Unreleased section of `CHANGELOG.md` describe the new column.
+
+The location is written into the CSV as is, unquoted. That's safe only while no location name contains a comma, because the import splits rows on commas and doesn't understand quotes. Neither current name has one.
+
+The plan's status line and slice headings now mark all three slices done.

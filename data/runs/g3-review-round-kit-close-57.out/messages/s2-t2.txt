@@ -1,0 +1,11 @@
+Slice 3 is done and committed on `refunds-fixes` as `ac7d793`. I haven't pushed it.
+
+- **What changed:** a partial refund of an order with a discount code no longer throws. Each refunded line pays back its amount minus its share of the discount (its "net", as `computeTotals` works it out). Tax is taken on the refunded lines' combined net, the same way Finding 1's fix did it. An opened line's restocking fee is 15% of its net. Refunding every line gives the same amounts as a whole refund, which the tests check for all three codes. `percentOf` is untouched.
+- **Refund note:** each line now prints at its net price, so the lines add up to `Items`. Before this, a whole refund of a discounted order printed full prices that didn't add up to `Items`.
+- **CLI and README:** `--code` now works with `--sku`, and I updated the comment in `bin/refund-order.js`. The README drops the "not supported yet" sentence and explains discounted refunds. I also moved the `export-orders` text, which was run onto the end of the refund paragraph, into its own paragraph.
+- **Tests:** `npm run check` passes all 35 tests. 4 of the new refund tests fail against the old code, so they do check the new behaviour. As usual, the export import check didn't run because `ledger-check` isn't installed, but this slice doesn't touch the export format.
+- **Plan:** Slice 3 is marked done in `docs/plans/2026-09-30-refunds.md`.
+
+Every file I changed was in the slice's scope.
+
+Still open: whether to push `refunds-fixes` and open a PR or merge it, and the Finding 2 question about the `Restocking fee` row.

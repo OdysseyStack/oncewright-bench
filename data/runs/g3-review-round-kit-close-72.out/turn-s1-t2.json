@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "Wrap-up is done; the handoff for the next session is written.\n\n- **Stopped:** nothing. This session started no jobs or agents.\n- **Memory:** I added one file, `ledger-check-not-installed`, with its line in `MEMORY.md`. It records that `npm run check` passes on this machine without running the export import check.\n- **Index:** not tidied, since it's 1 line and 163 bytes, far under its target.\n- **Handoff:** \"CodeRabbit refunds fixes committed on `refunds-fixes` (not pushed); the user hasn't ruled on rejected finding #2.\" It's in `directives/handoff/current.md`, which stays out of git.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.42749859999999995,
+  "duration_ms": 23375,
+  "duration_api_ms": 60599,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4520,
+    "cache_read_input_tokens": 115957,
+    "output_tokens": 2274
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 24,
+      "outputTokens": 5578,
+      "cacheReadInputTokens": 379893,
+      "cacheCreationInputTokens": 29983,
+      "costUSD": 0.42749859999999995
+    }
+  }
+}

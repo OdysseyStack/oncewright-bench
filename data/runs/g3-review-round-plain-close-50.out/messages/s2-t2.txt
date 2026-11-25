@@ -1,0 +1,9 @@
+Slice 3 is committed on `refunds-fixes` as `dac4951` ("Refund some lines of a discounted order at their net prices"). It sits on top of the earlier fix commit `0f3c00e`.
+
+- **What it does:** you can now refund some lines of an order that used a discount code. Each line pays back its price after its share of the discount. The tax is worked out on the total of those lines, and an opened line keeps a 15% restocking fee of that price. The refund note prints each line at that price, the same way the receipt does.
+- **Check:** I re-ran `npm run check` before committing and all 35 tests pass. The export import check didn't run because `ledger-check` isn't installed here. This change doesn't touch the export, so that doesn't matter for this commit.
+- **Docs:** the commit includes the README and changelog updates, and the plan now marks Slice 3 done.
+- **Branches:** I deleted my temporary `refunds-slice-3` branch. It had no commits of its own; the work was only in the working tree, and it's all in this commit now.
+- **Not pushed:** the repo has no remote, so nothing has been pushed.
+
+One thing still stands from before: refunding a discounted order one line at a time can pay back a cent less tax than the order charged, because tax rounds fractions of a cent down. That's the rounding problem Slice 4 will fix once Finance is ready.

@@ -1,0 +1,12 @@
+Slice 3 is implemented and committed on `refunds-fixes` as `107c7b8`. The branch is now two commits ahead of `main`, not pushed.
+
+- **Refund amounts** (`src/refunds.js`): a partial refund of a discounted order no longer throws. Each refunded line pays back its amount less its share of the discount (its "net"). Tax is 8% of those lines' combined nets, and an opened line's restocking fee is 15% of its net. A whole refund of a discounted order still gives the same amounts as before.
+- **Refund note:** each line now shows its net price, and the lines add up to `Items`.
+- **`refund-order`:** `--code` was already passed through; it works with `--sku` now that the error is gone. Only the header comment in `bin/refund-order.js` changed.
+- **README:** the "not supported yet" note is gone, replaced by a description of how `--code` works with refunds, plus a library example. That note had also run the `export-orders` paragraph onto the same line, so I split it back out.
+- **Tests** (`test/refunds.test.js`): new tests cover each point. For example, with SAVE10 the filters refund $11.70 + $0.93 tax, and with TAKE5 the opened beans keep a $3.11 fee instead of $3.60. These would fail on the old code.
+- **Plan:** Slice 3 is marked done in `docs/plans/2026-09-30-refunds.md`.
+
+`npm run check`: all 35 tests pass. The export import check did not run because ledger-check isn't installed here. This slice doesn't touch the export, so `docs/export-format.md` and `CHANGELOG.md` don't need changes.
+
+All changed files are inside the slice's scope.

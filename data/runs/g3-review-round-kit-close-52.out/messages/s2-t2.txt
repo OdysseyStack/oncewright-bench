@@ -1,0 +1,12 @@
+Slice 3 is in and committed on `refunds-fixes` as `50ef367`. All 35 tests pass. `npm run check` did not run the export import check because `ledger-check` isn't installed here. The export format didn't change, so that check doesn't cover this slice.
+
+**What changed:**
+- **`src/refunds.js`:** discounted orders can now be partly refunded; the error is gone. Each refunded line pays back its net price (its amount less its share of the discount). Tax is taken on the sum of those nets, and an opened line's restocking fee is 15% of its net. Shipping is still refunded only when every line is. A whole refund still gives the Slice 1 amounts. The note prints each line at its net price, and those lines add up to `Items`.
+- **`bin/refund-order.js`:** only a comment changed. `--code` already passed through, so it now works with `--sku`.
+- **README:** the "aren't supported yet" sentence is gone, replaced by a description of how `--code` works with `--sku`. The `export-orders` text that shared that paragraph now has its own.
+- **`test/refunds.test.js`:** new tests cover each point of the slice: each line's net and tax, the fee on the net, a whole refund matching Slice 1 for all three codes, the note, and the CLI with `--code` and `--sku`. The test that expected the old error now only checks unknown SKUs.
+- **Plan:** Slice 3 is marked done in the status line and its heading.
+
+Nothing was changed outside the slice's files. I didn't add a `CHANGELOG.md` line: the repo only requires one when the export format changes, so add one under Unreleased if you want it. The branch is still local; this repo has no remote.
+
+From before: finding 2 (folding the restocking fee into `Items`) is still left out and waiting for your OK. This slice keeps the fee as its own line.

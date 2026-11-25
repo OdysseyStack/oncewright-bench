@@ -1,0 +1,16 @@
+de51018c19ca5e060fb90b1cec2f364e4ddc1531 Pickup locations, Slice 3: the location in the export
+db52b74fb8b0fb467ee418219f4af3940e4278f6 Pickup locations, Slice 2: the location on the receipt and the invoice
+e186bf470f50322d49a732100e254a671300a78a Pickup locations, Slice 1: pickupAt on the order
+1659c2512ad1c2e1bf9a89875414a1b313555ae2 Plan pickup locations
+df9f7e4f16934963dceee8cb73b6c81b19f0dfa5 Plan order notes; refunds Slice 3 spelled out; CodeRabbit's findings on the refunds work, pasted
+09353556fb7780e3a8f44a42e398dd593f5fc779 Plan the ledger export
+d2979664d1a8c43c2abc39337639467acaeebbc8 Plan gift cards
+ac52004467bad0da3156f375e2ae392e4f8e50e1 README for partial refunds and line discounts; npm run check, CLAUDE.md, the export format doc and a changelog
+42f43782ec2928efd5bbe45005a773b507371229 Discounts on each line of the receipt and the invoice
+a32b4ee8298c393331c9a4e845202697eb0ebeed Refund some lines, with a restocking fee for opened items
+6e4e02b59dde57dc4797ded0b72d05d9141085fc README, and plans for receipts, line discounts and refunds
+61bb7a345fa6ae0cd23ca794c4566061f5f1ec1a Refund a whole order
+c13400ca0b6ae3ad2e0c103d91b58d318e936471 Split payments and the nightly accounting export
+8c94c7ca008d45a710cfc919e7ff59837c099195 Receipts and invoices, amounts in one column
+7759dc6f89e22258110b5c2451170a3ee7381c2b Add the price-order CLI and order checks
+f32ad9f1f3037651ca2f46bb5166b42ceab50cb9 Price orders: line totals, discount codes, tax and shipping

@@ -1,0 +1,26 @@
+Slice 3 is done: you can now refund some lines of an order that used a discount code. It's committed on `refunds-fixes` as c9b3dfb, on top of 41f4946. The tests pass (35 of 35), but `ledger-check` still isn't installed here, so the export import check didn't run. That doesn't matter for this change because the export isn't touched.
+
+**What changed in `src/refunds.js`:**
+- **No more error:** `refundFor(order, { skus, code })` now works. Each refunded line pays back its net price, meaning its amount less its share of the discount, taken from `computeTotals(...).lines`. That way the shares always add up to the order's discount.
+- **Tax:** it's charged on the refunded lines' nets added together, keeping last round's fix of not adding up each line's tax separately.
+- **Restocking fee:** an opened line's fee is 15% of its net price.
+- **Shipping:** refunded only when every line is, as before.
+- **Whole refunds:** unchanged, for every discount code.
+- **Refund note:** each line prints at its net price, so the lines add up to `Items`.
+- **`--code` with `--sku`:** refund-order needed no change; it already passed the code through, and it now gets a refund instead of an error.
+
+**One visible change beyond partial refunds:** the note for a *whole* refund of a discounted order now prints each line at its net price too. Before, it printed full prices that didn't add up to `Items`, which broke the README's rule that the bookkeeper's import relies on. The plan asks for net prices on every note, so this follows it, but the bookkeeper will see different line amounts on those notes.
+
+**Tests:** I added tests for:
+- partial refunds with SAVE10 and with TAKE5, where TAKE5's split has to round
+- an opened line in a discounted order
+- refunding every line by SKU giving the same result as a whole refund, for all three codes
+- the note at net prices
+- refund-order with `--sku` and `--code` together
+
+**Docs:**
+- **README:** the "not supported yet" note is replaced with how `--code` works, and there's a library example. I also moved the `export-orders` text into its own paragraph; it was run into the end of the refund paragraph.
+- **CHANGELOG:** one line under Unreleased.
+- **Refunds plan:** Slice 3 is marked done. I left `percentOf`'s rounding down alone, since the plan holds that for Slice 4.
+
+The branch is still only on this machine: the repo has no git remote, and nothing has been merged into `main`.

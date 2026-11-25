@@ -1,0 +1,6 @@
+I saved two notes to memory so the next session can pick this up:
+
+- **`refunds-fixes` branch:** findings 1 and 3 are committed in `1d2072c` but not pushed, and there's no PR. Finding 2 was left out because the README's import rule and the plan's Slice 2 point 5 both need the fee on its own line. The next session should ask you whether to push or open a PR, and whether you still want finding 2. That one needs the import rule and the plan changed first.
+- **`ledger-check` isn't installed:** `npm run check` skips the export import check here and still passes. A green check therefore doesn't prove the export is still importable.
+
+The working tree is clean, no background agents are running and I didn't open any Chrome tabs, so it's safe to quit.

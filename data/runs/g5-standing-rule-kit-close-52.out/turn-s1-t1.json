@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 13,
+  "result": "All three slices are done, one commit each, on the new `pickup-locations` branch. Nothing was pushed. The tests pass (37/37), but `ledger-check` isn't installed here, so `npm run check` skipped the export import check.\n\n- **`b7b2567` Slice 1:** `config.pickupLocations` lists `Pier Road` and `Northside`. `validateOrder` rejects a `pickupAt` that isn't one of them, matching the spelling exactly. An order with `pickupAt` pays no shipping, whether or not `pickup` is also set.\n- **`a350b22` Slice 2:** the receipt ends with `Pickup at <location>` after a blank line, and the invoice prints that line under `Bill to:`. `price-order --pickup-at <location>` sets the location and is checked the same way. `--json` includes `pickupAt` when the order has it. The README's Orders section explains `pickupAt`.\n- **`24484ca` Slice 3:** the export has a new `pickup` column after `total`. `A-1042.json` now has `\"pickupAt\": \"Northside\"` in place of `\"pickup\": true`, and its shipping stays $0.00.\n\nBefore this ships:\n- **The import check hasn't run on the new column.** Run `npm run check` somewhere `ledger-check` is installed.\n- **Tell the bookkeeper.** `docs/export-format.md` says they hear about a format change before it ships.\n\nFiles changed outside the plan's own list:\n- `docs/export-format.md` and `CHANGELOG.md`, which CLAUDE.md requires when the export format changes.\n- `README.md` in Slice 3, to add `pickup` to the column list in its CLIs section. That section is outside the Orders section the plan names, and Slice 2 also added `--pickup-at` to it.\n- The plan's status line, which now says all three slices are done.",
+  "total_cost_usd": 0.6412018,
+  "duration_ms": 109490,
+  "duration_api_ms": 104044,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 39117,
+    "cache_read_input_tokens": 498309,
+    "output_tokens": 11425
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 26,
+      "outputTokens": 11425,
+      "cacheReadInputTokens": 498309,
+      "cacheCreationInputTokens": 39117,
+      "costUSD": 0.6412018
+    }
+  }
+}

@@ -1,0 +1,9 @@
+Slice 1 is committed on `order-notes` as `7095eac`, but only the tests ran: the export import check was skipped again.
+
+**Check results**
+- **Tests:** all 34 pass.
+- **Export import check:** didn't run, because `ledger-check` still isn't installed. The script prints a warning and exits 0, so `npm run check` reports success anyway. This slice doesn't touch the export code, and the export output was byte-for-byte the same as on `main`. The commit message says the check was skipped.
+
+**The commit** has the slice as I described it last time: the `note` check in `src/validate.js`, the `Note:` line at the end of the receipt, `note` in `price-order --json`, the example order, the README, and tests for each point. It also marks Slice 1 done in the plan. No files outside the slice changed. The branch hasn't been pushed.
+
+Once `ledger-check` is installed, `npm run check` will run the real import check.

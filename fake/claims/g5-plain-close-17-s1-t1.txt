@@ -1,0 +1,24 @@
+All three slices are done on a new `pickup-locations` branch, one commit each. All 37 tests pass. The other half of `npm run check` didn't run: `ledger-check`, the bookkeeper's import checker, isn't installed on this machine, so the script printed a warning and exited without checking. So the new export column has not been tested against the bookkeeper's import.
+
+**Slice 1, the location on the order (`4f7555c`)**
+- `config.pickupLocations` lists `"Pier Road"` and `"Northside"`.
+- `validateOrder` rejects a `pickupAt` that isn't one of those names, spelled exactly. It says which value was wrong and lists the valid ones.
+- `computeTotals` charges no shipping on an order with `pickupAt`, whether or not `pickup` is set.
+
+**Slice 2, the receipt and the invoice (`6d356ec`)**
+- The receipt ends with a blank line and then `Pickup at <location>`. If a discount code was used, this comes after the "Code … saved you" line.
+- The invoice prints the same line under `Bill to:`.
+- `price-order --pickup-at <LOCATION>` sets the location, and an unknown location exits with an error.
+- `price-order --json` includes `pickupAt` only when the order has one.
+- The README's Orders, pricing rules and CLI sections mention `pickupAt`, and there's a changelog entry.
+
+**Slice 3, the export (`912c7c3`)**
+- The export has a new `pickup` column after `total`: the location, or empty. An order without a location now ends in a trailing comma.
+- `examples/orders/A-1042.json` now has `"pickupAt": "Northside"` in place of `"pickup": true`. Its shipping is still $0.00.
+- `docs/export-format.md` and `CHANGELOG.md` describe the new column.
+
+Before this merges:
+- **Run the import check:** run `npm run check` somewhere `ledger-check` is installed. I noted in the plan's status line that this hasn't happened yet.
+- **Tell the bookkeeper:** `docs/export-format.md` says the bookkeeper is told before a format change ships. Their nightly import will now get an extra column and rows ending in a comma.
+
+I haven't pushed the branch or opened a PR.

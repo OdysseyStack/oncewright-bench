@@ -1,0 +1,6 @@
+I saved two notes to memory, plus an index file that points to them:
+
+- **Where `refunds-fixes` stands:** It's committed as `ee6fb87` but not pushed, merged or opened as a PR. The restocking-fee finding is still open: I didn't make that change because the README's accounting-import rule and plan Slice 2 point 5 both keep the fee on its own row. You haven't said yet whether you want to change those instead. The note also lists what would have to change together if you do.
+- **`npm run check` passes without the export check:** `ledger-check` isn't installed on this machine. The script only prints a warning, so the check passes even though the export import check never ran. The next session should say the import is unverified rather than call it checked.
+
+The code changes and the reason for skipping that finding are in the commit and its message. I didn't copy those into memory.

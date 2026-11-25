@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 10,
+  "result": "Slice 1 is committed on the new `order-notes` branch as `b31cec7`. All 35 tests pass, but the export import check didn't run, so I can't say every check passed.\n\n**Check results (`npm run check`):**\n- **Tests:** 35 of 35 passed, none failed. 8 of them are new.\n- **Export import check:** did not run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. It looks like a pass but checked nothing. This change shouldn't affect the export: nothing touches `src/export.js` or `examples/orders/`. I also generated the export before and after the change and the output is byte-for-byte the same. If you need the real check, it has to be run somewhere `ledger-check` is installed. I committed anyway because the commit is local and easy to undo.\n\n**What the slice does:**\n1. **Checking the order:** `validateOrder` reports a note that isn't a string (`note must be a string`, including `null`) or is over 200 characters (`note is longer than 200 characters`). It counts characters, so 200 emoji are allowed.\n2. **Receipt:** when the order has a note, `Note: <note>` is the last line, after a blank line. With a discount code it comes after the \"Code \u2026 saved you\" line. Without a note the receipt is unchanged, and the invoice never shows the note.\n3. **`price-order --json`:** includes `note` when the order has one and leaves it out otherwise. The plain-text output is unchanged.\n4. **Docs and tests:** `examples/order.json` now has a note, the README's Orders section describes it, and every point above has tests. I also added a line to `CHANGELOG.md` under Unreleased and set the plan's status line to \"Slice 1 is done.\"\n\n**Open question:** an empty note (`\"\"`) counts as no note, and a note containing line breaks is printed as is, across several lines. The plan doesn't cover either case, so tell me if you want them handled differently.\n\nNothing has been pushed.",
+  "total_cost_usd": 0.3830374,
+  "duration_ms": 53862,
+  "duration_api_ms": 51174,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 20,
+    "cache_creation_input_tokens": 26284,
+    "cache_read_input_tokens": 296627,
+    "output_tokens": 5668
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 20,
+      "outputTokens": 5668,
+      "cacheReadInputTokens": 296627,
+      "cacheCreationInputTokens": 26284,
+      "costUSD": 0.3830374
+    }
+  }
+}

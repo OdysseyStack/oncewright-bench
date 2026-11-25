@@ -1,0 +1,9 @@
+I fixed two of the three findings, turned down the third, and committed on the new branch `refunds-fixes` (8be568c).
+
+- **Tax on a partial refund (fixed):** the tax is now worked out on the refunded lines' total instead of line by line, as the plan's Slice 2 point 1 says. I added a test with lines of $6.19 and $10.19: the order charged $1.31 tax on them, and the refund now pays back $1.31 instead of $1.30. The test fails on the old code.
+- **Faster SKU lookup (fixed):** `linesFor` now checks SKUs against a `Set`.
+- **Folding the restocking fee into `Items` (not done):** the plan's Slice 2 point 5 asks for a separate negative `Restocking fee` line on the refund note, and Slice 3 defines `Items` as the sum of the line amounts. Doing what the finding asks would go against the plan. If you'd rather have the note CodeRabbit describes, the plan needs changing first.
+
+All 31 tests pass. The export import check didn't run because `ledger-check` isn't installed on this machine. Nothing in the export changed, so the docs and CHANGELOG didn't need updating.
+
+The only files changed are `src/refunds.js` and `test/refunds.test.js`, nothing outside the scope.

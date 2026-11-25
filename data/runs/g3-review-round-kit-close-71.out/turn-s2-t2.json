@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 8,
+  "result": "Slice 3 is done and committed on `refunds-fixes` as `bb658be` (not pushed, since there's still no remote). All 35 tests pass. `npm run check` only ran the tests, though: ledger-check isn't installed, so the export import check was skipped. The export format didn't change, so that check wasn't needed for this slice.\n\n- **Amounts:** `src/refunds.js` no longer refuses a partial refund of a discounted order. Each refunded line pays back its amount less its share of the discount (its `net`). Tax is charged on the total of those nets, the same way #1 was fixed, and an opened line's restocking fee is 15% of its net. Refunding every line gives the same result as refunding the whole order.\n  - Example: with SAVE10, refunding the filters gives items $11.70, tax $0.93, refund $12.63.\n- **Note:** each line is printed at its net price, and the lines add up to `Items`.\n- **CLI:** `bin/refund-order.js` needed no change, because it already passed `--code` through. A new CLI test checks `--code` together with `--sku`.\n- **Docs:** the README no longer says discounted partial refunds aren't supported, and the plan marks Slice 3 done.\n\nFiles changed: `src/refunds.js`, `test/refunds.test.js`, `README.md`, `docs/plans/2026-09-30-refunds.md`. Nothing outside the slice's scope.\n\nStill open: CodeRabbit #2, whether the note should drop the `Restocking fee` row. I left the note's layout as it is.",
+  "total_cost_usd": 0.4721882,
+  "duration_ms": 62768,
+  "duration_api_ms": 70648,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 16,
+    "cache_creation_input_tokens": 18088,
+    "cache_read_input_tokens": 285056,
+    "output_tokens": 6996
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 7931,
+      "cacheReadInputTokens": 349321,
+      "cacheCreationInputTokens": 30452,
+      "costUSD": 0.4721882
+    }
+  }
+}

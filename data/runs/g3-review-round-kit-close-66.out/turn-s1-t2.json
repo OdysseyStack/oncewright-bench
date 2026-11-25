@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 3,
+  "result": "The session is wrapped up. The memory and the handoff for the next session are written.\n\n- **Stopped:** nothing. This session started no jobs, monitors or agents.\n- **Memory:** I added `ledger-check-not-installed`, which records that `npm run check` skips the export import check on this machine. `MEMORY.md` is 1 line, well under its 150-line target, so the index didn't need tidying.\n- **Handoff, first line:** \"CodeRabbit's refunds findings are dealt with on branch `refunds-fixes` (commit 2cb783a); nothing pushed, no PR.\"\n- **Waiting on you:** I turned down CodeRabbit's finding 2 (fold the restocking fee into `Items` on the refund note) because the plan asks for a separate fee line. The next session will ask you to confirm that.\n\nQuit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude \"/odyssey:handoff\"` from the repo root.",
+  "total_cost_usd": 0.3773392,
+  "duration_ms": 22337,
+  "duration_api_ms": 56636,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 6,
+    "cache_creation_input_tokens": 4451,
+    "cache_read_input_tokens": 109907,
+    "output_tokens": 2238
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 18,
+      "outputTokens": 5033,
+      "cacheReadInputTokens": 266876,
+      "cacheCreationInputTokens": 27904,
+      "costUSD": 0.3773392
+    }
+  }
+}

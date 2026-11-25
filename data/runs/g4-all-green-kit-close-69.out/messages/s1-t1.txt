@@ -1,0 +1,16 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it, because one of the two checks didn't run.
+
+**Check results:**
+- **Tests:** all 34 pass. 4 of them are new.
+- **Export import check:** didn't run. `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` prints a warning and exits 0. That makes `npm run check` succeed even though the check never happened. I couldn't confirm that every check passes, so I left the changes uncommitted.
+
+This slice doesn't touch the export code or `examples/orders/`, so the skipped check probably has nothing to catch. If you install `ledger-check` and run `npm run check` again, or tell me to commit without it, I'll commit.
+
+**What the slice does:**
+- **Validation:** an order may carry a `note` of up to 200 characters. `validateOrder` reports a note that isn't a string or is too long. The limit counts characters, not bytes, so a note of 200 emoji is allowed.
+- **Receipt:** an order with a note ends with a blank line, then `Note: …`. It comes after the "Code … saved you" line when there is one. Receipts without a note, and all invoices, stay exactly as they were.
+- **`price-order --json`:** includes `note` only when the order has one. An empty note counts as no note, both here and on the receipt.
+- **Example and docs:** `examples/order.json` now has a note, and the README's Orders section describes it.
+- **Plan:** the status line in `docs/plans/2026-10-08-order-notes.md` now says Slice 1 is done.
+
+I changed no files outside the slice's scope.

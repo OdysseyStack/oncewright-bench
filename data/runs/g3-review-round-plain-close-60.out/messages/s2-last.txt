@@ -1,0 +1,15 @@
+I've finished Slice 3 and committed it on `refunds-fixes` as 765468c. The branch is now two commits ahead of `main`. All 35 tests pass, including 5 new ones. The export import check didn't run because `ledger-check` isn't installed here; that's fine for this change, since it doesn't touch the export.
+
+**What changed:**
+- **Partial refunds with a code:** `refundFor` no longer throws on a partial refund of an order that used a discount code. Each refunded line pays back its price after its share of the discount, and the tax is charged on those amounts added together. On an opened line, the 15% restocking fee is taken from the discounted price. For example, with SAVE10, refunding the filters pays back $11.70 + $0.93 tax. If the beans were opened, the fee is $3.24 rather than $3.60.
+- **Whole refunds:** the discounted line prices always add up to the order's total after the discount. So refunding a whole discounted order still gives the same amounts as Slice 1, and I removed the separate code path for whole refunds. A test checks that listing every SKU gives the same result as a plain whole refund.
+- **Refund note:** each line is printed at its discounted price, as on the receipt. The lines still add up to `Items`, and the restocking fee stays on its own line, so the bookkeeper's import still works.
+- **CLI:** `refund-order --code SAVE10 --sku FILTER-100` now works. The `--code` option was already passed through; only the error was in the way. The CLI tests cover it.
+- **Docs:**
+  - The README drops the "not supported yet" sentence and adds a library example.
+  - I also split the README paragraph where the export-orders description had been run onto the end of the refund text.
+  - There's a CHANGELOG line under Unreleased, and the plan marks Slice 3 done.
+
+**Rounding:** tax still drops fractions of a cent, as Slice 4 says it must for now. So refunding an order in several parts can give back a cent less tax in total than refunding it in one go. For example, with TAKE5 on three $10 lines, the two parts refund $1.33 and $0.66, against $2.00 charged.
+
+Nothing is merged. The repo has no remote, so I can merge `refunds-fixes` into `main` locally when you want.

@@ -1,0 +1,29 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 14,
+  "result": "Slice 3 is in: partial refunds of discounted orders now work. It's committed on `refunds-fixes` as 10e3873 and not pushed.\n\n- **Refunds** (`src/refunds.js`): a partial refund with a discount code no longer errors. Each line pays back its price after its share of the discount, and an opened line's 15% restocking fee comes off that same price. Refunding a discounted order in full still gives the same amounts as before.\n- **Tax** is still taken once on the refunded lines added together, not line by line. The handoff warned about this: line by line would bring back the cent-low tax bug.\n- **Refund note:** each line shows its discounted price, and `Items` is their sum.\n- **Command line:** `--code` now works with `--sku`. The README no longer says this isn't supported, and the plan's status line marks Slice 3 done.\n\n**Tests:** `npm run check` passes, 36 tests. I checked that the new tests fail against the previous code. A version that taxes line by line fails the two tax tests, one with order lines whose tax comes to 135 cents summed but 134 line by line. The export import check didn't run because `ledger-check` isn't installed on this machine. This change doesn't touch the export format, so that check doesn't cover it anyway.\n\n**Outside the scope, found and not fixed:** a comment in `src/config.js` still describes the restocking fee as a fraction of the line's amount. For discounted orders it's now taken on the discounted price. It's a one-line comment change, if you want it.\n\nI didn't change any files beyond Slice 3's.",
+  "total_cost_usd": 0.6151407999999999,
+  "duration_ms": 90693,
+  "duration_api_ms": 102410,
+  "stop_reason": "end_turn",
+  "terminal_reason": "completed",
+  "permission_denials": [],
+  "usage": {
+    "input_tokens": 26,
+    "cache_creation_input_tokens": 22710,
+    "cache_read_input_tokens": 522305,
+    "output_tokens": 9363
+  },
+  "modelUsage": {
+    "claude-opus-5-5": {
+      "inputTokens": 32,
+      "outputTokens": 10622,
+      "cacheReadInputTokens": 586704,
+      "cacheCreationInputTokens": 35654,
+      "costUSD": 0.6151407999999999
+    }
+  }
+}

@@ -1,0 +1,8 @@
+Wrap-up is done; the handoff for the next session is written.
+
+- **Stopped:** nothing. This session started no jobs or agents.
+- **Memory:** I added one file, `ledger-check-not-installed`, with its line in `MEMORY.md`. It records that `npm run check` passes on this machine without running the export import check.
+- **Index:** not tidied, since it's 1 line and 163 bytes, far under its target.
+- **Handoff:** "CodeRabbit refunds fixes committed on `refunds-fixes` (not pushed); the user hasn't ruled on rejected finding #2." It's in `directives/handoff/current.md`, which stays out of git.
+
+Quit (`/exit`), then run this repo's launcher (`/odyssey:setup status` names it; setup makes one), or `claude "/odyssey:handoff"` from the repo root.

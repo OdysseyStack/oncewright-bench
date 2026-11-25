@@ -1,0 +1,13 @@
+Slice 3 is committed on `refunds-fixes` as `e2c9d2f`. All 35 tests pass. The export import check skipped as usual because `ledger-check` isn't installed here, but this slice doesn't touch the export.
+
+**What changed**
+- **Refund amounts** (`src/refunds.js`): a partial refund of an order with a discount code no longer throws an error. Each refunded line pays back its price after its share of the discount. An opened line's 15% restocking fee is taken from that discounted price. Refunding every line gives the same amounts as refunding the whole order.
+- **Tax:** I worked it out on the sum of the refunded lines' discounted prices, as Slice 2 does, not line by line. You didn't answer that question, so I went with what I'd suggested and changed the plan's point 1 to say so. If you wanted per-line tax, it's a one-line change, but it brings back the lost cent from CodeRabbit's finding 1.
+- **Refund note:** each line prints at its discounted price, as the receipt does, so the lines add up to `Items`. The restocking fee is still its own row, so the README's bookkeeper-import rule still holds.
+- **CLI:** `refund-order --code` works with `--sku`.
+- **Tests** cover partial refunds with SAVE10 and TAKE5 (including the case where TAKE5's $5.00 doesn't split evenly), the fee on an opened discounted line, refunding every line, the note, and the CLI.
+- **Docs:** the README drops the "not supported yet" note and gives the rule. I also split the `export-orders` text, which had been run on into the end of that paragraph. The plan's status line marks Slice 3 done, and `CHANGELOG.md` has a line under Unreleased.
+
+As a check by hand: refunding the whole sample order with TAKE5 prints lines of $20.76 + $11.24 = $32.00 for `Items`, and a $40.55 refund.
+
+The branch is still only local and not merged into `main`; the repo has no remote. The only slice left in the plan is Slice 4 (tax rounding), and it waits on Finance amending the September sales-tax filing.

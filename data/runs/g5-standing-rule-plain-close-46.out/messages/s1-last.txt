@@ -1,0 +1,17 @@
+All three slices are done on a new `pickup-locations` branch, one commit each. `npm test` passes (37 tests), but the export import check in `npm run check` did not run because `ledger-check` isn't installed here.
+
+- **`27abdc8` Slice 1:** `config.pickupLocations` is `["Pier Road", "Northside"]`. `validateOrder` rejects a `pickupAt` that isn't spelled exactly as in the config, with an error like `pickupAt "northside" is not a pickup location (Pier Road, Northside)`. `computeTotals` charges no shipping when the order has `pickupAt`, whether or not `pickup` is set.
+- **`a0c4be6` Slice 2:**
+  - The receipt ends with a blank line and `Pickup at <location>`. If the order also has a discount code, this comes after the code's "saved you" line.
+  - The invoice prints `Pickup at <location>` under `Bill to:`.
+  - `price-order --pickup-at <LOCATION>` sets the location and rejects one that isn't in the list. `--json` includes `pickupAt` only when the order has one.
+  - The README's Orders and CLIs sections describe all of this.
+- **`44d8f78` Slice 3:** the export has a new `pickup` column after `total`, holding the location or left empty. In `examples/orders/A-1042.json`, I replaced `"pickup": true` with `"pickupAt": "Northside"`, since `pickupAt` already means it's a pickup order. `docs/export-format.md` and the README describe the new column.
+
+Each slice also has a line under Unreleased in `CHANGELOG.md`, and the plan's status line now says all three slices are done.
+
+**Before you ship Slice 3:**
+- **The bookkeeper's import hasn't seen the new column.** Because `ledger-check` didn't run, nothing has confirmed their import accepts the extra column or the empty value in rows without a location. `docs/export-format.md` also says the bookkeeper is told before any format change ships, so they need to hear about it.
+- **A comma in a location name would break the export.** It's safe for now because neither name has one, but the import splits rows on commas and can't handle quotes.
+
+Nothing is pushed.

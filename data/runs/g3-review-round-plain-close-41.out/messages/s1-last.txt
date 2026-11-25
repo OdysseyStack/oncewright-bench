@@ -1,0 +1,6 @@
+I've saved two notes to memory for the next session. Nothing is left running, so it's fine to quit.
+
+- **The `refunds-fixes` branch:** commit `bcd0c12` has the tax fix and the SKU lookup change. It's only on this machine: not pushed, no PR, not merged into `main`. The note also records that I deliberately didn't apply CodeRabbit's suggestion to fold the restocking fee into `Items`, and why: it conflicts with the README's bookkeeper-import rule and with the plan's Slice 2, point 5. Whether to take that to the people who run the bookkeeping import is still your call. The next session should check with you before pushing, opening a PR or merging.
+- **`ledger-check` isn't installed here:** the export check is skipped with only a warning, so a passing `npm run check` doesn't cover the export.
+
+The working tree is clean. The next step in the refunds plan is Slice 3, partial refunds of orders that used a discount code.

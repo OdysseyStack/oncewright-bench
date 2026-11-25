@@ -1,0 +1,15 @@
+Slice 1 is committed on the new `order-notes` branch as `71816e5`. Of the two checks `npm run check` runs, only one actually ran: the tests passed, 34 of 34, but the export import check was skipped.
+
+**Check results**
+- **Tests:** 34 pass, 0 fail. That's the 30 that were there before plus 4 new ones.
+- **Export import check:** this didn't run, because `ledger-check` isn't installed on this machine. The script prints a warning and exits 0, so `npm run check` reports success, but the export was never checked. This slice doesn't touch the export code or the example orders it uses, so I committed anyway. To get a real pass, install `ledger-check` and run `npm run check` again.
+
+**What changed**
+- **Validation** (`src/validate.js`): an order may carry `note`. `validateOrder` reports `note must be text` or `note is longer than 200 characters`. The limit counts characters, so a note of 200 emoji is accepted.
+- **Receipt** (`src/receipt.js`): when there's a note, the last line is `Note: <the note>` after a blank line. With a discount code it comes after the "Code … saved you" line. Receipts without a note are unchanged.
+- **`price-order --json`** (`bin/price-order.js`): includes `note` when the order has one and leaves the field out otherwise.
+- **Example and README:** `examples/order.json` now has the note "Leave it at the side door", and the README's Orders section explains what the note is for and where it shows up.
+- **Tests:** they cover the 200-character limit, a note that isn't text, the receipt's last line with and without a code, the invoice staying the same, and `--json` with and without a note. One CLI test checks that an order with an over-long note is refused.
+- **Plan and changelog:** the plan's status line now reads "Slice 1 done." I also added a line to `CHANGELOG.md` under Unreleased. CLAUDE.md only requires that when the export format changes, which it didn't here, but the changelog lists other features too.
+
+An empty note (`""`) passes validation but counts as no note, so it doesn't appear on the receipt or in the JSON. Notes never appear in the export.

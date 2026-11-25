@@ -1,0 +1,14 @@
+Slice 1 is committed on `order-notes` as `03135c6`, and the working tree is clean. One of the two checks didn't run, though.
+
+- **Tests:** all 34 pass, 0 fail.
+- **Export import check:** skipped. `ledger-check` still isn't installed, so the script printed `check-export: warning: ledger-check is not installed, so the export import check did not run` and exited 0. `npm run check` looks green, but this check has never been run on this branch. As a stand-in, the export output is byte-for-byte the same as on `main`, since this slice doesn't change anything the export uses. That isn't the same as the bookkeeper's import check passing, and the commit message says so.
+
+The commit contains the Slice 1 work from before:
+- the note validation, up to 200 characters
+- the `Note:` line at the end of the receipt
+- `note` in `price-order --json`
+- the example order's note, the README text, and tests for each point
+
+It also changes the plan's status line to "Slice 1 is done."
+
+Nothing is pushed. To fully clear the remaining check, install `ledger-check` and run `npm run check` again.

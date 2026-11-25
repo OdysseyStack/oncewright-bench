@@ -1,0 +1,18 @@
+Slice 1 is now committed on `order-notes` as `85a1f7d` ("Order notes, Slice 1: the note on the receipt"). The code is the same as last time. I committed it as it was.
+
+## Check results (`npm run check`, run just before the commit)
+
+- **Tests: 36 of 36 pass, 0 fail.**
+- **Export import check: still did not run.** `ledger-check` isn't installed on this machine. The script printed its warning and exited 0, so `npm run check` reports success even though this check never ran. You told me to commit, so I went ahead, and the commit message says the check didn't run.
+
+What supports the export side: this slice doesn't touch `src/export.js`, `bin/export-orders.js` or `examples/orders/`. The export of the example orders is byte-for-byte identical to `main`'s. That's strong evidence, but it isn't the bookkeeper's import check. Once `ledger-check` is installed, run `npm run check` on the branch to get a real pass.
+
+## What the commit contains
+
+- **Validation:** an order may carry a `note` of up to 200 characters. `validateOrder` names a note that isn't a string or is longer than that, and the CLIs refuse such an order.
+- **Receipt:** a blank line and then `Note: <note>` is the last line when the order has a note. Without one, the receipt is unchanged. The invoice is unchanged either way.
+- **`price-order --json`:** includes `note` only when the order has one.
+- **Example, README and plan:** `examples/order.json` has a note, the README's Orders section describes notes, and the plan's status line reads "Slice 1 is done."
+- **Tests:** nine new tests cover each of the points above.
+
+An empty note (`""`) still counts as no note, as I mentioned last time. Nothing has been pushed.

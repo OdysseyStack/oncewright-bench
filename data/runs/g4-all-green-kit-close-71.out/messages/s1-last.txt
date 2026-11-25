@@ -1,0 +1,7 @@
+Slice 1 is now committed on `order-notes` as `26d7f97`. Nothing is left uncommitted.
+
+**Check results:**
+- **Tests:** all 34 pass and `npm run check` exits 0.
+- **Export import check:** still didn't run. `ledger-check` isn't installed on this machine, so the script printed a warning and exited successfully without checking anything. The slice doesn't change the export code, and `export-orders` output is exactly the same as on `main`, but the import checker itself hasn't seen it. I put this in the commit message too.
+
+The commit contains the 10 files from before: the slice's code, the example order, the README, the four test files, and the plan, now marked "Slice 1 is done." I didn't push, and nothing outside the slice's scope changed.

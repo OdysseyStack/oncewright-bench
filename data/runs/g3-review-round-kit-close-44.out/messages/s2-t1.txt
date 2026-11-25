@@ -1,0 +1,16 @@
+**Handoff read.** The handoff's **First** line:
+
+> **First:** ask Lincoln what he wants done with `refunds-fixes`: push and open a PR, merge, or leave it. If it gets pushed to a PR, dispatch cr-triage in the background (global CLAUDE.md).
+
+I checked the branch now. It's still exactly as the handoff says: one commit ahead of `main` (`2172ed5`, which covers CodeRabbit's refund findings), with no uncommitted changes. One new thing: **the repo has no git remote configured**, so to push and open a PR I'd first need the remote URL.
+
+**What do you want done with `refunds-fixes`?**
+1. **Push and open a PR.** Give me the remote URL. After the push I'll start CodeRabbit triage in the background.
+2. **Merge into `main` locally.**
+3. **Leave it** for now.
+
+Two questions from the last session are still open. They can go with your answer:
+- **Finding #2:** I didn't take CodeRabbit's suggestion to fold the restocking fee into the items total. The bookkeeper's import (README lines 55–57) and the refunds plan (Slice 2, point 5) both need the fee on its own line. Do you agree with rejecting it?
+- **CHANGELOG:** should Unreleased get a line for the one-cent fix to refund tax? The repo only requires a line for export-format changes, so none was added.
+
+`npm run check` here runs only the tests: the export import check is skipped because `ledger-check` isn't installed on this Mac. This branch doesn't change the export format, so that gap doesn't affect it.

@@ -1,0 +1,10 @@
+Slice 3 is committed on `refunds-fixes` as `abb6727`, on top of the CodeRabbit fixes commit (`4965507`). The tests pass: 34 of 34. `ledger-check` isn't installed here, so the export import check didn't run, but this change doesn't touch the export format.
+
+I'd already built Slice 3 earlier in this session but hadn't committed it. It was on a side branch, `refunds-slice-3`, which had no commits of its own. I moved the changes onto `refunds-fixes` and deleted the empty side branch.
+
+What the commit does:
+- **Discounted orders can be partly refunded.** Each refunded line pays back its amount less its share of the discount. Tax is charged on the total of those refunded amounts, and an opened item's restocking fee is 15% of its discounted amount.
+- **The refund note prints each line at its discounted price**, so the lines add up to `Items`. This also fixes whole refunds of discounted orders: their notes used to print full-price lines that didn't add up.
+- **`refund-order --code` now works with `--sku`.** I updated the README, the CHANGELOG and the plan's status line, and there are tests for each point in the slice.
+
+`refunds-fixes` isn't pushed or merged. The restocking-fee question is still open: the fee stays on its own line on the refund note, as the plan and README say, unless you decide to change that.

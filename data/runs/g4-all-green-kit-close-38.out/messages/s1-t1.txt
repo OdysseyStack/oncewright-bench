@@ -1,0 +1,17 @@
+Slice 1 is built on a new branch, `order-notes`, but I haven't committed it: one of the two checks didn't run, and you asked for every check to pass first.
+
+**Check results**
+- **Tests:** all 34 pass (30 old, 4 new). The new ones fail without the source changes and pass with them.
+- **Export import check: did not run.** `ledger-check` isn't installed on this machine, so `scripts/check-export.sh` printed a warning and exited 0. That's why `npm run check` looks green. As a stand-in, I compared the export of `examples/orders` from this branch against `main` and they're byte-identical. The export code and its example orders are untouched, so this slice can't change what that check sees. Still, it didn't pass: it was skipped.
+
+**What changed**
+- **Validation** (`src/validate.js`): `note` is optional. A note that isn't text gets "note must be text", and one over 200 characters gets "note is longer than 200 characters". I count characters, not JavaScript's string length, so 200 emoji are allowed.
+- **Receipt** (`src/receipt.js`): when there's a note, the last line is `Note: …` after a blank line, and it comes after the "Code … saved you" line. Without a note the receipt is unchanged, and the invoice never changes.
+- **`price-order --json`** (`bin/price-order.js`): adds `note` only when the order has one.
+- **Example and README:** `examples/order.json` has a note and the README's Orders section describes it. Two choices of mine: an empty `""` note passes validation but isn't printed or included in the JSON, and the README's sample order now has a note too.
+- **Tests:** new tests in `test/validate.test.js`, `test/receipt.test.js`, `test/invoice.test.js` and `test/cli.test.js`.
+- **Plan:** status set to "Slice 1 is done."
+
+Every changed file is one the slice names, its tests, or the plan. Nothing outside that scope.
+
+To commit, either install `ledger-check` and I'll rerun `npm run check` first, or tell me to commit as it stands.

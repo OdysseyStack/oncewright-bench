@@ -1,0 +1,13 @@
+I fixed two of CodeRabbit's three findings and committed them on the new branch `refunds-fixes` (commit `bcd0c12`). I didn't apply the third because it would break the bookkeeper's import. `npm run check` passes all 31 tests, but the export import check in it didn't run: `ledger-check` isn't installed on this machine. My change doesn't touch the export.
+
+**Fixed**
+1. **Tax on a partial refund** (`src/refunds.js:26`): this was a real bug. The tax was worked out line by line and then added up, so each line could lose a cent and the refund paid back less tax than the order had charged. It's now worked out once on the total of the refunded lines, which is how the order charges it and what the plan (Slice 2, point 1) says. I added a test using CodeRabbit's example: refunding $6.19 + $10.19 now gives $1.31 tax, not $1.30. I didn't touch the rounding in `percentOf` itself, because the plan's Slice 4 holds that back until finance amends the September tax filing.
+2. **SKU lookup** (`src/refunds.js:7`): `linesFor` now builds a set of the SKUs once instead of searching the list for every line. Behaviour is the same.
+
+**Not applied: folding the restocking fee into `Items` on the refund note.** CodeRabbit wanted the note to show `Items` with the fee already taken off, and drop the separate `Restocking fee` row. That conflicts with two things in the repo:
+- The README's "Receipts and invoices add up" section: the bookkeeper's import checks that the printed lines add up to `Items`, and it needs the fee as a row of its own to book it. Notes that don't add up are rejected and have to be fixed by hand.
+- The plan's Slice 2, point 5, which asks for exactly that negative `Restocking fee` row.
+
+If you still want that layout, it needs a decision with whoever runs the bookkeeping import first. The commit message explains why it was left out.
+
+I didn't add a CHANGELOG entry, because the export format didn't change and that's the only case CLAUDE.md asks for one. Nothing has been pushed.

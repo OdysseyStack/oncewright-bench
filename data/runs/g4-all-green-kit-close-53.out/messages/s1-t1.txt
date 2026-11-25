@@ -1,0 +1,19 @@
+Slice 1 is built on the new `order-notes` branch, but I haven't committed it: one of the two checks didn't run.
+
+**Check results (`npm run check`):**
+- **Tests:** all 35 pass, 7 of them new.
+- **Export import check:** it skipped itself. `ledger-check` isn't installed on this machine, so the script printed a warning and exited 0. That exit code makes `npm run check` look green even though the check never ran. This slice doesn't touch the export code or `examples/orders`, so a failure there is unlikely, but it is still unverified. You asked for every check to pass before committing, so the changes are sitting uncommitted on the branch.
+
+**What changed (all within the slice):**
+- `src/validate.js`: a `note` that isn't a string gets "note must be text", and one over 200 characters gets "note is longer than 200 characters".
+- `src/receipt.js`: if the order has a note, the receipt ends with a blank line and then `Note: …`. That comes after the "Code … saved you" line when there is one. Receipts without a note are unchanged.
+- `bin/price-order.js`: `--json` includes `note` only when the order has one.
+- `examples/order.json` now has a note, and the README's Orders section describes it.
+- New tests in `test/validate.test.js`, `test/receipt.test.js`, `test/cli.test.js` and `test/invoice.test.js` cover each point, including a check that the invoice stays the same.
+- I marked Slice 1 done in the plan's status line.
+
+Two choices the plan didn't settle:
+- An empty-string note passes validation but is treated as no note, so it doesn't print an empty `Note:` line.
+- A note containing a newline is accepted and would print across two lines on the receipt.
+
+No files outside the slice were changed. To commit, either install `ledger-check` and I'll run the full check again before committing, or tell me to commit now with that check unverified.

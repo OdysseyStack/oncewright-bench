@@ -1,0 +1,7 @@
+I fixed two of CodeRabbit's three findings and declined the third. The fixes are committed as `def8db6` on the new branch `refunds-fixes`, which I haven't pushed.
+
+1. **Tax on a partial refund (fixed):** the tax was worked out line by line and then added up, so each line could lose a cent. It's now worked out once on the total of the refunded lines, the same way the order charges it and the plan's Slice 2 says it should be. I added a test using $6.19 and $10.19: it now refunds $1.31, matching what the order charged. Against the old code the test failed with $1.30.
+2. **Showing `Items` after the restocking fee, with no separate fee line (declined):** the README says the bookkeeper's import needs the refunded lines to add up to `Items`, with the fee as a line of its own so it can be booked. The plan's Slice 2 point 5 also specifies that layout. Making this change would get refund notes rejected by the import.
+3. **Faster SKU matching (fixed):** the lines to refund are now picked by checking SKUs against a set instead of searching the list each time.
+
+`npm run check` passed all 31 tests. The export import check didn't run because `ledger-check` isn't installed on this machine, but the export format didn't change. I only changed `src/refunds.js` and `test/refunds.test.js`.
